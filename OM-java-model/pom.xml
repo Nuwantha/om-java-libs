@@ -9,11 +9,11 @@
     </parent>
 
     <groupId>nl.wur.fbr</groupId>
-    <artifactId>om-java</artifactId>
+    <artifactId>om-java-model</artifactId>
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
 
-	<name>An FBR application</name>
+	<name>An FBR library for OM</name>
 	<url>http://www.fbresearch.nl/IM</url>
 
     <properties>

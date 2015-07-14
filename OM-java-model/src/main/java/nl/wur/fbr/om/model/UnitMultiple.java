@@ -1,6 +1,9 @@
 package nl.wur.fbr.om.model;
 
 /**
+ * A unit multiple or a prefixed unit is a singular unit that is multiplied by a standard factor specified by the
+ * prefix. For instance, the unit kilometre (km) has a prefix kilo (k) which implies a conversion factor of 1000
+ * to convert from metre to kilometre.
  * Created by Don Willems on 14/07/15.
  */
 public interface UnitMultiple extends Unit {
