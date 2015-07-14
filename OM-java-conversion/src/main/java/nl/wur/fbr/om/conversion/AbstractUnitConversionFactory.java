@@ -19,6 +19,13 @@ public abstract class AbstractUnitConversionFactory {
     /** A map with as key a tuple with the source and target unit and as value the conversion instance. */
     private Map<Pair<UnitOrMeasurementScale,UnitOrMeasurementScale>,UnitConversion> conversions = new HashMap<>();
 
+    /**
+     * The constructor to create the AbstractUnitConversionFactory.
+     */
+    protected AbstractUnitConversionFactory(){
+        super();
+    }
+
 
     /**
      * Converts a measure (a numerical value expressed in a specific unit) to a target unit (or measurement scale).
