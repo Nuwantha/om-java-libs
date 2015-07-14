@@ -4,7 +4,7 @@ package nl.wur.fbr.om.model;
  * A unit that is defined as an exponentiation of a base unit.
  * For instance, the unit exponentiation cubic metre (m^3) is the exponentiation (with exponent 3) of the base unit
  * metre.
- * Created by Don Willems on 14/07/15.
+ * @author Don Willems on 14/07/15.
  */
 public interface UnitExponentiation extends Unit {
 

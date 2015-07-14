@@ -6,7 +6,7 @@ package nl.wur.fbr.om.model;
  * expressed as a simple multiple of the unit of measure. For example, length is a quantity; the metre is a unit of
  * length that represents a definite predetermined length. When we say 10 metre (or 10 m), we actually mean 10 times
  * the definite predetermined length called "metre".
- * Created by Don Willems on 14/07/15.
+ * @author Don Willems on 14/07/15.
  */
 public interface Unit extends UnitOrMeasurementScale{
 }

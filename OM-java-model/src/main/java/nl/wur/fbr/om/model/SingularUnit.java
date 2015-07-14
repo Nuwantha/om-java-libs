@@ -8,7 +8,7 @@ package nl.wur.fbr.om.model;
  * The base unit does not have to be a singular unit itself. For instance the singular unit Pascal has as base
  * unit newton per square metre.
  *
- * Created by Don Willems on 14/07/15.
+ * @author Don Willems on 14/07/15.
  */
 public interface SingularUnit extends Unit {
 
