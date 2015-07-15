@@ -14,6 +14,18 @@ import nl.wur.fbr.om.model.*;
 public interface UnitAndMeasurementScaleFactory {
 
     /**
+     * Implementations of this method should return the unit or measurement scale identified by the specified
+     * identifier. If the Unit with the same identifier has been created previously, this method should return the
+     * same instance. If the Unit or measurement scale has not been created previously, this method should create the
+     * unit or measurement scale and set the identifier of the unit to the specified identifier. The data needed to
+     * create the unit (such as multiplication factors, prefixes, or base units) may be available from other sources
+     * such as the OM ontology. If the data for creating a new instance is not available, this method should return null.
+     * @param identifier The identifier of the unit or measurement scale.
+     * @return The unit identified by the specified identifier.
+     */
+    public UnitOrMeasurementScale getUnitOrMeasurementScale(String identifier);
+
+    /**
      * Creates a new singular unit defined to be the same as the definition unit.
      * For instance the Pascal unit has as definition unit kilogram per metre second squared (kg m^-1 s^-1).
      * No multiplication (definitionFactor) factor is needed to convert between Pascal and kilogram per metre second
