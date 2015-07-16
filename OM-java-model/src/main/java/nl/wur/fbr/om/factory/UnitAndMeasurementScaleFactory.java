@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.factory;
 
 import nl.wur.fbr.om.model.*;
+import nl.wur.fbr.om.prefixes.DecimalPrefix;
 
 /**
  * This factory method provides the preferred method for creating new instance of Units and Measurement scales.
@@ -56,13 +57,13 @@ public interface UnitAndMeasurementScaleFactory {
      * @param prefix The prefix used for the unit.
      * @return The unit multiple.
      */
-    public UnitMultiple createUnitMultiple(Unit base, UnitPrefix prefix);
+    public UnitMultiple createUnitMultiple(Unit base, DecimalPrefix prefix);
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, UnitPrefix) createUnitMultiple(Unit,UnitPrefix}
+     * {@link #createUnitMultiple(Unit, DecimalPrefix) createUnitMultiple(Unit,UnitPrefix}
      * @param base The base Unit that is prefixed.
      * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
