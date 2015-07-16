@@ -13,7 +13,7 @@ package nl.wur.fbr.om.model;
 public interface SingularUnit extends Unit {
 
     /**
-     * Returns the Unit which on the unit is based.
+     * Returns the Unit on which the unit is based.
      * For instance, the unit Astronomical Unit (AU) is defined as
      * 1.495978707e11 metre. The definition unit is in this case the metre.
      * @return The unit that is used as the definition unit.
