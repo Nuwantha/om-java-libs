@@ -16,6 +16,12 @@ public interface UnitMultiple extends Unit {
     public SingularUnit getBaseUnit();
 
     /**
+     * Returns the @link{UnitPrefix UnitPrefix} used for this unit.
+     * @return The unit prefix.
+     */
+    public UnitPrefix getUnitPrefix();
+
+    /**
      * Returns the value with which measures need to be multiplied when converting to this prefixed unit and its
      * base unit.
      * For instance, the unit km has a prefix factor of 1000.
