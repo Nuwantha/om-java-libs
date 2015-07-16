@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author Don Willems on 14/07/15.
  */
-public abstract class AbstractUnitConversionFactory {
+public abstract class AbstractUnitConversionFactory implements UnitConversionFactory{
 
     /** A map with as key a tuple with the source and target unit and as value the conversion instance. */
     private Map<Pair<UnitOrMeasurementScale,UnitOrMeasurementScale>,UnitConversion> conversions = new HashMap<>();
