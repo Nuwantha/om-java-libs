@@ -1,5 +1,7 @@
 package nl.wur.fbr.om.model;
 
+import java.util.List;
+
 /**
  * Measurement scales are concepts used for the expression of quantities.
  * Four types of measurement scales are: nominal scales, ordinal scales, interval scales and ratio scales.
@@ -10,7 +12,8 @@ package nl.wur.fbr.om.model;
 public interface Scale {
 
     /**
-     * Returns the measurement scale related to which this measurement scale is defined.
+     * Returns the measurement scale related to which this measurement scale is defined or null if it is not
+     * defined relative to another scale.
      * For instance the Centigrade (Celsius) scale is defined in relation to the Kelvin scale.
      * This implies that some measurement scales do not have a definition scale, e.g. the Kelvin scale.
      * These scales are defined using points that refer to specific quantities.
@@ -20,18 +23,26 @@ public interface Scale {
     public Scale getDefinitionScale();
 
     /**
-     * The linear ofset from the definition scale.
+     * The linear offset from the definition scale, or null if the scale is not defined relative to another scale.
      * For instance the Fahrenheit scale has an offset of -459.67
      * @return
      */
     public double getOffsetFromDefinitionScale();
 
     /**
-     * The multiplication factor in relation to the definition scale.
+     * The multiplication factor in relation to the definition scale, or null if the scale is not defined
+     * relative to another scale.
      * For instance the Fahrenheit scale has a factor of 1.8
      * @return
      */
     public double getMultiplicationFactorFromDefinitionScale();
+
+    /**
+     * Returns the points on the scale which are used to define the measurement scale. For instance, the
+     * Celsius scale is defined by points such as the boiling point of water (i.e. 100 degrees Celsius).
+     * @return A list with definition points.
+     */
+    public List<Point> getDefinitionPoints();
 
     /**
      * Returns the associated unit for this measurement scale.

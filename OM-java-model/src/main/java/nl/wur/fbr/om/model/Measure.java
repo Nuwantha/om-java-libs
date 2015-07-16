@@ -1,7 +1,11 @@
 package nl.wur.fbr.om.model;
 
 /**
- * This interface represents a value expressed in a unit or measurement scale.
+ * This interface represents a value expressed in a unit.
+ * For some measurements like temperature (if it is not relative, i.e. difference between temperatures),
+ * {@link Point Point} should be used instead of <code>Measure</code> as these measurements are defined on a
+ * measurement scale.
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface Measure {
