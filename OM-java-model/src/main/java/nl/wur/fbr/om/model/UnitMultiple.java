@@ -18,10 +18,13 @@ public interface UnitMultiple extends Unit {
     public SingularUnit getSingularUnit();
 
     /**
-     * Returns the @link{DecimalPrefix DecimalPrefix} used for this unit.
-     * @return The unit prefix.
+     * Returns the @link{Prefix Prefix} used for this unit.
+     * Prefixes can be both decimal (see {@link nl.wur.fbr.om.prefixes.DecimalPrefix DecimalPrefix}) or
+     * binary (see {@link nl.wur.fbr.om.prefixes.BinaryPrefix BinaryPrefix} or
+     * {@link nl.wur.fbr.om.prefixes.JEDECBinaryPrefix JEDEXBinaryPrefix}).
+     * @return The prefix.
      */
-    public Prefix getUnitPrefix();
+    public Prefix getPrefix();
 
     /**
      * Returns the value with which measures need to be multiplied when converting to this prefixed unit and its
