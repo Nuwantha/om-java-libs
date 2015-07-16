@@ -8,10 +8,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Instances of this class can be used for unit conversion.
+ * This abstract class provides a default implementation of unit conversion using the algorithm developed at
+ * Wageningen UR/Food &amp; Biobased research. This algorithm is described in: \\todo provide reference.
+ * Any model implementation for the Unit and Measurement scale can be injected but will also need to provide a
+ * non-abstract implementation of a unit conversion factory. If the implementation uses the default algorithm,
+ * extend this class, or provide a new implementation of the {@link UnitConversionFactory UnitConversionFactory}
+ * interface implementing a different algorithm.
+ * <p>
+ * Non-abstract extensions of this abstract class need to implement two methods:
+ * {@link UnitConversionFactory#convertToUnit(Measure, UnitOrMeasurementScale)  UnitConversionFactory.convertToUnit(Measure, UnitOrMeasurementScale)}
+ * and {@link #convertNumericalValueToUnit(Measure, UnitOrMeasurementScale) convertNumericalValueToUnit(Measure, UnitOrMeasurementScale)}.
+ * </p>
+ * <p>
  * Each instance keeps a record of previously used unit conversions to make the conversion more efficient when
  * a particular conversion is repeated (say, metres to inches).
- *
+ * </p>
  * @author Don Willems on 14/07/15.
  */
 public abstract class AbstractUnitConversionFactory implements UnitConversionFactory{
@@ -26,39 +37,35 @@ public abstract class AbstractUnitConversionFactory implements UnitConversionFac
         super();
     }
 
+    /**
+     * Converts the numerical value of the specified measure to a numerical value expressed in the
+     * specified target unit. The type of numerical value cannot be specified yet as it is not required
+     * to be a scalar of type {@link java.lang.Number Number}, but may also be of custom numerical types that
+     * represent, for instance, vectors or tensors.
+     *
+     * This method should only be called from implementations of a unit conversion factory, i.e.
+     * by implementations of @{link #convertToUnit convertNumericalValueToUnit(Measure,UnitOrMeasurementScale}.
+     * @param measure The measure containing the numerical value and its unit.
+     * @param targetUnit The unit to which the numerical value needs to be converted.
+     * @return The converted numerical value.
+     * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
+     */
+    protected abstract Object convertNumericalValueToUnit(Measure measure, UnitOrMeasurementScale targetUnit) throws UnitConversionException;
 
     /**
-     * Converts a measure (a numerical value expressed in a specific unit) to a target unit (or measurement scale).
-     * @param measure The measure to be converted to the target unit.
-     * @param targetUnit The target unit to which the measurement is to be converted.
-     * @return The converted measure.
-     * @throws UnitConversionException When the measure could not be converted to the specified target unit.
+     * Converts a numerical value of double type expressed in the specified source unot to a double value expressed in the
+     * specified target unit. This method should only be called from implementations of a unit conversion factory, i.e.
+     * by implementations of @{link #convertNumericalValueToUnit convertNumericalValueToUnit(Measure,UnitOrMeasurementScale}.
+     * @param value The double value to be converted.
+     * @param sourceUnit The source unit in which the specified double value is expressed.
+     * @param targetUnit The target unit in which the return value is expressed.
+     * @return The converted double value expressed in the target unit.
+     * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
      */
-    public final Measure convertToUnit(Measure measure, UnitOrMeasurementScale targetUnit) throws UnitConversionException {
-        if(measure==null)
-            throw new UnitConversionException("Could not convert measure because the measure is null.",null,targetUnit);
-
-        UnitConversion conversion = this.getUnitConversion(measure.getUnitOrMeasurementScale(),targetUnit);
-        Measure convertedMeasure = this.createMeasureFromConversion(measure,targetUnit,conversion);
-        return convertedMeasure;
+    protected double convertDoubleValueToUnit(double value, UnitOrMeasurementScale sourceUnit, UnitOrMeasurementScale targetUnit) throws UnitConversionException {
+        UnitConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
+        return this.convertDoubleValue(conversion,value);
     }
-
-    /**
-     * Creates a new measure with the converted value in the target unit.
-     * This method should be implemented by subclasses. The implementation can use #convertDoubleValue to get
-     * the converted double value for its numerical value. Multiple conversions may be needed for for instance
-     * vector values.
-     * The implementation should provide an instance of the appropriate type.
-     *
-     * This method should not be called except by the implementation of #convertToUnit in this abstract class.
-     *
-     * @param measure The measure to be converted.
-     * @param targetUnit The target unit.
-     * @param conversion The conversion. This is an instance of a private class that should only be used to pass to a
-     *                   call to #convertDoubleValue.
-     * @return The converted measure.
-     */
-    protected abstract Measure createMeasureFromConversion(Measure measure, UnitOrMeasurementScale targetUnit, UnitConversion conversion);
 
     /**
      * Converts a double value given the provided unit conversion.
@@ -66,7 +73,7 @@ public abstract class AbstractUnitConversionFactory implements UnitConversionFac
      * @param value The value to be converted.
      * @return The converted value.
      */
-    protected final double convertDoubleValue(UnitConversion conversion,double value){
+    private final double convertDoubleValue(UnitConversion conversion,double value){
         return conversion.convert(value);
     }
 
