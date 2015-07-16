@@ -6,25 +6,25 @@ import nl.wur.fbr.om.prefixes.DecimalPrefix;
 /**
  * This factory method provides the preferred method for creating new instance of Units and Measurement scales.
  * Each library that implements the OM model classes should also provide an implementation of the
- * UnitAndMeasurementScaleFactory to create instances from its own implementation classes. The factory can also be used
+ * UnitAndScaleFactory to create instances from its own implementation classes. The factory can also be used
  * to reuse earlier created instances of units. For instance, each unit in OM has its own identifier (URI). The
  * factory should provide methods to create units from these URIs and use the data in the OM ontology to create the
  * units. If a the same unit (i.e. with the same URI) is requested again, the factory should return the same unit object.
  * @author Don Willems on 15/07/15.
  */
-public interface UnitAndMeasurementScaleFactory {
+public interface UnitAndScaleFactory {
 
     /**
-     * Implementations of this method should return the unit or measurement scale identified by the specified
+     * Implementations of this method should return the unit identified by the specified
      * identifier. If the Unit with the same identifier has been created previously, this method should return the
-     * same instance. If the Unit or measurement scale has not been created previously, this method should create the
-     * unit or measurement scale and set the identifier of the unit to the specified identifier. The data needed to
+     * same instance. If the Unit has not been created previously, this method should create the
+     * unit and set the identifier of the unit to the specified identifier. The data needed to
      * create the unit (such as multiplication factors, prefixes, or base units) may be available from other sources
      * such as the OM ontology. If the data for creating a new instance is not available, this method should return null.
-     * @param identifier The identifier of the unit or measurement scale.
+     * @param identifier The identifier of the unit.
      * @return The unit identified by the specified identifier.
      */
-    public UnitOrMeasurementScale getUnitOrMeasurementScale(String identifier);
+    public Unit getUnit(String identifier);
 
     /**
      * Creates a new singular unit defined to be the same as the definition unit.
@@ -34,7 +34,7 @@ public interface UnitAndMeasurementScaleFactory {
      * @param definitionUnit The unit relative to which this unit is defined.
      * @return The requested singular unit.
      */
-    public SingularUnit createSingularUnit(UnitOrMeasurementScale definitionUnit);
+    public SingularUnit createSingularUnit(Unit definitionUnit);
 
     /**
      * Returns a singular unit that is defined relative to the provided definition unit and related with this definition
@@ -45,7 +45,7 @@ public interface UnitAndMeasurementScaleFactory {
      * @param definitionFactor The multiplication factor.
      * @return The requested singular unit.
      */
-    public SingularUnit createSingularUnit(UnitOrMeasurementScale definitionUnit, double definitionFactor);
+    public SingularUnit createSingularUnit(Unit definitionUnit, double definitionFactor);
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
@@ -98,22 +98,24 @@ public interface UnitAndMeasurementScaleFactory {
 
     /**
      * Creates a new measurement scale that does not refer to any other measurement scale.
+     * @param unit The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
-    public MeasurementScale createMeasurementScale();
+    public Scale createScale(Unit unit);
 
     /**
      * Creates a new measurement scale that is defined by a transformation (using an offset and a multiplication factor)
      * of the specified definition scale.
      * The Fahrenheit measurement scale, for instance, has an offset of -459.67 and a multiplication factor of 1.8
-     * relative to its definition scale which is the Kelvin scale.
+     * relative to its definition scale which is the Kelvin scale. It uses the unit Fahrenheit.
      * @param definitionScale The definition scale.
      * @param definitionOffset The offset of this scale with the definition scale.
      * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
+     * @param unit The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
-    public MeasurementScale createMeasurementScale(MeasurementScale definitionScale, double definitionOffset, double multiplicationFactor);
+    public Scale createScale(Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit);
 
 
 }

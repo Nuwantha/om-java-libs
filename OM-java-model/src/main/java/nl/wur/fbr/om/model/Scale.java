@@ -7,15 +7,17 @@ package nl.wur.fbr.om.model;
  * An example of a scale is the Celsius scale, a temperature scale.
  * @author Don Willems on 14/07/15.
  */
-public interface MeasurementScale extends UnitOrMeasurementScale{
+public interface Scale {
 
     /**
      * Returns the measurement scale related to which this measurement scale is defined.
      * For instance the Centigrade (Celsius) scale is defined in relation to the Kelvin scale.
      * This implies that some measurement scales do not have a definition scale, e.g. the Kelvin scale.
+     * These scales are defined using points that refer to specific quantities.
+     * For instance the point 373.15 K is defined in terms of the boiling point of water.
      * @return The definition scale.
      */
-    public MeasurementScale getDefinitionScale();
+    public Scale getDefinitionScale();
 
     /**
      * The linear ofset from the definition scale.
@@ -30,4 +32,11 @@ public interface MeasurementScale extends UnitOrMeasurementScale{
      * @return
      */
     public double getMultiplicationFactorFromDefinitionScale();
+
+    /**
+     * Returns the associated unit for this measurement scale.
+     * The celsius scale has, for instance, the unit celsius.
+     * @return
+     */
+    public Unit getUnit();
 }

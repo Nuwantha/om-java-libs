@@ -1,8 +1,7 @@
 package nl.wur.fbr.om.model;
 
 /**
- * This interface represents a value expressed in a unit or measurement scale and optionally associated with a
- * quantity.
+ * This interface represents a value expressed in a unit or measurement scale.
  * @author Don Willems on 14/07/15.
  */
 public interface Measure {
@@ -11,7 +10,7 @@ public interface Measure {
      * The unit in which the measure is epressed.
      * @return The unit or measurement scale.
      */
-    public UnitOrMeasurementScale getUnitOrMeasurementScale();
+    public Unit getUnit();
 
     /**
      * The numerical value of the measure.
@@ -19,11 +18,4 @@ public interface Measure {
      * @return The numerical value.
      */
     public Object getNumericalValue();
-
-    /**
-     * The quantity for which this measure expresses a value.
-     * The return value is null when no quantity is specified.
-     * @return The quantity.
-     */
-    public Quantity getQuantity();
 }

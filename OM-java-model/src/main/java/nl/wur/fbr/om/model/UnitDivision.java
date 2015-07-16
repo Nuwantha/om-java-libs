@@ -8,7 +8,7 @@ package nl.wur.fbr.om.model;
 public interface UnitDivision extends Unit {
 
     /**
-     * The Unit used in the numerator of the complex unit.
+     * The Unit used in the numerator of the compound unit.
      * For instance, for the unit kg/m^3, the numerator unit is kg.
      * @return The numerator.
      */
@@ -16,7 +16,7 @@ public interface UnitDivision extends Unit {
 
 
     /**
-     * The Unit used in the denominator of the complex unit.
+     * The Unit used in the denominator of the compound unit.
      * For instance, for the unit kg/m^3, the denominator unit is m^3.
      * @return The denominator.
      */

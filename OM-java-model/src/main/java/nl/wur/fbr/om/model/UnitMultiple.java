@@ -28,7 +28,7 @@ public interface UnitMultiple extends Unit {
 
     /**
      * Returns the value with which measures need to be multiplied when converting to this prefixed unit and its
-     * base unit.
+     * singular unit.
      * For instance, the unit km has a prefix factor of 1000.
      * @return The prefix factor.
      */
