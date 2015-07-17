@@ -10,102 +10,102 @@ public enum DecimalPrefix implements Prefix{
     /**
      * The yotta prefix with a multiplication factor of 1e24.
      */
-    YOTTA ("Y",1e24),
+    YOTTA ("Y",24),
 
     /**
      * The zetta prefix with a multiplication factor of 1e21.
      */
-    ZETTA ("Z",1e21),
+    ZETTA ("Z",21),
 
     /**
      * The exa prefix with a multiplication factor of 1e18.
      */
-    EXA ("E",1e18),
+    EXA ("E",18),
 
     /**
      * The peta prefix with a multiplication factor of 1e15.
      */
-    PETA ("P",1e15),
+    PETA ("P",15),
 
     /**
      * The tera prefix with a multiplication factor of 1e12.
      */
-    TERA ("T",1e12),
+    TERA ("T",12),
 
     /**
      * The giga prefix with a multiplication factor of 1e9.
      */
-    GIGA ("G",1e9),
+    GIGA ("G",9),
 
     /**
      * The mega prefix with a multiplication factor of 1e6.
      */
-    MEGA ("M",1e6),
+    MEGA ("M",6),
 
     /**
      * The kilo prefix with a multiplication factor of 1000.
      */
-    KILO ("k",1e3),
+    KILO ("k",3),
 
     /**
      * The hecto prefix with a multiplication factor of 100.
      */
-    HECTO ("h",1e2),
+    HECTO ("h",2),
 
     /**
      * The deca prefix with a multiplication factor of 10.
      */
-    DECA ("da",1e1),
+    DECA ("da",1),
 
     /**
      * The dexi prefix with a multiplication factor of 0.1.
      */
-    DECI ("d",1e-1),
+    DECI ("d",-1),
 
     /**
      * The centi prefix with a multiplication factor of 0.01.
      */
-    CENTI ("c",1e-2),
+    CENTI ("c",-2),
 
     /**
      * The milli prefix with a multiplication factor of 0.001.
      */
-    MILLI ("m",1e-3),
+    MILLI ("m",-3),
 
     /**
      * The micro prefix with a multiplication factor of 1e-6.
      */
-    MICRO ("μ",1e-6),
+    MICRO ("μ",-6),
 
     /**
      * The nano prefix with a multiplication factor of 1e-9.
      */
-    NANO ("n",1e-9),
+    NANO ("n",-9),
 
     /**
      * The pico prefix with a multiplication factor of 1e-12.
      */
-    PICO ("p",1e-12),
+    PICO ("p",-12),
 
     /**
      * The femto prefix with a multiplication factor of 1e-15.
      */
-    FEMTO ("f",1e-15),
+    FEMTO ("f",-15),
 
     /**
      * The atto prefix with a multiplication factor of 1e-18.
      */
-    ATTO ("a",1e-18),
+    ATTO ("a",-18),
 
     /**
      * The zepto prefix with a multiplication factor of 1e-21.
      */
-    ZEPTO ("z",1e-21),
+    ZEPTO ("z",-21),
 
     /**
      * The yocta prefix with a multiplication factor of 1e-24.
      */
-    YOCTA ("y",1e-24);
+    YOCTA ("y",-24);
 
     /** The prefix multiplication factor. */
     private final double prefixFactor;
@@ -114,14 +114,14 @@ public enum DecimalPrefix implements Prefix{
     private final String prefixSymbol;
 
     /**
-     * Creates the prefix with the specified symbol and multiplication factor.
+     * Creates the prefix with the specified symbol and multiplication factor that is equal to 10^exponent.
      * For instance, for the unit kilometre (km), the prefix is 'kilo', the symbol is 'k' and the multiplication factor
-     * is 1000.
+     * is 1000 and the exponent = 3.
      * @param symbol The prefix symbol.
-     * @param factor The multiplication factor.
+     * @param exponent The multiplication factor exponent.
      */
-    DecimalPrefix(String symbol, double factor){
-        this.prefixFactor = factor;
+    DecimalPrefix(String symbol, int exponent){
+        this.prefixFactor = Math.pow(10,exponent);
         this.prefixSymbol = symbol;
     }
 

@@ -17,44 +17,44 @@ package nl.wur.fbr.om.prefixes;
 public enum JEDECBinaryPrefix implements Prefix {
 
     /**
-     * The yotta prefix with a multiplication factor of 1e24.
+     * The yotta prefix with a multiplication factor of 2^80.
      */
-    YOTTA ("Y",8),
+    YOTTA ("Y",80),
 
     /**
-     * The zetta prefix with a multiplication factor of 1e21.
+     * The zetta prefix with a multiplication factor of 2^70.
      */
-    ZETTA ("Z",7),
+    ZETTA ("Z",70),
 
     /**
-     * The exa prefix with a multiplication factor of 1e18.
+     * The exa prefix with a multiplication factor of 2^60.
      */
-    EXA ("E",6),
+    EXA ("E",60),
 
     /**
-     * The peta prefix with a multiplication factor of 1e15.
+     * The peta prefix with a multiplication factor of 2^50.
      */
-    PETA ("P",5),
+    PETA ("P",50),
 
     /**
-     * The tera prefix with a multiplication factor of 1e12.
+     * The tera prefix with a multiplication factor of 2^40.
      */
-    TERA ("T",4),
+    TERA ("T",40),
 
     /**
-     * The giga prefix with a multiplication factor of 1e9.
+     * The giga prefix with a multiplication factor of 2^30.
      */
-    GIGA ("G",3),
+    GIGA ("G",30),
 
     /**
-     * The mega prefix with a multiplication factor of 1e6.
+     * The mega prefix with a multiplication factor of 2^20.
      */
-    MEGA ("M",2),
+    MEGA ("M",20),
 
     /**
-     * The kilo prefix with a multiplication factor of 1000.
+     * The kilo prefix with a multiplication factor of 1024 = 2^10.
      */
-    KILO ("K",1);
+    KILO ("K",10);
 
     /** The prefix multiplication factor. */
     private final double prefixFactor;
@@ -71,7 +71,7 @@ public enum JEDECBinaryPrefix implements Prefix {
      * @param exponent The multiplication factor.
      */
     JEDECBinaryPrefix(String prefixSymbol, int exponent){
-        this.prefixFactor = Math.pow(1024,exponent);
+        this.prefixFactor = Math.pow(2,exponent);
         this.prefixSymbol = prefixSymbol;
     }
 

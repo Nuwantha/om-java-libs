@@ -16,44 +16,44 @@ package nl.wur.fbr.om.prefixes;
  */
 public enum BinaryPrefix implements Prefix {
     /**
-     * The yobi prefix with a multiplication factor of 1024^8.
+     * The yobi prefix with a multiplication factor of 2^80.
      */
-    YOBI ("Yi",8),
+    YOBI ("Yi",80),
 
     /**
-     * The zebi prefix with a multiplication factor of 1024^7.
+     * The zebi prefix with a multiplication factor of 2^70.
      */
-    ZEBI ("Zi",7),
+    ZEBI ("Zi",70),
 
     /**
-     * The exbi prefix with a multiplication factor of 1024^6.
+     * The exbi prefix with a multiplication factor of 2^60.
      */
-    EXBI ("Ei",6),
+    EXBI ("Ei",60),
 
     /**
-     * The pebi prefix with a multiplication factor of 1024^5.
+     * The pebi prefix with a multiplication factor of 2^50.
      */
-    PEBI ("Pi",5),
+    PEBI ("Pi",50),
 
     /**
-     * The tebi prefix with a multiplication factor of 1024^4.
+     * The tebi prefix with a multiplication factor of 2^40.
      */
-    TEBI ("Ti",4),
+    TEBI ("Ti",40),
 
     /**
-     * The gibi prefix with a multiplication factor of 1024^3.
+     * The gibi prefix with a multiplication factor of 2^30.
      */
-    GIBI ("Gi",3),
+    GIBI ("Gi",30),
 
     /**
-     * The mebi prefix with a multiplication factor of 1024^2.
+     * The mebi prefix with a multiplication factor of 2^20.
      */
-    MEBI ("Mi",2),
+    MEBI ("Mi",20),
 
     /**
-     * The kibi prefix with a multiplication factor of 1024.
+     * The kibi prefix with a multiplication factor of 2^10.
      */
-    KIBI ("Ki",1);
+    KIBI ("Ki",10);
 
     /** The prefix multiplication factor. */
     private final double prefixFactor;
@@ -63,14 +63,14 @@ public enum BinaryPrefix implements Prefix {
 
     /**
      * Creates the prefix with the specified symbol and exponent specifying the multiplication factor.
-     * The multiplication factor is equal to 1024^e, where e is the exponent.
+     * The multiplication factor is equal to 2^e, where e is the exponent.
      * For instance, for the unit kilobyte (KB), the prefix is 'kilo', the symbol is 'K' and the multiplication factor
-     * is 1024.
+     * is 1024 = 2^10.
      * @param prefixSymbol The prefix symbol.
      * @param exponent The multiplication factor.
      */
     BinaryPrefix(String prefixSymbol, int exponent){
-        this.prefixFactor = Math.pow(1024,exponent);
+        this.prefixFactor = Math.pow(2,exponent);
         this.prefixSymbol = prefixSymbol;
     }
 
