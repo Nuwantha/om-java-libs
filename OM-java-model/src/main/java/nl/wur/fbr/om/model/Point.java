@@ -10,7 +10,7 @@ package nl.wur.fbr.om.model;
  *
  * @author Don Willems on 16/07/15.
  */
-public interface Point {
+public interface Point extends NamedObject {
 
     /**
      * The scale in which this point is defined.

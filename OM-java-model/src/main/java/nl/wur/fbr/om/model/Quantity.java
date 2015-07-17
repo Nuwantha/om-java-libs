@@ -5,5 +5,5 @@ package nl.wur.fbr.om.model;
  *
  * @author Don Willems on 14/07/15.
  */
-public interface Quantity {
+public interface Quantity extends NamedObject {
 }

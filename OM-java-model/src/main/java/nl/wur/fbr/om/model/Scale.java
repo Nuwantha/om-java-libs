@@ -9,7 +9,7 @@ import java.util.List;
  * An example of a scale is the Celsius scale, a temperature scale.
  * @author Don Willems on 14/07/15.
  */
-public interface Scale {
+public interface Scale extends NamedObject {
 
     /**
      * Returns the measurement scale related to which this measurement scale is defined or null if it is not
