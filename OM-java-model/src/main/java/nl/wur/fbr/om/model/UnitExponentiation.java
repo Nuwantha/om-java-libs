@@ -9,7 +9,7 @@ package nl.wur.fbr.om.model;
 public interface UnitExponentiation extends Unit {
 
     /**
-     * Returns the base unit of the complex unit.
+     * Returns the base unit of the compound unit.
      * For instance, for the unit m^3, the base unit is m.
      * @return The base unit.
      */
