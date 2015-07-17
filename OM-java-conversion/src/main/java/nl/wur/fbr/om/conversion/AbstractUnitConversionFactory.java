@@ -1,23 +1,27 @@
 package nl.wur.fbr.om.conversion;
 
 import javafx.util.Pair;
+import nl.wur.fbr.om.factory.ConversionException;
+import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
+import nl.wur.fbr.om.factory.UnitConversionException;
 import nl.wur.fbr.om.model.Measure;
-import nl.wur.fbr.om.model.UnitOrMeasurementScale;
+import nl.wur.fbr.om.model.Unit;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This abstract class provides a default implementation of unit conversion using the algorithm developed at
- * Wageningen UR/Food &amp; Biobased research. This algorithm is described in: \\todo provide reference.
+ * Wageningen UR/Food &amp; Biobased research.
  * Any model implementation for the Unit and Measurement scale can be injected but will also need to provide a
  * non-abstract implementation of a unit conversion factory. If the implementation uses the default algorithm,
- * extend this class, or provide a new implementation of the {@link UnitConversionFactory UnitConversionFactory}
+ * extend this class, or provide a new implementation of the
+ * {@link UnitAndScaleConversionFactory UnitAndScaleConversionFactory}
  * interface implementing a different algorithm.
  * <p>
  * Non-abstract extensions of this abstract class need to implement two methods:
- * {@link UnitConversionFactory#convertToUnit(Measure, UnitOrMeasurementScale)  UnitConversionFactory.convertToUnit(Measure, UnitOrMeasurementScale)}
- * and {@link #convertNumericalValueToUnit(Measure, UnitOrMeasurementScale) convertNumericalValueToUnit(Measure, UnitOrMeasurementScale)}.
+ * {@link UnitAndScaleConversionFactory#convertToUnit(Measure, Unit)  UnitAndScaleConversionFactory.convertToUnit(Measure, Unit)}
+ * and {@link #convertNumericalValueToUnit(Measure, Unit) convertNumericalValueToUnit(Measure, Unit)}.
  * </p>
  * <p>
  * Each instance keeps a record of previously used unit conversions to make the conversion more efficient when
@@ -25,10 +29,10 @@ import java.util.Map;
  * </p>
  * @author Don Willems on 14/07/15.
  */
-public abstract class AbstractUnitConversionFactory implements UnitConversionFactory{
+public abstract class AbstractUnitConversionFactory implements UnitAndScaleConversionFactory {
 
-    /** A map with as key a tuple with the source and target unit and as value the conversion instance. */
-    private Map<Pair<UnitOrMeasurementScale,UnitOrMeasurementScale>,UnitConversion> conversions = new HashMap<>();
+    /** A map with as key a tuple with the source and target unit or scale identifiers and as value the conversion instance. */
+    private Map<Pair<String,String>,UnitConversion> conversions = new HashMap<>();
 
     /**
      * The constructor to create the AbstractUnitConversionFactory.
@@ -43,14 +47,14 @@ public abstract class AbstractUnitConversionFactory implements UnitConversionFac
      * to be a scalar of type {@link java.lang.Number Number}, but may also be of custom numerical types that
      * represent, for instance, vectors or tensors.
      *
-     * This method should only be called from implementations of a unit conversion factory, i.e.
+     * This method should only be called from implementations of a unit and scale conversion factory, i.e.
      * by implementations of @{link #convertToUnit convertNumericalValueToUnit(Measure,UnitOrMeasurementScale}.
      * @param measure The measure containing the numerical value and its unit.
      * @param targetUnit The unit to which the numerical value needs to be converted.
      * @return The converted numerical value.
      * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
      */
-    protected abstract Object convertNumericalValueToUnit(Measure measure, UnitOrMeasurementScale targetUnit) throws UnitConversionException;
+    protected abstract Object convertNumericalValueToUnit(Measure measure, Unit targetUnit) throws ConversionException;
 
     /**
      * Converts a numerical value of double type expressed in the specified source unot to a double value expressed in the
@@ -62,7 +66,7 @@ public abstract class AbstractUnitConversionFactory implements UnitConversionFac
      * @return The converted double value expressed in the target unit.
      * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
      */
-    protected double convertDoubleValueToUnit(double value, UnitOrMeasurementScale sourceUnit, UnitOrMeasurementScale targetUnit) throws UnitConversionException {
+    protected double convertDoubleValueToUnit(double value, Unit sourceUnit, Unit targetUnit) throws ConversionException {
         UnitConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
         return this.convertDoubleValue(conversion,value);
     }
@@ -83,9 +87,9 @@ public abstract class AbstractUnitConversionFactory implements UnitConversionFac
      * @param sourceUnit The source unit.
      * @param targetUnit The target unit.
      * @return The conversion instance.
-     * @throws UnitConversionException When no conversion could be created.
+     * @throws ConversionException When no conversion could be created.
      */
-    private UnitConversion getUnitConversion(UnitOrMeasurementScale sourceUnit, UnitOrMeasurementScale targetUnit) throws UnitConversionException{
+    private UnitConversion getUnitConversion(Unit sourceUnit, Unit targetUnit) throws ConversionException{
         if(sourceUnit==null)
             throw new UnitConversionException("Could not convert measure because the unit of the measure is null."
                     ,null, targetUnit);
