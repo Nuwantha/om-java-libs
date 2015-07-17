@@ -23,7 +23,7 @@
 
     <modules>
         <module>om-java-model</module>
-        <!--<module>om-java-conversion</module>-->
+        <module>om-java-conversion</module>
     </modules>
 
 	<build>
