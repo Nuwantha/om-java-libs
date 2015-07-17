@@ -3,7 +3,7 @@ package nl.wur.fbr.om.model;
 import java.util.List;
 
 /**
- * This interface defines the nameing and symbol methods that are used for units, scales,
+ * This interface defines the naming and symbol methods that are used for units, scales,
  * measures, etc...
  *
  * @author Don Willems on 17/07/15.
