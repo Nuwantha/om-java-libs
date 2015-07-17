@@ -5,11 +5,14 @@ import nl.wur.fbr.om.prefixes.DecimalPrefix;
 
 /**
  * This factory method provides the preferred method for creating new instance of Units and Measurement scales.
- * Each library that implements the OM model classes should also provide an implementation of the
+ * Each library that implements the model classes should also provide an implementation of the
  * UnitAndScaleFactory to create instances from its own implementation classes. The factory can also be used
- * to reuse earlier created instances of units. For instance, each unit in OM has its own identifier (URI). The
+ * to reuse earlier created instances of units.
+ *
+ * When using an implementation that used the OM ontology, for instance, each unit in OM has its own identifier (URI). The
  * factory should provide methods to create units from these URIs and use the data in the OM ontology to create the
  * units. If a the same unit (i.e. with the same URI) is requested again, the factory should return the same unit object.
+ *
  * @author Don Willems on 15/07/15.
  */
 public interface UnitAndScaleFactory {
