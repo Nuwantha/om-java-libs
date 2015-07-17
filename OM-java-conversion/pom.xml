@@ -3,51 +3,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-	<artifactId>fbr-root-pom</artifactId>
-	<groupId>nl.wur.fbr</groupId>
-	<version>4</version>
+		<artifactId>om-java</artifactId>
+		<groupId>nl.wur.fbr.om</groupId>
+		<version>${om-java.version}</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <om-model.version>0.1.0</om-model.version>
     </properties>
 
-    <groupId>nl.wur.fbr</groupId>
+    <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java-conversion</artifactId>
-	<version>${om-model.version}</version>
+		<version>${om-java.version}</version>
 	<packaging>jar</packaging>
 
-	<name>An FBR library for OM</name>
+	<name>Conversion between units and scales</name>
 	<url>http://www.fbresearch.nl/IM</url>
 
     <dependencies>
         <dependency>
             <groupId>nl.wur.fbr</groupId>
             <artifactId>om-java-model</artifactId>
-            <version>${om-model.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.8</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>0.9.18</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
+			<version>${om-java.version}</version>
         </dependency>
 	</dependencies>
 
