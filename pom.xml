@@ -2,6 +2,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+
     <parent>
 		<artifactId>fbr-root-pom</artifactId>
 		<groupId>nl.wur.fbr</groupId>
@@ -10,18 +15,11 @@
 
     <groupId>nl.wur.fbr.om</groupId>
     	<artifactId>om-java</artifactId>
-	<version>${om-java.version}</version>
+	<version>0.2.0</version>
 	<packaging>pom</packaging>
 
 	<name>A Java library for working with units and measures</name>
 	<url>http://www.fbresearch.nl/IM</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sesame.version>2.7.10</sesame.version>
-        <om-java.version>0.1.0</om-java.version>
-    </properties>
-
     <modules>
         <module>om-java-model</module>
         <module>om-java-conversion</module>
