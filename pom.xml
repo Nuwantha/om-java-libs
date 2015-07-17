@@ -3,22 +3,42 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-	<artifactId>om-java</artifactId>
-	<groupId>nl.wur.fbr.om</groupId>
-        <version>${om-java.version}</version>
+		<artifactId>fbr-root-pom</artifactId>
+		<groupId>nl.wur.fbr</groupId>
+		<version>4</version>
     </parent>
 
     <groupId>nl.wur.fbr.om</groupId>
-    <artifactId>om-java-model</artifactId>
-    <version>${om-java.version}</version>
-	<packaging>jar</packaging>
+    	<artifactId>om-java</artifactId>
+	<version>${om-java.version}</version>
+	<packaging>pom</packaging>
 
-	<name>om-java Model library</name>
+	<name>A Java library for working with units and measures</name>
 	<url>http://www.fbresearch.nl/IM</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sesame.version>2.7.10</sesame.version>
+        <om-java.version>0.1.0</om-java.version>
     </properties>
+
+    <modules>
+        <module>om-java-model</module>
+        <module>om-java-conversion</module>
+    </modules>
+
+	<build>
+		<plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -44,21 +64,4 @@
             <scope>test</scope>
         </dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-		<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
