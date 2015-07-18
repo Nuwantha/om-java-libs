@@ -1,4 +1,4 @@
-OM-java-model/target
+*/target
 .DS_Store
-om-java.iml
+*.iml
 .idea
