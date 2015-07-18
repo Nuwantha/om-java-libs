@@ -5,7 +5,7 @@
     <parent>
 		<artifactId>om-java</artifactId>
 		<groupId>nl.wur.fbr.om</groupId>
-		<version>0.2.0</version>
+		<version>0.2.2</version>
     </parent>
 
     <properties>
@@ -14,7 +14,7 @@
 
     <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java-core</artifactId>
-		<version>0.2.0</version>
+    <version>0.2.2</version>
 	<packaging>jar</packaging>
 
 	<name>Core implementation of model</name>
@@ -24,7 +24,7 @@
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-model</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.2</version>
         </dependency>
 	</dependencies>
 
