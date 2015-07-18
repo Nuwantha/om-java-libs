@@ -8,6 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * The core implementation of Unit.
+ * Includes access to name(s) and symbol(s) that are used for a Unit.
+ * Names may be added in multiple languages.
+ *
  * @author Don Willems on 18/07/15.
  */
 public class UnitImpl implements Unit{
@@ -33,6 +37,21 @@ public class UnitImpl implements Unit{
     public UnitImpl(String name, String symbol) {
         super();
         identifier = UUID.randomUUID().toString();
+        names.add(new Pair<>("",name));
+        symbols.add(symbol);
+    }
+
+    /**
+     * Creates a new instance of a Unit with the specified name and symbol.
+     * @param identifier The identifier, unique to the Unit.
+     * @param name The name of the unit.
+     * @param symbol The symbol of the unit.
+     */
+    public UnitImpl(String identifier,String name, String symbol) {
+        super();
+        this.identifier = identifier;
+        names.add(new Pair<>("",name));
+        symbols.add(symbol);
     }
 
     /**
@@ -112,6 +131,17 @@ public class UnitImpl implements Unit{
     }
 
     /**
+     * Adds a name with the specified language. If the name is not specific to a language
+     * use null for language.
+     * @param name An alternative name of the Unit.
+     * @param language The language of the name.
+     */
+    public void addAlternativeName(String name,String language){
+        if(language==null) language="";
+        names.add(new Pair(language,name));
+    }
+
+    /**
      * Returns the preferred symbol used for this object.
      * When no symbol is known return null.
      *
@@ -134,5 +164,13 @@ public class UnitImpl implements Unit{
         List<String> altsymbols = new ArrayList<>();
         altsymbols.addAll(1,symbols);
         return altsymbols;
+    }
+
+    /**
+     * Add an alternative symbol to the Unit.
+     * @param symbol The alternative symbol.
+     */
+    public void addAlternativeSymbol(String symbol){
+        symbols.add(symbol);
     }
 }
