@@ -100,6 +100,7 @@ public class UnitImpl implements Unit{
      */
     @Override
     public String getName(String language) {
+        if(language==null) return getName();
         for (int i=0;i<names.size();i++){ // iterate until name with language is found
             if (names.get(i).getKey().equals(language)){
                 return  names.get(i).getValue();
@@ -121,7 +122,7 @@ public class UnitImpl implements Unit{
         List<String> altnames = new ArrayList<>();
         for (int i=0;i<names.size();i++){ // iterate over all names
             if (names.get(i).getKey().equals(language)) { // test for language
-                if(!found) { // test whether this name is the first in the correct language, if so ignore
+                if(found) { // test whether this name is the first in the correct language, if so ignore
                     altnames.add(names.get(i).getValue()); // add when correct language
                 }
                 found = true;
@@ -162,7 +163,7 @@ public class UnitImpl implements Unit{
     @Override
     public List<String> getAlternativeSymbols() {
         List<String> altsymbols = new ArrayList<>();
-        altsymbols.addAll(1,symbols);
+        if(symbols.size()>1) altsymbols.addAll(symbols.subList(1,symbols.size()));
         return altsymbols;
     }
 
