@@ -174,4 +174,19 @@ public class UnitImpl implements Unit{
     public void addAlternativeSymbol(String symbol){
         symbols.add(symbol);
     }
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof Unit){
+            return ((Unit)object).getIdentifier().equals(this.getIdentifier());
+        }
+        return false;
+    }
 }
