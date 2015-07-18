@@ -1,6 +1,8 @@
 package nl.wur.fbr.om;
 
+import nl.wur.fbr.om.prefixes.BinaryPrefix;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
+import nl.wur.fbr.om.prefixes.JEDECBinaryPrefix;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,10 +13,10 @@ import org.junit.Test;
 public class PrefixTest {
 
     /**
-     * Unit test to test correct implementation of prefixes.
+     * Unit test to test correct implementation of decimal prefixes.
      */
     @Test
-    public void testUnitPrefixes() {
+    public void testDecimalPrefixes() {
         Assert.assertEquals("Failure in prefix name for yotta.", DecimalPrefix.YOTTA.getName(), "yotta");
         Assert.assertEquals("Failure in prefix symbol for yotta.", DecimalPrefix.YOTTA.getSymbol(), "Y");
         Assert.assertTrue("Failure in prefix factor for yotta.", DecimalPrefix.YOTTA.getFactor() == 1e24);
@@ -75,5 +77,67 @@ public class PrefixTest {
         Assert.assertEquals("Failure in prefix name for yocta.", DecimalPrefix.YOCTA.getName(), "yocta");
         Assert.assertEquals("Failure in prefix symbol for yocta.", DecimalPrefix.YOCTA.getSymbol(), "y");
         Assert.assertTrue("Failure in prefix factor for yocta.", DecimalPrefix.YOCTA.getFactor() == 1e-24);
+    }
+
+    /**
+     * Unit test to test correct implementation of IEC binary prefixes.
+     */
+    @Test
+    public void testIECBinaryPrefixes() {
+        Assert.assertEquals("Failure in prefix name for yobi.", BinaryPrefix.YOBI.getName(), "yobi");
+        Assert.assertEquals("Failure in prefix symbol for yobi.", BinaryPrefix.YOBI.getSymbol(), "Yi");
+        Assert.assertTrue("Failure in prefix factor for yobi.", BinaryPrefix.YOBI.getFactor() == Math.pow(1024,8));
+        Assert.assertEquals("Failure in prefix name for zebi.", BinaryPrefix.ZEBI.getName(), "zebi");
+        Assert.assertEquals("Failure in prefix symbol for zebi.", BinaryPrefix.ZEBI.getSymbol(), "Zi");
+        Assert.assertTrue("Failure in prefix factor for zebi.", BinaryPrefix.ZEBI.getFactor() == Math.pow(1024,7));
+        Assert.assertEquals("Failure in prefix name for exbi.", BinaryPrefix.EXBI.getName(), "exbi");
+        Assert.assertEquals("Failure in prefix symbol for exbi.", BinaryPrefix.EXBI.getSymbol(), "Ei");
+        Assert.assertTrue("Failure in prefix factor for exbi.", BinaryPrefix.EXBI.getFactor() == Math.pow(1024,6));
+        Assert.assertEquals("Failure in prefix name for pebi.", BinaryPrefix.PEBI.getName(), "pebi");
+        Assert.assertEquals("Failure in prefix symbol for pebi.", BinaryPrefix.PEBI.getSymbol(), "Pi");
+        Assert.assertTrue("Failure in prefix factor for pebi.", BinaryPrefix.PEBI.getFactor() == Math.pow(1024,5));
+        Assert.assertEquals("Failure in prefix name for tebi.", BinaryPrefix.TEBI.getName(), "tebi");
+        Assert.assertEquals("Failure in prefix symbol for tebi.", BinaryPrefix.TEBI.getSymbol(), "Ti");
+        Assert.assertTrue("Failure in prefix factor for tebi.", BinaryPrefix.TEBI.getFactor() == Math.pow(1024,4));
+        Assert.assertEquals("Failure in prefix name for gibi.", BinaryPrefix.GIBI.getName(), "gibi");
+        Assert.assertEquals("Failure in prefix symbol for gibi.", BinaryPrefix.GIBI.getSymbol(), "Gi");
+        Assert.assertTrue("Failure in prefix factor for gibi.", BinaryPrefix.GIBI.getFactor() == 1073741824);
+        Assert.assertEquals("Failure in prefix name for mebi.", BinaryPrefix.MEBI.getName(), "mebi");
+        Assert.assertEquals("Failure in prefix symbol for mebi.", BinaryPrefix.MEBI.getSymbol(), "Mi");
+        Assert.assertTrue("Failure in prefix factor for mebi.", BinaryPrefix.MEBI.getFactor() == 1048576);
+        Assert.assertEquals("Failure in prefix name for kibi.", BinaryPrefix.KIBI.getName(), "kibi");
+        Assert.assertEquals("Failure in prefix symbol for kibi.", BinaryPrefix.KIBI.getSymbol(), "Ki");
+        Assert.assertTrue("Failure in prefix factor for kibi.", BinaryPrefix.KIBI.getFactor() == 1024);
+    }
+
+    /**
+     * Unit test to test correct implementation of JDEC binary prefixes.
+     */
+    @Test
+    public void testJDECBinaryPrefixes() {
+        Assert.assertEquals("Failure in prefix name for yotta.", JEDECBinaryPrefix.YOTTA.getName(), "yotta");
+        Assert.assertEquals("Failure in prefix symbol for yotta.", JEDECBinaryPrefix.YOTTA.getSymbol(), "Y");
+        Assert.assertTrue("Failure in prefix factor for yotta.", JEDECBinaryPrefix.YOTTA.getFactor() == Math.pow(1024,8));
+        Assert.assertEquals("Failure in prefix name for zetta.", JEDECBinaryPrefix.ZETTA.getName(), "zetta");
+        Assert.assertEquals("Failure in prefix symbol for zetta.", JEDECBinaryPrefix.ZETTA.getSymbol(), "Z");
+        Assert.assertTrue("Failure in prefix factor for zetta.", JEDECBinaryPrefix.ZETTA.getFactor() == Math.pow(1024,7));
+        Assert.assertEquals("Failure in prefix name for exa.", JEDECBinaryPrefix.EXA.getName(), "exa");
+        Assert.assertEquals("Failure in prefix symbol for exa.", JEDECBinaryPrefix.EXA.getSymbol(), "E");
+        Assert.assertTrue("Failure in prefix factor for exa.", JEDECBinaryPrefix.EXA.getFactor() == Math.pow(1024,6));
+        Assert.assertEquals("Failure in prefix name for peta.", JEDECBinaryPrefix.PETA.getName(), "peta");
+        Assert.assertEquals("Failure in prefix symbol for peta.", JEDECBinaryPrefix.PETA.getSymbol(), "P");
+        Assert.assertTrue("Failure in prefix factor for peta.", JEDECBinaryPrefix.PETA.getFactor() == Math.pow(1024,5));
+        Assert.assertEquals("Failure in prefix name for tera.", JEDECBinaryPrefix.TERA.getName(), "tera");
+        Assert.assertEquals("Failure in prefix symbol for tera.", JEDECBinaryPrefix.TERA.getSymbol(), "T");
+        Assert.assertTrue("Failure in prefix factor for tera.", JEDECBinaryPrefix.TERA.getFactor() == Math.pow(1024,4));
+        Assert.assertEquals("Failure in prefix name for giga.", JEDECBinaryPrefix.GIGA.getName(), "giga");
+        Assert.assertEquals("Failure in prefix symbol for giga.", JEDECBinaryPrefix.GIGA.getSymbol(), "G");
+        Assert.assertTrue("Failure in prefix factor for giga.", JEDECBinaryPrefix.GIGA.getFactor() == 1073741824);
+        Assert.assertEquals("Failure in prefix name for mega.", JEDECBinaryPrefix.MEGA.getName(), "mega");
+        Assert.assertEquals("Failure in prefix symbol for mega.", JEDECBinaryPrefix.MEGA.getSymbol(), "M");
+        Assert.assertTrue("Failure in prefix factor for mega.", JEDECBinaryPrefix.MEGA.getFactor() == 1048576);
+        Assert.assertEquals("Failure in prefix name for kilo.", JEDECBinaryPrefix.KILO.getName(), "kilo");
+        Assert.assertEquals("Failure in prefix symbol for kilo.", JEDECBinaryPrefix.KILO.getSymbol(), "K");
+        Assert.assertTrue("Failure in prefix factor for kilo.", JEDECBinaryPrefix.KILO.getFactor() == 1024);
     }
 }
