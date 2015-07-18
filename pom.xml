@@ -23,6 +23,7 @@
 
     <modules>
         <module>om-java-model</module>
+        <module>om-java-core</module>
         <!--<module>om-java-conversion</module>-->
     </modules>
 
