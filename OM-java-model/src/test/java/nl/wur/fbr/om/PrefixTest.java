@@ -8,13 +8,25 @@ import org.junit.Test;
  * Unit tests for prefixes.
  * @author Don Willems on 15/07/15.
  */
-public class DecimalPrefixTest {
+public class PrefixTest {
 
     /**
      * Unit test to test correct implementation of prefixes.
      */
     @Test
     public void testUnitPrefixes() {
+        Assert.assertEquals("Failure in prefix name for yotta.", DecimalPrefix.YOTTA.getName(), "yotta");
+        Assert.assertEquals("Failure in prefix symbol for yotta.", DecimalPrefix.YOTTA.getSymbol(), "Y");
+        Assert.assertTrue("Failure in prefix factor for yotta.", DecimalPrefix.YOTTA.getFactor() == 1e24);
+        Assert.assertEquals("Failure in prefix name for zetta.", DecimalPrefix.ZETTA.getName(), "zetta");
+        Assert.assertEquals("Failure in prefix symbol for zetta.", DecimalPrefix.ZETTA.getSymbol(), "Z");
+        Assert.assertTrue("Failure in prefix factor for zetta.", DecimalPrefix.ZETTA.getFactor() == 1e21);
+        Assert.assertEquals("Failure in prefix name for exa.", DecimalPrefix.EXA.getName(), "exa");
+        Assert.assertEquals("Failure in prefix symbol for exa.", DecimalPrefix.EXA.getSymbol(), "E");
+        Assert.assertTrue("Failure in prefix factor for exa.", DecimalPrefix.EXA.getFactor() == 1e18);
+        Assert.assertEquals("Failure in prefix name for peta.", DecimalPrefix.PETA.getName(), "peta");
+        Assert.assertEquals("Failure in prefix symbol for peta.", DecimalPrefix.PETA.getSymbol(), "P");
+        Assert.assertTrue("Failure in prefix factor for peta.", DecimalPrefix.PETA.getFactor() == 1e15);
         Assert.assertEquals("Failure in prefix name for tera.", DecimalPrefix.TERA.getName(), "tera");
         Assert.assertEquals("Failure in prefix symbol for tera.", DecimalPrefix.TERA.getSymbol(), "T");
         Assert.assertTrue("Failure in prefix factor for tera.", DecimalPrefix.TERA.getFactor() == 1e12);
@@ -51,5 +63,17 @@ public class DecimalPrefixTest {
         Assert.assertEquals("Failure in prefix name for pico.", DecimalPrefix.PICO.getName(), "pico");
         Assert.assertEquals("Failure in prefix symbol for pico.", DecimalPrefix.PICO.getSymbol(), "p");
         Assert.assertTrue("Failure in prefix factor for pico.", DecimalPrefix.PICO.getFactor() == 1e-12);
+        Assert.assertEquals("Failure in prefix name for femto.", DecimalPrefix.FEMTO.getName(), "femto");
+        Assert.assertEquals("Failure in prefix symbol for femto.", DecimalPrefix.FEMTO.getSymbol(), "f");
+        Assert.assertTrue("Failure in prefix factor for femto.", DecimalPrefix.FEMTO.getFactor() == 1e-15);
+        Assert.assertEquals("Failure in prefix name for atto.", DecimalPrefix.ATTO.getName(), "atto");
+        Assert.assertEquals("Failure in prefix symbol for atto.", DecimalPrefix.ATTO.getSymbol(), "a");
+        Assert.assertTrue("Failure in prefix factor for atto.", DecimalPrefix.ATTO.getFactor() == 1e-18);
+        Assert.assertEquals("Failure in prefix name for zepto.", DecimalPrefix.ZEPTO.getName(), "zepto");
+        Assert.assertEquals("Failure in prefix symbol for zepto.", DecimalPrefix.ZEPTO.getSymbol(), "z");
+        Assert.assertTrue("Failure in prefix factor for zepto.", DecimalPrefix.ZEPTO.getFactor() == 1e-21);
+        Assert.assertEquals("Failure in prefix name for yocta.", DecimalPrefix.YOCTA.getName(), "yocta");
+        Assert.assertEquals("Failure in prefix symbol for yocta.", DecimalPrefix.YOCTA.getSymbol(), "y");
+        Assert.assertTrue("Failure in prefix factor for yocta.", DecimalPrefix.YOCTA.getFactor() == 1e-24);
     }
 }

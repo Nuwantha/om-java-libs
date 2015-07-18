@@ -22,7 +22,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>nl.wur.fbr</groupId>
+            <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-model</artifactId>
 			<version>0.2.0</version>
         </dependency>
