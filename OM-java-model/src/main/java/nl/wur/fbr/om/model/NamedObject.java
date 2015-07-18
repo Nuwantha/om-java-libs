@@ -58,5 +58,5 @@ public interface NamedObject {
      * When no known alternative symbols are known return an empty list.
      * @return A list of alternative symbols.
      */
-    public String getAlternativeSymbols();
+    public List<String> getAlternativeSymbols();
 }
