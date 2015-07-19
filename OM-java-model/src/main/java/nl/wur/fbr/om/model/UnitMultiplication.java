@@ -5,7 +5,7 @@ package nl.wur.fbr.om.model;
  * For instance, the unit Newton metre (N.m) is a multiplication of Newton (N) and metre (m).
  * @author Don Willems on 14/07/15.
  */
-public interface UnitMultiplication {
+public interface UnitMultiplication extends Unit{
 
     /**
      * Returns the first unit used in the unit multiplication.
