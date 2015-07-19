@@ -1,8 +1,13 @@
 package nl.wur.fbr.om.core;
 
+import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.core.impl.SingularUnitImpl;
 import nl.wur.fbr.om.core.impl.UnitImpl;
+import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.SingularUnit;
 import nl.wur.fbr.om.model.Unit;
+import nl.wur.fbr.om.model.UnitMultiple;
+import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,5 +52,21 @@ public class UnitTest {
         if(metre.getAlternativeSymbols().size()>0){
             Assert.assertEquals("Test names and symbols for units.", metre.getAlternativeSymbols().get(0), "mtr");
         }
+    }
+
+    @Test
+    public void testSingularUnitCreation() {
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        SingularUnit metre = factory.createBaseUnit("metre","m");
+        SingularUnit au = factory.createSingularUnit("astronomical unit", "AU", metre, 1.495978707e11);
+    }
+
+    @Test
+    public void testUnitMultipleCreation() {
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        SingularUnit metre = factory.createBaseUnit("metre","m");
+        UnitMultiple kilometre = factory.createUnitMultiple("kilometre",metre, DecimalPrefix.KILO);
+        Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
+        Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
     }
 }
