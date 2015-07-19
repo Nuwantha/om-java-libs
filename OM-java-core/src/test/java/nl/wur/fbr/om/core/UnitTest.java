@@ -1,6 +1,6 @@
 package nl.wur.fbr.om.core;
 
-import nl.wur.fbr.om.model.Unit;
+import nl.wur.fbr.om.core.impl.UnitImpl;
 import org.junit.Assert;
 import org.junit.Test;
 

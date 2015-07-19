@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.core;
+package nl.wur.fbr.om.core.impl;
 
 import javafx.util.Pair;
 import nl.wur.fbr.om.model.Unit;
@@ -28,6 +28,21 @@ public class UnitImpl implements Unit{
 
     /** The list of symbols for this unit, the first symbol in the list is the preferred symbol. */
     private List<String> symbols = new ArrayList<>();
+
+    /**
+     * Creates a new Unit with an UUID identifier.
+     */
+    protected UnitImpl(){
+        this(UUID.randomUUID().toString());
+    }
+
+    /**
+     * Creates a new Unit with the specified identifier.
+     * @param identifier The identifier of the Unit.
+     */
+    protected UnitImpl(String identifier){
+        this.identifier = identifier;
+    }
 
     /**
      * Creates a new instance of a Unit with the specified name and symbol.
@@ -78,7 +93,7 @@ public class UnitImpl implements Unit{
 
     /**
      * Returns alternative names for the object not including the preferred name.
-     * If no alternative names exist, an empty list should be returned.
+     * If no alternative names exist, an empty list is returned.
      *
      * @return A list of alternative names.
      */
@@ -93,7 +108,7 @@ public class UnitImpl implements Unit{
 
     /**
      * Returns the preferred name in the specified language if it is known for this object.
-     * If no name in the specified language is available return null.
+     * If no name in the specified language is available null is returned.
      *
      * @param language The language of the requested name (ISO 639).
      * @return The preferred name.
@@ -111,7 +126,7 @@ public class UnitImpl implements Unit{
 
     /**
      * Returns the alternative names in the specified language if any are known.
-     * If no known alternative names are known return an empty list.
+     * If no known alternative names are known an empty list is returned.
      *
      * @param language The language of the requested alternative names.
      * @return A list of alternative names.
@@ -144,7 +159,7 @@ public class UnitImpl implements Unit{
 
     /**
      * Returns the preferred symbol used for this object.
-     * When no symbol is known return null.
+     * When no symbol is known null is returned.
      *
      * @return The preferred symbol.
      */
@@ -156,7 +171,7 @@ public class UnitImpl implements Unit{
 
     /**
      * Returns a list of alternative symbols for this object.
-     * When no known alternative symbols are known return an empty list.
+     * When no known alternative symbols are known an empty list is returned.
      *
      * @return A list of alternative symbols.
      */
