@@ -5,7 +5,6 @@ import nl.wur.fbr.om.factory.InsufficientDataException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.factory.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.*;
-import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import nl.wur.fbr.om.prefixes.Prefix;
 
 import java.util.HashMap;
@@ -473,7 +472,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public Scale createScale(Unit unit) {
-        return null;
+        Scale scale = new ScaleImpl(unit);
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        return scale;
     }
 
     /**
@@ -487,7 +488,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public Scale createScale(String name, String symbol, Unit unit) {
-        return null;
+        Scale scale = new ScaleImpl(name,symbol,unit);
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        return scale;
     }
 
     /**
@@ -501,7 +504,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public Scale createScale(String identifier, String name, String symbol, Unit unit) {
-        return null;
+        Scale scale = new ScaleImpl(identifier,name,symbol,unit);
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        return scale;
     }
 
     /**
@@ -519,7 +524,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public Scale createScale(Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit) {
-        return null;
+        Scale scale = new ScaleImpl(definitionScale,definitionOffset,multiplicationFactor,unit);
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        return scale;
     }
 
     /**
@@ -540,7 +547,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit) {
-        return null;
+        Scale scale = new ScaleImpl(name,symbol,definitionScale,definitionOffset,multiplicationFactor,unit);
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        return scale;
     }
 
     /**
@@ -561,6 +570,8 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit) {
-        return null;
+        Scale scale = new ScaleImpl(identifier,name,symbol,definitionScale,definitionOffset,multiplicationFactor,unit);
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        return scale;
     }
 }

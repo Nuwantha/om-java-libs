@@ -25,7 +25,7 @@ public interface Scale extends NamedObject {
     /**
      * The linear offset from the definition scale, or null if the scale is not defined relative to another scale.
      * For instance the Fahrenheit scale has an offset of -459.67
-     * @return
+     * @return The offset.
      */
     public double getOffsetFromDefinitionScale();
 
@@ -33,7 +33,7 @@ public interface Scale extends NamedObject {
      * The multiplication factor in relation to the definition scale, or null if the scale is not defined
      * relative to another scale.
      * For instance the Fahrenheit scale has a factor of 1.8
-     * @return
+     * @return The multiplication factor
      */
     public double getMultiplicationFactorFromDefinitionScale();
 
@@ -47,7 +47,7 @@ public interface Scale extends NamedObject {
     /**
      * Returns the associated unit for this measurement scale.
      * The celsius scale has, for instance, the unit celsius.
-     * @return
+     * @return The associated unit.
      */
     public Unit getUnit();
 }

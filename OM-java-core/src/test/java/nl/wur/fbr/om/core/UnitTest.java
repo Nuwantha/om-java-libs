@@ -186,4 +186,51 @@ public class UnitTest {
             Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
         }
     }
+
+    @Test
+    public void testComplexUnitCreation(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        SingularUnit newton = factory.createBaseUnit("Newton","N");
+        SingularUnit metre = factory.createBaseUnit("metre","m");
+        UnitMultiplication newtonmetre = factory.createUnitMultiplication("Newton metre", "N.m", newton, metre);
+        SingularUnit pascal = factory.createSingularUnit("Pascal", "Pa", newtonmetre);
+        SingularUnit second = factory.createBaseUnit("second", "s");
+        UnitMultiple millisecond = factory.createUnitMultiple("millisecond", second, DecimalPrefix.MILLI);
+        UnitExponentiation millisecondSquared = factory.createUnitExponentiation("millisecond squared", "ms^2", millisecond,2);
+        UnitDivision pascalPerMillisecondSquared = factory.createUnitDivision("Pascal per second squared","Pa/ms^2",pascal,millisecondSquared);
+        Assert.assertEquals("Test complex unit creation",pascalPerMillisecondSquared.getNumerator(),pascal);
+        Assert.assertEquals("Test complex unit creation",((SingularUnit)pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit(),newtonmetre);
+        Assert.assertEquals("Test complex unit creation",((UnitMultiplication)((SingularUnit)pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit()).getUnit1(),newton);
+        Assert.assertEquals("Test complex unit creation",((UnitMultiplication)((SingularUnit)pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit()).getUnit2(),metre);
+        Assert.assertEquals("Test complex unit creation",pascalPerMillisecondSquared.getDenominator(),millisecondSquared);
+        Assert.assertEquals("Test complex unit creation",((UnitExponentiation)pascalPerMillisecondSquared.getDenominator()).getBaseUnit(),millisecond);
+        Assert.assertTrue("Test complex unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getExponent() == 2);
+        Assert.assertEquals("Test complex unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBaseUnit()).getSingularUnit(),second);
+        Assert.assertEquals("Test complex unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBaseUnit()).getPrefix(),DecimalPrefix.MILLI);
+    }
+
+    @Test
+    public void testScaleCreation(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        SingularUnit kelvin = factory.createBaseUnit("Kelvin","K");
+        SingularUnit celsius = factory.createSingularUnit("Celsius", "°C", kelvin);
+        SingularUnit fahrenheit = factory.createSingularUnit("Fahrenheit", "°C", kelvin, 1.8);
+        Scale kelvinScale = factory.createScale("Kelvin scale", null, kelvin);
+        Scale celsiusScale = factory.createScale("Celsius scale",null,kelvinScale,-273.15,1.0,celsius);
+        Scale fahrenheitScale = factory.createScale("Fahrenheit scale",null,kelvinScale,-459.67,1.8,fahrenheit);
+        Assert.assertEquals("Test scale creation",fahrenheitScale.getDefinitionScale(),kelvinScale);
+        Assert.assertEquals("Test scale creation",fahrenheitScale.getUnit(),fahrenheit);
+        Assert.assertTrue("Test scale creation", fahrenheitScale.getOffsetFromDefinitionScale() == -459.67);
+        Assert.assertTrue("Test scale creation", fahrenheitScale.getMultiplicationFactorFromDefinitionScale() == 1.8);
+        Assert.assertEquals("Test scale creation", celsiusScale.getDefinitionScale(), kelvinScale);
+        Assert.assertEquals("Test scale creation", celsiusScale.getUnit(), celsius);
+        Assert.assertTrue("Test scale creation", celsiusScale.getOffsetFromDefinitionScale() == -273.15);
+        Assert.assertTrue("Test scale creation", celsiusScale.getMultiplicationFactorFromDefinitionScale() == 1.0);
+        Assert.assertNull("Test scale creation", kelvinScale.getDefinitionScale());
+        Assert.assertEquals("Test scale creation", kelvinScale.getUnit(), kelvin);
+        Assert.assertTrue("Test scale creation", kelvinScale.getOffsetFromDefinitionScale() == 0);
+        Assert.assertTrue("Test scale creation", kelvinScale.getMultiplicationFactorFromDefinitionScale() == 1.0);
+        Assert.assertEquals("Test scale creation", kelvinScale.getName(), "Kelvin scale");
+        Assert.assertNull("Test scale creation", kelvinScale.getSymbol());
+    }
 }
