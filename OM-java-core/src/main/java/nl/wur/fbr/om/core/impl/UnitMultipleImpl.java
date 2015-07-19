@@ -41,13 +41,16 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
     /**
      * Creates a new unit multiple or prefixes unit, based on the specified singular unit and using the specified
      * prefix. For instance, the unit kilometre has as singular unit the metre and as prefix kilo.
+     * The symbol for this unit is created by concatenating the prefix symbol with the symbol of the singular unit.
      * @param name The name of the unit.
-     * @param symbol The symbol used for the unit.
      * @param singularUnit The singular unit on which this prefixed unit is based.
      * @param prefix The prefix.
      */
-    public UnitMultipleImpl(String name, String symbol, SingularUnit singularUnit, Prefix prefix){
-        super(name,symbol);
+    public UnitMultipleImpl(String name, SingularUnit singularUnit, Prefix prefix){
+        super(name,null);
+        if(singularUnit!=null && singularUnit.getSymbol()!=null){
+            addAlternativeSymbol(prefix.getSymbol()+singularUnit.getSymbol());
+        }
         this.singularUnit = singularUnit;
         this.prefix = prefix;
         this.prefixFactor = prefix.getFactor();
@@ -58,12 +61,14 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
      * prefix. For instance, the unit kilometre has as singular unit the metre and as prefix kilo.
      * @param identifier The unique identifier for the unit.
      * @param name The name of the unit.
-     * @param symbol The symbol used for the unit.
      * @param singularUnit The singular unit on which this prefixed unit is based.
      * @param prefix The prefix.
      */
-    public UnitMultipleImpl(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix){
-        super(identifier,name,symbol);
+    public UnitMultipleImpl(String identifier, String name, SingularUnit singularUnit, Prefix prefix){
+        super(identifier,name,null);
+        if(singularUnit!=null && singularUnit.getSymbol()!=null){
+            addAlternativeSymbol(prefix.getSymbol()+singularUnit.getSymbol());
+        }
         this.singularUnit = singularUnit;
         this.prefix = prefix;
         this.prefixFactor = prefix.getFactor();

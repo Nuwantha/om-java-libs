@@ -53,8 +53,8 @@ public abstract class UnitImpl implements Unit{
     UnitImpl(String name, String symbol) {
         super();
         identifier = UUID.randomUUID().toString();
-        names.add(new Pair<>("",name));
-        symbols.add(symbol);
+        if(name!=null) names.add(new Pair<>("",name));
+        if(symbol!=null) symbols.add(symbol);
     }
 
     /**
@@ -66,8 +66,8 @@ public abstract class UnitImpl implements Unit{
     UnitImpl(String identifier,String name, String symbol) {
         super();
         this.identifier = identifier;
-        names.add(new Pair<>("",name));
-        symbols.add(symbol);
+        if(name!=null) names.add(new Pair<>("",name));
+        if(symbol!=null) symbols.add(symbol);
     }
 
     /**
