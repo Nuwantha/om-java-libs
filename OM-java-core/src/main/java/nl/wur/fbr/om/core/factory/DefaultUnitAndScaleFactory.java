@@ -1,8 +1,6 @@
 package nl.wur.fbr.om.core.factory;
 
-import nl.wur.fbr.om.core.impl.SingularUnitImpl;
-import nl.wur.fbr.om.core.impl.UnitDivisionImpl;
-import nl.wur.fbr.om.core.impl.UnitMultipleImpl;
+import nl.wur.fbr.om.core.impl.*;
 import nl.wur.fbr.om.factory.InsufficientDataException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.factory.UnitOrScaleCreationException;
@@ -326,7 +324,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitMultiplication createUnitMultiplication(Unit unit1, Unit unit2) {
-        return null;
+        UnitMultiplication unit = new UnitMultiplicationImpl(unit1,unit2);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -341,7 +341,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitMultiplication createUnitMultiplication(String name, String symbol, Unit unit1, Unit unit2) {
-        return null;
+        UnitMultiplication unit = new UnitMultiplicationImpl(name,symbol,unit1,unit2);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -356,7 +358,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitMultiplication createUnitMultiplication(String identifier, String name, String symbol, Unit unit1, Unit unit2) {
-        return null;
+        UnitMultiplication unit = new UnitMultiplicationImpl(identifier,name,symbol,unit1,unit2);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -420,7 +424,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitExponentiation createUnitExponentiation(Unit base, double exponent) {
-        return null;
+        UnitExponentiation unit = new UnitExponentiationImpl(base,exponent);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -436,7 +442,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitExponentiation createUnitExponentiation(String name, String symbol, Unit base, double exponent) {
-        return null;
+        UnitExponentiation unit = new UnitExponentiationImpl(name,symbol,base,exponent);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -452,7 +460,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitExponentiation createUnitExponentiation(String identifier, String name, String symbol, Unit base, double exponent) {
-        return null;
+        UnitExponentiation unit = new UnitExponentiationImpl(identifier,name,symbol,base,exponent);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**

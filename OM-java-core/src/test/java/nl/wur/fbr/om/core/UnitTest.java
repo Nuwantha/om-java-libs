@@ -5,10 +5,7 @@ import nl.wur.fbr.om.core.impl.SingularUnitImpl;
 import nl.wur.fbr.om.core.impl.UnitImpl;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.factory.UnitOrScaleCreationException;
-import nl.wur.fbr.om.model.SingularUnit;
-import nl.wur.fbr.om.model.Unit;
-import nl.wur.fbr.om.model.UnitDivision;
-import nl.wur.fbr.om.model.UnitMultiple;
+import nl.wur.fbr.om.model.*;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.junit.Assert;
 import org.junit.Test;
@@ -93,7 +90,7 @@ public class UnitTest {
     public void testUnitMultipleCreation() {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
         SingularUnit metre = factory.createBaseUnit("metre","m");
-        UnitMultiple kilometre = factory.createUnitMultiple("kilometre",metre, DecimalPrefix.KILO);
+        UnitMultiple kilometre = factory.createUnitMultiple("kilometre", metre, DecimalPrefix.KILO);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getName(), "kilometre");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getSingularUnit(), metre);
@@ -114,7 +111,7 @@ public class UnitTest {
             Assert.assertEquals("Test unit multiple creation.", nanometre2.getPrefix(), DecimalPrefix.NANO);
             Assert.assertTrue("Test unit multiple creation.", nanometre2.getPrefixFactor() == 0.000000001);
         } catch (Exception e) {
-            Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         }
     }
 
@@ -123,7 +120,7 @@ public class UnitTest {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
         SingularUnit metre = factory.createBaseUnit("metre","m");
         SingularUnit second = factory.createBaseUnit("second","s");
-        UnitDivision metrePerSecond = factory.createUnitDivision("metre per second","m/s",metre,second);
+        UnitDivision metrePerSecond = factory.createUnitDivision("metre per second", "m/s", metre, second);
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getName(), "metre per second");
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getSymbol(), "m/s");
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getNumerator(), metre);
@@ -141,6 +138,50 @@ public class UnitTest {
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond2.getSymbol(), "km/s");
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond2.getNumerator(), kilometre);
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond2.getDenominator(), second);
+        } catch (Exception e) {
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        }
+    }
+
+    @Test
+    public void testUnitExponentiation(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        SingularUnit metre = factory.createBaseUnit("metre", "m");
+        UnitExponentiation cubicMetre = factory.createUnitExponentiation("cubic metre", "m^3", metre, 3);
+        Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getName(), "cubic metre");
+        Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getSymbol(), "m^3");
+        Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getBaseUnit(), metre);
+        Assert.assertTrue("Test unit exponentiation creation.", cubicMetre.getExponent() == 3);
+        try {
+            UnitExponentiation cubicMetre2 = (UnitExponentiation)factory.getUnitOrScale(cubicMetre.getIdentifier());
+            Assert.assertEquals("Testing factory unit get and equals test",cubicMetre,cubicMetre2);
+            Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getName(), "cubic metre");
+            Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getSymbol(), "m^3");
+            Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getBaseUnit(), metre);
+            Assert.assertTrue("Test unit exponentiation creation.", cubicMetre2.getExponent() == 3);
+        } catch (Exception e) {
+            Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
+        }
+    }
+
+    @Test
+    public void testUnitMultiplicationCreation(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        SingularUnit newton = factory.createBaseUnit("Newton","N");
+        SingularUnit metre = factory.createBaseUnit("metre","m");
+        UnitExponentiation cubicMetre = factory.createUnitExponentiation("cubic metre", "m^3", metre, 3);
+        UnitMultiplication newtonCubicMetre = factory.createUnitMultiplication("Newton cubic metre", "N.m^2", newton, cubicMetre);
+        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getName(), "Newton cubic metre");
+        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getSymbol(), "N.m^2");
+        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getUnit1(), newton);
+        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getUnit2(), cubicMetre);
+        try {
+            UnitMultiplication newtonCubicMetre2 = (UnitMultiplication)factory.getUnitOrScale(newtonCubicMetre.getIdentifier());
+            Assert.assertEquals("Testing factory unit get and equals test",newtonCubicMetre2,newtonCubicMetre);
+            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getName(), "Newton cubic metre");
+            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getSymbol(), "N.m^2");
+            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getUnit1(), newton);
+            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getUnit2(), cubicMetre);
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
         }
