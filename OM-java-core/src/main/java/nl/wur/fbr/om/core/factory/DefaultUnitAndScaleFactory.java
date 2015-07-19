@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core.factory;
 
 import nl.wur.fbr.om.core.impl.SingularUnitImpl;
+import nl.wur.fbr.om.core.impl.UnitDivisionImpl;
 import nl.wur.fbr.om.core.impl.UnitMultipleImpl;
 import nl.wur.fbr.om.factory.InsufficientDataException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
@@ -367,8 +368,10 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @return The unit division.
      */
     @Override
-    public UnitDivision createUnitDivision(Unit numerator, Unit denominator) {
-        return null;
+    public UnitDivision createUnitDivision(Unit numerator, Unit denominator){
+        UnitDivision unit = new UnitDivisionImpl(numerator,denominator);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -384,7 +387,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitDivision createUnitDivision(String name, String symbol, Unit numerator, Unit denominator) {
-        return null;
+        UnitDivision unit = new UnitDivisionImpl(name,symbol,numerator,denominator);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -400,7 +405,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public UnitDivision createUnitDivision(String identifier, String name, String symbol, Unit numerator, Unit denominator) {
-        return null;
+        UnitDivision unit = new UnitDivisionImpl(identifier,name,symbol,numerator,denominator);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
