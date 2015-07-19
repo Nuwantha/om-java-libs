@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * The core implementation of Unit.
- * Includes access to name(s) and symbol(s) that are used for a Unit.
+ * The core implementation of Unit. This class is abstract as all unit instances should be instances of
+ * subclasses of this class.
+ * This class provides access to name(s) and symbol(s) that are used for a Unit.
  * Names may be added in multiple languages.
  *
  * @author Don Willems on 18/07/15.
  */
-public class UnitImpl implements Unit{
+public abstract class UnitImpl implements Unit{
 
     /** The identifier for this unit. */
     private String identifier;
@@ -32,7 +33,7 @@ public class UnitImpl implements Unit{
     /**
      * Creates a new Unit with an UUID identifier.
      */
-    protected UnitImpl(){
+    UnitImpl(){
         this(UUID.randomUUID().toString());
     }
 
@@ -40,7 +41,7 @@ public class UnitImpl implements Unit{
      * Creates a new Unit with the specified identifier.
      * @param identifier The identifier of the Unit.
      */
-    protected UnitImpl(String identifier){
+    UnitImpl(String identifier){
         this.identifier = identifier;
     }
 
@@ -49,7 +50,7 @@ public class UnitImpl implements Unit{
      * @param name The name of the unit.
      * @param symbol The symbol of the unit.
      */
-    public UnitImpl(String name, String symbol) {
+    UnitImpl(String name, String symbol) {
         super();
         identifier = UUID.randomUUID().toString();
         names.add(new Pair<>("",name));
@@ -62,7 +63,7 @@ public class UnitImpl implements Unit{
      * @param name The name of the unit.
      * @param symbol The symbol of the unit.
      */
-    public UnitImpl(String identifier,String name, String symbol) {
+    UnitImpl(String identifier,String name, String symbol) {
         super();
         this.identifier = identifier;
         names.add(new Pair<>("",name));

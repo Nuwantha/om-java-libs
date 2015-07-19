@@ -1,29 +1,45 @@
 package nl.wur.fbr.om.core.factory;
 
+import nl.wur.fbr.om.core.impl.SingularUnitImpl;
+import nl.wur.fbr.om.core.impl.UnitMultipleImpl;
+import nl.wur.fbr.om.factory.InsufficientDataException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.factory.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.*;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
+import nl.wur.fbr.om.prefixes.Prefix;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Don Willems on 19/07/15.
  */
 public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
 
+    /** A map containing all previously created units and scales, identified by their identifier as key in the map. */
+    private Map<String,Object> unitsOrScalesByID = new HashMap<>();
+
     /**
-     * Implementations should return a unit or scale identified by the specified
-     * identifier. If the Unit or Scale with the same identifier has been created previously, this method should return the
+     * Returns the Unit or Scale identified by the specified identifier.
+     * If the Unit or Scale with the same identifier has been created previously, this method should return the
      * same instance. If the Unit or Scale has not been created previously, this method should create the
      * unit or scale and set the identifier of the unit or scale to the specified identifier. The data needed to
      * create the unit (such as multiplication factors, prefixes, or base units) or scale may be available from other sources
-     * such as the OM ontology. If the data for creating a new instance is not available, this method should return null.
-     * If the object identified by the specified identifier is not a unit or scale, this method should also return null.
-     *
+     * such as the OM ontology. If the data for creating a new instance is not available, or the identifier does not
+     * represent a unit or scale, this method will throw a {@link UnitOrScaleCreationException}.
      * @param identifier The identifier of the unit or scale.
      * @return The unit or scale identified by the specified identifier.
+     * @throws UnitOrScaleCreationException When the unit could not be created from the specified identifier.
      */
     @Override
-    public Object getUnitOrScale(String identifier) {
-        return null;
+    public Object getUnitOrScale(String identifier) throws UnitOrScaleCreationException{
+        Object uOrs = unitsOrScalesByID.get(identifier);
+        if (uOrs == null){
+            throw new InsufficientDataException("The DefaultUnitAndScaleFactory has no data sources available to create" +
+                    "units or scales based on an identifier not previously used in one of its create methods.",identifier);
+        }
+        return uOrs;
     }
 
     /**
@@ -35,7 +51,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createBaseUnit() {
-        return null;
+        SingularUnit unit = new SingularUnitImpl();
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -49,7 +67,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createBaseUnit(String name, String symbol) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(name,symbol);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -63,7 +83,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createBaseUnit(String identifier, String name, String symbol) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(identifier,name,symbol);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -77,7 +99,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createSingularUnit(Unit definitionUnit) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(definitionUnit);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -94,7 +118,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createSingularUnit(String name, String symbol, Unit definitionUnit) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(name,symbol,definitionUnit);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -111,7 +137,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(identifier,name,symbol,definitionUnit);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -126,7 +154,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createSingularUnit(Unit definitionUnit, double definitionFactor) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(definitionUnit,definitionFactor);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -144,7 +174,9 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createSingularUnit(String name, String symbol, Unit definitionUnit, double definitionFactor) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(name,symbol,definitionUnit,definitionFactor);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
@@ -162,112 +194,126 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      */
     @Override
     public SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit, double definitionFactor) {
-        return null;
+        SingularUnit unit = new SingularUnitImpl(identifier,name,symbol,definitionUnit,definitionFactor);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, double) createUnitMultiple(Unit,double} where the multiplication factor can
+     * {@link #createUnitMultiple(SingularUnit, double) createUnitMultiple(SingularUnit,double} where the multiplication factor can
      * be specified.
      *
-     * @param base   The base Unit that is prefixed.
+     * @param singularUnit   The singular Unit that is prefixed.
      * @param prefix The prefix used for the unit.
      * @return The unit multiple.
      */
     @Override
-    public UnitMultiple createUnitMultiple(Unit base, DecimalPrefix prefix) {
-        return null;
+    public UnitMultiple createUnitMultiple(SingularUnit singularUnit, Prefix prefix) {
+        UnitMultiple unit = new UnitMultipleImpl(singularUnit,prefix);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, double) createUnitMultiple(Unit,double} where the multiplication factor can
+     * {@link #createUnitMultiple(SingularUnit, double) createUnitMultiple(SingularUnit,double} where the multiplication factor can
      * be specified.
      * The identifier for the unit should be generated by the factory and should be unique.
      *
      * @param name   The preferred name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param base   The base Unit that is prefixed.
+     * @param singularUnit   The base Unit that is prefixed.
      * @param prefix The prefix used for the unit.
      * @return The unit multiple.
      */
     @Override
-    public UnitMultiple createUnitMultiple(String name, String symbol, Unit base, DecimalPrefix prefix) {
-        return null;
+    public UnitMultiple createUnitMultiple(String name, String symbol, SingularUnit singularUnit, Prefix prefix) {
+        UnitMultiple unit = new UnitMultipleImpl(name,symbol,singularUnit,prefix);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, double) createUnitMultiple(Unit,double} where the multiplication factor can
+     * {@link #createUnitMultiple(SingularUnit, double) createUnitMultiple(SingularUnit,double)} where the multiplication factor can
      * be specified.
      *
      * @param identifier A unique identifier for the unit.
      * @param name       The preferred name of the unit.
      * @param symbol     The symbol used for the unit.
-     * @param base       The base Unit that is prefixed.
+     * @param singularUnit       The base Unit that is prefixed.
      * @param prefix     The prefix used for the unit.
      * @return The unit multiple.
      */
     @Override
-    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, Unit base, DecimalPrefix prefix) {
-        return null;
+    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix) {
+        UnitMultiple unit = new UnitMultipleImpl(identifier,name,symbol,singularUnit,prefix);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, DecimalPrefix) createUnitMultiple(Unit,UnitPrefix}
+     * {@link #createUnitMultiple(SingularUnit, Prefix) createUnitMultiple(SingularUnit,Prefix)}
      *
-     * @param base         The base Unit that is prefixed.
+     * @param singularUnit         The base Unit that is prefixed.
      * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
      */
     @Override
-    public UnitMultiple createUnitMultiple(Unit base, double prefixFactor) {
-        return null;
+    public UnitMultiple createUnitMultiple(SingularUnit singularUnit, double prefixFactor) {
+        UnitMultiple unit = new UnitMultipleImpl(singularUnit,prefixFactor);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, DecimalPrefix) createUnitMultiple(Unit,UnitPrefix}.
+     * {@link #createUnitMultiple(SingularUnit, Prefix) createUnitMultiple(SingularUnit,Prefix)}.
      * The identifier for the unit should be generated by the factory and should be unique.
      *
      * @param name         The preferred name of the unit.
      * @param symbol       The symbol used for the unit.
-     * @param base         The base Unit that is prefixed.
+     * @param singularUnit         The base Unit that is prefixed.
      * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
      */
     @Override
-    public UnitMultiple createUnitMultiple(String name, String symbol, Unit base, double prefixFactor) {
-        return null;
+    public UnitMultiple createUnitMultiple(String name, String symbol, SingularUnit singularUnit, double prefixFactor) {
+        UnitMultiple unit = new UnitMultipleImpl(name,symbol,singularUnit,prefixFactor);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**
      * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a base unit and a prefix factor which is
      * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, DecimalPrefix) createUnitMultiple(Unit,UnitPrefix}.
+     * {@link #createUnitMultiple(SingularUnit, Prefix) createUnitMultiple(SingularUnit,Prefix)}.
      *
      * @param identifier   A unique identifier for the unit.
      * @param name         The preferred name of the unit.
      * @param symbol       The symbol used for the unit.
-     * @param base         The base Unit that is prefixed.
+     * @param singularUnit         The base Unit that is prefixed.
      * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
      */
     @Override
-    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, Unit base, double prefixFactor) {
-        return null;
+    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, SingularUnit singularUnit, double prefixFactor) {
+        UnitMultiple unit = new UnitMultipleImpl(identifier,name,symbol,singularUnit,prefixFactor);
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        return unit;
     }
 
     /**

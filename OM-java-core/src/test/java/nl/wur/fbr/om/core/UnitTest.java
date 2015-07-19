@@ -1,6 +1,8 @@
 package nl.wur.fbr.om.core;
 
+import nl.wur.fbr.om.core.impl.SingularUnitImpl;
 import nl.wur.fbr.om.core.impl.UnitImpl;
+import nl.wur.fbr.om.model.Unit;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ public class UnitTest {
 
     @Test
     public void testUnitNameAndSymbols() {
-        UnitImpl metre = new UnitImpl("metre","m");
+        UnitImpl metre = new SingularUnitImpl("metre","m");
         Assert.assertEquals("Test names and symbols for units.",metre.getName(),"metre");
         Assert.assertEquals("Test names and symbols for units.",metre.getSymbol(),"m");
         Assert.assertEquals("Test names and symbols for units.", metre.getName("en"), null);
