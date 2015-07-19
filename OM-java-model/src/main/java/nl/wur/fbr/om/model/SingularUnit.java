@@ -5,7 +5,7 @@ package nl.wur.fbr.om.model;
  * be a more specific unit such as the astronomical unit, which has the same dimension as the metre and is
  * actually defined in metres. It can be converted to the base unit by dividing by the numerical value defined
  * for each singular unit, given by #getDefinitionNumericalValue().
- * The base unit does not have to be a singular unit itself. For instance the singular unit Pascal is defined in
+ * The definition unit does not have to be a singular unit itself. For instance the singular unit Pascal is defined in
  * terms of unit newton per square metre.
  *
  * @author Don Willems on 14/07/15.
