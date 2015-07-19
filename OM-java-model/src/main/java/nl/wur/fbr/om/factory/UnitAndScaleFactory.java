@@ -23,12 +23,13 @@ public interface UnitAndScaleFactory {
      * same instance. If the Unit or Scale has not been created previously, this method should create the
      * unit or scale and set the identifier of the unit or scale to the specified identifier. The data needed to
      * create the unit (such as multiplication factors, prefixes, or base units) or scale may be available from other sources
-     * such as the OM ontology. If the data for creating a new instance is not available, this method should return null.
-     * If the object identified by the specified identifier is not a unit or scale, this method should also return null.
+     * such as the OM ontology. If the data for creating a new instance is not available, or the identifier does not
+     * represent a unit or scale, this method will throw a {@link UnitOrScaleCreationException}.
      * @param identifier The identifier of the unit or scale.
      * @return The unit or scale identified by the specified identifier.
+     * @throws UnitOrScaleCreationException When the unit could not be created from the specified identifier.
      */
-    public Object getUnitOrScale(String identifier);
+    public Object getUnitOrScale(String identifier) throws UnitOrScaleCreationException;
 
     /**
      * Creates a new singular base unit.
