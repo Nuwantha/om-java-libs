@@ -76,6 +76,22 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
 
     /**
      * Creates a new unit multiple or prefixes unit, based on the specified singular unit and using the specified
+     * prefix. For instance, the unit kilometre has as singular unit the metre and as prefix kilo.
+     * @param identifier The unique identifier for the unit.
+     * @param name The name of the unit.
+     * @param symbol The symbol of the unit.
+     * @param singularUnit The singular unit on which this prefixed unit is based.
+     * @param prefix The prefix.
+     */
+    public UnitMultipleImpl(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix) {
+        super(identifier,name,symbol);
+        this.singularUnit = singularUnit;
+        this.prefix = prefix;
+        this.prefixFactor = prefix.getFactor();
+    }
+
+    /**
+     * Creates a new unit multiple or prefixes unit, based on the specified singular unit and using the specified
      * prefix multiplication factor. A corresponding prefix that has the same multiplication factor is sought for.
      * For instance, the unit kilometre has as singular unit the metre and as prefix kilo with a multiplication factor
      * 1000.
