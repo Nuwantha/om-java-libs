@@ -8,7 +8,7 @@ package nl.wur.fbr.om.model;
  *
  * @author Don Willems on 14/07/15.
  */
-public interface Measure extends NamedObject {
+public interface Measure {
 
     /**
      * The unit in which the measure is epressed.
