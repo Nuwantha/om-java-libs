@@ -2,10 +2,11 @@ package nl.wur.fbr.om.factory;
 
 
 
-import nl.wur.fbr.om.model.Measure;
-import nl.wur.fbr.om.model.Point;
-import nl.wur.fbr.om.model.Scale;
-import nl.wur.fbr.om.model.Unit;
+import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.model.measures.Measure;
+import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.Unit;
 
 /**
  * Implementations of this factory can be used to convert between units and for comparing measures and

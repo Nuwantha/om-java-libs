@@ -1,6 +1,8 @@
 package nl.wur.fbr.om.factory;
 
-import nl.wur.fbr.om.model.*;
+import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 
 /**

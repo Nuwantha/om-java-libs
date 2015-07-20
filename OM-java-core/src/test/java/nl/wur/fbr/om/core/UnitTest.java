@@ -1,11 +1,12 @@
 package nl.wur.fbr.om.core;
 
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
-import nl.wur.fbr.om.core.impl.SingularUnitImpl;
-import nl.wur.fbr.om.core.impl.UnitImpl;
+import nl.wur.fbr.om.core.impl.units.SingularUnitImpl;
+import nl.wur.fbr.om.core.impl.units.UnitImpl;
+import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
-import nl.wur.fbr.om.factory.UnitOrScaleCreationException;
-import nl.wur.fbr.om.model.*;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.junit.Assert;
 import org.junit.Test;
@@ -216,8 +217,8 @@ public class UnitTest {
         SingularUnit celsius = factory.createSingularUnit("Celsius", "°C", kelvin);
         SingularUnit fahrenheit = factory.createSingularUnit("Fahrenheit", "°C", kelvin, 1.8);
         Scale kelvinScale = factory.createScale("Kelvin scale", null, kelvin);
-        Scale celsiusScale = factory.createScale("Celsius scale",null,kelvinScale,-273.15,1.0,celsius);
-        Scale fahrenheitScale = factory.createScale("Fahrenheit scale",null,kelvinScale,-459.67,1.8,fahrenheit);
+        Scale celsiusScale = factory.createScale("Celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
+        Scale fahrenheitScale = factory.createScale("Fahrenheit scale", null, kelvinScale, -459.67, 1.8, fahrenheit);
         Assert.assertEquals("Test scale creation",fahrenheitScale.getDefinitionScale(),kelvinScale);
         Assert.assertEquals("Test scale creation",fahrenheitScale.getUnit(),fahrenheit);
         Assert.assertTrue("Test scale creation", fahrenheitScale.getOffsetFromDefinitionScale() == -459.67);
@@ -232,5 +233,10 @@ public class UnitTest {
         Assert.assertTrue("Test scale creation", kelvinScale.getMultiplicationFactorFromDefinitionScale() == 1.0);
         Assert.assertEquals("Test scale creation", kelvinScale.getName(), "Kelvin scale");
         Assert.assertNull("Test scale creation", kelvinScale.getSymbol());
+    }
+
+    @Test
+    public void testMeasureCreation() {
+
     }
 }

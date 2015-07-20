@@ -1,10 +1,12 @@
 package nl.wur.fbr.om.core.factory;
 
-import nl.wur.fbr.om.core.impl.*;
-import nl.wur.fbr.om.factory.InsufficientDataException;
+import nl.wur.fbr.om.core.impl.scales.ScaleImpl;
+import nl.wur.fbr.om.core.impl.units.*;
+import nl.wur.fbr.om.exceptions.InsufficientDataException;
+import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
-import nl.wur.fbr.om.factory.UnitOrScaleCreationException;
-import nl.wur.fbr.om.model.*;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 
 import java.util.HashMap;
