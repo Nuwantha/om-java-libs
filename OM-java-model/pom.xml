@@ -5,12 +5,12 @@
     <parent>
 	<artifactId>om-java</artifactId>
 	<groupId>nl.wur.fbr.om</groupId>
-        <version>0.2.5</version>
+        <version>0.2.6</version>
     </parent>
 
     <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java-model</artifactId>
-    <version>0.2.5</version>
+    <version>0.2.6</version>
 	<packaging>jar</packaging>
 
 	<name>om-java Model library</name>
