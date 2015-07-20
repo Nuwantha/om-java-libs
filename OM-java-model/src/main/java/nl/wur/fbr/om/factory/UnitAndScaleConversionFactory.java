@@ -8,6 +8,8 @@ import nl.wur.fbr.om.model.Scale;
 import nl.wur.fbr.om.model.Unit;
 
 /**
+ * Implementations of this factory can be used to convert between units and for comparing measures and
+ * points.
  * @author Don Willems on 16/07/15.
  */
 public interface UnitAndScaleConversionFactory {
@@ -31,4 +33,32 @@ public interface UnitAndScaleConversionFactory {
      * @throws ConversionException When the point could not be converted to the specified target scale.
      */
     public Point convertToScale(Point point, Scale targetScale) throws ConversionException;
+
+    /**
+     * Compares the two measures and returns a negative integer if the first measure is smaller than the
+     * second measure, 0 if the two measures are equal, or a positive integer if the first measure is
+     * larger than the second measure. If the numerical values are vectors, the length of the vectors is
+     * compared.
+     * @param measure1 The first measure to compare.
+     * @param measure2 The second measure to compare.
+     * @return A negative integer if the first measure is smaller than the second measure, 0 if the measures
+     * are equal, and a positive integer if the first measure is larger.
+     * @throws ConversionException When the units of the measures are in different dimensions, or if the measures
+     * have incompatible numerical values, e.g. a scalar and a vector.
+     */
+    public int compare(Measure measure1, Measure measure2) throws ConversionException;
+
+    /**
+     * Compares the two points and returns a negative integer if the first point is smaller than the
+     * second point, 0 if the two points are equal, or a positive integer if the first point is
+     * larger than the second point. If the numerical values are vectors, the length of the vectors is
+     * compared.
+     * @param point1 The first point to compare.
+     * @param point2 The second point to compare.
+     * @return A negative integer if the first point is smaller than the second point, 0 if the points
+     * are equal, and a positive integer if the first point is larger.
+     * @throws ConversionException When the units of the points are in different dimensions, or if the measures
+     * have incompatible numerical values, e.g. a scalar and a vector.
+     */
+    public int compare(Point point1, Point point2) throws ConversionException;
 }
