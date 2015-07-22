@@ -1,6 +1,5 @@
 package nl.wur.fbr.om.core.impl.measures;
 
-import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.measures.VectorMeasure;
 import nl.wur.fbr.om.model.units.Unit;
@@ -22,6 +21,16 @@ public class VectorMeasureImpl extends MeasureImpl implements VectorMeasure {
     }
 
     /**
+     * Creates a new {@link VectorMeasure} with the specified numerical double vector value expressed in the specified Unit.
+     *
+     * @param value The vector as an array of doubles.
+     * @param unit The unit.
+     */
+    public VectorMeasureImpl(double[] value, Unit unit){
+        super(value,unit);
+    }
+
+    /**
      * Returns the numerical value (as a vector) of this measure.
      *
      * @return The vector value.
@@ -29,6 +38,19 @@ public class VectorMeasureImpl extends MeasureImpl implements VectorMeasure {
     @Override
     public Number[] getVectorValue() {
         return (Number[]) getNumericalValue();
+    }
+
+    /**
+     * Returns the numerical value (as a vector of doubles) of this measure.
+     *
+     * @return The vector value.
+     */
+    @Override
+    public double[] doubleValue() {
+        Number[] vv = getVectorValue();
+        double[] doublevalue = new double[vv.length];
+        for(int i=0;i<doublevalue.length;i++) doublevalue[i] = vv[i].doubleValue();
+        return doublevalue;
     }
 
     /**
@@ -55,12 +77,12 @@ public class VectorMeasureImpl extends MeasureImpl implements VectorMeasure {
      * @return The unit vector.
      */
     @Override
-    public Double[] getUnitVector() {
+    public double[] getUnitVector() {
         Number[] val = this.getVectorValue();
         double magn = 0;
         for(int i=0;i<val.length;i++) magn+=Math.pow(val[i].doubleValue(),2);
         magn = Math.sqrt(magn);
-        Double[] uvec = new Double[val.length];
+        double[] uvec = new double[val.length];
         for(int i=0;i<val.length;i++) uvec[i] = val[i].doubleValue()/magn;
         return uvec;
     }

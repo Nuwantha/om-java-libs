@@ -58,6 +58,17 @@ public class PointImpl implements Point{
     }
 
     /**
+     * The numerical double value of the point on the scale.
+     * The return type is a double.
+     *
+     * @return The numerical value.
+     */
+    @Override
+    public double doubleValue() {
+        return ((Number) getNumericalValue()).doubleValue();
+    }
+
+    /**
      * A string representation of this point, the string representation of the numerical value followed by the
      * symbol of the unit defined in the scale if not null. For instance, a point with value 15 in the kelvin scale,
      * will be represented as 15 K.
