@@ -10,10 +10,64 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * Each library that implements the model classes should also provide an implementation of the
  * UnitAndScaleFactory to create instances from its own implementation classes. The factory can also be used
  * to reuse earlier created instances of units.
- *
+ * <p>
  * When using an implementation that used the OM ontology, for instance, each unit in OM has its own identifier (URI). The
  * factory should provide methods to create units from these URIs and use the data in the OM ontology to create the
  * units. If a the same unit (i.e. with the same URI) is requested again, the factory should return the same unit object.
+ * <p>
+ * There are different types of units as there are units that are base units of a system of units, and there are units
+ * that are defined as multiples or have prefixes attached. Other units are compound units consisting of a relation
+ * between other units. Only one type of scale is defined on the other hand.
+ * <p>
+ * The different types of units are:
+ *
+ * <table summary="The Units types." style="border-spacing:0px;">
+ *     <thead style="background-color: #BDF; font-weight: bold;">
+ *          <tr><td style="width: 10%">Type</td><td>Interface</td><td style="width: 30%">description</td><td>examples</td><td style="width: 40%">methods</td></tr>
+ *     </thead>
+ *     <tbody style="padding:4px; margin:0px;vertical-align:top; font-size:8pt;">
+ *          <tr><td>Base Unit</td><td>{@link SingularUnit}</td><td>Defined as a base unit in a system of units.</td><td>metre [m]<br> second [s]</td>
+ *              <td>{@link #createBaseUnit()}<br>
+ *                  {@link #createBaseUnit(String, String, String)}<br>
+ *                  {@link #createBaseUnit(String, String)}</td></tr>
+ *          <tr><td>Singular Unit</td><td>{@link SingularUnit}</td><td>A unit that is a multiplication of some other unit.</td><td>inch ['] <br> Pascal [P]</td>
+ *              <td>{@link #createSingularUnit(String, String, String, Unit, double)}<br>
+ *                  {@link #createSingularUnit(String, String, Unit)}<br>
+ *                  {@link #createSingularUnit(String, String, String, Unit)}<br>
+ *                  {@link #createSingularUnit(String, String, Unit, double)}<br>
+ *                  {@link #createSingularUnit(Unit)}<br>
+ *                  {@link #createSingularUnit(Unit, double)}</td></tr>
+ *          <tr><td>Unit Multiple</td><td>{@link UnitMultiple}</td><td>A prefixed unit.</td><td>kilometre [km]<br> Megaparsec [Mpc]</td>
+ *              <td>
+ *                  {@link #createUnitMultiple(SingularUnit, double)}<br>
+ *                  {@link #createUnitMultiple(SingularUnit, Prefix)}<br>
+ *                  {@link #createUnitMultiple(String, String, SingularUnit, Prefix)}<br>
+ *                  {@link #createUnitMultiple(String, String, String, SingularUnit, double)}<br>
+ *                  {@link #createUnitMultiple(String, String, String, SingularUnit, Prefix)}<br>
+ *                  {@link #createUnitMultiple(String, SingularUnit, double)}<br>
+ *                  {@link #createUnitMultiple(String, SingularUnit, Prefix)}<br>
+ *                  {@link #createUnitMultiple(String, String, SingularUnit, double)}
+ *              </td></tr>
+ *          <tr><td>Unit Multiplication</td><td>{@link UnitMultiplication}</td><td>A compound unit created by multiplying two other units.</td><td>Newton metre [N.m]</td>
+ *              <td>
+ *                  {@link #createUnitMultiplication(String, String, String, Unit, Unit)} <br>
+ *                  {@link #createUnitMultiplication(String, String, Unit, Unit)}<br>
+ *                  {@link #createUnitMultiplication(Unit, Unit)}
+ *              </td></tr>
+ *          <tr><td>Unit Division</td><td>{@link UnitDivision}</td><td>A compound unit created by dividing one unit by another.</td><td>metre per second [m/s]</td>
+ *              <td>
+ *                  {@link #createUnitDivision(String, String, String, Unit, Unit)} <br>
+ *                  {@link #createUnitDivision(String, String, Unit, Unit)}<br>
+ *                  {@link #createUnitDivision(Unit, Unit)}
+ *              </td></tr>
+ *          <tr><td>Unit Exponentiation</td><td>{@link UnitExponentiation}</td><td>A unit that is the exponentiation of another unit.</td><td>cubic metre [m^3]</td>
+ *              <td>
+ *                  {@link #createUnitExponentiation(String, String, String, Unit, double)} <br>
+ *                  {@link #createUnitExponentiation(String, String, Unit, double)}<br>
+ *                  {@link #createUnitExponentiation(Unit, double)}
+ *              </td></tr>
+ *     </tbody>
+ * </table>
  *
  * @author Don Willems on 15/07/15.
  */

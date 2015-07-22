@@ -21,12 +21,12 @@ public class MeasureImpl implements Measure {
     private Object numericalValue;
 
     /**
-     * Creates a new {@link Measure Measure} with the specified numerical value expressed in the specified Unit.
-     * The numerical value is an instance of {@link Number Number} and is therefore a scalar.
+     * Creates a new {@link Measure} with the specified numerical value expressed in the specified Unit.
+     *
      * @param numericalValue The numerical value.
      * @param unit The unit.
      */
-    public MeasureImpl(Number numericalValue, Unit unit){
+    public MeasureImpl(Object numericalValue, Unit unit){
         this.unit = unit;
         this.numericalValue = numericalValue;
     }
