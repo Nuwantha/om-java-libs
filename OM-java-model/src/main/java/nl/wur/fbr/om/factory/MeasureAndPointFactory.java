@@ -33,6 +33,14 @@ public interface MeasureAndPointFactory {
      * @param unit The unit in which the scalar is expressed.
      * @return The scalar measure.
      */
+    public ScalarMeasure createScalarMeasure(double value, Unit unit);
+
+    /**
+     * Creates a new scalar measure with the specified numerical value expressed in the specified unit.
+     * @param value The scalar value of the measure.
+     * @param unit The unit in which the scalar is expressed.
+     * @return The scalar measure.
+     */
     public ScalarMeasure createScalarMeasure(Number value, Unit unit);
 
     /**
@@ -41,7 +49,24 @@ public interface MeasureAndPointFactory {
      * @param unit The unit in which the vector is expressed.
      * @return The vector measure.
      */
+    public VectorMeasure createVectorMeasure(double[] vector, Unit unit);
+
+    /**
+     * Creates a new vector measure with the specified vector value expressed int the specified unit.
+     * @param vector The vector value of the measure expressed as an array of numbers.
+     * @param unit The unit in which the vector is expressed.
+     * @return The vector measure.
+     */
     public VectorMeasure createVectorMeasure(Number[] vector, Unit unit);
+
+    /**
+     * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement
+     * scale and using the unit associated with that scale.
+     * @param value The scalar value of the scale.
+     * @param scale The scale in which this point is defined.
+     * @return The scalar measure.
+     */
+    public Point createPoint(double value, Scale scale);
 
     /**
      * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement

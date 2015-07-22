@@ -27,4 +27,11 @@ public interface Point {
      * @return The numerical value.
      */
     public Object getNumericalValue();
+
+    /**
+     * The numerical double value of the point on the scale.
+     * The return type is a double.
+     * @return The numerical value.
+     */
+    public double doubleValue();
 }

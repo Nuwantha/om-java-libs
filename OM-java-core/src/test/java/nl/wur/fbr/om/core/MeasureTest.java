@@ -67,9 +67,9 @@ public class MeasureTest {
         Measure m2 = factory.createMeasure(vector, metre);
         Assert.assertTrue("Test measure creation", m2 instanceof VectorMeasure);
         VectorMeasure m3 = (VectorMeasure)m2;
-        Assert.assertTrue("Test measure creation", ((Number) m3.getVectorValue()[0]).doubleValue() == 4.0);
+        Assert.assertTrue("Test measure creation", m3.doubleValue()[0] == 4.0);
         Assert.assertTrue("Test measure creation", m3.getNumericalValue() instanceof Number[]);
-        Assert.assertTrue("Test measure creation", ((Number[]) m3.getNumericalValue())[0].doubleValue() == 4.0);
+        Assert.assertTrue("Test measure creation", m3.doubleValue()[1] == 3.0);
         Assert.assertEquals("Test measure creation", metre, m3.getUnit());
         Assert.assertTrue("Test measure creation", ((Number) m3.getVectorValue()[1]).doubleValue() == 3.0);
         Assert.assertTrue("Test measure creation", ((Number[]) m3.getNumericalValue())[1].doubleValue() == 3.0);
@@ -84,10 +84,9 @@ public class MeasureTest {
         Unit kelvin = unitfactory.createBaseUnit("Kelvin", "K");
         Unit celsius = unitfactory.createBaseUnit("Celsius", "°C");
         Scale kelvinScale = unitfactory.createScale("kelvin scale", null, kelvin);
-        Scale celsiusScale = unitfactory.createScale("celsius scale",null,kelvinScale,-273.15,1.0,celsius);
+        Scale celsiusScale = unitfactory.createScale("celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
         Point boilingpoint = factory.createPoint(100.0, celsiusScale);
-        Point freezingpoint = factory.createPoint(0.0,celsiusScale);
-        Assert.assertTrue("Test measure creation", ((Number) boilingpoint.getNumericalValue()).doubleValue() == 100.0);
+        Assert.assertTrue("Test measure creation", boilingpoint.doubleValue() == 100.0);
         Assert.assertEquals("Test measure creation", celsiusScale, boilingpoint.getScale());
         Assert.assertEquals("Test measure creation", celsius, boilingpoint.getScale().getUnit());
 

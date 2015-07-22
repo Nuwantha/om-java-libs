@@ -1,6 +1,5 @@
 package nl.wur.fbr.om.core.impl.measures;
 
-import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.units.Unit;
 
@@ -28,5 +27,15 @@ public class ScalarMeasureImpl extends MeasureImpl implements ScalarMeasure {
     @Override
     public Number getScalarValue() {
         return (Number) getNumericalValue();
+    }
+
+    /**
+     * Returns the numerical value (as a scalar) of this measure.
+     *
+     * @return The double value.
+     */
+    @Override
+    public double doubleValue() {
+        return ((Number) getNumericalValue()).doubleValue();
     }
 }

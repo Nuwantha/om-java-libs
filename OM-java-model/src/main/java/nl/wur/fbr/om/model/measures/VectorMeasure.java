@@ -13,6 +13,12 @@ public interface VectorMeasure extends Measure {
     public Number[] getVectorValue();
 
     /**
+     * Returns the numerical value (as a vector of doubles) of this measure.
+     * @return The vector value.
+     */
+    public double[] doubleValue();
+
+    /**
      * Returns the magnitude of the vector value as a measure that contains a scalar as
      * the numerical value of the magnitude and the same units in which this measure is expressed.
      * @return The magnitude of the vector.
@@ -25,5 +31,5 @@ public interface VectorMeasure extends Measure {
      * the unit vector.
      * @return The unit vector.
      */
-    public Double[] getUnitVector();
+    public double[] getUnitVector();
 }

@@ -10,8 +10,14 @@ import nl.wur.fbr.om.model.measures.Measure;
 public interface ScalarMeasure extends Measure {
 
     /**
-     * Returns the numerical value (as a scalar) of this measure.
-     * @return The scalar value.
+     * Returns the numerical value (as a {@link Number}) of this measure.
+     * @return The number value.
      */
     public Number getScalarValue();
+
+    /**
+     * Returns the numerical value (as a scalar) of this measure.
+     * @return The double value.
+     */
+    public double doubleValue();
 }
