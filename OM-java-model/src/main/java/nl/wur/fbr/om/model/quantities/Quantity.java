@@ -12,7 +12,6 @@ import nl.wur.fbr.om.model.points.Point;
  */
 public interface Quantity extends NamedObject {
 
-
     /**
      * Returns the value of the quantity if the value is a measure, or null if the value is a
      * point on a measurement scale.
