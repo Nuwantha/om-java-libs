@@ -25,17 +25,16 @@ import java.util.Map;
  *          <tr><td style="width: 10%">Type</td><td>Interface</td><td style="width: 30%">description</td><td>examples</td><td style="width: 40%">methods</td></tr>
  *     </thead>
  *     <tbody style="padding:4px; margin:0px;vertical-align:top; font-size:8pt;">
- *          <tr><td>Base Unit</td><td>{@link SingularUnit}</td><td>Defined as a base unit in a system of units.</td><td>metre [m]<br> second [s]</td>
- *              <td>{@link #createBaseUnit()}<br>
- *                  {@link #createBaseUnit(String, String, String)}<br>
- *                  {@link #createBaseUnit(String, String)}</td></tr>
  *          <tr><td>Singular Unit</td><td>{@link SingularUnit}</td><td>A unit that is a multiplication of some other unit.</td><td>inch ['] <br> Pascal [P]</td>
  *              <td>{@link #createSingularUnit(String, String, String, Unit, double)}<br>
  *                  {@link #createSingularUnit(String, String, Unit)}<br>
  *                  {@link #createSingularUnit(String, String, String, Unit)}<br>
  *                  {@link #createSingularUnit(String, String, Unit, double)}<br>
  *                  {@link #createSingularUnit(Unit)}<br>
- *                  {@link #createSingularUnit(Unit, double)}</td></tr>
+ *                  {@link #createSingularUnit(Unit, double)}<br>
+ *                  {@link #createSingularUnit()}<br>
+ *                  {@link #createSingularUnit(String, String, String)}<br>
+ *                  {@link #createSingularUnit(String, String)}</td></tr>
  *          <tr><td>Unit Multiple</td><td>{@link UnitMultiple}</td><td>A prefixed unit.</td><td>kilometre [km]<br> Megaparsec [Mpc]</td>
  *              <td>
  *                  {@link #createUnitMultiple(SingularUnit, double)}<br>
@@ -104,7 +103,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @return The requested singular base unit.
      */
     @Override
-    public SingularUnit createBaseUnit() {
+    public SingularUnit createSingularUnit() {
         SingularUnit unit = new SingularUnitImpl();
         unitsOrScalesByID.put(unit.getIdentifier(),unit);
         return unit;
@@ -120,7 +119,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @return The requested singular unit.
      */
     @Override
-    public SingularUnit createBaseUnit(String name, String symbol) {
+    public SingularUnit createSingularUnit(String name, String symbol) {
         SingularUnit unit = new SingularUnitImpl(name,symbol);
         unitsOrScalesByID.put(unit.getIdentifier(),unit);
         return unit;
@@ -136,7 +135,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @return The requested singular unit.
      */
     @Override
-    public SingularUnit createBaseUnit(String identifier, String name, String symbol) {
+    public SingularUnit createSingularUnit(String identifier, String name, String symbol) {
         SingularUnit unit = new SingularUnitImpl(identifier,name,symbol);
         unitsOrScalesByID.put(unit.getIdentifier(),unit);
         return unit;
@@ -615,14 +614,14 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      *
      * @param definitionScale      The definition scale.
      * @param definitionOffset     The offset of this scale with the definition scale.
-     * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
+     * @param definitionFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
      * @param unit                 The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
     @Override
-    public Scale createScale(Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit) {
-        Scale scale = new ScaleImpl(definitionScale,definitionOffset,multiplicationFactor,unit);
+    public Scale createScale(Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
+        Scale scale = new ScaleImpl(definitionScale,definitionOffset,definitionFactor,unit);
         unitsOrScalesByID.put(scale.getIdentifier(),scale);
         return scale;
     }
@@ -638,14 +637,14 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @param symbol               The symbol used for the scale.
      * @param definitionScale      The definition scale.
      * @param definitionOffset     The offset of this scale with the definition scale.
-     * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
+     * @param definitionFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
      * @param unit                 The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
     @Override
-    public Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit) {
-        Scale scale = new ScaleImpl(name,symbol,definitionScale,definitionOffset,multiplicationFactor,unit);
+    public Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
+        Scale scale = new ScaleImpl(name,symbol,definitionScale,definitionOffset,definitionFactor,unit);
         unitsOrScalesByID.put(scale.getIdentifier(),scale);
         return scale;
     }
@@ -661,14 +660,14 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @param symbol               The symbol used for the scale.
      * @param definitionScale      The definition scale.
      * @param definitionOffset     The offset of this scale with the definition scale.
-     * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
+     * @param definitionFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
      * @param unit                 The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
     @Override
-    public Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit) {
-        Scale scale = new ScaleImpl(identifier,name,symbol,definitionScale,definitionOffset,multiplicationFactor,unit);
+    public Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
+        Scale scale = new ScaleImpl(identifier,name,symbol,definitionScale,definitionOffset,definitionFactor,unit);
         unitsOrScalesByID.put(scale.getIdentifier(),scale);
         return scale;
     }

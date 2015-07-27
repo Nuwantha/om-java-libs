@@ -64,7 +64,7 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
      * @return The base unit.
      */
     @Override
-    public Unit getBaseUnit() {
+    public Unit getBase() {
         return base;
     }
 

@@ -28,7 +28,7 @@ public class ScaleImpl implements Scale {
     private double offset = 0.0;
 
     /** The multiplication factor by which this scale needs to be multiplied to revert to the definition scale. */
-    private double multiplicationFactor = 1.0;
+    private double factor = 1.0;
 
     /** The unit associated with the measurement scale. */
     private Unit unit;
@@ -92,15 +92,15 @@ public class ScaleImpl implements Scale {
      * -459.67 and a multiplication factor of 1.8.
      * @param definitionScale The definition scale.
      * @param offset The offset from the definition scale.
-     * @param multiplicationFactor The multiplication factor in relation to the definition scale.
+     * @param factor The multiplication factor in relation to the definition scale.
      * @param unit The unit in which points on this scale are expressed.
      */
-    public ScaleImpl(Scale definitionScale, double offset, double multiplicationFactor,Unit unit) {
+    public ScaleImpl(Scale definitionScale, double offset, double factor,Unit unit) {
         super();
         this.identifier = UUID.randomUUID().toString();
         this.definitionScale = definitionScale;
         this.offset = offset;
-        this.multiplicationFactor = multiplicationFactor;
+        this.factor = factor;
         this.unit = unit;
     }
 
@@ -113,17 +113,17 @@ public class ScaleImpl implements Scale {
      * @param symbol The symbol used for this scale.
      * @param definitionScale The definition scale.
      * @param offset The offset from the definition scale.
-     * @param multiplicationFactor The multiplication factor in relation to the definition scale.
+     * @param factor The multiplication factor in relation to the definition scale.
      * @param unit The unit in which points on this scale are expressed.
      */
-    public ScaleImpl(String name, String symbol, Scale definitionScale, double offset, double multiplicationFactor,Unit unit) {
+    public ScaleImpl(String name, String symbol, Scale definitionScale, double offset, double factor,Unit unit) {
         super();
         this.identifier = UUID.randomUUID().toString();
         if(name!=null) names.add(new Pair<>("",name));
         if(symbol!=null) symbols.add(symbol);
         this.definitionScale = definitionScale;
         this.offset = offset;
-        this.multiplicationFactor = multiplicationFactor;
+        this.factor = factor;
         this.unit = unit;
     }
 
@@ -137,17 +137,17 @@ public class ScaleImpl implements Scale {
      * @param symbol The symbol used for this scale.
      * @param definitionScale The definition scale.
      * @param offset The offset from the definition scale.
-     * @param multiplicationFactor The multiplication factor in relation to the definition scale.
+     * @param factor The multiplication factor in relation to the definition scale.
      * @param unit The unit in which points on this scale are expressed.
      */
-    public ScaleImpl(String identifier, String name, String symbol, Scale definitionScale, double offset, double multiplicationFactor,Unit unit) {
+    public ScaleImpl(String identifier, String name, String symbol, Scale definitionScale, double offset, double factor,Unit unit) {
         super();
         this.identifier = identifier;
         if(name!=null) names.add(new Pair<>("",name));
         if(symbol!=null) symbols.add(symbol);
         this.definitionScale = definitionScale;
         this.offset = offset;
-        this.multiplicationFactor = multiplicationFactor;
+        this.factor = factor;
         this.unit = unit;
     }
 
@@ -185,8 +185,8 @@ public class ScaleImpl implements Scale {
      * @return The multiplication factor.
      */
     @Override
-    public double getMultiplicationFactorFromDefinitionScale() {
-        return multiplicationFactor;
+    public double getFactorFromDefinitionScale() {
+        return factor;
     }
 
     /**

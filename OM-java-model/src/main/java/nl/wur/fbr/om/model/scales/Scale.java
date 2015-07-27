@@ -39,7 +39,7 @@ public interface Scale extends NamedObject {
      * For instance the Fahrenheit scale has a factor of 1.8
      * @return The multiplication factor
      */
-    public double getMultiplicationFactorFromDefinitionScale();
+    public double getFactorFromDefinitionScale();
 
     /**
      * Returns the points on the scale which are used to define the measurement scale. For instance, the

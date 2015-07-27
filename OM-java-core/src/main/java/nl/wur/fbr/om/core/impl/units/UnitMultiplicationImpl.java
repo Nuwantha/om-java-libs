@@ -12,33 +12,33 @@ import nl.wur.fbr.om.model.units.UnitMultiplication;
 public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplication {
 
     /** The first unit in the unit multiplication. */
-    private Unit unit1;
+    private Unit term1;
 
     /** The second unit in the unit multiplication. */
-    private Unit unit2;
+    private Unit term2;
 
     /**
      * Creates a new unit multiplication with the two specified units.
-     * @param unit1 The first unit in the unit multiplication.
-     * @param unit2 The second unit in the unit multiplication.
+     * @param term1 The first unit term in the unit multiplication.
+     * @param term2 The second unit term in the unit multiplication.
      */
-    public UnitMultiplicationImpl(Unit unit1, Unit unit2){
+    public UnitMultiplicationImpl(Unit term1, Unit term2){
         super();
-        this.unit1 = unit1;
-        this.unit2 = unit2;
+        this.term1 = term1;
+        this.term2 = term2;
     }
 
     /**
      * Creates a new unit multiplication with the two specified units.
      * @param name The name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param unit1 The first unit in the unit multiplication.
-     * @param unit2 The second unit in the unit multiplication.
+     * @param term1 The first unit term in the unit multiplication.
+     * @param term2 The second unit term in the unit multiplication.
      */
-    public UnitMultiplicationImpl(String name, String symbol, Unit unit1, Unit unit2){
+    public UnitMultiplicationImpl(String name, String symbol, Unit term1, Unit term2){
         super(name,symbol);
-        this.unit1 = unit1;
-        this.unit2 = unit2;
+        this.term1 = term1;
+        this.term2 = term2;
     }
 
     /**
@@ -46,36 +46,36 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
      * @param identifier The unique identifier for this unit.
      * @param name The name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param unit1 The first unit in the unit multiplication.
-     * @param unit2 The second unit in the unit multiplication.
+     * @param term1 The first unit term in the unit multiplication.
+     * @param term2 The second unit term in the unit multiplication.
      */
-    public UnitMultiplicationImpl(String identifier, String name, String symbol, Unit unit1, Unit unit2){
+    public UnitMultiplicationImpl(String identifier, String name, String symbol, Unit term1, Unit term2){
         super(identifier,name,symbol);
-        this.unit1 = unit1;
-        this.unit2 = unit2;
+        this.term1 = term1;
+        this.term2 = term2;
     }
 
     /**
-     * Returns the first unit used in the unit multiplication.
+     * Returns the first unit term used in the unit multiplication.
      * The order (first and second) does not matter.
      * For instance, for the unit multiplication N.m, the first unit is N.
      *
-     * @return The first unit in the multiplication.
+     * @return The first unit term in the multiplication.
      */
     @Override
-    public Unit getUnit1() {
-        return unit1;
+    public Unit getTerm1() {
+        return term1;
     }
 
     /**
-     * Returns the second unit used in the unit multiplication.
+     * Returns the second term unit used in the unit multiplication.
      * The order (first and second) does not matter.
      * For instance, for the unit multiplication N.m, the second unit is m.
      *
-     * @return The second unit in the multiplication.
+     * @return The second unit term in the multiplication.
      */
     @Override
-    public Unit getUnit2() {
-        return unit2;
+    public Unit getTerm2() {
+        return term2;
     }
 }

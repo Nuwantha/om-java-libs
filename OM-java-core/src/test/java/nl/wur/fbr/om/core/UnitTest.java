@@ -59,11 +59,11 @@ public class UnitTest {
     @Test
     public void testSingularUnitCreation() {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createBaseUnit("metre","m");
+        SingularUnit metre = factory.createSingularUnit("metre", "m");
         Assert.assertEquals("Test singular unit creation.",metre.getName(),"metre");
         Assert.assertEquals("Test singular unit creation.",metre.getSymbol(),"m");
-        Assert.assertEquals("Test singular unit creation.",metre.getDefinitionUnit(),null);
-        Assert.assertTrue("Test singular unit creation.",metre.getDefinitionNumericalValue()==1.0);
+        Assert.assertEquals("Test singular unit creation.", metre.getDefinitionUnit(), null);
+        Assert.assertTrue("Test singular unit creation.", metre.getDefinitionNumericalValue() == 1.0);
         SingularUnit au = factory.createSingularUnit("astronomical unit", "AU", metre, 1.495978707e11);
         Assert.assertEquals("Test singular unit creation.",au.getName(),"astronomical unit");
         Assert.assertEquals("Test singular unit creation.",au.getSymbol(),"AU");
@@ -83,14 +83,14 @@ public class UnitTest {
             SingularUnit test = (SingularUnit)factory.getUnitOrScale("some nonsense id");
             Assert.fail("Exception should have been thrown.");
         } catch (UnitOrScaleCreationException e) {
-            Assert.assertTrue("Expected exception thrown: "+e,true);
+            Assert.assertTrue("Expected exception thrown: " + e, true);
         }
     }
 
     @Test
     public void testUnitMultipleCreation() {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createBaseUnit("metre","m");
+        SingularUnit metre = factory.createSingularUnit("metre", "m");
         UnitMultiple kilometre = factory.createUnitMultiple("kilometre", metre, DecimalPrefix.KILO);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getName(), "kilometre");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
@@ -119,14 +119,14 @@ public class UnitTest {
     @Test
     public void testUnitDivisionCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createBaseUnit("metre","m");
-        SingularUnit second = factory.createBaseUnit("second","s");
+        SingularUnit metre = factory.createSingularUnit("metre", "m");
+        SingularUnit second = factory.createSingularUnit("second","s");
         UnitDivision metrePerSecond = factory.createUnitDivision("metre per second", "m/s", metre, second);
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getName(), "metre per second");
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getSymbol(), "m/s");
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getNumerator(), metre);
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getDenominator(), second);
-        UnitMultiple kilometre = factory.createUnitMultiple("kilometre",metre, DecimalPrefix.KILO);
+        UnitMultiple kilometre = factory.createUnitMultiple("kilometre", metre, DecimalPrefix.KILO);
         UnitDivision kilometrePerSecond = factory.createUnitDivision("kilometre per second", "km/s", kilometre, second);
         Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getName(), "kilometre per second");
         Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getSymbol(), "km/s");
@@ -147,18 +147,18 @@ public class UnitTest {
     @Test
     public void testUnitExponentiation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createBaseUnit("metre", "m");
+        SingularUnit metre = factory.createSingularUnit("metre", "m");
         UnitExponentiation cubicMetre = factory.createUnitExponentiation("cubic metre", "m^3", metre, 3);
         Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getName(), "cubic metre");
         Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getSymbol(), "m^3");
-        Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getBaseUnit(), metre);
+        Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getBase(), metre);
         Assert.assertTrue("Test unit exponentiation creation.", cubicMetre.getExponent() == 3);
         try {
             UnitExponentiation cubicMetre2 = (UnitExponentiation)factory.getUnitOrScale(cubicMetre.getIdentifier());
             Assert.assertEquals("Testing factory unit get and equals test",cubicMetre,cubicMetre2);
             Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getName(), "cubic metre");
             Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getSymbol(), "m^3");
-            Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getBaseUnit(), metre);
+            Assert.assertEquals("Test unit exponentiation creation.", cubicMetre2.getBase(), metre);
             Assert.assertTrue("Test unit exponentiation creation.", cubicMetre2.getExponent() == 3);
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
@@ -168,52 +168,52 @@ public class UnitTest {
     @Test
     public void testUnitMultiplicationCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit newton = factory.createBaseUnit("Newton","N");
-        SingularUnit metre = factory.createBaseUnit("metre","m");
+        SingularUnit newton = factory.createSingularUnit("Newton", "N");
+        SingularUnit metre = factory.createSingularUnit("metre", "m");
         UnitExponentiation cubicMetre = factory.createUnitExponentiation("cubic metre", "m^3", metre, 3);
         UnitMultiplication newtonCubicMetre = factory.createUnitMultiplication("Newton cubic metre", "N.m^2", newton, cubicMetre);
         Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getName(), "Newton cubic metre");
         Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getSymbol(), "N.m^2");
-        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getUnit1(), newton);
-        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getUnit2(), cubicMetre);
+        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getTerm1(), newton);
+        Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getTerm2(), cubicMetre);
         try {
             UnitMultiplication newtonCubicMetre2 = (UnitMultiplication)factory.getUnitOrScale(newtonCubicMetre.getIdentifier());
             Assert.assertEquals("Testing factory unit get and equals test",newtonCubicMetre2,newtonCubicMetre);
             Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getName(), "Newton cubic metre");
             Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getSymbol(), "N.m^2");
-            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getUnit1(), newton);
-            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getUnit2(), cubicMetre);
+            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getTerm1(), newton);
+            Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre2.getTerm2(), cubicMetre);
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
         }
     }
 
     @Test
-    public void testComplexUnitCreation(){
+    public void testCompounfUnitCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit newton = factory.createBaseUnit("Newton","N");
-        SingularUnit metre = factory.createBaseUnit("metre","m");
+        SingularUnit newton = factory.createSingularUnit("Newton", "N");
+        SingularUnit metre = factory.createSingularUnit("metre", "m");
         UnitMultiplication newtonmetre = factory.createUnitMultiplication("Newton metre", "N.m", newton, metre);
         SingularUnit pascal = factory.createSingularUnit("Pascal", "Pa", newtonmetre);
-        SingularUnit second = factory.createBaseUnit("second", "s");
+        SingularUnit second = factory.createSingularUnit("second", "s");
         UnitMultiple millisecond = factory.createUnitMultiple("millisecond", second, DecimalPrefix.MILLI);
         UnitExponentiation millisecondSquared = factory.createUnitExponentiation("millisecond squared", "ms^2", millisecond,2);
         UnitDivision pascalPerMillisecondSquared = factory.createUnitDivision("Pascal per second squared","Pa/ms^2",pascal,millisecondSquared);
-        Assert.assertEquals("Test complex unit creation",pascalPerMillisecondSquared.getNumerator(),pascal);
-        Assert.assertEquals("Test complex unit creation",((SingularUnit)pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit(),newtonmetre);
-        Assert.assertEquals("Test complex unit creation",((UnitMultiplication)((SingularUnit)pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit()).getUnit1(),newton);
-        Assert.assertEquals("Test complex unit creation",((UnitMultiplication)((SingularUnit)pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit()).getUnit2(),metre);
-        Assert.assertEquals("Test complex unit creation",pascalPerMillisecondSquared.getDenominator(),millisecondSquared);
-        Assert.assertEquals("Test complex unit creation",((UnitExponentiation)pascalPerMillisecondSquared.getDenominator()).getBaseUnit(),millisecond);
-        Assert.assertTrue("Test complex unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getExponent() == 2);
-        Assert.assertEquals("Test complex unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBaseUnit()).getSingularUnit(),second);
-        Assert.assertEquals("Test complex unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBaseUnit()).getPrefix(),DecimalPrefix.MILLI);
+        Assert.assertEquals("Test compound unit creation",pascalPerMillisecondSquared.getNumerator(),pascal);
+        Assert.assertEquals("Test compound unit creation", ((SingularUnit) pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit(), newtonmetre);
+        Assert.assertEquals("Test compound unit creation", ((UnitMultiplication) ((SingularUnit) pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit()).getTerm1(), newton);
+        Assert.assertEquals("Test compound unit creation", ((UnitMultiplication) ((SingularUnit) pascalPerMillisecondSquared.getNumerator()).getDefinitionUnit()).getTerm2(), metre);
+        Assert.assertEquals("Test compound unit creation",pascalPerMillisecondSquared.getDenominator(),millisecondSquared);
+        Assert.assertEquals("Test compound unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase(), millisecond);
+        Assert.assertTrue("Test compound unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getExponent() == 2);
+        Assert.assertEquals("Test compound unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getSingularUnit(),second);
+        Assert.assertEquals("Test compound unit creation", ((UnitMultiple) ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getPrefix(), DecimalPrefix.MILLI);
     }
 
     @Test
     public void testScaleCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit kelvin = factory.createBaseUnit("Kelvin","K");
+        SingularUnit kelvin = factory.createSingularUnit("Kelvin", "K");
         SingularUnit celsius = factory.createSingularUnit("Celsius", "°C", kelvin);
         SingularUnit fahrenheit = factory.createSingularUnit("Fahrenheit", "°C", kelvin, 1.8);
         Scale kelvinScale = factory.createScale("Kelvin scale", null, kelvin);
@@ -222,21 +222,16 @@ public class UnitTest {
         Assert.assertEquals("Test scale creation",fahrenheitScale.getDefinitionScale(),kelvinScale);
         Assert.assertEquals("Test scale creation",fahrenheitScale.getUnit(),fahrenheit);
         Assert.assertTrue("Test scale creation", fahrenheitScale.getOffsetFromDefinitionScale() == -459.67);
-        Assert.assertTrue("Test scale creation", fahrenheitScale.getMultiplicationFactorFromDefinitionScale() == 1.8);
+        Assert.assertTrue("Test scale creation", fahrenheitScale.getFactorFromDefinitionScale() == 1.8);
         Assert.assertEquals("Test scale creation", celsiusScale.getDefinitionScale(), kelvinScale);
         Assert.assertEquals("Test scale creation", celsiusScale.getUnit(), celsius);
         Assert.assertTrue("Test scale creation", celsiusScale.getOffsetFromDefinitionScale() == -273.15);
-        Assert.assertTrue("Test scale creation", celsiusScale.getMultiplicationFactorFromDefinitionScale() == 1.0);
+        Assert.assertTrue("Test scale creation", celsiusScale.getFactorFromDefinitionScale() == 1.0);
         Assert.assertNull("Test scale creation", kelvinScale.getDefinitionScale());
         Assert.assertEquals("Test scale creation", kelvinScale.getUnit(), kelvin);
         Assert.assertTrue("Test scale creation", kelvinScale.getOffsetFromDefinitionScale() == 0);
-        Assert.assertTrue("Test scale creation", kelvinScale.getMultiplicationFactorFromDefinitionScale() == 1.0);
+        Assert.assertTrue("Test scale creation", kelvinScale.getFactorFromDefinitionScale() == 1.0);
         Assert.assertEquals("Test scale creation", kelvinScale.getName(), "Kelvin scale");
         Assert.assertNull("Test scale creation", kelvinScale.getSymbol());
-    }
-
-    @Test
-    public void testMeasureCreation() {
-
     }
 }
