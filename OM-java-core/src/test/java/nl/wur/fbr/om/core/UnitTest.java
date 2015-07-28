@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core;
 
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.core.impl.units.PrefixedUnitImpl;
 import nl.wur.fbr.om.core.impl.units.SingularUnitImpl;
 import nl.wur.fbr.om.core.impl.units.UnitImpl;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
@@ -91,28 +92,47 @@ public class UnitTest {
     public void testUnitMultipleCreation() {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
         SingularUnit metre = factory.createSingularUnit("metre", "m");
-        UnitMultiple kilometre = factory.createUnitMultiple("kilometre", metre, DecimalPrefix.KILO);
+        PrefixedUnit kilometre = factory.createPrefixedUnit("kilometre", metre, DecimalPrefix.KILO);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getName(), "kilometre");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getUnit(), metre);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getPrefix(), DecimalPrefix.KILO);
         Assert.assertTrue("Test unit multiple creation.", kilometre.getFactor() == 1000.0);
-        UnitMultiple nanometre = factory.createUnitMultiple("nanometre", "nm", metre, 1e-9);
+        UnitMultiple nanometre = factory.createUnitMultiple("nanometre", metre, 1.0E-9);
         Assert.assertEquals("Test unit multiple creation.", nanometre.getName(), "nanometre");
-        Assert.assertEquals("Test unit multiple creation.", nanometre.getSymbol(), "nm");
+        Assert.assertEquals("Test unit multiple creation.", nanometre.getSymbol(), "1.0E-9m");
         Assert.assertEquals("Test unit multiple creation.", nanometre.getUnit(), metre);
-        Assert.assertEquals("Test unit multiple creation.", nanometre.getPrefix(), null);
         Assert.assertTrue("Test unit multiple creation.", nanometre.getFactor() == 0.000000001);
         try {
             UnitMultiple nanometre2 = (UnitMultiple)factory.getUnitOrScale(nanometre.getIdentifier());
             Assert.assertEquals("Testing factory unit get and equals test",nanometre,nanometre2);
             Assert.assertEquals("Test unit multiple creation.", nanometre2.getName(), "nanometre");
-            Assert.assertEquals("Test unit multiple creation.", nanometre2.getSymbol(), "nm");
+            Assert.assertEquals("Test unit multiple creation.", nanometre2.getSymbol(), "1.0E-9m");
             Assert.assertEquals("Test unit multiple creation.", nanometre2.getUnit(), metre);
-            Assert.assertEquals("Test unit multiple creation.", nanometre2.getPrefix(), null);
             Assert.assertTrue("Test unit multiple creation.", nanometre2.getFactor() == 0.000000001);
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        }
+        SingularUnit gram = factory.createSingularUnit("gram", "g");
+        UnitMultiple u100g = factory.createUnitMultiple("100 gram",gram,100);
+        Assert.assertEquals("Test unit multiple creation.", u100g.getName(), "100 gram");
+        Assert.assertEquals("Test unit multiple creation.", u100g.getSymbol(), "100g");
+        Assert.assertEquals("Test unit multiple creation.", u100g.getUnit(), gram);
+        Assert.assertTrue("Test unit multiple creation.", u100g.getFactor() == 100);
+        UnitMultiple au = factory.createUnitMultiple("astronomical unit", "AU", metre, 1.495978707e11);
+        Assert.assertEquals("Test singular unit creation.",au.getName(),"astronomical unit");
+        Assert.assertEquals("Test singular unit creation.",au.getSymbol(),"AU");
+        Assert.assertEquals("Test singular unit creation.",au.getUnit(),metre);
+        Assert.assertTrue("Test singular unit creation.", au.getFactor() == 1.495978707e11);
+        try {
+            UnitMultiple au2 = (UnitMultiple)factory.getUnitOrScale(au.getIdentifier());
+            Assert.assertEquals("Testing factory unit get and equals test",au,au2);
+            Assert.assertEquals("Test singular unit creation.",au2.getName(),"astronomical unit");
+            Assert.assertEquals("Test singular unit creation.",au2.getSymbol(),"AU");
+            Assert.assertEquals("Test singular unit creation.",au2.getUnit(),metre);
+            Assert.assertTrue("Test singular unit creation.", au2.getFactor() == 1.495978707e11);
+        } catch (Exception e) {
+            Assert.fail("Exception thrown when getting a unit from its identifier. "+e);
         }
     }
 
@@ -126,7 +146,7 @@ public class UnitTest {
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getSymbol(), "m/s");
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getNumerator(), metre);
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getDenominator(), second);
-        UnitMultiple kilometre = factory.createUnitMultiple("kilometre", metre, DecimalPrefix.KILO);
+        PrefixedUnit kilometre = factory.createPrefixedUnit("kilometre", metre, DecimalPrefix.KILO);
         UnitDivision kilometrePerSecond = factory.createUnitDivision("kilometre per second", "km/s", kilometre, second);
         Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getName(), "kilometre per second");
         Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getSymbol(), "km/s");
@@ -196,7 +216,7 @@ public class UnitTest {
         UnitMultiplication newtonmetre = factory.createUnitMultiplication("Newton metre", "N.m", newton, metre);
         SingularUnit pascal = factory.createSingularUnit("Pascal", "Pa", newtonmetre);
         SingularUnit second = factory.createSingularUnit("second", "s");
-        UnitMultiple millisecond = factory.createUnitMultiple("millisecond", second, DecimalPrefix.MILLI);
+        PrefixedUnit millisecond = factory.createPrefixedUnit("millisecond", second, DecimalPrefix.MILLI);
         UnitExponentiation millisecondSquared = factory.createUnitExponentiation("millisecond squared", "ms^2", millisecond,2);
         UnitDivision pascalPerMillisecondSquared = factory.createUnitDivision("Pascal per second squared","Pa/ms^2",pascal,millisecondSquared);
         Assert.assertEquals("Test compound unit creation",pascalPerMillisecondSquared.getNumerator(),pascal);
@@ -207,7 +227,7 @@ public class UnitTest {
         Assert.assertEquals("Test compound unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase(), millisecond);
         Assert.assertTrue("Test compound unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getExponent() == 2);
         Assert.assertEquals("Test compound unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getUnit(),second);
-        Assert.assertEquals("Test compound unit creation", ((UnitMultiple) ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getPrefix(), DecimalPrefix.MILLI);
+        Assert.assertEquals("Test compound unit creation", ((PrefixedUnit) ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getPrefix(), DecimalPrefix.MILLI);
     }
 
     @Test

@@ -101,7 +101,7 @@ public abstract class UnitImpl implements Unit {
     @Override
     public List<String> getAlternativeNames() {
         List<String> altnames = new ArrayList<>();
-        for (int i=1;i<names.size();i++){ // start ad i=1 to ignore the preferred name.
+        for (int i=1;i<names.size();i++){ // start at i=1 to ignore the preferred name.
             altnames.add(names.get(i).getValue());
         }
         return altnames;
@@ -168,6 +168,14 @@ public abstract class UnitImpl implements Unit {
     public String getSymbol() {
         if(symbols.size()<=0) return null;
         return symbols.get(0);
+    }
+
+    /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    public void setSymbol(String symbol){
+        symbols.add(0,symbol);
     }
 
     /**
