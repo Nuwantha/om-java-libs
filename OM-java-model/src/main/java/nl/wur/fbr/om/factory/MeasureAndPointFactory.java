@@ -5,6 +5,8 @@ import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.measures.VectorMeasure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.points.ScalarPoint;
+import nl.wur.fbr.om.model.points.VectorPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 
@@ -62,19 +64,51 @@ public interface MeasureAndPointFactory {
     /**
      * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement
      * scale and using the unit associated with that scale.
-     * @param value The scalar value of the scale.
+     * @param value The value of the scale.
      * @param scale The scale in which this point is defined.
-     * @return The scalar measure.
+     * @return The point.
      */
-    public Point createPoint(double value, Scale scale);
+    public Point createPoint(Object value, Scale scale);
+
 
     /**
-     * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement
+     * Creates a new scalar point on a measurement scale with the specified scalar value on the specified measurement
      * scale and using the unit associated with that scale.
-     * @param value The scalar value of the scale.
+     *
+     * @param value The scalar value of the point.
      * @param scale The scale in which this point is defined.
-     * @return The scalar measure.
+     * @return The scalar point.
      */
-    public Point createPoint(Number value, Scale scale);
+    public ScalarPoint createScalarPoint(double value,Scale scale);
+
+    /**
+     * Creates a new scalar point on a measurement scale with the specified scalar value on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param value The scalar value of the point.
+     * @param scale The scale in which this point is defined.
+     * @return The scalar point.
+     */
+    public ScalarPoint createScalarPoint(Number value, Scale scale);
+
+    /**
+     * Creates a new vector point on a measurement scale with the specified vector value on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param vector The vector value of the point expressed as an array of numbers.
+     * @param scale The scale in which this point is defined.
+     * @return The vector point.
+     */
+    public VectorPoint createVectorPoint(double[] vector, Scale scale);
+
+    /**
+     * Creates a new vector point on a measurement scale with the specified vector value on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param vector The vector value of the point expressed as an array of numbers.
+     * @param scale The scale in which this point is defined.
+     * @return The vector point.
+     */
+    public VectorPoint createVectorPoint(Number[] vector, Scale scale);
 
 }

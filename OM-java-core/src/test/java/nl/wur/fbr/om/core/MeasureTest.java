@@ -8,6 +8,7 @@ import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.measures.VectorMeasure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 import org.junit.Assert;
@@ -85,7 +86,7 @@ public class MeasureTest {
         Unit celsius = unitfactory.createSingularUnit("Celsius", "°C");
         Scale kelvinScale = unitfactory.createScale("kelvin scale", null, kelvin);
         Scale celsiusScale = unitfactory.createScale("celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
-        Point boilingpoint = factory.createPoint(100.0, celsiusScale);
+        ScalarPoint boilingpoint = factory.createScalarPoint(100.0, celsiusScale);
         Assert.assertTrue("Test measure creation", boilingpoint.doubleValue() == 100.0);
         Assert.assertEquals("Test measure creation", celsiusScale, boilingpoint.getScale());
         Assert.assertEquals("Test measure creation", celsius, boilingpoint.getScale().getUnit());

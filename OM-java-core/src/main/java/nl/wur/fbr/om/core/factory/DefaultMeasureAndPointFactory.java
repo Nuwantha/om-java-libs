@@ -4,11 +4,15 @@ import nl.wur.fbr.om.core.impl.measures.MeasureImpl;
 import nl.wur.fbr.om.core.impl.measures.ScalarMeasureImpl;
 import nl.wur.fbr.om.core.impl.measures.VectorMeasureImpl;
 import nl.wur.fbr.om.core.impl.points.PointImpl;
+import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;
+import nl.wur.fbr.om.core.impl.points.VectorPointImpl;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.measures.VectorMeasure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.points.ScalarPoint;
+import nl.wur.fbr.om.model.points.VectorPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 
@@ -88,25 +92,64 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
      * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement
      * scale and using the unit associated with that scale.
      *
-     * @param value The scalar value of the scale.
+     * @param value The value of the scale.
      * @param scale The scale in which this point is defined.
-     * @return The scalar measure.
+     * @return The point.
      */
     @Override
-    public Point createPoint(double value, Scale scale) {
+    public Point createPoint(Object value, Scale scale) {
         return new PointImpl(value,scale);
     }
 
     /**
-     * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement
+     * Creates a new scalar point on a measurement scale with the specified scalar value on the specified measurement
      * scale and using the unit associated with that scale.
      *
-     * @param value The scalar value of the scale.
+     * @param value The scalar value of the point.
      * @param scale The scale in which this point is defined.
-     * @return The scalar measure.
+     * @return The scalar point.
      */
     @Override
-    public Point createPoint(Number value, Scale scale) {
-        return new PointImpl(value,scale);
+    public ScalarPoint createScalarPoint(double value, Scale scale) {
+        return new ScalarPointImpl(value,scale);
+    }
+
+    /**
+     * Creates a new scalar point on a measurement scale with the specified scalar value on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param value The scalar value of the point.
+     * @param scale The scale in which this point is defined.
+     * @return The scalar point.
+     */
+    @Override
+    public ScalarPoint createScalarPoint(Number value, Scale scale) {
+        return new ScalarPointImpl(value,scale);
+    }
+
+    /**
+     * Creates a new vector point on a measurement scale with the specified vector value on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param vector The vector value of the point expressed as an array of numbers.
+     * @param scale The scale in which this point is defined.
+     * @return The vector point.
+     */
+    @Override
+    public VectorPoint createVectorPoint(double[] vector, Scale scale) {
+        return new VectorPointImpl(vector,scale);
+    }
+
+    /**
+     * Creates a new vector point on a measurement scale with the specified vector value on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param vector The vector value of the point expressed as an array of numbers.
+     * @param scale The scale in which this point is defined.
+     * @return The vector point.
+     */
+    @Override
+    public VectorPoint createVectorPoint(Number[] vector, Scale scale) {
+        return new VectorPointImpl(vector,scale);
     }
 }

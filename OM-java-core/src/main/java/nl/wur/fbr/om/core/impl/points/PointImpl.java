@@ -27,11 +27,10 @@ public class PointImpl implements Point{
 
     /**
      * Creates a new <code>Point</code> with the specified numerical value on the specified scale.
-     * The numerical value is of type {@link Number Number} and is therefore a scalar.
      * @param numericalValue The numerical value.
      * @param scale The scale.
      */
-    public PointImpl(Number numericalValue, Scale scale){
+    public PointImpl(Object numericalValue, Scale scale){
         this.scale = scale;
         this.numericalValue = numericalValue;
     }
@@ -48,24 +47,12 @@ public class PointImpl implements Point{
 
     /**
      * The numerical value of the point on the scale.
-     * The return type is an Object but can be of type Number, or (in the future) of Vector or Tensor types.
      *
      * @return The numerical value.
      */
     @Override
     public Object getNumericalValue() {
         return numericalValue;
-    }
-
-    /**
-     * The numerical double value of the point on the scale.
-     * The return type is a double.
-     *
-     * @return The numerical value.
-     */
-    @Override
-    public double doubleValue() {
-        return ((Number) getNumericalValue()).doubleValue();
     }
 
     /**

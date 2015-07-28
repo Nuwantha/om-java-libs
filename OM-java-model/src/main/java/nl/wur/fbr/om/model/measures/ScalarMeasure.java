@@ -1,7 +1,6 @@
 package nl.wur.fbr.om.model.measures;
 
 
-import nl.wur.fbr.om.model.measures.Measure;
 
 /**
  * This interface defines the specific methods for measures that have a scalar as numerical value.
