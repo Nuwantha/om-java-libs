@@ -98,6 +98,8 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
      */
     @Override
     public Point createPoint(Object value, Scale scale) {
+        if(value instanceof Number) return this.createScalarPoint((Number) value, scale);
+        if(value instanceof Number[]) return this.createVectorPoint((Number[]) value, scale);
         return new PointImpl(value,scale);
     }
 
