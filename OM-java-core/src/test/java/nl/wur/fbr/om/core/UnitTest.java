@@ -94,23 +94,23 @@ public class UnitTest {
         UnitMultiple kilometre = factory.createUnitMultiple("kilometre", metre, DecimalPrefix.KILO);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getName(), "kilometre");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
-        Assert.assertEquals("Test unit multiple creation.", kilometre.getSingularUnit(), metre);
+        Assert.assertEquals("Test unit multiple creation.", kilometre.getUnit(), metre);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getPrefix(), DecimalPrefix.KILO);
-        Assert.assertTrue("Test unit multiple creation.", kilometre.getPrefixFactor() == 1000.0);
+        Assert.assertTrue("Test unit multiple creation.", kilometre.getFactor() == 1000.0);
         UnitMultiple nanometre = factory.createUnitMultiple("nanometre", "nm", metre, 1e-9);
         Assert.assertEquals("Test unit multiple creation.", nanometre.getName(), "nanometre");
         Assert.assertEquals("Test unit multiple creation.", nanometre.getSymbol(), "nm");
-        Assert.assertEquals("Test unit multiple creation.", nanometre.getSingularUnit(), metre);
-        Assert.assertEquals("Test unit multiple creation.", nanometre.getPrefix(), DecimalPrefix.NANO);
-        Assert.assertTrue("Test unit multiple creation.", nanometre.getPrefixFactor() == 0.000000001);
+        Assert.assertEquals("Test unit multiple creation.", nanometre.getUnit(), metre);
+        Assert.assertEquals("Test unit multiple creation.", nanometre.getPrefix(), null);
+        Assert.assertTrue("Test unit multiple creation.", nanometre.getFactor() == 0.000000001);
         try {
             UnitMultiple nanometre2 = (UnitMultiple)factory.getUnitOrScale(nanometre.getIdentifier());
             Assert.assertEquals("Testing factory unit get and equals test",nanometre,nanometre2);
             Assert.assertEquals("Test unit multiple creation.", nanometre2.getName(), "nanometre");
             Assert.assertEquals("Test unit multiple creation.", nanometre2.getSymbol(), "nm");
-            Assert.assertEquals("Test unit multiple creation.", nanometre2.getSingularUnit(), metre);
-            Assert.assertEquals("Test unit multiple creation.", nanometre2.getPrefix(), DecimalPrefix.NANO);
-            Assert.assertTrue("Test unit multiple creation.", nanometre2.getPrefixFactor() == 0.000000001);
+            Assert.assertEquals("Test unit multiple creation.", nanometre2.getUnit(), metre);
+            Assert.assertEquals("Test unit multiple creation.", nanometre2.getPrefix(), null);
+            Assert.assertTrue("Test unit multiple creation.", nanometre2.getFactor() == 0.000000001);
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         }
@@ -206,7 +206,7 @@ public class UnitTest {
         Assert.assertEquals("Test compound unit creation",pascalPerMillisecondSquared.getDenominator(),millisecondSquared);
         Assert.assertEquals("Test compound unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase(), millisecond);
         Assert.assertTrue("Test compound unit creation", ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getExponent() == 2);
-        Assert.assertEquals("Test compound unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getSingularUnit(),second);
+        Assert.assertEquals("Test compound unit creation",((UnitMultiple)((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getUnit(),second);
         Assert.assertEquals("Test compound unit creation", ((UnitMultiple) ((UnitExponentiation) pascalPerMillisecondSquared.getDenominator()).getBase()).getPrefix(), DecimalPrefix.MILLI);
     }
 
