@@ -17,6 +17,9 @@ import nl.wur.fbr.om.prefixes.DecimalPrefix;
  */
 public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
 
+    /**
+     * Creates a new unit and scale factory and initialises all units and scales in the core set.
+     */
     public CoreUnitAndScaleFactory(){
         Unit metre = this.createSingularUnit(CoreUnitSet.METRE,"metre", "m");
         Unit kilometre = this.createPrefixedUnit(CoreUnitSet.KILOMETRE,"kilometre", "km", (SingularUnit) metre, DecimalPrefix.KILO);

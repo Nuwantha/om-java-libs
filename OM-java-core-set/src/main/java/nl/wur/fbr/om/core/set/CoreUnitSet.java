@@ -8,133 +8,292 @@ package nl.wur.fbr.om.core.set;
  */
 public abstract class CoreUnitSet {
 
+    /** The namespace of the core unit set.*/
     public final static String NAMESPACE;
 
-    // CoreUnitSet of Length 
+    /** The identifier in the core unit set for the SI base unit of length Metre.*/
     public final static String METRE;
+
+    /** The identifier in the core unit set for the prefixed unit of length Kilometre.*/
     public final static String KILOMETRE;
+
+    /** The identifier in the core unit set for the prefixed unit of length Decimetre.*/
     public final static String DECIMETRE;
+
+    /** The identifier in the core unit set for the prefixed unit of length Centimetre.*/
     public final static String CENTIMETRE;
+
+    /** The identifier in the core unit set for the prefixed unit of length Millimetre.*/
     public final static String MILLIMETRE;
+
+    /** The identifier in the core unit set for the prefixed unit of length Micrometre.*/
     public final static String MICROMETRE;
+
+    /** The identifier in the core unit set for the prefixed unit of length Nanometre.*/
     public final static String NANOMETRE;
+
+    /** The identifier in the core unit set for the unit of length Ångström.*/
     public final static String ANGSTROM;
+
+    /** The identifier in the core unit set for the unit of length Inch.*/
     public final static String INCH;
+
+    /** The identifier in the core unit set for the unit of length Feet.*/
     public final static String FEET;
+
+    /** The identifier in the core unit set for the unit of length Yard.*/
     public final static String YARD;
+
+    /** The identifier in the core unit set for the unit of length Mile.*/
     public final static String MILE;
+
+    /** The identifier in the core unit set for the unit of length Nautical mile.*/
     public final static String NAUTICAL_MILE;
+
+    /** The identifier in the core unit set for the unit of length Fathom.*/
     public final static String FATHOM;
 
-    // Corefinal static StringSet of mass 
+
+
+    /** The identifier in the core unit set for the unit of mass Gram.*/
     public final static String GRAM;
+
+    /** The identifier in the core unit set for the SI unit of mass Kilogram.*/
     public final static String KILOGRAM;
+
+    /** The identifier in the core unit set for the prefixed unit of mass Milligram.*/
     public final static String MILLIGRAM;
+
+    /** The identifier in the core unit set for the prefixed unit of mass Microgram.*/
     public final static String MICROGRAM;
 
-    // Corefinal static StringSet of time 
+
+
+    /** The identifier in the core unit set for the SI unit of time Second.*/
     public final static String SECOND;
+
+    /** The identifier in the core unit set for the prefixed unit of time Millisecond.*/
     public final static String MILLISECOND;
+
+    /** The identifier in the core unit set for the prefixed unit of time Microsecond.*/
     public final static String MICROSECOND;
+
+    /** The identifier in the core unit set for the prefixed unit of time Nanosecond.*/
     public final static String NANOSECOND;
+
+    /** The identifier in the core unit set for the unit of time Minute.*/
     public final static String MINUTE;
+
+    /** The identifier in the core unit set for the unit of time Hour.*/
     public final static String HOUR;
+
+    /** The identifier in the core unit set for the unit of time Year.*/
     public final static String YEAR;
+
+    /** The identifier in the core unit set for the unit of time Day.*/
     public final static String DAY;
 
-    // Corefinal static StringSet of electrical current 
+
+
+    /** The identifier in the core unit set for the SI unit of electical current Ampere.*/
     public final static String AMPERE;
 
-    // Corefinal static StringSet of temperature 
+
+
+    /** The identifier in the core unit set for the SI unit of temperature Kelvin.*/
     public final static String KELVIN;
+
+    /** The identifier in the core unit set for the unit of temperature Celsius.*/
     public final static String CELSIUS;
+
+    /** The identifier in the core unit set for the unit of temperature Fahrenheit.*/
     public final static String FAHRENHEIT;
 
-    // Corefinal static StringSet of amount of substance 
+    /** The identifier in the core unit set for the SI unit of ammount of substance Mole.*/
     public final static String MOLE;
 
-    // Corefinal static StringSet of amount of luminous intensity 
+
+
+    /** The identifier in the core unit set for the SI unit of luminous intensity Candela.*/
     public final static String CANDELA;
 
-    // Corefinal static StringSet of area 
+
+
+    /** The identifier in the core unit set for the unit of area Square metre.*/
     public final static String SQUARE_METRE;
+
+    /** The identifier in the core unit set for the unit of area Square kilometre.*/
     public final static String SQUARE_KILOMETRE;
+
+    /** The identifier in the core unit set for the unit of area Hectare.*/
     public final static String HECTARE;
+
+    /** The identifier in the core unit set for the unit of area Square mile.*/
     public final static String SQUARE_MILE;
+
+    /** The identifier in the core unit set for the unit of area Square feet.*/
     public final static String SQUARE_FEET;
+
+    /** The identifier in the core unit set for the unit of area Acre.*/
     public final static String ACRE;
 
-    // Corefinal static StringSet of volume 
+
+
+    /** The identifier in the core unit set for the unit of volume Cubic metre.*/
     public final static String CUBIC_METRE;
+
+    /** The identifier in the core unit set for the unit of volume Litre.*/
     public final static String LITRE;
+
+    /** The identifier in the core unit set for the unit of volume Millilitre.*/
     public final static String MILLILITRE;
+
+    /** The identifier in the core unit set for the imperial unit of volume Pint.*/
     public final static String PINT_IMPERIAL;
+
+    /** The identifier in the core unit set for the imperial unit of volume Gallon.*/
     public final static String GALLON_IMPERIAL;
+
+    /** The identifier in the core unit set for the unit of volume Cup.*/
     public final static String CUP;
+
+    /** The identifier in the core unit set for the unit of volume Teaspoon.*/
     public final static String TEASPOON;
+
+    /** The identifier in the core unit set for the unit of volume Tablespoon.*/
     public final static String TABLESPOON;
 
-    // Corefinal static StringSet of angle 
+
+
+    /** The identifier in the core unit set for the SI unit of angle Radian.*/
     public final static String RADIAN;
+
+    /** The identifier in the core unit set for the unit of angle Degree.*/
     public final static String DEGREE;
 
-    // Corefinal static StringSet of solid angle 
+
+
+    /** The identifier in the core unit set for the SI unit of solid angle Steradian.*/
     public final static String STERADIAN;
 
-    // Corefinal static StringSet of frequency 
+
+
+    /** The identifier in the core unit set for the unit of frequency Hertz.*/
     public final static String HERTZ;
 
-    // Corefinal static StringSet of velocity 
+
+
+    /** The identifier in the core unit set for the unit of velocity Metre per second.*/
     public final static String METRE_PER_SECOND;
+
+    /** The identifier in the core unit set for the unit of velocity Kilometre per second.*/
     public final static String KILOMETRE_PER_SECOND;
+
+    /** The identifier in the core unit set for the unit of velocity Kilometre per hour.*/
     public final static String KILOMETRE_PER_HOUR;
+
+    /** The identifier in the core unit set for the unit of velocity Mile per hour.*/
     public final static String MILE_PER_HOUR;
+
+    /** The identifier in the core unit set for the unit of velocity Knot.*/
     public final static String KNOT;
 
-    // Corefinal static StringSet of acceleration 
+
+
+    /** The identifier in the core unit set for the unit of acceleration Metre per second squared.*/
     public final static String METRE_PER_SECOND_SQUARED;
 
-    // Corefinal static StringSet of force 
+
+
+    /** The identifier in the core unit set for the unit of force Newton.*/
     public final static String NEWTON;
 
-    // Corefinal static StringSet of pressure 
+
+
+    /** The identifier in the core unit set for the unit of pressure Newton per square metre.*/
     public final static String NEWTON_PER_SQUARE_METRE;
+
+    /** The identifier in the core unit set for the unit of pressure Pascal.*/
     public final static String PASCAL;
+
+    /** The identifier in the core unit set for the unit of pressure Atmosphere.*/
     public final static String ATMOSPHERE;
+
+    /** The identifier in the core unit set for the unit of pressure Bar.*/
     public final static String BAR;
+
+    /** The identifier in the core unit set for the prefixed unit of pressure Millibar.*/
     public final static String MILLIBAR;
+
+    /** The identifier in the core unit set for the unit of pressure Pound per square inch.*/
     public final static String PSI;
 
-    // Corefinal static StringSet of energy 
+
+
+    /** The identifier in the core unit set for the unit of energy Joule.*/
     public final static String JOULE;
+
+    /** The identifier in the core unit set for the unit of energy Calorie.*/
     public final static String CALORIE;
+
+    /** The identifier in the core unit set for the unit of energy Kilocalorie.*/
     public final static String KILOCALORIE;
 
-    // Corefinal static StringSet of power 
+
+
+    /** The identifier in the core unit set for the unit of power Watt.*/
     public final static String WATT;
 
-    // Corefinal static StringSet of electrical fields 
+
+
+    /** The identifier in the core unit set for the unit of electric charge Coulomb.*/
     public final static String COULOMB;
+
+    /** The identifier in the core unit set for the unit of voltage Volt.*/
     public final static String VOLT;
+
+    /** The identifier in the core unit set for the unit of electric capacitance Farad.*/
     public final static String FARAD;
+
+    /** The identifier in the core unit set for the unit of electric resistance Ohm.*/
     public final static String OHM;
+
+    /** The identifier in the core unit set for the unit of electrical conductance Siemens.*/
     public final static String SIEMENS;
 
-    // Corefinal static StringSet of magnetic fields
+
+
+    /** The identifier in the core unit set for the unit of magnetic flux Weber.*/
     public final static String WEBER;
+
+    /** The identifier in the core unit set for the unit of magnetic field strength Tesla.*/
     public final static String TESLA;
+
+    /** The identifier in the core unit set for the unit of inductance Henry.*/
     public final static String HENRY;
 
-    // Corefinal static StringSet of electromagnetic radiation
+
+
+    /** The identifier in the core unit set for the unit of luminous flux Lumen.*/
     public final static String LUMEN;
+
+    /** The identifier in the core unit set for the unit of illuminance Lux.*/
     public final static String LUX;
 
-    // Corefinal static StringSet of radioactivity
+
+
+    /** The identifier in the core unit set for the unit of radioactivity Becquerel.*/
     public final static String BECQUEREL;
+
+    /** The identifier in the core unit set for the unit of absorbed dose of ionising radiation Gray.*/
     public final static String GRAY;
+
+    /** The identifier in the core unit set for the unit of equivalent dose of ionising radiation Sievert.*/
     public final static String SIEVERT;
 
-    // final static String of Catalytic activity
+
+
+    /** The identifier in the core unit set for the unit of catalitic activity Katal.*/
     public final static String KATAL;
 
 
@@ -243,90 +402,4 @@ public abstract class CoreUnitSet {
 
         KATAL = NAMESPACE+"katal";
     }
-
-    /*
-    @Override
-    public void initialiseSet(UnitAndScaleFactory factory) throws UnitOrScaleCreationException {
-        METRE = factory.createSingularUnit("metre", "m");
-        KILOMETRE = factory.createPrefixedUnit("kilometre", "km", (SingularUnit) METRE, DecimalPrefix.KILO);
-        CENTIMETRE = factory.createPrefixedUnit("centimetre", "cm", (SingularUnit) METRE, DecimalPrefix.CENTI);
-        DECIMETRE = factory.createPrefixedUnit("decimetre", "dm", (SingularUnit) METRE, DecimalPrefix.DECI);
-        MILLIMETRE = factory.createPrefixedUnit("millimetre", "mm", (SingularUnit) METRE, DecimalPrefix.MILLI);
-        MICROMETRE = factory.createPrefixedUnit("micrometre", "μm", (SingularUnit) METRE, DecimalPrefix.MICRO);
-        NANOMETRE = factory.createPrefixedUnit("nanometre", "nm", (SingularUnit) METRE, DecimalPrefix.NANO);
-        ANGSTROM = factory.createSingularUnit("Ångström", "Å", METRE, 1e-10);
-        INCH = factory.createSingularUnit("inch", "in", METRE, 0.0254);
-        FEET = factory.createSingularUnit("feet", "ft", METRE, 0.3048);
-        YARD = factory.createSingularUnit("yard", "yd", METRE, 0.9144);
-        MILE = factory.createSingularUnit("mile", "mi", METRE, 1609.344);
-        NAUTICAL_MILE = factory.createSingularUnit("nautical mile", "M", METRE, 1853.184);
-        FATHOM = factory.createSingularUnit("fathom", null, FEET, 6);
-        GRAM = factory.createSingularUnit("gram", "g");
-        KILOGRAM = factory.createPrefixedUnit("kilogram", "kg", (SingularUnit) GRAM, DecimalPrefix.KILO);
-        MILLIGRAM = factory.createPrefixedUnit("milligram", "mg", (SingularUnit) GRAM, DecimalPrefix.MILLI);
-        MICROGRAM = factory.createPrefixedUnit("microgram", "μg", (SingularUnit) GRAM, DecimalPrefix.MICRO);
-        SECOND = factory.createSingularUnit("second", "s");
-        MILLISECOND = factory.createPrefixedUnit("millisecond", "ms", (SingularUnit) SECOND, DecimalPrefix.MILLI);
-        MICROSECOND = factory.createPrefixedUnit("microsecond", "μs", (SingularUnit) SECOND, DecimalPrefix.MICRO);
-        NANOSECOND = factory.createPrefixedUnit("nanosecond", "ns", (SingularUnit) SECOND, DecimalPrefix.NANO);
-        MINUTE = factory.createSingularUnit("minute", "m", SECOND, 60);
-        HOUR = factory.createSingularUnit("hour", "h", SECOND, 3600);
-        DAY = factory.createSingularUnit("day", "d", SECOND, 86400);
-        YEAR = factory.createSingularUnit("year", "yr", SECOND, 31556925.9747);
-        AMPERE = factory.createSingularUnit("ampere", "A");
-        KELVIN = factory.createSingularUnit("kelvin", "K");
-        CELSIUS = factory.createSingularUnit("celsius", "°C", KELVIN);
-        FAHRENHEIT = factory.createSingularUnit("fahrenheit", "°F", KELVIN, 1.8);
-        MOLE = factory.createSingularUnit("mole", "mol");
-        CANDELA = factory.createSingularUnit("candela", "cd");
-        SQUARE_METRE = factory.createUnitExponentiation("square metre", "m^2", METRE, 2);
-        SQUARE_KILOMETRE = factory.createUnitExponentiation("square kilometre", "km^2", KILOMETRE, 2);
-        SQUARE_MILE = factory.createUnitExponentiation("square mile", "sq mi", MILE, 2);
-        SQUARE_FEET = factory.createUnitExponentiation("square feet", "sq ft", FEET, 2);
-        HECTARE = factory.createSingularUnit("hectare", "ha", SQUARE_METRE, 1e4);
-        ACRE = factory.createSingularUnit("hectare", "ha", SQUARE_METRE, 4046.856);
-        CUBIC_METRE = factory.createUnitExponentiation("cubic metre", "m^3", METRE, 3);
-        LITRE = factory.createSingularUnit("litre", "l", CUBIC_METRE, 1e-3);
-        MILLILITRE = factory.createPrefixedUnit("millilitre", "ml", (SingularUnit) LITRE, DecimalPrefix.MILLI);
-        PINT_IMPERIAL = factory.createSingularUnit("pint", "pint", LITRE, 0.56826125);
-        GALLON_IMPERIAL = factory.createSingularUnit("gallon", "gallon", LITRE, 4.54609);
-        CUP = factory.createSingularUnit("cup", "cup", MILLILITRE, 250);
-        TABLESPOON = factory.createSingularUnit("tablespoon", "Tbsp", MILLILITRE, 15);
-        TEASPOON = factory.createSingularUnit("teaspoon", "tsp", MILLILITRE, 5);
-        RADIAN = factory.createUnitMultiplication("radian", "rad", METRE, factory.createUnitExponentiation(METRE, -1));
-        DEGREE = factory.createSingularUnit("degree", "°", RADIAN, Math.PI / 180.);
-        STERADIAN = factory.createUnitMultiplication("steradian", "sr", SQUARE_METRE, factory.createUnitExponentiation(METRE, -1));
-        HERTZ = factory.createUnitExponentiation("Hertz", "Hz", SECOND, -1);
-        METRE_PER_SECOND = factory.createUnitDivision("metre per second", "m/s", METRE, SECOND);
-        KILOMETRE_PER_SECOND = factory.createUnitDivision("kilometre per second", "km/s", KILOMETRE, SECOND);
-        KILOMETRE_PER_HOUR = factory.createUnitDivision("kilometre per hour", "km/h", KILOMETRE, HOUR);
-        MILE_PER_HOUR = factory.createUnitDivision("mile per hour", "mi/h", HOUR, HOUR);
-        KNOT = factory.createUnitDivision("knot", "kn", NAUTICAL_MILE, HOUR);
-        METRE_PER_SECOND_SQUARED = factory.createUnitDivision("metre per second squared", "m/s^2", METRE, factory.createUnitExponentiation(SECOND, 2));
-        NEWTON = factory.createUnitMultiplication("Newton", "N", KILOGRAM, METRE_PER_SECOND_SQUARED);
-        NEWTON_PER_SQUARE_METRE = factory.createUnitDivision("Newton per metre squared", "N/m^2", NEWTON, SQUARE_METRE);
-        PASCAL = factory.createSingularUnit("Pascal", "Pa", NEWTON_PER_SQUARE_METRE);
-        ATMOSPHERE = factory.createSingularUnit("atmosphere", "atm", PASCAL, 1.01325e5);
-        MILLIBAR = factory.createPrefixedUnit("millibar", "mbar", (SingularUnit) BAR, DecimalPrefix.MILLI);
-        PSI = factory.createSingularUnit("Pounds per square inch", "psi", PASCAL, 6894.757293168);
-        JOULE = factory.createUnitMultiplication("Joule", "J", NEWTON, METRE);
-        CALORIE = factory.createSingularUnit("calorie", "cal", JOULE, 4.2);
-        KILOCALORIE = factory.createPrefixedUnit("kilocalorie", "kcal", (SingularUnit) CALORIE, DecimalPrefix.KILO);
-        WATT = factory.createUnitDivision("watt", "W", JOULE, SECOND);
-        COULOMB = factory.createUnitMultiplication("coulomb", "C", SECOND, AMPERE);
-        VOLT = factory.createUnitDivision("volt", "V", WATT, AMPERE);
-        FARAD = factory.createUnitDivision("farad", "F", COULOMB, VOLT);
-        OHM = factory.createUnitDivision("ohm", "Ω", VOLT, AMPERE);
-        SIEMENS = factory.createUnitDivision("siemens", "S", AMPERE, VOLT);
-        WEBER = factory.createUnitMultiplication("weber", "Wb", VOLT, SECOND);
-        TESLA = factory.createUnitDivision("tesla", "T", WEBER, SQUARE_METRE);
-        HENRY = factory.createUnitDivision("henry", "H", WEBER, AMPERE);
-        LUMEN = factory.createUnitMultiplication("lumen", "lm", CANDELA, STERADIAN);
-        LUX = factory.createUnitDivision("lux", "lx", LUMEN, SQUARE_METRE);
-        BECQUEREL = factory.createUnitExponentiation("becquerel", "Bq", SECOND, -1);
-        GRAY = factory.createUnitDivision("gray","Gy",JOULE,KILOGRAM);
-        SIEVERT = factory.createUnitDivision("sievert","Sv",JOULE,KILOGRAM);
-        KATAL = factory.createUnitDivision("katal","kat",MOLE,SECOND);
-    }
-    */
 }
