@@ -3,6 +3,7 @@ package nl.wur.fbr.om.core.set;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.core.set.CoreUnitSet;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
@@ -22,6 +23,7 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
      * Creates a new unit and scale factory and initialises all units and scales in the core set.
      */
     public CoreUnitAndScaleFactory(){
+        // units
         Unit metre = this.createSingularUnit(CoreUnitSet.METRE,"metre", "m");
         Unit kilometre = this.createPrefixedUnit(CoreUnitSet.KILOMETRE,"kilometre", "km", (SingularUnit) metre, DecimalPrefix.KILO);
         this.createPrefixedUnit(CoreUnitSet.CENTIMETRE, "centimetre", "cm", (SingularUnit) metre, DecimalPrefix.CENTI);
@@ -50,8 +52,8 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         this.createSingularUnit(CoreUnitSet.YEAR, "year", "yr", second, 31556925.9747);
         Unit ampere = this.createSingularUnit(CoreUnitSet.AMPERE,"ampere", "A");
         Unit kelvin = this.createSingularUnit(CoreUnitSet.KELVIN,"kelvin", "K");
-        this.createSingularUnit(CoreUnitSet.CELSIUS,"celsius", "°C", kelvin);
-        this.createSingularUnit(CoreUnitSet.FAHRENHEIT,"fahrenheit", "°F", kelvin, 1.8);
+        Unit celsius = this.createSingularUnit(CoreUnitSet.CELSIUS,"celsius", "°C", kelvin);
+        Unit fahrenheit = this.createSingularUnit(CoreUnitSet.FAHRENHEIT,"fahrenheit", "°F", kelvin, 1.8);
         Unit mole = this.createSingularUnit(CoreUnitSet.MOLE,"mole", "mol");
         Unit candela = this.createSingularUnit(CoreUnitSet.CANDELA,"candela", "cd");
         Unit squareMetre = this.createUnitExponentiation(CoreUnitSet.SQUARE_METRE,"square metre", "m^2", metre, 2);
@@ -103,6 +105,11 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         this.createUnitDivision(CoreUnitSet.GRAY,"gray", "Gy", joule, kilogram);
         this.createUnitDivision(CoreUnitSet.SIEVERT,"sievert", "Sv", joule, kilogram);
         this.createUnitDivision(CoreUnitSet.KATAL,"katal", "kat", mole, second);
+
+        // scales
+        Scale kelvinScale = this.createScale(CoreScaleSet.KELVIN,"kelvin temperature scale",null,kelvin);
+        this.createScale(CoreScaleSet.CELSIUS,"celsius temperature scale",null,kelvinScale,-273.15,1.0,celsius);
+        this.createScale(CoreScaleSet.FAHRENHEIT,"fahrenheit temperature scale",null,kelvinScale,-459.67,1.8,fahrenheit);
     }
 
     /**

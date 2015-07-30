@@ -299,7 +299,7 @@ public abstract class CoreUnitSet {
 
 
     static {
-        NAMESPACE = "nl.wur.fbr.om.core.set.";
+        NAMESPACE = "nl.wur.fbr.om.core.set.unit.";
         METRE = NAMESPACE+"metre";
         KILOMETRE = NAMESPACE+"kilometre";
         CENTIMETRE = NAMESPACE+"centimetre";
