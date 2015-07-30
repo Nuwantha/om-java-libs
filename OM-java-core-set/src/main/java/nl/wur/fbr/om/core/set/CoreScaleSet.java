@@ -1,7 +1,7 @@
 package nl.wur.fbr.om.core.set;
 
 /**
- * This class contains the identifier for the core set of measurement scales. 
+ * This class contains the identifier for the core set of measurement scales.
  *
  * @author Don Willems on 30/07/15.
  */
