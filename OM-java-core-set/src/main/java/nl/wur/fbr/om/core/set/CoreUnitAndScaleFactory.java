@@ -1,5 +1,6 @@
-package nl.wur.fbr.om.core.factory;
+package nl.wur.fbr.om.core.set;
 
+import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.core.set.CoreUnitSet;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.units.SingularUnit;
