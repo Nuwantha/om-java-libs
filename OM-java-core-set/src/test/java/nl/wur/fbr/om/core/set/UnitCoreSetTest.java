@@ -3,6 +3,7 @@ package nl.wur.fbr.om.core.set;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.PrefixedUnit;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
@@ -51,6 +52,35 @@ public class UnitCoreSetTest {
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getDenominator().getIdentifier(), CoreUnitSet.SECOND);
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        }
+    }
+
+
+    /**
+     * Unit test for the creation of measurement scales from the core set.
+     */
+    @Test
+    public void testScaleCreation(){
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        try {
+            Scale kelvinScale = (Scale) factory.getUnitOrScale(CoreScaleSet.KELVIN);
+            Scale celsiusScale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS);
+            Scale fahrenheitScale = (Scale) factory.getUnitOrScale(CoreScaleSet.FAHRENHEIT);
+            Assert.assertEquals("Test scale creation",fahrenheitScale.getDefinitionScale(),kelvinScale);
+            Assert.assertEquals("Test scale creation",fahrenheitScale.getUnit().getIdentifier(),CoreUnitSet.FAHRENHEIT);
+            Assert.assertTrue("Test scale creation", fahrenheitScale.getOffsetFromDefinitionScale() == -459.67);
+            Assert.assertTrue("Test scale creation", fahrenheitScale.getFactorFromDefinitionScale() == 1.8);
+            Assert.assertEquals("Test scale creation", celsiusScale.getDefinitionScale(), kelvinScale);
+            Assert.assertEquals("Test scale creation", celsiusScale.getUnit().getIdentifier(), CoreUnitSet.CELSIUS);
+            Assert.assertTrue("Test scale creation", celsiusScale.getOffsetFromDefinitionScale() == -273.15);
+            Assert.assertTrue("Test scale creation", celsiusScale.getFactorFromDefinitionScale() == 1.0);
+            Assert.assertNull("Test scale creation", kelvinScale.getDefinitionScale());
+            Assert.assertEquals("Test scale creation", kelvinScale.getUnit().getIdentifier(), CoreUnitSet.KELVIN);
+            Assert.assertTrue("Test scale creation", kelvinScale.getOffsetFromDefinitionScale() == 0);
+            Assert.assertTrue("Test scale creation", kelvinScale.getFactorFromDefinitionScale() == 1.0);
+            Assert.assertNull("Test scale creation", kelvinScale.getSymbol());
+        } catch (UnitOrScaleCreationException e) {
+            Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
         }
     }
 }
