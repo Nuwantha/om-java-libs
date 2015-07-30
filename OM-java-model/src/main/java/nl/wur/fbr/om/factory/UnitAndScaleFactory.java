@@ -1,8 +1,6 @@
 package nl.wur.fbr.om.factory;
 
-import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
-import nl.wur.fbr.om.model.scales.Scale;
-import nl.wur.fbr.om.model.units.*;
+import nl.wur.fbr.om.model.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 
 /**
@@ -10,63 +8,10 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * Each library that implements the model classes should also provide an implementation of the
  * UnitAndScaleFactory to create instances from its own implementation classes. The factory can also be used
  * to reuse earlier created instances of units.
- * <p>
+ *
  * When using an implementation that used the OM ontology, for instance, each unit in OM has its own identifier (URI). The
  * factory should provide methods to create units from these URIs and use the data in the OM ontology to create the
- * units. If the same unit (i.e. with the same URI) is requested again, the factory should return the same unit object.
- * <p>
- * There are different types of units as there are units that are base units of a system of units, and there are units
- * that are defined as multiples or have prefixes attached. Other units are compound units consisting of a relation
- * between other units.
- * <p>
- * The different types of units are:
- *
- * <table summary="The Units types." style="border-spacing:0px;">
- *     <thead style="background-color: #BDF; font-weight: bold;">
- *          <tr><td style="width: 10%">Type</td><td>Interface</td><td style="width: 30%">description</td><td>examples</td><td style="width: 40%">methods</td></tr>
- *     </thead>
- *     <tbody style="padding:4px; margin:0px;vertical-align:top; font-size:8pt;">
- *          <tr><td>Singular Unit</td><td>{@link SingularUnit}</td><td>A unit that is a multiplication of some other unit.</td><td>inch ['] <br> Pascal [P]</td>
- *              <td>{@link #createSingularUnit()}<br>
- *                  {@link #createSingularUnit(String, String, String)}<br>
- *                  {@link #createSingularUnit(String, String)}<br>
- *                  {@link #createSingularUnit(String, String, String, Unit, double)}<br>
- *                  {@link #createSingularUnit(String, String, Unit)}<br>
- *                  {@link #createSingularUnit(String, String, String, Unit)}<br>
- *                  {@link #createSingularUnit(String, String, Unit, double)}<br>
- *                  {@link #createSingularUnit(Unit)}<br>
- *                  {@link #createSingularUnit(Unit, double)}</td></tr>
- *          <tr><td>Unit Multiple</td><td>{@link UnitMultiple}</td><td>A prefixed unit.</td><td>kilometre [km]<br> Megaparsec [Mpc]</td>
- *              <td>
- *                  {@link #createUnitMultiple(Unit, double)}<br>
- *                  {@link #createPrefixedUnit(SingularUnit, Prefix)}<br>
- *                  {@link #createPrefixedUnit(String, String, SingularUnit, Prefix)}<br>
- *                  {@link #createUnitMultiple(String, String, String, Unit, double)}<br>
- *                  {@link #createPrefixedUnit(String, String, String, SingularUnit, Prefix)}<br>
- *                  {@link #createUnitMultiple(String, Unit, double)}<br>
- *                  {@link #createPrefixedUnit(String, SingularUnit, Prefix)}<br>
- *                  {@link #createUnitMultiple(String, String, Unit, double)}
- *              </td></tr>
- *          <tr><td>Unit Multiplication</td><td>{@link UnitMultiplication}</td><td>A compound unit created by multiplying two other units.</td><td>Newton metre [N.m]</td>
- *              <td>
- *                  {@link #createUnitMultiplication(String, String, String, Unit, Unit)} <br>
- *                  {@link #createUnitMultiplication(String, String, Unit, Unit)}<br>
- *                  {@link #createUnitMultiplication(Unit, Unit)}
- *              </td></tr>
- *          <tr><td>Unit Division</td><td>{@link UnitDivision}</td><td>A compound unit created by dividing one unit by another.</td><td>metre per second [m/s]</td>
- *              <td>
- *                  {@link #createUnitDivision(String, String, String, Unit, Unit)} <br>
- *                  {@link #createUnitDivision(String, String, Unit, Unit)}<br>
- *                  {@link #createUnitDivision(Unit, Unit)}
- *              </td></tr>
- *          <tr><td>Unit Exponentiation</td><td>{@link UnitExponentiation}</td><td>A unit that is the exponentiation of another unit.</td><td>cubic metre [m^3]</td>
- *              <td>
- *                  {@link #createUnitExponentiation(String, String, String, Unit, double)} <br>
- *                  {@link #createUnitExponentiation(String, String, Unit, double)}<br>
- *                  {@link #createUnitExponentiation(Unit, double)}
- *              </td></tr>
- *     </tbody>
- * </table>
+ * units. If a the same unit (i.e. with the same URI) is requested again, the factory should return the same unit object.
  *
  * @author Don Willems on 15/07/15.
  */
@@ -92,7 +37,7 @@ public interface UnitAndScaleFactory {
      * The identifier for the unit should be generated by the factory and should be unique.
      * @return The requested singular base unit.
      */
-    public SingularUnit createSingularUnit();
+    public SingularUnit createBaseUnit();
 
     /**
      * Creates a new singular base unit.
@@ -102,7 +47,7 @@ public interface UnitAndScaleFactory {
      * @param symbol The symbol used for the unit.
      * @return The requested singular unit.
      */
-    public SingularUnit createSingularUnit(String name, String symbol);
+    public SingularUnit createBaseUnit(String name, String symbol);
 
     /**
      * Creates a new singular base unit.
@@ -112,7 +57,7 @@ public interface UnitAndScaleFactory {
      * @param symbol The symbol used for the unit.
      * @return The requested singular unit.
      */
-    public SingularUnit createSingularUnit(String identifier,String name, String symbol);
+    public SingularUnit createBaseUnit(String identifier,String name, String symbol);
 
     /**
      * Creates a new singular unit defined to be the same as the definition unit.
@@ -192,124 +137,90 @@ public interface UnitAndScaleFactory {
     public SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit, double definitionFactor);
 
     /**
-     * Creates a new Prefixed Unit that has a unit and a prefix.
-     * The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
+     * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a unit and a prefix factor which is
+     * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(Unit, double)} where the multiplication factor can
+     * {@link #createUnitMultiple(SingularUnit, double) createUnitMultiple(SingularUnit,double} where the multiplication factor can
      * be specified.
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
-     * @param singularUnit The Unit that is prefixed.
+     * @param unit The Unit that is prefixed.
      * @param prefix The prefix used for the unit.
      * @return The unit multiple.
      */
-    public PrefixedUnit createPrefixedUnit(SingularUnit singularUnit, Prefix prefix);
+    public UnitMultiple createUnitMultiple(SingularUnit unit, Prefix prefix);
 
     /**
-     * Creates a new Prefixed Unit that has a unit and a prefix.
-     * The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
+     * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a unit and a prefix factor which is
+     * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(String, Unit, double)} where the multiplication factor can
+     * {@link #createUnitMultiple(SingularUnit, double) createUnitMultiple(SingularUnit,double} where the multiplication factor can
      * be specified.
-     *
-     * The identifier for the unit should be generated by the factory and should be unique.
-     * @param name The preferred name of the unit.
-     * @param singularUnit The Unit that is prefixed.
-     * @param prefix The prefix used for the unit.
-     * @return The unit multiple.
-     */
-    public PrefixedUnit createPrefixedUnit(String name, SingularUnit singularUnit, Prefix prefix);
-
-    /**
-     * Creates a new Prefixed Unit that has a unit and a prefix.
-     * The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
-     * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(String, String, Unit, double)} where the multiplication factor can
-     * be specified.
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param singularUnit The Unit that is prefixed.
+     * @param unit The Unit that is prefixed.
      * @param prefix The prefix used for the unit.
      * @return The unit multiple.
      */
-    public PrefixedUnit createPrefixedUnit(String name, String symbol, SingularUnit singularUnit, Prefix prefix);
+    public UnitMultiple createUnitMultiple(String name, String symbol, SingularUnit unit, Prefix prefix);
 
     /**
-     * Creates a new Prefixed Unit that has a unit and a prefix.
-     * The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
+     * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a unit and a prefix factor which is
+     * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
      * prefix factor of 0.001. This method should be used for predefined prefixes. For non-predefined prefixes use:
-     * {@link #createUnitMultiple(String, String, String, Unit, double)} where the multiplication factor can
+     * {@link #createUnitMultiple(SingularUnit, double) createUnitMultiple(SingularUnit,double} where the multiplication factor can
      * be specified.
      * @param identifier A unique identifier for the unit.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param singularUnit The Unit that is prefixed.
+     * @param unit The Unit that is prefixed.
      * @param prefix The prefix used for the unit.
      * @return The unit multiple.
      */
-    public PrefixedUnit createPrefixedUnit(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix);
+    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, SingularUnit unit, Prefix prefix);
 
     /**
-     * Creates a new Unit multiple that has a unit and a multiplication factor.
-     * For custom units like 125 g, the factor will be 125 and the unit g.
-     * This method should be used for non-predefined multiplication factors. For predefined prefixes use:
-     * {@link #createPrefixedUnit(SingularUnit, Prefix)}.
-     *
+     * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a unit and a prefix factor which is
+     * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
+     * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
+     * {@link #createUnitMultiple(SingularUnit, Prefix) createUnitMultiple(SingularUnit,Prefix}.
      * The identifier for the unit should be generated by the factory and should be unique.
-     * @param unit The Unit used in the unit multiple.
-     * @param factor The multiplication factor.
+     * @param unit The Unit that is prefixed.
+     * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
      */
-    public UnitMultiple createUnitMultiple(Unit unit, double factor);
+    public UnitMultiple createUnitMultiple(SingularUnit unit, double prefixFactor);
 
     /**
-     * Creates a new Unit multiple that has a unit and a multiplication factor.
-     * For custom units like 125 g, the factor will be 125 and the unit g.
-     * This method should be used for non-predefined multiplication factors. For predefined prefixes use:
-     * {@link #createPrefixedUnit(String, SingularUnit, Prefix)}.
-     *
-     * The identifier for the unit should be generated by the factory and should be unique.
-     * @param name The preferred name of the unit.
-     * @param unit The Unit used in the unit multiple.
-     * @param factor The multiplication factor.
-     * @return The unit multiple.
-     */
-    public UnitMultiple createUnitMultiple(String name, Unit unit, double factor);
-
-    /**
-     * Creates a new Unit multiple that has a unit and a multiplication factor.
-     * For custom units like 125 g, the factor will be 125 and the unit g.
-     * This method should be used for non-predefined multiplication factors. For predefined prefixes use:
-     * {@link #createPrefixedUnit(String, String, String, SingularUnit, Prefix)}.
-     *
+     * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a unit and a prefix factor which is
+     * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
+     * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
+     * {@link #createUnitMultiple(SingularUnit, Prefix) createUnitMultiple(SingularUnit,Prefix}.
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param unit The Unit used in the unit multiple.
-     * @param factor The multiplication factor.
+     * @param unit The Unit that is prefixed.
+     * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
      */
-    public UnitMultiple createUnitMultiple(String name, String symbol, Unit unit, double factor);
+    public UnitMultiple createUnitMultiple(String name, String symbol, SingularUnit unit, double prefixFactor);
 
     /**
-     *Creates a new Unit multiple that has a unit and a multiplication factor.
-     * For custom units like 125 g, the factor will be 125 and the unit g.
-     * This method should be used for non-predefined multiplication factors. For predefined prefixes use:
-     * {@link #createPrefixedUnit(String, String, String, SingularUnit, Prefix)}.
+     * Creates a new Unit multiple. A Unit multiple (or prefixed unit) has a unit and a prefix factor which is
+     * defined by its prefix. The prefix, kilo, for example has a prefix factor of 1000 and the prefix milli, has a
+     * prefix factor of 0.001. This method should be used for non-predefined prefixes. For predefined prefixes use:
+     * {@link #createUnitMultiple(SingularUnit, Prefix) createUnitMultiple(SingularUnit,Prefix}.
      * @param identifier A unique identifier for the unit.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
-     * @param unit The Unit used in the unit multiple.
-     * @param factor The multiplication factor.
+     * @param unit The Unit that is prefixed.
+     * @param prefixFactor The prefix multiplication factor.
      * @return The unit multiple.
      */
-    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, Unit unit, double factor);
+    public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, SingularUnit unit, double prefixFactor);
 
     /**
      * Creates a unit that consists of a multiplication of two units, such as Newton metre (N.m).
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param unit1 The first unit in the unit multiplication.
      * @param unit2 The second unit in the unit multiplication.
@@ -319,7 +230,6 @@ public interface UnitAndScaleFactory {
 
     /**
      * Creates a unit that consists of a multiplication of two units, such as Newton metre (N.m).
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
@@ -343,7 +253,6 @@ public interface UnitAndScaleFactory {
     /**
      * Creates a unit that consists of a division of two units, such as metre per second (m/s).
      * In the unit metre per second, metre is the numerator unit and second is the denominator unit.
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param numerator The unit used as numerator in the unit division.
      * @param denominator The unit used as denominator in the unit division.
@@ -354,7 +263,6 @@ public interface UnitAndScaleFactory {
     /**
      * Creates a unit that consists of a division of two units, such as metre per second (m/s).
      * In the unit metre per second, metre is the numerator unit and second is the denominator unit.
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
@@ -379,7 +287,6 @@ public interface UnitAndScaleFactory {
     /**
      * Creates a unit that consists of a exponentiation of its base unit.
      * For instance cubic metre (m^2) is a unit exponentiation with base unit metre (m) and exponent 2.
-     *
      * The identifier for the unit should be generated by the factory and should be unique.
      * @param base The base unit.
      * @param exponent The exponent.
@@ -447,12 +354,12 @@ public interface UnitAndScaleFactory {
      * The identifier for the scale should be generated by the factory and should be unique.
      * @param definitionScale The definition scale.
      * @param definitionOffset The offset of this scale with the definition scale.
-     * @param definitionFactor The multiplication factor by which values in this scale need to be multiplied to
+     * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
      * @param unit The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
-    public Scale createScale(Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit);
+    public Scale createScale(Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit);
 
     /**
      * Creates a new measurement scale that is defined by a transformation (using an offset and a multiplication factor)
@@ -464,12 +371,12 @@ public interface UnitAndScaleFactory {
      * @param symbol The symbol used for the scale.
      * @param definitionScale The definition scale.
      * @param definitionOffset The offset of this scale with the definition scale.
-     * @param definitionFactor The multiplication factor by which values in this scale need to be multiplied to
+     * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
      * @param unit The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
-    public Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit);
+    public Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit);
 
     /**
      * Creates a new measurement scale that is defined by a transformation (using an offset and a multiplication factor)
@@ -481,12 +388,12 @@ public interface UnitAndScaleFactory {
      * @param symbol The symbol used for the scale.
      * @param definitionScale The definition scale.
      * @param definitionOffset The offset of this scale with the definition scale.
-     * @param definitionFactor The multiplication factor by which values in this scale need to be multiplied to
+     * @param multiplicationFactor The multiplication factor by which values in this scale need to be multiplied to
      *                             calculate the value in the definition scale.
      * @param unit The unit associated with this measurement scale, i.e. the unit in which it is expressed.
      * @return The measurement scale.
      */
-    public Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit);
+    public Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double multiplicationFactor, Unit unit);
 
 
 }
