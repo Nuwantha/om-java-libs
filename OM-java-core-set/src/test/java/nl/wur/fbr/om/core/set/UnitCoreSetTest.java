@@ -1,8 +1,10 @@
 package nl.wur.fbr.om.core.set;
 
+import nl.wur.fbr.om.core.factory.CoreUnitAndScaleFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.units.Unit;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,18 +20,16 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testUnitCoreSet() {
-        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        Units units = new Units();
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
         try {
-            units.initialiseSet(factory);
-            Assert.assertEquals("Test Unit core set creation", units.METRE.getName(), "metre");
-            Assert.assertEquals("Test Unit core set creation",units.METRE.getSymbol(),"m");
-            Assert.assertEquals("Test Unit core set creation", units.METRE.getName("en"), null);
-            Assert.assertEquals("Test Unit core set creation", units.METRE.getName(null), "metre");
-            Assert.assertTrue("Test Unit core set creation", units.METRE.getAlternativeNames().size() == 0);
-            Assert.assertTrue("Test Unit core set creation", units.METRE.getAlternativeSymbols().size() == 0);
+            Assert.assertEquals("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getName(), "metre");
+            Assert.assertEquals("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getSymbol(),"m");
+            Assert.assertEquals("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getName("en"), null);
+            Assert.assertEquals("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getName(null), "metre");
+            Assert.assertTrue("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getAlternativeNames().size() == 0);
+            Assert.assertTrue("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getAlternativeSymbols().size() == 0);
         } catch (UnitOrScaleCreationException e) {
-            Assert.fail("Exception thrown when getting a creating units in the core set. " + e);
+            Assert.fail("Exception thrown when getting a creating coreUnitSet in the core set. " + e);
         }
     }
 }
