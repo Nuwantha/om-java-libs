@@ -10,7 +10,7 @@
 
     <groupId>nl.wur.fbr.om</groupId>
     	<artifactId>om-java</artifactId>
-	<version>0.2.7</version>
+	<version>0.3.0</version>
 	<packaging>pom</packaging>
 
 	<name>A Java library for working with units and measures</name>
@@ -23,7 +23,9 @@
 
     <modules>
         <module>om-java-model</module>
-        <module>om-java-conversion</module>
+        <module>om-java-core</module>
+        <module>om-java-core-set</module>
+        <!--<module>om-java-conversion</module>-->
     </modules>
 
 	<build>

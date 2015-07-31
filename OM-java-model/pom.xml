@@ -5,15 +5,15 @@
     <parent>
 	<artifactId>om-java</artifactId>
 	<groupId>nl.wur.fbr.om</groupId>
-        <version>0.2.7</version>
+        <version>0.3.0</version>
     </parent>
 
     <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java-model</artifactId>
-    <version>0.2.7</version>
+    <version>0.3.0</version>
 	<packaging>jar</packaging>
 
-	<name>om-java Model library</name>
+	<name>OM-java Model library</name>
 	<url>http://www.fbresearch.nl/IM</url>
 
     <properties>
