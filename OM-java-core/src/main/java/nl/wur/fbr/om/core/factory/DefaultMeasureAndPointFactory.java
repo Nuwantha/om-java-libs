@@ -92,7 +92,7 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
      * Creates a new scalar point on a measurement scale with the specified numerical value on the specified measurement
      * scale and using the unit associated with that scale.
      *
-     * @param value The value of the scale.
+     * @param value The numerical value on the scale.
      * @param scale The scale in which this point is defined.
      * @return The point.
      */
