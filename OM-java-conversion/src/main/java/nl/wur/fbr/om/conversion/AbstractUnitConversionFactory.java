@@ -1,11 +1,13 @@
 package nl.wur.fbr.om.conversion;
 
 import javafx.util.Pair;
-import nl.wur.fbr.om.factory.ConversionException;
+import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.ScaleConversionException;
+import nl.wur.fbr.om.exceptions.UnitConversionException;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
-import nl.wur.fbr.om.factory.UnitConversionException;
-import nl.wur.fbr.om.model.Measure;
-import nl.wur.fbr.om.model.Unit;
+import nl.wur.fbr.om.model.measures.Measure;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.Unit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,11 +20,6 @@ import java.util.Map;
  * extend this class, or provide a new implementation of the
  * {@link UnitAndScaleConversionFactory UnitAndScaleConversionFactory}
  * interface implementing a different algorithm.
- * <p>
- * Non-abstract extensions of this abstract class need to implement two methods:
- * {@link UnitAndScaleConversionFactory#convertToUnit(Measure, Unit)  UnitAndScaleConversionFactory.convertToUnit(Measure, Unit)}
- * and {@link #convertNumericalValueToUnit(Measure, Unit) convertNumericalValueToUnit(Measure, Unit)}.
- * </p>
  * <p>
  * Each instance keeps a record of previously used unit conversions to make the conversion more efficient when
  * a particular conversion is repeated (say, metres to inches).
@@ -42,24 +39,8 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
     }
 
     /**
-     * Converts the numerical value of the specified measure to a numerical value expressed in the
-     * specified target unit. The type of numerical value cannot be specified yet as it is not required
-     * to be a scalar of type {@link java.lang.Number Number}, but may also be of custom numerical types that
-     * represent, for instance, vectors or tensors.
-     *
-     * This method should only be called from implementations of a unit and scale conversion factory, i.e.
-     * by implementations of @{link #convertToUnit convertNumericalValueToUnit(Measure,UnitOrMeasurementScale}.
-     * @param measure The measure containing the numerical value and its unit.
-     * @param targetUnit The unit to which the numerical value needs to be converted.
-     * @return The converted numerical value.
-     * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
-     */
-    protected abstract Object convertNumericalValueToUnit(Measure measure, Unit targetUnit) throws ConversionException;
-
-    /**
-     * Converts a numerical value of double type expressed in the specified source unot to a double value expressed in the
-     * specified target unit. This method should only be called from implementations of a unit conversion factory, i.e.
-     * by implementations of @{link #convertNumericalValueToUnit convertNumericalValueToUnit(Measure,UnitOrMeasurementScale}.
+     * Converts a numerical value of double type expressed in the specified source unit to a double value expressed in the
+     * specified target unit. This method should only be called from implementations of a unit conversion factory.
      * @param value The double value to be converted.
      * @param sourceUnit The source unit in which the specified double value is expressed.
      * @param targetUnit The target unit in which the return value is expressed.
@@ -68,6 +49,20 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      */
     protected double convertDoubleValueToUnit(double value, Unit sourceUnit, Unit targetUnit) throws ConversionException {
         UnitConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
+        return this.convertDoubleValue(conversion,value);
+    }
+
+    /**
+     * Converts a numerical value of double type specified in a specific scale to a double value in the
+     * specified target scale. This method should only be called from implementations of a unit conversion factory.
+     * @param value The double value to be converted.
+     * @param sourceScale The source scale in which the specified double value is specified.
+     * @param targetScale The target scale in which the return value is specified.
+     * @return The converted double value in the target scale.
+     * @throws UnitConversionException When the numerical value could not be converted to the specified target scale.
+     */
+    protected double convertDoubleValueToScale(double value, Scale sourceScale, Scale targetScale) throws ConversionException {
+        UnitConversion conversion = this.getScaleConversion(sourceScale, targetScale);
         return this.convertDoubleValue(conversion,value);
     }
 
@@ -110,6 +105,37 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         } catch (Throwable e) {
             throw new UnitConversionException("Could not convert from measure with Unit or MeasurementScale '"+
                     sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit,e);
+        }
+    }
+
+    /**
+     * Creates an instance of the internal class that is able to convert between the two scales.
+     * @param sourceScale The source scale.
+     * @param targetScale The target scale.
+     * @return The conversion instance.
+     * @throws ConversionException When no conversion could be created.
+     */
+    private UnitConversion getScaleConversion(Scale sourceScale, Scale targetScale) throws ConversionException{
+        if(sourceScale==null)
+            throw new ScaleConversionException("Could not convert measure because the unit of the measure is null."
+                    ,null, targetScale);
+        if(targetScale==null)
+            throw new ScaleConversionException("Could not convert measure with unit '"+sourceScale+
+                    "' because the target unit is null.", sourceScale,targetScale);
+
+        try {
+            // Check whether a previous conversion request with the same units was done.
+            UnitConversion conversion = conversions.get(new Pair<>(sourceScale, targetScale));
+            if(conversion!=null) return conversion;
+            conversion = conversions.get(new Pair<>(targetScale, sourceScale));
+            if(conversion!=null) return conversion.invert();
+
+            // TODO Implement unit conversion.
+
+            return conversion;
+        } catch (Throwable e) {
+            throw new ScaleConversionException("Could not convert from measure with Unit or MeasurementScale '"+
+                    sourceScale+"' to '"+targetScale+"'.", sourceScale,targetScale,e);
         }
     }
 
