@@ -7,7 +7,7 @@ import nl.wur.fbr.om.exceptions.UnitConversionException;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.scales.Scale;
-import nl.wur.fbr.om.model.units.Unit;
+import nl.wur.fbr.om.model.units.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +49,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      */
     protected double convertDoubleValueToUnit(double value, Unit sourceUnit, Unit targetUnit) throws ConversionException {
         UnitConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
+        if(conversion==null) throw new UnitConversionException("Could not convert unit "+sourceUnit+" to "+targetUnit,sourceUnit,targetUnit);
         return this.convertDoubleValue(conversion,value);
     }
 
@@ -63,6 +64,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      */
     protected double convertDoubleValueToScale(double value, Scale sourceScale, Scale targetScale) throws ConversionException {
         UnitConversion conversion = this.getScaleConversion(sourceScale, targetScale);
+        if(conversion==null) throw new ScaleConversionException("Could not convert scale "+sourceScale+" to "+targetScale,sourceScale,targetScale);
         return this.convertDoubleValue(conversion,value);
     }
 
@@ -94,12 +96,17 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
         try {
             // Check whether a previous conversion request with the same units was done.
-            UnitConversion conversion = conversions.get(new Pair<>(sourceUnit, targetUnit));
+            Pair<String,String> key = new Pair<>(sourceUnit.getIdentifier(), targetUnit.getIdentifier());
+            UnitConversion conversion = conversions.get(key);
             if(conversion!=null) return conversion;
             conversion = conversions.get(new Pair<>(targetUnit, sourceUnit));
             if(conversion!=null) return conversion.invert();
 
             // TODO Implement unit conversion.
+            UnitConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
+            UnitConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
+            conversion = new UnitConversion(tobase1.factor/tobase2.factor,0);
+            conversions.put(key,conversion);
 
             return conversion;
         } catch (Throwable e) {
@@ -117,14 +124,14 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      */
     private UnitConversion getScaleConversion(Scale sourceScale, Scale targetScale) throws ConversionException{
         if(sourceScale==null)
-            throw new ScaleConversionException("Could not convert measure because the unit of the measure is null."
+            throw new ScaleConversionException("Could not convert point because the scale of the point is null."
                     ,null, targetScale);
         if(targetScale==null)
-            throw new ScaleConversionException("Could not convert measure with unit '"+sourceScale+
-                    "' because the target unit is null.", sourceScale,targetScale);
+            throw new ScaleConversionException("Could not convert point with scale '"+sourceScale+
+                    "' because the target scale is null.", sourceScale,targetScale);
 
         try {
-            // Check whether a previous conversion request with the same units was done.
+            // Check whether a previous conversion request with the same scales was done.
             UnitConversion conversion = conversions.get(new Pair<>(sourceScale, targetScale));
             if(conversion!=null) return conversion;
             conversion = conversions.get(new Pair<>(targetScale, sourceScale));
@@ -137,6 +144,48 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             throw new ScaleConversionException("Could not convert from measure with Unit or MeasurementScale '"+
                     sourceScale+"' to '"+targetScale+"'.", sourceScale,targetScale,e);
         }
+    }
+
+    /**
+     * Determines the unit conversion (factor and offset) for the specified unit to the base unit.
+     * The factor is multiplied by the specified factor for recursive processing. The first call
+     * to this method should have a factor of 1.0.
+     * @param unit The unit whose conversion is sought.
+     * @param factor The current factor.
+     * @return The conversion to its base unit.
+     */
+    private UnitConversion getUnitConversionToBaseUnit(Unit unit, double factor){
+        if(unit instanceof SingularUnit){
+            SingularUnit singularUnit = (SingularUnit)unit;
+            if(singularUnit.getDefinitionUnit() == null){
+                return new UnitConversion(factor,0);
+            }else{
+                return this.getUnitConversionToBaseUnit(singularUnit.getDefinitionUnit(),factor*singularUnit.getDefinitionNumericalValue());
+            }
+        }
+        if(unit instanceof UnitMultiple){
+            UnitMultiple unitMultiple = (UnitMultiple)unit;
+            return this.getUnitConversionToBaseUnit(unitMultiple.getUnit(),factor*unitMultiple.getFactor());
+        }
+        if(unit instanceof UnitDivision){
+            UnitDivision unitDivision = (UnitDivision)unit;
+            double numfac = this.getUnitConversionToBaseUnit(unitDivision.getNumerator(),1.0).factor;
+            double denfac = this.getUnitConversionToBaseUnit(unitDivision.getDenominator(),1.0).factor;
+            return new UnitConversion(factor*numfac/denfac,0.0);
+        }
+        if(unit instanceof UnitMultiplication){
+            UnitMultiplication unitMultiplication = (UnitMultiplication)unit;
+            double term1fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm1(),1.0).factor;
+            double term2fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm2(),1.0).factor;
+            return new UnitConversion(factor*term1fac*term2fac,0.0);
+
+        }
+        if(unit instanceof UnitExponentiation) {
+            UnitExponentiation unitExponentiation = (UnitExponentiation)unit;
+            double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(),1.0).factor;
+            return new UnitConversion(Math.pow(efac,unitExponentiation.getExponent()),1.0);
+        }
+        return null;
     }
 
 

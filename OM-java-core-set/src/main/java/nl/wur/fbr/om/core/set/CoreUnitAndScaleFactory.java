@@ -88,7 +88,7 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         this.createPrefixedUnit(CoreUnitSet.MILLIBAR, "millibar", "mbar", (SingularUnit) bar, DecimalPrefix.MILLI);
         this.createSingularUnit(CoreUnitSet.PSI, "Pounds per square inch", "psi", pascal, 6894.757293168);
         Unit joule = this.createUnitMultiplication(CoreUnitSet.JOULE,"joule", "J", newton, metre);
-        Unit calorie = this.createSingularUnit(CoreUnitSet.CALORIE,"calorie", "cal", joule, 4.2);
+        Unit calorie = this.createSingularUnit(CoreUnitSet.CALORIE,"calorie", "cal", joule, 4.184);
         this.createPrefixedUnit(CoreUnitSet.KILOCALORIE, "kilocalorie", "kcal", (SingularUnit) calorie, DecimalPrefix.KILO);
         Unit watt = this.createUnitDivision(CoreUnitSet.WATT,"watt", "W", joule, second);
         Unit coulomb = this.createUnitMultiplication(CoreUnitSet.COULOMB,"coulomb", "C", second, ampere);
