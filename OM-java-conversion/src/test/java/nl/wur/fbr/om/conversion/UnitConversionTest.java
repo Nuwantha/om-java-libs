@@ -68,7 +68,7 @@ public class UnitConversionTest {
 
         try {
             Unit metre = (Unit) factory.getUnitOrScale(CoreUnitSet.METRE);
-            Unit kilogram = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOMETRE);
+            Unit kilogram = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOGRAM);
             Measure m1 = measureFactory.createScalarMeasure(1204,metre);
             Measure m2 = conversion.convertToUnit(m1,kilogram);
             Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);

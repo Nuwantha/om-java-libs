@@ -104,6 +104,11 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
             // TODO Dimensional Checking!!!
 
+            if(!sourceUnit.getUnitDimension().equals(targetUnit.getUnitDimension())) {
+                throw new UnitConversionException("Could not convert from unit "+sourceUnit+" to unit "+targetUnit+" " +
+                        "because the dimensions of the two units is not the same!",sourceUnit,targetUnit);
+            }
+
             Unit base1 = null;
             Unit base2 = null;
             UnitConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
@@ -174,19 +179,19 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         if(unit instanceof UnitDivision){
             UnitDivision unitDivision = (UnitDivision)unit;
             double numfac = this.getUnitConversionToBaseUnit(unitDivision.getNumerator(),1.0).factor;
-            double denfac = this.getUnitConversionToBaseUnit(unitDivision.getDenominator(),1.0).factor;
+            double denfac = this.getUnitConversionToBaseUnit(unitDivision.getDenominator(), 1.0).factor;
             return new UnitConversion(factor*numfac/denfac,0.0);
         }
         if(unit instanceof UnitMultiplication){
             UnitMultiplication unitMultiplication = (UnitMultiplication)unit;
-            double term1fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm1(),1.0).factor;
-            double term2fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm2(),1.0).factor;
+            double term1fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm1(), 1.0).factor;
+            double term2fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm2(), 1.0).factor;
             return new UnitConversion(factor*term1fac*term2fac,0.0);
 
         }
         if(unit instanceof UnitExponentiation) {
             UnitExponentiation unitExponentiation = (UnitExponentiation)unit;
-            double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(),1.0).factor;
+            double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(), 1.0).factor;
             return new UnitConversion(Math.pow(efac,unitExponentiation.getExponent()),1.0);
         }
         return null;
