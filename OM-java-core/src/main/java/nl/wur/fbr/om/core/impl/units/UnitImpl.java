@@ -213,4 +213,16 @@ public abstract class UnitImpl implements Unit {
         }
         return false;
     }
+
+    /**
+     * Returns a string representation of the unit. If a symbol is defined it returns the
+     * symbol, if not the name or identifier is returned.
+     * @return A string representation of the unit.
+     */
+    @Override
+    public String toString(){
+        if(this.getSymbol()!=null) return this.getSymbol();
+        if(this.getName()!=null) return this.getName();
+        return "Unit<"+this.getIdentifier()+">";
+    }
 }

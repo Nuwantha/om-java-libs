@@ -61,6 +61,7 @@ public class DimensionMap extends HashMap {
     public boolean equals(Object object){
         if(object instanceof DimensionMap) {
             DimensionMap map = (DimensionMap)object;
+            System.out.println("Testing for equality in dimensions: "+this.toString()+" and "+map.toString());
             Set<Dimension> dims = this.getDimensions();
             Set<Dimension> odims = map.getDimensions();
             if (dims.size() != odims.size()) return false;
@@ -72,5 +73,37 @@ public class DimensionMap extends HashMap {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns a string representation of the dimension of the unit or quantity.
+     * It is a combination of the symbols of the dimensions and the exponents.
+     * For instance, metre per second squared has two dimensions, length (L) and
+     * time (T) with exponents +1 and -2 respectively. The string representation
+     * will be D[L+1, T-2].
+     * @return The string representation.
+     */
+    @Override
+    public String toString(){
+        Set<Dimension> dims = this.getDimensions();
+        String str = "D[";
+        boolean first = true;
+        for(Dimension dim : dims){
+            String symb = dim.getSymbol();
+            int exp = this.getDimensionalExponent(dim);
+            if(exp!=0){
+                String es = "";
+                if(exp>0) {
+                    es = "+"+exp;
+                }else{
+                    es = ""+exp;
+                }
+                if(!first) str+=", ";
+                str+= symb+es;
+                first= false;
+            }
+        }
+        str+="]";
+        return str;
     }
 }
