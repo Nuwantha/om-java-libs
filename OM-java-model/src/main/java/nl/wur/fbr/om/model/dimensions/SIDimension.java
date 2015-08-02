@@ -7,7 +7,7 @@ package nl.wur.fbr.om.model.dimensions;
  * capital letter.
  * @author Don Willems on 02/08/15.
  */
-public enum SIDimension implements Dimension{
+public enum SIDimension implements Dimension {
 
     /** The dimension of length. */
     LENGTH ("Length","L"),
