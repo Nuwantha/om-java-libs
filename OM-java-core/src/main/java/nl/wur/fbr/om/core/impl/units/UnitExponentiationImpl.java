@@ -1,8 +1,12 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
+import nl.wur.fbr.om.model.dimensions.Dimension;
+import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitExponentiation;
+
+import java.util.Set;
 
 /**
  * A unit that is defined as an exponentiation of another unit.
@@ -77,5 +81,31 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
     @Override
     public double getExponent() {
         return exponent;
+    }
+
+    /**
+     * Returns the dimensions, and therefore, the dimensional exponents, in which this unit is defined.
+     * For unit exponentiations, the dimensional exponents of the base unit are multiplied by the
+     * exponent of the unit exponentiation. For instance the unit square metre has a SI dimension
+     * Length (L) with exponent 2 (from the base unit metre which has exponent 1).<br>
+     * The dimensions of the derived units are written as products of powers of the dimensions of the
+     * base units using the equations that relate the derived units to the base units or
+     * quantities. In SI the dimension of any unit U is written in the form of a dimensional product,
+     * dim U = L^&#945; M^&#946; T^&#947; l^&#948; &#920;^&#949; N^&#950; J^eta
+     * where the exponents &#945;, &#946;, &#947;, &#948;, &#949;, &#950;, and &#951;, which are generally small integers
+     * which can be positive, negative or zero, are called the dimensional exponents.
+     *
+     * @return The set of dimensions and dimensional exponents.
+     */
+    @Override
+    public DimensionMap getUnitDimension() {
+        DimensionMap map = new DimensionMap();
+        DimensionMap bmap = base.getUnitDimension();
+        Set<Dimension> dims = bmap.getDimensions();
+        for(Dimension dim : dims){
+            int exp = bmap.getDimensionalExponent(dim);
+            map.setDimensionalExponent(dim,exp*(int)getExponent());
+        }
+        return map;
     }
 }

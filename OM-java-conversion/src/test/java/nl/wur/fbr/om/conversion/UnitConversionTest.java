@@ -59,12 +59,23 @@ public class UnitConversionTest {
             Unit kilometre = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOMETRE);
             Measure m1 = measureFactory.createScalarMeasure(1204,metre);
             Measure m2 = conversion.convertToUnit(m1,kilometre);
-            Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2));
-
+            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2));
         } catch (UnitOrScaleCreationException e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
             Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+
+        try {
+            Unit metre = (Unit) factory.getUnitOrScale(CoreUnitSet.METRE);
+            Unit kilogram = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOMETRE);
+            Measure m1 = measureFactory.createScalarMeasure(1204,metre);
+            Measure m2 = conversion.convertToUnit(m1,kilogram);
+            Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+        } catch (UnitOrScaleCreationException e) {
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        } catch (ConversionException e) {
+            Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
         }
     }
 

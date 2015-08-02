@@ -3,6 +3,7 @@ package nl.wur.fbr.om.model.dimensions;
 import nl.wur.fbr.om.model.units.Unit;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * This class defines the dimension of a unit or quantity.
@@ -18,6 +19,14 @@ import java.util.HashMap;
  * @author Don Willems on 02/08/15.
  */
 public class DimensionMap extends HashMap {
+
+    /**
+     * Returns the dimensions in this map.
+     * @return The dimensions.
+     */
+    public Set<Dimension> getDimensions(){
+        return super.keySet();
+    }
 
     /**
      * Returns the dimensional exponent for the specified dimension.
@@ -40,5 +49,28 @@ public class DimensionMap extends HashMap {
             super.remove(dimension);
         }
         super.put(dimension,dimensionalExponent);
+    }
+
+    /**
+     * Tests whether the dimension maps have the same dimensions and have equal exponents.
+     * These dimensions need to be equal for instance for unit conversion.
+     * @param object The object to be tested for equality.
+     * @return True when the dimensions are equal, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof DimensionMap) {
+            DimensionMap map = (DimensionMap)object;
+            Set<Dimension> dims = this.getDimensions();
+            Set<Dimension> odims = map.getDimensions();
+            if (dims.size() != odims.size()) return false;
+            for (Dimension dim : dims) {
+                int exp = this.getDimensionalExponent(dim);
+                int oexp = this.getDimensionalExponent(dim);
+                if (exp != oexp) return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

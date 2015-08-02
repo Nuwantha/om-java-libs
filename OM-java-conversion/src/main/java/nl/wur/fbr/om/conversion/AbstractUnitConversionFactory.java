@@ -102,9 +102,13 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             conversion = conversions.get(new Pair<>(targetUnit, sourceUnit));
             if(conversion!=null) return conversion.invert();
 
-            // TODO Implement unit conversion.
+            // TODO Dimensional Checking!!!
+
+            Unit base1 = null;
+            Unit base2 = null;
             UnitConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
             UnitConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
+
             conversion = new UnitConversion(tobase1.factor/tobase2.factor,0);
             conversions.put(key,conversion);
 
