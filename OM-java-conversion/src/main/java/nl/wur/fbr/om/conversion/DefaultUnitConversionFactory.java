@@ -99,15 +99,17 @@ public class DefaultUnitConversionFactory extends AbstractUnitConversionFactory 
      *
      * @param measure1 The first measure to compare.
      * @param measure2 The second measure to compare.
+     * @param diff The maximum difference between the two values for the method to return true.
      * @return True when the measures are equal, or false otherwise.
      */
     @Override
-    public boolean equals(Measure measure1, Measure measure2) {
+    public boolean equals(Measure measure1, Measure measure2,double diff) {
         if(measure1 instanceof ScalarMeasure && measure2 instanceof ScalarMeasure){
             try {
                 double cvalue = this.convertDoubleValueToUnit(((ScalarMeasure) measure2).doubleValue(),measure2.getUnit(),measure1.getUnit());
                 double value = ((ScalarMeasure) measure1).doubleValue();
-                return cvalue == value;
+                double vdiff = Math.abs(cvalue - value);
+                return vdiff<=diff;
             } catch (ConversionException e) {
                 return false;
             }
@@ -118,7 +120,8 @@ public class DefaultUnitConversionFactory extends AbstractUnitConversionFactory 
                 if(value.length!=value2.length) return false;
                 for(int i=0;i<value.length;i++){
                     double cvalue = this.convertDoubleValueToUnit(value2[i], measure2.getUnit(), measure1.getUnit());
-                    if(cvalue!=value[i]) return false;
+                    double vdiff = Math.abs(cvalue - value[i]);
+                    if(vdiff>diff) return false;
                 }
                 return true;
             } catch (ConversionException e) {
@@ -155,26 +158,29 @@ public class DefaultUnitConversionFactory extends AbstractUnitConversionFactory 
      *
      * @param point1 The first point to compare.
      * @param point2 The second point to compare.
+     * @param diff The maximum difference between the two values for the method to return true.
      * @return True when the points are equal, or false otherwise.
      */
     @Override
-    public boolean equals(Point point1, Point point2) {
-        if(point1 instanceof ScalarMeasure && point2 instanceof ScalarMeasure){
+    public boolean equals(Point point1, Point point2,double diff) {
+        if(point1 instanceof ScalarPoint && point2 instanceof ScalarPoint){
             try {
-                double cvalue = this.convertDoubleValueToScale(((ScalarMeasure) point2).doubleValue(),point2.getScale(),point1.getScale());
-                double value = ((ScalarMeasure) point1).doubleValue();
-                return cvalue == value;
+                double cvalue = this.convertDoubleValueToScale(((ScalarPoint) point2).doubleValue(),point2.getScale(),point1.getScale());
+                double value = ((ScalarPoint) point1).doubleValue();
+                double vdiff = Math.abs(cvalue-value);
+                return vdiff<=diff;
             } catch (ConversionException e) {
                 return false;
             }
         } else if(point1 instanceof VectorMeasure && point2 instanceof VectorMeasure){
             try {
-                double[] value = ((VectorMeasure) point1).doubleValue();
-                double[] value2 = ((VectorMeasure) point2).doubleValue();
+                double[] value = ((VectorPoint) point1).doubleValue();
+                double[] value2 = ((VectorPoint) point2).doubleValue();
                 if(value.length!=value2.length) return false;
                 for(int i=0;i<value.length;i++){
                     double cvalue = this.convertDoubleValueToScale(value2[i], point2.getScale(), point1.getScale());
-                    if(cvalue!=value[i]) return false;
+                    double vdiff = Math.abs(cvalue - value[i]);
+                    if(vdiff>diff) return false;
                 }
                 return true;
             } catch (ConversionException e) {

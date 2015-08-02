@@ -5,7 +5,6 @@ import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.ScaleConversionException;
 import nl.wur.fbr.om.exceptions.UnitConversionException;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
-import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 
@@ -29,7 +28,7 @@ import java.util.Map;
 public abstract class AbstractUnitConversionFactory implements UnitAndScaleConversionFactory {
 
     /** A map with as key a tuple with the source and target unit or scale identifiers and as value the conversion instance. */
-    private Map<Pair<String,String>,UnitConversion> conversions = new HashMap<>();
+    private Map<Pair<String,String>,UnitOrScaleConversion> conversions = new HashMap<>();
 
     /**
      * The constructor to create the AbstractUnitConversionFactory.
@@ -48,7 +47,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
      */
     protected double convertDoubleValueToUnit(double value, Unit sourceUnit, Unit targetUnit) throws ConversionException {
-        UnitConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
+        UnitOrScaleConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
         if(conversion==null) throw new UnitConversionException("Could not convert unit "+sourceUnit+" to "+targetUnit,sourceUnit,targetUnit);
         return this.convertDoubleValue(conversion,value);
     }
@@ -63,7 +62,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @throws UnitConversionException When the numerical value could not be converted to the specified target scale.
      */
     protected double convertDoubleValueToScale(double value, Scale sourceScale, Scale targetScale) throws ConversionException {
-        UnitConversion conversion = this.getScaleConversion(sourceScale, targetScale);
+        UnitOrScaleConversion conversion = this.getScaleConversion(sourceScale, targetScale);
         if(conversion==null) throw new ScaleConversionException("Could not convert scale "+sourceScale+" to "+targetScale,sourceScale,targetScale);
         return this.convertDoubleValue(conversion,value);
     }
@@ -74,7 +73,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @param value The value to be converted.
      * @return The converted value.
      */
-    private final double convertDoubleValue(UnitConversion conversion,double value){
+    private final double convertDoubleValue(UnitOrScaleConversion conversion,double value){
         return conversion.convert(value);
     }
 
@@ -86,7 +85,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @return The conversion instance.
      * @throws ConversionException When no conversion could be created.
      */
-    private UnitConversion getUnitConversion(Unit sourceUnit, Unit targetUnit) throws ConversionException{
+    private UnitOrScaleConversion getUnitConversion(Unit sourceUnit, Unit targetUnit) throws ConversionException{
         if(sourceUnit==null)
             throw new UnitConversionException("Could not convert measure because the unit of the measure is null."
                     ,null, targetUnit);
@@ -97,24 +96,22 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         try {
             // Check whether a previous conversion request with the same units was done.
             Pair<String,String> key = new Pair<>(sourceUnit.getIdentifier(), targetUnit.getIdentifier());
-            UnitConversion conversion = conversions.get(key);
+            UnitOrScaleConversion conversion = conversions.get(key);
             if(conversion!=null) return conversion;
             conversion = conversions.get(new Pair<>(targetUnit, sourceUnit));
             if(conversion!=null) return conversion.invert();
 
-            // TODO Dimensional Checking!!!
-
+            // Check whether the dimension of both units is the same. If not throw exception.
             if(!sourceUnit.getUnitDimension().equals(targetUnit.getUnitDimension())) {
                 throw new UnitConversionException("Could not convert from unit "+sourceUnit+" to unit "+targetUnit+" " +
                         "because the dimensions of the two units is not the same!",sourceUnit,targetUnit);
             }
 
-            Unit base1 = null;
-            Unit base2 = null;
-            UnitConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
-            UnitConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
+            // Get conversions for both units to their base units.
+            UnitOrScaleConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
+            UnitOrScaleConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
 
-            conversion = new UnitConversion(tobase1.factor/tobase2.factor,0);
+            conversion = new UnitOrScaleConversion(tobase1.factor/tobase2.factor,0);
             conversions.put(key,conversion);
 
             return conversion;
@@ -131,7 +128,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @return The conversion instance.
      * @throws ConversionException When no conversion could be created.
      */
-    private UnitConversion getScaleConversion(Scale sourceScale, Scale targetScale) throws ConversionException{
+    private UnitOrScaleConversion getScaleConversion(Scale sourceScale, Scale targetScale) throws ConversionException{
         if(sourceScale==null)
             throw new ScaleConversionException("Could not convert point because the scale of the point is null."
                     ,null, targetScale);
@@ -141,12 +138,27 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
         try {
             // Check whether a previous conversion request with the same scales was done.
-            UnitConversion conversion = conversions.get(new Pair<>(sourceScale, targetScale));
+            UnitOrScaleConversion conversion = conversions.get(new Pair<>(sourceScale, targetScale));
             if(conversion!=null) return conversion;
             conversion = conversions.get(new Pair<>(targetScale, sourceScale));
             if(conversion!=null) return conversion.invert();
 
-            // TODO Implement unit conversion.
+            // Check whether the dimension of both scale is the same. If not throw exception.
+            if(!sourceScale.getUnit().getUnitDimension().equals(targetScale.getUnit().getUnitDimension())) {
+                throw new ScaleConversionException("Could not convert from scale "+sourceScale+" to scale "+targetScale+" " +
+                        "because the dimensions of the two units is not the same!",sourceScale,targetScale);
+            }
+
+            UnitOrScaleConversion tobase1 = this.getScaleConversionToBaseScale(sourceScale, 1.0, 0.0);
+            UnitOrScaleConversion tobase2 = this.getScaleConversionToBaseScale(targetScale,1.0,0.0);
+
+            System.out.println("conversion 1 = "+tobase1.factor+" "+tobase1.offset);
+            System.out.println("conversion 2 = "+tobase2.factor+" "+tobase2.offset);
+
+            double factor = tobase2.factor/tobase1.factor;
+            double offset = tobase2.offset-tobase1.offset*factor;
+            conversion = new UnitOrScaleConversion(factor,offset);
+            System.out.println("conversion = "+conversion.factor+" "+conversion.offset);
 
             return conversion;
         } catch (Throwable e) {
@@ -163,11 +175,11 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @param factor The current factor.
      * @return The conversion to its base unit.
      */
-    private UnitConversion getUnitConversionToBaseUnit(Unit unit, double factor){
+    private UnitOrScaleConversion getUnitConversionToBaseUnit(Unit unit, double factor){
         if(unit instanceof SingularUnit){
             SingularUnit singularUnit = (SingularUnit)unit;
             if(singularUnit.getDefinitionUnit() == null){
-                return new UnitConversion(factor,0);
+                return new UnitOrScaleConversion(factor,0);
             }else{
                 return this.getUnitConversionToBaseUnit(singularUnit.getDefinitionUnit(),factor*singularUnit.getDefinitionNumericalValue());
             }
@@ -180,28 +192,38 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             UnitDivision unitDivision = (UnitDivision)unit;
             double numfac = this.getUnitConversionToBaseUnit(unitDivision.getNumerator(),1.0).factor;
             double denfac = this.getUnitConversionToBaseUnit(unitDivision.getDenominator(), 1.0).factor;
-            return new UnitConversion(factor*numfac/denfac,0.0);
+            return new UnitOrScaleConversion(factor*numfac/denfac,0.0);
         }
         if(unit instanceof UnitMultiplication){
             UnitMultiplication unitMultiplication = (UnitMultiplication)unit;
             double term1fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm1(), 1.0).factor;
             double term2fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm2(), 1.0).factor;
-            return new UnitConversion(factor*term1fac*term2fac,0.0);
+            return new UnitOrScaleConversion(factor*term1fac*term2fac,0.0);
 
         }
         if(unit instanceof UnitExponentiation) {
             UnitExponentiation unitExponentiation = (UnitExponentiation)unit;
             double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(), 1.0).factor;
-            return new UnitConversion(Math.pow(efac,unitExponentiation.getExponent()),1.0);
+            return new UnitOrScaleConversion(Math.pow(efac,unitExponentiation.getExponent()),1.0);
         }
         return null;
     }
+
+    private UnitOrScaleConversion getScaleConversionToBaseScale(Scale scale,double factor, double offset){
+        if(scale.getDefinitionScale() == null){
+            return new UnitOrScaleConversion(factor,offset);
+        }else{
+            return this.getScaleConversionToBaseScale(scale.getDefinitionScale(), factor * scale.getFactorFromDefinitionScale(),offset+scale.getOffsetFromDefinitionScale());
+        }
+    }
+
+
 
 
     /**
      * This private class encapsulates the conversion from one unit to another.
      */
-    private class UnitConversion {
+    private class UnitOrScaleConversion {
 
         /** The multiplication factor of the unit conversion. */
         private double factor=1;
@@ -213,7 +235,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
          * @param factor The multiplication factor of the unit conversion.
          * @param offset The offset for the unit (scale) conversion.
          */
-        public UnitConversion(double factor, double offset){
+        public UnitOrScaleConversion(double factor, double offset){
             this.factor = factor;
             this.offset = offset;
         }
@@ -223,8 +245,9 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
          * can convert between yards and km.
          * @return The inverted conversion.
          */
-        public UnitConversion invert(){
-            return new UnitConversion(1/factor,-offset/factor);
+        public UnitOrScaleConversion invert(){
+            System.out.println("inverting");
+            return new UnitOrScaleConversion(1/factor,-offset/factor);
         }
 
         /**
@@ -233,7 +256,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
          * @return The converted value.
          */
         public double convert(double value){
-            return (value-offset)*factor;
+            return value*factor+offset;
         }
     }
 }
