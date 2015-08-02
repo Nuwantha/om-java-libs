@@ -57,9 +57,10 @@ public interface UnitAndScaleConversionFactory {
      * this method returns false.
      * @param measure1 The first measure to compare.
      * @param measure2 The second measure to compare.
+     * @param diff The maximum difference between the two values for the method to return true.
      * @return True when the measures are equal, or false otherwise.
      */
-    public boolean equals(Measure measure1, Measure measure2);
+    public boolean equals(Measure measure1, Measure measure2,double diff);
 
     /**
      * Compares the two points and returns a negative integer if the first point is smaller than the
@@ -82,7 +83,8 @@ public interface UnitAndScaleConversionFactory {
      * this method returns false.
      * @param point1 The first point to compare.
      * @param point2 The second point to compare.
+     * @param diff The maximum difference between the two values for the method to return true.
      * @return True when the points are equal, or false otherwise.
      */
-    public boolean equals(Point point1, Point point2);
+    public boolean equals(Point point1, Point point2,double diff);
 }
