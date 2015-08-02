@@ -10,7 +10,7 @@ import java.util.Set;
  * The dimensions of the derived units and quantities are written as products of powers of the dimensions of the
  * base quantities or units using the equations that relate the derived units or quantities to the base units or
  * quantities. In SI the dimension of any unit U is written in the form of a dimensional product,
- * dim U = L^&#945; M^&#946; T^&#947; l^&#948; &#920;^&#949; N^&#950; J^eta
+ * dim U = L<sup>&#945;</sup> M<sup>&#946;</sup> T<sup>&#947;</sup> l<sup>&#948;</sup> &#920;<sup>&#949;</sup> N<sup>&#950;</sup> J<sup>&#951;</sup>
  * where the exponents &#945;, &#946;, &#947;, &#948;, &#949;, &#950;, and &#951;, which are generally small integers
  * which can be positive, negative or zero, are called the dimensional exponents.
  * [ref:<a href="http://www.bipm.org/en/publications/si-brochure/section1-3.html">BIPM</a>] <br>
@@ -61,13 +61,12 @@ public class DimensionMap extends HashMap {
     public boolean equals(Object object){
         if(object instanceof DimensionMap) {
             DimensionMap map = (DimensionMap)object;
-            System.out.println("Testing for equality in dimensions: "+this.toString()+" and "+map.toString());
             Set<Dimension> dims = this.getDimensions();
             Set<Dimension> odims = map.getDimensions();
             if (dims.size() != odims.size()) return false;
             for (Dimension dim : dims) {
                 int exp = this.getDimensionalExponent(dim);
-                int oexp = this.getDimensionalExponent(dim);
+                int oexp = map.getDimensionalExponent(dim);
                 if (exp != oexp) return false;
             }
             return true;
