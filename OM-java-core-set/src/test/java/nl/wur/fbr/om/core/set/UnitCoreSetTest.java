@@ -1,14 +1,10 @@
 package nl.wur.fbr.om.core.set;
 
-import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.scales.Scale;
-import nl.wur.fbr.om.model.units.PrefixedUnit;
-import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitDivision;
-import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.junit.Assert;
 import org.junit.Test;
 
