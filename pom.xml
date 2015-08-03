@@ -22,10 +22,11 @@
     </properties>
 
     <modules>
-        <module>om-java-model</module>
-        <module>om-java-core</module>
-        <module>om-java-core-set</module>
+        	<module>om-java-model</module>
+        	<module>om-java-core</module>
+        	<module>om-java-core-set</module>
         <!--<module>om-java-conversion</module>-->
+		<module>om-java-om-1.8-set</module>
     </modules>
 
 	<build>
