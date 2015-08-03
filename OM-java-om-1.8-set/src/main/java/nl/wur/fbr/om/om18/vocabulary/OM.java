@@ -63,6 +63,7 @@ public class OM {
     public final static URI HAS_DEFINITION;
     public final static URI HAS_LONG_COMMENT;
     public final static URI HAS_ABBREVIATION;
+    public final static URI HAS_UNOFFICIAL_ABBREVIATION;
     public final static URI HAS_SYMBOL;
     public final static URI HAS_ALTERNATIVE_SYMBOL;
     public final static URI HAS_ALTERNATIVE_LABEL;
@@ -148,6 +149,7 @@ public class OM {
         HAS_DEFINITION = factory.createURI(NAMESPACE, "definition");
         HAS_LONG_COMMENT = factory.createURI(NAMESPACE, "longcomment");
         HAS_ABBREVIATION = factory.createURI(NAMESPACE, "abbreviation");
+        HAS_UNOFFICIAL_ABBREVIATION = factory.createURI(NAMESPACE,"unofficial_abbreviation");
         HAS_SYMBOL = factory.createURI(NAMESPACE, "symbol");
         HAS_ALTERNATIVE_SYMBOL = factory.createURI(NAMESPACE, "alternative_symbol");
         HAS_ALTERNATIVE_LABEL = factory.createURI(NAMESPACE, "alternative_label");

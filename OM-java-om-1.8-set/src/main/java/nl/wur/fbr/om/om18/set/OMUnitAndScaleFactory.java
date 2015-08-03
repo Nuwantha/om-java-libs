@@ -1,15 +1,22 @@
 package nl.wur.fbr.om.om18.set;
 
+import javafx.util.Pair;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.NamedObject;
+import nl.wur.fbr.om.model.dimensions.Dimension;
+import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.units.BaseUnit;
+import nl.wur.fbr.om.model.units.SingularUnit;
+import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.om18.vocabulary.OM;
+import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.query.MalformedQueryException;
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.QueryLanguage;
-import org.openrdf.query.TupleQueryResult;
+import org.openrdf.model.vocabulary.RDFS;
+import org.openrdf.query.*;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
@@ -20,6 +27,8 @@ import org.openrdf.sail.memory.MemoryStore;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is an extension of the {@link DefaultUnitAndScaleFactory} that includes
@@ -139,9 +148,9 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private Object createUnitOrScaleFromURI(URI uri,RepositoryConnection connection) throws UnitOrScaleCreationException {
         try {
             URI type = this.getTypeOfResource(uri,connection);
-            System.out.println("Type for <"+uri+"> is <"+type+">");
+            NamedObject nobject = null;
             if(type.equals(OM.SINGULAR_UNIT)){
-
+                nobject = this.createSingularUnit(uri,connection);
             }else if(type.equals(OM.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
 
             }else if(type.equals(OM.UNIT_MULTIPLICATION)){
@@ -166,6 +175,8 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 throw new UnitOrScaleCreationException("The type of the requested resource with identifier <"+uri+"> " +
                         "is not one of the expected unit or scale types (type = <"+type+">.");
             }
+            this.addNamesAndSymbols(uri,nobject,connection);
+            return nobject;
         } catch (MalformedQueryException e) { // SHOULD NOT HAPPEN AS THE SPARQL IS PREDEFINED.
             throw new UnitOrScaleCreationException("Could not create unit or scale <"+uri+"> because the repository" +
                     " was accessed with an invalid SPARQL query.",uri.stringValue(),e);
@@ -178,7 +189,154 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         } catch (Throwable e){
             throw new UnitOrScaleCreationException("Could not create unit or scale <"+uri+">.",uri.stringValue(),e);
         }
-        return null;
+    }
+
+    /**
+     * Adds names and symbols to the Unit or Scale.
+     * @param uri The URI of the unit or scale.
+     * @param nobject The unit or scale object to which the names and symbols are added.
+     * @param connection The connection to the repository.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws InsufficientDataException When not enough data could be found in the OM repository to create the unit.
+     */
+    private void addNamesAndSymbols(URI uri, NamedObject nobject, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
+        String sparql = "" +
+                "SELECT ?label ?prop WHERE {\n" +
+                "  {\n" +
+                "    <"+uri.stringValue()+"> <"+ RDFS.LABEL+"> ?label.\n" +
+                "    BIND (<"+ RDFS.LABEL+"> AS ?prop)\n" +
+                "  } UNION {\n" +
+                "    <"+uri.stringValue()+"> <"+OM.HAS_ALTERNATIVE_LABEL+"> ?label.\n" +
+                "    BIND (<"+OM.HAS_ALTERNATIVE_LABEL+"> AS ?prop)\n" +
+                "  } UNION {\n" +
+                "    <"+uri.stringValue()+"> <"+OM.HAS_SYMBOL+"> ?label.\n" +
+                "    BIND (<"+OM.HAS_SYMBOL+"> AS ?prop)\n" +
+                "  } UNION {\n" +
+                "    <"+uri.stringValue()+"> <"+OM.HAS_ALTERNATIVE_SYMBOL+"> ?label.\n" +
+                "    BIND (<"+OM.HAS_ALTERNATIVE_SYMBOL+"> AS ?prop)\n" +
+                "  } UNION {\n" +
+                "    <"+uri.stringValue()+"> <"+OM.HAS_UNOFFICIAL_ABBREVIATION+"> ?label.\n" +
+                "    BIND (<"+OM.HAS_UNOFFICIAL_ABBREVIATION+"> AS ?prop)\n" +
+                "  } UNION {\n" +
+                "    <"+uri.stringValue()+"> <"+OM.HAS_ABBREVIATION+"> ?label.\n" +
+                "    BIND (<"+OM.HAS_ABBREVIATION+"> AS ?prop)\n" +
+                "  }\n" +
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        List<Pair<String,String>> names = new ArrayList<>();
+        List<Pair<String,String>> altnames = new ArrayList<>();
+        List<String> symbols = new ArrayList<>();
+        while (result.hasNext()) {
+            BindingSet bs = result.next();
+            URI prop = (URI) bs.getValue("prop");
+            Literal label = (Literal) bs.getValue("label");
+            if(prop.equals(RDFS.LABEL)){
+                if(label.getLanguage()==null || label.getLanguage().equals("en")){
+                    names.add(0,new Pair<>(label.getLanguage(),label.stringValue()));
+                }else{
+                    names.add(new Pair<>(label.getLanguage(),label.stringValue()));
+                }
+            }else if(prop.equals(OM.HAS_ALTERNATIVE_LABEL)){
+                altnames.add(0,new Pair<>(label.getLanguage(),label.stringValue()));
+            }else if(prop.equals(OM.HAS_ABBREVIATION)){
+                altnames.add(new Pair<>(label.getLanguage(),label.stringValue()));
+            }else if(prop.equals(OM.HAS_UNOFFICIAL_ABBREVIATION)){
+                altnames.add(new Pair<>(label.getLanguage(),label.stringValue()));
+            }else if(prop.equals(OM.HAS_SYMBOL)){
+                symbols.add(0,label.stringValue());
+            }else if(prop.equals(OM.HAS_ALTERNATIVE_SYMBOL)){
+                symbols.add(label.stringValue());
+            }
+        }
+        for(Pair<String,String> name : names){
+            nobject.addAlternativeName(name.getValue(),name.getKey());
+        }
+        for(Pair<String,String> name : altnames){
+            nobject.addAlternativeName(name.getValue(),name.getKey());
+        }
+        for(String symbol : symbols){
+            nobject.addAlternativeSymbol(symbol);
+        }
+    }
+
+    /**
+     * Creates a singular (or base) unit from the specified URI. The type of unit should already be determined to be
+     * a singular unit.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The singular unit.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws InsufficientDataException When not enough data could be found in the OM repository to create the unit.
+     */
+    private SingularUnit createSingularUnit(URI uri, RepositoryConnection connection) throws UnitOrScaleCreationException, MalformedQueryException, RepositoryException, QueryEvaluationException {
+        String sparql = "" +
+                "SELECT ?dimension ?length ?mass ?time ?current ?temperature ?amount ?intensity ?definitionUnit ?factor WHERE {\n" +
+                "   OPTIONAL{ \n" +
+                "       <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
+                "       ?dimension <"+OM.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
+                "       ?dimension <"+OM.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
+                "       ?dimension <"+OM.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
+                "       ?dimension <"+OM.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
+                "       ?dimension <"+OM.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
+                "       ?dimension <"+OM.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
+                "       ?dimension <"+OM.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
+                "   } \n" +
+                "   OPTIONAL{ \n" +
+                "       <"+uri+"> <"+ OM.HAS_DEFINITION+ "> ?definition.\n" +
+                "       ?definition <"+ OM.HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE+ "> ?definitionUnit.\n" +
+                "       ?definition <"+ OM.HAS_NUMERICAL_VALUE+ "> ?factor.\n" +
+                "   }\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()){
+            BindingSet bs = result.next();
+            URI definitionUnitURI = null;
+            double factor = 1;
+            Dimension dimension = null;
+            if(bs.hasBinding("dimension")) {
+                int length = ((Literal) bs.getValue("length")).intValue();
+                int mass = ((Literal) bs.getValue("mass")).intValue();
+                int time = ((Literal) bs.getValue("time")).intValue();
+                int current = ((Literal) bs.getValue("current")).intValue();
+                int temperature = ((Literal) bs.getValue("temperature")).intValue();
+                int amount = ((Literal) bs.getValue("amount")).intValue();
+                int intensity = ((Literal) bs.getValue("intensity")).intValue();
+                if(length==1 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.LENGTH;
+                }else if(length==1 && mass==1 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.MASS;
+                }else if(length==0 && mass==0 && time==1 && current==0 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.TIME;
+                }else if(length==0 && mass==0 && time==0 && current==1 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.ELECTRIC_CURRENT;
+                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==1 && amount==0 && intensity==0){
+                    dimension = SIDimension.TEMPERATURE;
+                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==1 && intensity==0){
+                    dimension = SIDimension.AMOUNT;
+                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==1){
+                    dimension = SIDimension.LUMINOUS_INTENSITY;
+                }
+            }
+            if(bs.hasBinding("definitionUnit")) {
+                definitionUnitURI = (URI) bs.getValue("definitionUnit");
+            }
+            if(bs.hasBinding("factor")){
+                factor = ((Literal) bs.getValue("factor")).doubleValue();
+            }
+            if(definitionUnitURI!=null){
+                Unit defUnit = (Unit)getUnitOrScale(definitionUnitURI.stringValue());
+                SingularUnit singularUnit = this.createSingularUnit(defUnit,factor);
+                return singularUnit;
+            }else{
+                BaseUnit baseUnit = this.createBaseUnit(dimension);
+                return baseUnit;
+            }
+        }
+        throw new InsufficientDataException("Could not acquire the type of the resource identified by <"+uri+">",uri.stringValue());
     }
 
     /**
@@ -200,6 +358,6 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         if(result.hasNext()){
             return (URI)result.next().getValue("type");
         }
-        throw new UnitOrScaleCreationException("Could not acquire the type of the resource identified by <"+resourceURI+">",resourceURI.stringValue());
+        throw new InsufficientDataException("Could not acquire the type of the resource identified by <"+resourceURI+">",resourceURI.stringValue());
     }
 }
