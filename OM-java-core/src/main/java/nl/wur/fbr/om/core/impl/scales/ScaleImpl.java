@@ -322,6 +322,15 @@ public class ScaleImpl implements Scale {
     }
 
     /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    @Override
+    public void setSymbol(String symbol){
+        symbols.add(0,symbol);
+    }
+
+    /**
      * Returns a list of alternative symbols for this scale.
      * When no known alternative symbols are known an empty list is returned.
      *
