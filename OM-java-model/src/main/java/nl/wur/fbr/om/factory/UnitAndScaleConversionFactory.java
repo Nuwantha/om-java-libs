@@ -6,6 +6,7 @@ import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 
@@ -56,15 +57,15 @@ public interface UnitAndScaleConversionFactory {
      * this method returns false.
      * @param measure1 The first measure to compare.
      * @param measure2 The second measure to compare.
+     * @param diff The maximum difference between the two values for the method to return true.
      * @return True when the measures are equal, or false otherwise.
      */
-    public boolean equals(Measure measure1, Measure measure2);
+    public boolean equals(Measure measure1, Measure measure2,double diff);
 
     /**
      * Compares the two points and returns a negative integer if the first point is smaller than the
      * second point, 0 if the two points are equal, or a positive integer if the first point is
-     * larger than the second point. If the numerical values are vectors, the length of the vectors is
-     * compared.
+     * larger than the second point.
      * @param point1 The first point to compare.
      * @param point2 The second point to compare.
      * @return A negative integer if the first point is smaller than the second point, 0 if the points
@@ -72,5 +73,18 @@ public interface UnitAndScaleConversionFactory {
      * @throws ConversionException When the units of the points are in different dimensions, or if the measures
      * have incompatible numerical values, e.g. a scalar and a vector.
      */
-    public int compare(Point point1, Point point2) throws ConversionException;
+    public int compare(ScalarPoint point1, ScalarPoint point2) throws ConversionException;
+
+    /**
+     * Compares the two point and returns a true when they are equal. This includes the conversion of units,
+     * e.g. 1 K is equal to 1.8 F. If the compared points are {@link nl.wur.fbr.om.model.points.VectorPoint VectorPoints}
+     * each of the components of the vector should be equals to the same component of the other vector (including
+     * unit comversion and scale conversion). When the points cannot be compared because the units cannot be converted into each other,
+     * this method returns false.
+     * @param point1 The first point to compare.
+     * @param point2 The second point to compare.
+     * @param diff The maximum difference between the two values for the method to return true.
+     * @return True when the points are equal, or false otherwise.
+     */
+    public boolean equals(Point point1, Point point2,double diff);
 }

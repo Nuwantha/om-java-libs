@@ -6,6 +6,7 @@ import nl.wur.fbr.om.core.impl.units.SingularUnitImpl;
 import nl.wur.fbr.om.core.impl.units.UnitImpl;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.dimensions.SIDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
@@ -60,7 +61,7 @@ public class UnitTest {
     @Test
     public void testSingularUnitCreation() {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createSingularUnit("metre", "m");
+        SingularUnit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
         Assert.assertEquals("Test singular unit creation.",metre.getName(),"metre");
         Assert.assertEquals("Test singular unit creation.",metre.getSymbol(),"m");
         Assert.assertEquals("Test singular unit creation.", metre.getDefinitionUnit(), null);
@@ -91,7 +92,7 @@ public class UnitTest {
     @Test
     public void testUnitMultipleCreation() {
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createSingularUnit("metre", "m");
+        SingularUnit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
         PrefixedUnit kilometre = factory.createPrefixedUnit("kilometre", metre, DecimalPrefix.KILO);
         Assert.assertEquals("Test unit multiple creation.", kilometre.getName(), "kilometre");
         Assert.assertEquals("Test unit multiple creation.", kilometre.getSymbol(), "km");
@@ -113,7 +114,7 @@ public class UnitTest {
         } catch (Exception e) {
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         }
-        SingularUnit gram = factory.createSingularUnit("gram", "g");
+        SingularUnit gram = factory.createBaseUnit("gram", "g", SIDimension.MASS);
         UnitMultiple u100g = factory.createUnitMultiple("100 gram",gram,100);
         Assert.assertEquals("Test unit multiple creation.", u100g.getName(), "100 gram");
         Assert.assertEquals("Test unit multiple creation.", u100g.getSymbol(), "100g");
@@ -139,8 +140,8 @@ public class UnitTest {
     @Test
     public void testUnitDivisionCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createSingularUnit("metre", "m");
-        SingularUnit second = factory.createSingularUnit("second","s");
+        SingularUnit metre = factory.createBaseUnit("metre", "m",SIDimension.LENGTH);
+        SingularUnit second = factory.createBaseUnit("second", "s",SIDimension.TIME);
         UnitDivision metrePerSecond = factory.createUnitDivision("metre per second", "m/s", metre, second);
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getName(), "metre per second");
         Assert.assertEquals("Test unit division creation.", metrePerSecond.getSymbol(), "m/s");
@@ -167,7 +168,7 @@ public class UnitTest {
     @Test
     public void testUnitExponentiation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createSingularUnit("metre", "m");
+        SingularUnit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
         UnitExponentiation cubicMetre = factory.createUnitExponentiation("cubic metre", "m^3", metre, 3);
         Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getName(), "cubic metre");
         Assert.assertEquals("Test unit exponentiation creation.", cubicMetre.getSymbol(), "m^3");
@@ -188,8 +189,12 @@ public class UnitTest {
     @Test
     public void testUnitMultiplicationCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit newton = factory.createSingularUnit("Newton", "N");
-        SingularUnit metre = factory.createSingularUnit("metre", "m");
+        SingularUnit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
+        SingularUnit second = factory.createBaseUnit("second", "s",SIDimension.TIME);
+        Unit metrePerSecondSquared = factory.createUnitDivision("metre per second squared", "m/s^2", metre, factory.createUnitExponentiation(second, 2));
+        Unit gram = factory.createBaseUnit("gram", "g", SIDimension.MASS);
+        Unit kilogram = factory.createPrefixedUnit("kilogram", "kg", (SingularUnit) gram, DecimalPrefix.KILO);
+        Unit newton = factory.createUnitMultiplication("Newton", "N", kilogram, metrePerSecondSquared);
         UnitExponentiation cubicMetre = factory.createUnitExponentiation("cubic metre", "m^3", metre, 3);
         UnitMultiplication newtonCubicMetre = factory.createUnitMultiplication("Newton cubic metre", "N.m^2", newton, cubicMetre);
         Assert.assertEquals("Test unit multiplication creation.", newtonCubicMetre.getName(), "Newton cubic metre");
@@ -211,11 +216,14 @@ public class UnitTest {
     @Test
     public void testCompounfUnitCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit newton = factory.createSingularUnit("Newton", "N");
-        SingularUnit metre = factory.createSingularUnit("metre", "m");
+        SingularUnit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
+        SingularUnit second = factory.createBaseUnit("second", "s",SIDimension.TIME);
+        Unit metrePerSecondSquared = factory.createUnitDivision("metre per second squared", "m/s^2", metre, factory.createUnitExponentiation(second, 2));
+        Unit gram = factory.createBaseUnit("gram", "g", SIDimension.MASS);
+        Unit kilogram = factory.createPrefixedUnit("kilogram", "kg", (SingularUnit) gram, DecimalPrefix.KILO);
+        Unit newton = factory.createUnitMultiplication("Newton", "N", kilogram, metrePerSecondSquared);
         UnitMultiplication newtonmetre = factory.createUnitMultiplication("Newton metre", "N.m", newton, metre);
         SingularUnit pascal = factory.createSingularUnit("Pascal", "Pa", newtonmetre);
-        SingularUnit second = factory.createSingularUnit("second", "s");
         PrefixedUnit millisecond = factory.createPrefixedUnit("millisecond", second, DecimalPrefix.MILLI);
         UnitExponentiation millisecondSquared = factory.createUnitExponentiation("millisecond squared", "ms^2", millisecond,2);
         UnitDivision pascalPerMillisecondSquared = factory.createUnitDivision("Pascal per second squared","Pa/ms^2",pascal,millisecondSquared);
@@ -233,7 +241,7 @@ public class UnitTest {
     @Test
     public void testScaleCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit kelvin = factory.createSingularUnit("Kelvin", "K");
+        SingularUnit kelvin = factory.createBaseUnit("Kelvin", "K", SIDimension.TEMPERATURE);
         SingularUnit celsius = factory.createSingularUnit("Celsius", "°C", kelvin);
         SingularUnit fahrenheit = factory.createSingularUnit("Fahrenheit", "°C", kelvin, 1.8);
         Scale kelvinScale = factory.createScale("Kelvin scale", null, kelvin);

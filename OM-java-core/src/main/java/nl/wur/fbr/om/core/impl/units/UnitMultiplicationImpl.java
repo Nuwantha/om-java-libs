@@ -1,8 +1,12 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
+import nl.wur.fbr.om.model.dimensions.Dimension;
+import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitMultiplication;
+
+import java.util.Set;
 
 /**
  * The core implementation for Unit multiplication, which is a compound unit consisting of two base units that are multiplied.
@@ -77,5 +81,41 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
     @Override
     public Unit getTerm2() {
         return term2;
+    }
+
+    /**
+     * Returns the dimensions, and therefore, the dimensional exponents, in which this unit is defined.
+     * The dimension of unit multiplication are a combination of the dimensions of the <code>term1</code> and
+     * <code>term2</code> units. Each of the dimensions is added with the same exponent.
+     * For instance, the unit newton metre has the SI dimension
+     * Length (L) with exponent +2 from the <code>term1</code> unit Newton (which is metre per second squared) and from
+     * the <code>term2</code> unit metre (+1 + +1 = +2) and the SI dimension Time (T) with exponent
+     * -2 from the <code>term1</code> unit Newton.<br>
+     * The dimensions of the derived units are written as products of powers of the dimensions of the
+     * base units using the equations that relate the derived units to the base units or
+     * quantities. In SI the dimension of any unit U is written in the form of a dimensional product,
+     * dim U = L^&#945; M^&#946; T^&#947; l^&#948; &#920;^&#949; N^&#950; J^eta
+     * where the exponents &#945;, &#946;, &#947;, &#948;, &#949;, &#950;, and &#951;, which are generally small integers
+     * which can be positive, negative or zero, are called the dimensional exponents.
+     *
+     * @return The set of dimensions and dimensional exponents.
+     */
+    @Override
+    public DimensionMap getUnitDimension() {
+        DimensionMap map = new DimensionMap();
+        DimensionMap map1 = getTerm1().getUnitDimension();
+        DimensionMap map2 = getTerm2().getUnitDimension();
+        Set<Dimension> dims1 = map1.getDimensions();
+        for(Dimension dim : dims1){
+            int exp = map1.getDimensionalExponent(dim);
+            map.setDimensionalExponent(dim,exp);
+        }
+        Set<Dimension> dims2 = map2.getDimensions();
+        for(Dimension dim : dims2){
+            int exp = map2.getDimensionalExponent(dim);
+            int eee = map.getDimensionalExponent(dim);
+            map.setDimensionalExponent(dim,eee+exp);
+        }
+        return map;
     }
 }
