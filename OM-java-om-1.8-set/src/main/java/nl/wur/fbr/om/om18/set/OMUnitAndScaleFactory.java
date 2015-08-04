@@ -159,7 +159,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             }else if(type.equals(OM.UNIT_DIVISION)){
 
             }else if(type.equals(OM.UNIT_EXPONENTIATION)){
-
+                nobject = this.createUnitExponentiation(uri, connection);
             }else if(type.equals(OM.MEASUREMENT_SCALE)){
 
             }else if(type.equals(OM.CARDINAL_SCALE)){
@@ -332,6 +332,36 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             }
         }
         throw new InsufficientDataException("Could not acquire the data of the unit multiple identified by <"+uri+">",uri.stringValue());
+    }
+
+
+    /**
+     * Creates a unit exponentiation identified by the specified OM URI. The type of unit should already be
+     * determined to be a unit exponentiation.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The unit exponentiation.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit, or when the parent unit could not be created.
+     */
+    private NamedObject createUnitExponentiation(URI uri, RepositoryConnection connection) throws UnitOrScaleCreationException, MalformedQueryException, RepositoryException, QueryEvaluationException {
+        String sparql = "" +
+                "SELECT * WHERE{\n" +
+                "   <"+uri+"> <"+OM.HAS_BASE+"> ?base.\n"+
+                "   <"+uri+"> <"+OM.HAS_EXPONENT+"> ?exponent.\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()) {
+            BindingSet bs = result.next();
+            URI baseURI = (URI) bs.getValue("base");
+            int exponent = ((Literal) bs.getValue("exponent")).intValue();
+            Unit unit = (Unit) this.getUnitOrScale(baseURI.stringValue());
+            UnitExponentiation unitExponentiation = this.createUnitExponentiation(uri.stringValue(),null,null,unit,exponent);
+            return unitExponentiation;
+        }
+        throw new InsufficientDataException("Could not acquire the data of the unit exponentiation identified by <"+uri+">",uri.stringValue());
     }
 
     /**

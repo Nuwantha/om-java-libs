@@ -3,10 +3,7 @@ package nl.wur.fbr.om;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIDimension;
-import nl.wur.fbr.om.model.units.BaseUnit;
-import nl.wur.fbr.om.model.units.SingularUnit;
-import nl.wur.fbr.om.model.units.Unit;
-import nl.wur.fbr.om.model.units.UnitMultiple;
+import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -66,14 +63,34 @@ public class UnitOMSetTest {
         try {
             UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
             Unit kilometre = (Unit) factory.getUnitOrScale("kilometre");
-            Assert.assertEquals("Testing OM Singular Unit creation", "kilometre", kilometre.getName());
-            Assert.assertEquals("Testing OM Singular Unit creation", "km", kilometre.getSymbol());
-            Assert.assertEquals("Testing OM Singular Unit creation", 1000, ((UnitMultiple) kilometre).getFactor(), 0.0000001);
+            Assert.assertEquals("Testing OM Unit Multiple creation", "kilometre", kilometre.getName());
+            Assert.assertEquals("Testing OM Unit Multiple creation", "km", kilometre.getSymbol());
+            Assert.assertEquals("Testing OM Unit Multiple creation", 1000, ((UnitMultiple) kilometre).getFactor(), 0.0000001);
 
             Unit kilogram = (Unit) factory.getUnitOrScale("kilogram");
-            Assert.assertEquals("Testing OM Singular Unit creation", "kilogram", kilogram.getName());
-            Assert.assertEquals("Testing OM Singular Unit creation", "kg", kilogram.getSymbol());
-            Assert.assertEquals("Testing OM Singular Unit creation", 1000, ((UnitMultiple) kilogram).getFactor(), 0.0000001);
+            Assert.assertEquals("Testing OM Unit Multiple creation", "kilogram", kilogram.getName());
+            Assert.assertEquals("Testing OM Unit Multiple creation", "kg", kilogram.getSymbol());
+            Assert.assertEquals("Testing OM Unit Multiple creation", 1000, ((UnitMultiple) kilogram).getFactor(), 0.0000001);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create OMUnitAndScaleFactory.");
+        }
+    }
+
+    /**
+     * Tests the creation of unit exponentiations in OM.
+     */
+    @Test
+    public void testOMUnitExponentiation(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            Unit cubicMetre = (Unit) factory.getUnitOrScale("cubic_metre");
+            Assert.assertEquals("Testing OM Unit Exponentiation creation", "cubic metre", cubicMetre.getName());
+            Assert.assertEquals("Testing OM Unit Exponentiation creation", "m3", cubicMetre.getSymbol());
+            Assert.assertEquals("Testing OM Unit Exponentiation creation", 3, ((UnitExponentiation) cubicMetre).getExponent(), 0.0000001);
+            Unit metre = (Unit) factory.getUnitOrScale("metre");
+            Assert.assertEquals("Testing OM Unit Exponentiation creation", metre, ((UnitExponentiation) cubicMetre).getBase());
+
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Could not create OMUnitAndScaleFactory.");
