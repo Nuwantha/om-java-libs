@@ -2,6 +2,8 @@ package nl.wur.fbr.om;
 
 import nl.wur.fbr.om.conversion.DefaultUnitConversionFactory;
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
+import nl.wur.fbr.om.core.set.CoreUnitAndScaleFactory;
+import nl.wur.fbr.om.core.set.CoreUnitSet;
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
@@ -12,6 +14,7 @@ import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
 import org.junit.Assert;
@@ -91,6 +94,9 @@ public class OMUnitConversionTest {
         }
     }
 
+    /**
+     * Tests special case of kilogram as a base unit
+     */
     @Test
     public void testKilogramUnitConversion(){
 
@@ -104,6 +110,36 @@ public class OMUnitConversionTest {
             Measure m2 = conversion.convertToUnit(m1, kilogram);
             Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
             Assert.assertEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+    }
+
+    /**
+     * Tests conversion chaining as suggested by Hajo.
+     */
+    @Test
+    public void testConversionChaining(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+            UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+            Unit cubicmetre = (Unit) factory.getUnitOrScale("cubic_metre");
+            SingularUnit teaspoon = factory.createSingularUnit("Hajo's teaspoon","htsp",cubicmetre,4.928922e-6);
+            SingularUnit dessertspoon = factory.createSingularUnit("Hajo's dessertspoon","hdsp",teaspoon,2);
+            Unit litre = (Unit) factory.getUnitOrScale("litre");
+            Measure m1 = measureFactory.createScalarMeasure(1,dessertspoon);
+            Measure m2 = conversion.convertToUnit(m1, teaspoon);
+            Measure m3 = conversion.convertToUnit(m1,cubicmetre);
+            Measure m4 = conversion.convertToUnit(m1,litre);
+            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
+            Assert.assertEquals("Test measure equals after conversion", 2, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 9.857844e-6, ((ScalarMeasure) m3).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 0.009857844, ((ScalarMeasure) m4).doubleValue(), 0.0000001);
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
