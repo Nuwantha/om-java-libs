@@ -6,6 +6,7 @@ import nl.wur.fbr.om.model.dimensions.SIDimension;
 import nl.wur.fbr.om.model.units.BaseUnit;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
+import nl.wur.fbr.om.model.units.UnitMultiple;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -50,7 +51,29 @@ public class UnitOMSetTest {
             Unit au = (Unit) factory.getUnitOrScale("astronomical_unit");
             Assert.assertEquals("Testing OM Singular Unit creation", "astronomical unit", au.getName());
             Assert.assertEquals("Testing OM Singular Unit creation", "au", au.getSymbol());
-            Assert.assertEquals("Testing OM Singular Unit creation", 1.495978707e11, ((SingularUnit)au).getDefinitionNumericalValue(),100);
+            Assert.assertEquals("Testing OM Singular Unit creation", 1.495978707e11, ((SingularUnit) au).getDefinitionNumericalValue(), 100);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create OMUnitAndScaleFactory.");
+        }
+    }
+
+    /**
+     * This method tests the creation of unit multiples in OM.
+     */
+    @Test
+    public void testOMUnitMultiples(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            Unit kilometre = (Unit) factory.getUnitOrScale("kilometre");
+            Assert.assertEquals("Testing OM Singular Unit creation", "kilometre", kilometre.getName());
+            Assert.assertEquals("Testing OM Singular Unit creation", "km", kilometre.getSymbol());
+            Assert.assertEquals("Testing OM Singular Unit creation", 1000, ((UnitMultiple) kilometre).getFactor(), 0.0000001);
+
+            Unit kilogram = (Unit) factory.getUnitOrScale("kilogram");
+            Assert.assertEquals("Testing OM Singular Unit creation", "kilogram", kilogram.getName());
+            Assert.assertEquals("Testing OM Singular Unit creation", "kg", kilogram.getSymbol());
+            Assert.assertEquals("Testing OM Singular Unit creation", 1000, ((UnitMultiple) kilogram).getFactor(), 0.0000001);
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Could not create OMUnitAndScaleFactory.");

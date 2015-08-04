@@ -7,10 +7,11 @@ import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIDimension;
-import nl.wur.fbr.om.model.units.BaseUnit;
-import nl.wur.fbr.om.model.units.SingularUnit;
-import nl.wur.fbr.om.model.units.Unit;
+import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.vocabulary.OM;
+import nl.wur.fbr.om.prefixes.BinaryPrefix;
+import nl.wur.fbr.om.prefixes.DecimalPrefix;
+import nl.wur.fbr.om.prefixes.Prefix;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -152,7 +153,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             if(type.equals(OM.SINGULAR_UNIT)){
                 nobject = this.createSingularUnit(uri,connection);
             }else if(type.equals(OM.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
-
+                nobject = this.createUnitMultiple(uri,connection);
             }else if(type.equals(OM.UNIT_MULTIPLICATION)){
 
             }else if(type.equals(OM.UNIT_DIVISION)){
@@ -189,6 +190,150 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         } catch (Throwable e){
             throw new UnitOrScaleCreationException("Could not create unit or scale <"+uri+">.",uri.stringValue(),e);
         }
+    }
+
+    /**
+     * Creates a singular (or base) unit from the specified URI. The type of unit should already be determined to be
+     * a singular unit.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The singular unit.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit, or when the definition unit could not be created.
+     */
+    private SingularUnit createSingularUnit(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
+        String sparql = "" +
+                "SELECT ?dimension ?length ?mass ?time ?current ?temperature ?amount ?intensity ?definitionUnit ?factor WHERE {\n" +
+                "   OPTIONAL{ \n" +
+                "       <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
+                "       ?dimension <"+OM.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
+                "       ?dimension <"+OM.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
+                "       ?dimension <"+OM.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
+                "       ?dimension <"+OM.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
+                "       ?dimension <"+OM.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
+                "       ?dimension <"+OM.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
+                "       ?dimension <"+OM.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
+                "   } \n" +
+                "   OPTIONAL{ \n" +
+                "       <"+uri+"> <"+ OM.HAS_DEFINITION+ "> ?definition.\n" +
+                "       ?definition <"+ OM.HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE+ "> ?definitionUnit.\n" +
+                "       ?definition <"+ OM.HAS_NUMERICAL_VALUE+ "> ?factor.\n" +
+                "   }\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()){
+            BindingSet bs = result.next();
+            URI definitionUnitURI = null;
+            double factor = 1;
+            Dimension dimension = null;
+            if(bs.hasBinding("dimension")) {
+                int length = ((Literal) bs.getValue("length")).intValue();
+                int mass = ((Literal) bs.getValue("mass")).intValue();
+                int time = ((Literal) bs.getValue("time")).intValue();
+                int current = ((Literal) bs.getValue("current")).intValue();
+                int temperature = ((Literal) bs.getValue("temperature")).intValue();
+                int amount = ((Literal) bs.getValue("amount")).intValue();
+                int intensity = ((Literal) bs.getValue("intensity")).intValue();
+                if(length==1 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.LENGTH;
+                }else if(length==1 && mass==1 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.MASS;
+                }else if(length==0 && mass==0 && time==1 && current==0 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.TIME;
+                }else if(length==0 && mass==0 && time==0 && current==1 && temperature==0 && amount==0 && intensity==0){
+                    dimension = SIDimension.ELECTRIC_CURRENT;
+                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==1 && amount==0 && intensity==0){
+                    dimension = SIDimension.TEMPERATURE;
+                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==1 && intensity==0){
+                    dimension = SIDimension.AMOUNT;
+                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==1){
+                    dimension = SIDimension.LUMINOUS_INTENSITY;
+                }
+            }
+            if(bs.hasBinding("definitionUnit")) {
+                definitionUnitURI = (URI) bs.getValue("definitionUnit");
+            }
+            if(bs.hasBinding("factor")){
+                factor = ((Literal) bs.getValue("factor")).doubleValue();
+            }
+            if(definitionUnitURI!=null){
+                Unit defUnit = null;
+                try {
+                    defUnit = (Unit)getUnitOrScale(definitionUnitURI.stringValue());
+                } catch (UnitOrScaleCreationException e) {
+                    throw new UnitOrScaleCreationException("The definition unit with uri <"+definitionUnitURI.stringValue()+"> of the singular unit <"+uri+"> could not be created.",uri.stringValue(),e);
+                }
+                SingularUnit singularUnit = this.createSingularUnit(defUnit,factor);
+                return singularUnit;
+            }else{
+                BaseUnit baseUnit = this.createBaseUnit(dimension);
+                return baseUnit;
+            }
+        }
+        throw new InsufficientDataException("Could not acquire the data of the singular unit identified by <"+uri+">",uri.stringValue());
+    }
+
+    /**
+     * Creates a unit multiple or prefixed unit identified by the specified OM URI. The type of unit should already be
+     * determined to be a unit multiple.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The unit multiple.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit, or when the parent unit could not be created.
+     */
+    private UnitMultiple createUnitMultiple(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
+        String sparql = "" +
+                "SELECT * WHERE{\n" +
+                "   <"+uri+"> <"+OM.HAS_SINGULAR_UNIT+"> ?sunit.\n"+
+                "   <"+uri+"> <"+OM.HAS_PREFIX+"> ?prefix.\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()){
+            BindingSet bs = result.next();
+            try {
+                SingularUnit sunit = (SingularUnit) this.getUnitOrScale(bs.getValue("sunit").stringValue());
+                URI prefixuri = (URI) bs.getValue("prefix");
+                Prefix prefix = null;
+                if(prefixuri.equals(OM.YOCTO)) prefix = DecimalPrefix.YOCTO;
+                else if(prefixuri.equals(OM.ZEPTO)) prefix = DecimalPrefix.ZEPTO;
+                else if(prefixuri.equals(OM.ATTO)) prefix = DecimalPrefix.ATTO;
+                else if(prefixuri.equals(OM.PICO)) prefix = DecimalPrefix.PICO;
+                else if(prefixuri.equals(OM.FEMTO)) prefix = DecimalPrefix.FEMTO;
+                else if(prefixuri.equals(OM.NANO)) prefix = DecimalPrefix.NANO;
+                else if(prefixuri.equals(OM.MICRO)) prefix = DecimalPrefix.MICRO;
+                else if(prefixuri.equals(OM.MILLI)) prefix = DecimalPrefix.MILLI;
+                else if(prefixuri.equals(OM.CENTI)) prefix = DecimalPrefix.CENTI;
+                else if(prefixuri.equals(OM.DECI)) prefix = DecimalPrefix.DECI;
+                else if(prefixuri.equals(OM.DECA)) prefix = DecimalPrefix.DECA;
+                else if(prefixuri.equals(OM.HECTO)) prefix = DecimalPrefix.HECTO;
+                else if(prefixuri.equals(OM.KILO)) prefix = DecimalPrefix.KILO;
+                else if(prefixuri.equals(OM.MEGA)) prefix = DecimalPrefix.MEGA;
+                else if(prefixuri.equals(OM.GIGA)) prefix = DecimalPrefix.GIGA;
+                else if(prefixuri.equals(OM.TERA)) prefix = DecimalPrefix.TERA;
+                else if(prefixuri.equals(OM.PETA)) prefix = DecimalPrefix.PETA;
+                else if(prefixuri.equals(OM.EXA)) prefix = DecimalPrefix.EXA;
+                else if(prefixuri.equals(OM.ZETTA)) prefix = DecimalPrefix.ZETTA;
+                else if(prefixuri.equals(OM.YOTTA)) prefix = DecimalPrefix.YOTTA;
+                else if(prefixuri.equals(OM.KIBI)) prefix = BinaryPrefix.KIBI;
+                else if(prefixuri.equals(OM.MEBI)) prefix = BinaryPrefix.MEBI;
+                else if(prefixuri.equals(OM.GIBI)) prefix = BinaryPrefix.GIBI;
+                else if(prefixuri.equals(OM.TEBI)) prefix = BinaryPrefix.TEBI;
+                else if(prefixuri.equals(OM.PEBI)) prefix = BinaryPrefix.PEBI;
+                else if(prefixuri.equals(OM.EXBI)) prefix = BinaryPrefix.EXBI;
+                else if(prefixuri.equals(OM.ZEBI)) prefix = BinaryPrefix.ZEBI;
+                else if(prefixuri.equals(OM.YOBI)) prefix = BinaryPrefix.YOBI;
+                PrefixedUnit prefixedUnit = this.createPrefixedUnit(sunit,prefix);
+                return prefixedUnit;
+            } catch (UnitOrScaleCreationException e) {
+                throw new UnitOrScaleCreationException("The parent unit with uri <"+bs.getValue("sunit").stringValue()+"> of the unit multiple <"+uri+"> could not be created.",uri.stringValue(),e);
+            }
+        }
+        throw new InsufficientDataException("Could not acquire the data of the unit multiple identified by <"+uri+">",uri.stringValue());
     }
 
     /**
@@ -259,84 +404,6 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         for(String symbol : symbols){
             nobject.addAlternativeSymbol(symbol);
         }
-    }
-
-    /**
-     * Creates a singular (or base) unit from the specified URI. The type of unit should already be determined to be
-     * a singular unit.
-     * @param uri The URI (identifier) of the unit.
-     * @param connection The connection to the repository.
-     * @return The singular unit.
-     * @throws MalformedQueryException When the query was malformed.
-     * @throws RepositoryException When the repository could not be accessed.
-     * @throws QueryEvaluationException When the query could not be evaluated.
-     * @throws InsufficientDataException When not enough data could be found in the OM repository to create the unit.
-     */
-    private SingularUnit createSingularUnit(URI uri, RepositoryConnection connection) throws UnitOrScaleCreationException, MalformedQueryException, RepositoryException, QueryEvaluationException {
-        String sparql = "" +
-                "SELECT ?dimension ?length ?mass ?time ?current ?temperature ?amount ?intensity ?definitionUnit ?factor WHERE {\n" +
-                "   OPTIONAL{ \n" +
-                "       <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
-                "       ?dimension <"+OM.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
-                "       ?dimension <"+OM.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
-                "       ?dimension <"+OM.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
-                "       ?dimension <"+OM.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
-                "       ?dimension <"+OM.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
-                "       ?dimension <"+OM.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
-                "       ?dimension <"+OM.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
-                "   } \n" +
-                "   OPTIONAL{ \n" +
-                "       <"+uri+"> <"+ OM.HAS_DEFINITION+ "> ?definition.\n" +
-                "       ?definition <"+ OM.HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE+ "> ?definitionUnit.\n" +
-                "       ?definition <"+ OM.HAS_NUMERICAL_VALUE+ "> ?factor.\n" +
-                "   }\n"+
-                "}";
-        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
-        if(result.hasNext()){
-            BindingSet bs = result.next();
-            URI definitionUnitURI = null;
-            double factor = 1;
-            Dimension dimension = null;
-            if(bs.hasBinding("dimension")) {
-                int length = ((Literal) bs.getValue("length")).intValue();
-                int mass = ((Literal) bs.getValue("mass")).intValue();
-                int time = ((Literal) bs.getValue("time")).intValue();
-                int current = ((Literal) bs.getValue("current")).intValue();
-                int temperature = ((Literal) bs.getValue("temperature")).intValue();
-                int amount = ((Literal) bs.getValue("amount")).intValue();
-                int intensity = ((Literal) bs.getValue("intensity")).intValue();
-                if(length==1 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.LENGTH;
-                }else if(length==1 && mass==1 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.MASS;
-                }else if(length==0 && mass==0 && time==1 && current==0 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.TIME;
-                }else if(length==0 && mass==0 && time==0 && current==1 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.ELECTRIC_CURRENT;
-                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==1 && amount==0 && intensity==0){
-                    dimension = SIDimension.TEMPERATURE;
-                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==1 && intensity==0){
-                    dimension = SIDimension.AMOUNT;
-                }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==1){
-                    dimension = SIDimension.LUMINOUS_INTENSITY;
-                }
-            }
-            if(bs.hasBinding("definitionUnit")) {
-                definitionUnitURI = (URI) bs.getValue("definitionUnit");
-            }
-            if(bs.hasBinding("factor")){
-                factor = ((Literal) bs.getValue("factor")).doubleValue();
-            }
-            if(definitionUnitURI!=null){
-                Unit defUnit = (Unit)getUnitOrScale(definitionUnitURI.stringValue());
-                SingularUnit singularUnit = this.createSingularUnit(defUnit,factor);
-                return singularUnit;
-            }else{
-                BaseUnit baseUnit = this.createBaseUnit(dimension);
-                return baseUnit;
-            }
-        }
-        throw new InsufficientDataException("Could not acquire the type of the resource identified by <"+uri+">",uri.stringValue());
     }
 
     /**

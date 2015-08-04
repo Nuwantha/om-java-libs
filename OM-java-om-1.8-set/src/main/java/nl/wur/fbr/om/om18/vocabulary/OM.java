@@ -23,6 +23,38 @@ public class OM {
     public final static URI BINARY_PREFIX;
     public final static URI PREFIX;
 
+    // SI prefixes
+    public final static URI YOCTO;
+    public final static URI ZEPTO;
+    public final static URI ATTO;
+    public final static URI PICO;
+    public final static URI FEMTO;
+    public final static URI NANO;
+    public final static URI MICRO;
+    public final static URI MILLI;
+    public final static URI CENTI;
+    public final static URI DECI;
+    public final static URI DECA;
+    public final static URI HECTO;
+    public final static URI KILO;
+    public final static URI MEGA;
+    public final static URI GIGA;
+    public final static URI TERA;
+    public final static URI PETA;
+    public final static URI EXA;
+    public final static URI ZETTA;
+    public final static URI YOTTA;
+
+    // Binary prefixes
+    public final static URI KIBI;
+    public final static URI MEBI;
+    public final static URI GIBI;
+    public final static URI TEBI;
+    public final static URI PEBI;
+    public final static URI EXBI;
+    public final static URI ZEBI;
+    public final static URI YOBI;
+
     // measurement scales
     public final static URI MEASUREMENT_SCALE;
     public final static URI ORDINAL_SCALE;
@@ -90,6 +122,7 @@ public class OM {
     public final static URI HAS_DEFINITION_RELATIVE_TO;
 
 
+
 	public final static URI HAS_VALUE;
 
 	static {
@@ -108,6 +141,38 @@ public class OM {
         SI_PREFIX = factory.createURI(NAMESPACE, "SI_prefix");
         BINARY_PREFIX = factory.createURI(NAMESPACE, "Binary_prefix");
         PREFIX = factory.createURI(NAMESPACE, "Prefix");
+
+        // SI prefixes
+        YOCTO = factory.createURI(NAMESPACE,"yocto");
+        ZEPTO = factory.createURI(NAMESPACE,"zepto");
+        ATTO = factory.createURI(NAMESPACE,"atto");
+        PICO = factory.createURI(NAMESPACE,"pico");
+        FEMTO = factory.createURI(NAMESPACE,"femto");
+        NANO = factory.createURI(NAMESPACE,"nano");
+        MICRO = factory.createURI(NAMESPACE,"micro");
+        MILLI = factory.createURI(NAMESPACE,"milli");
+        CENTI = factory.createURI(NAMESPACE,"centi");
+        DECI = factory.createURI(NAMESPACE,"deci");
+        DECA = factory.createURI(NAMESPACE,"deca");
+        HECTO = factory.createURI(NAMESPACE,"hecto");
+        KILO = factory.createURI(NAMESPACE,"kilo");
+        MEGA = factory.createURI(NAMESPACE,"mega");
+        GIGA = factory.createURI(NAMESPACE,"giga");
+        TERA = factory.createURI(NAMESPACE,"tera");
+        PETA = factory.createURI(NAMESPACE,"peta");
+        EXA = factory.createURI(NAMESPACE,"exa");
+        ZETTA = factory.createURI(NAMESPACE,"zetta");
+        YOTTA = factory.createURI(NAMESPACE,"yotta");
+
+        // Binary prefixes
+        KIBI = factory.createURI(NAMESPACE,"kibi");
+        MEBI = factory.createURI(NAMESPACE,"mebi");
+        GIBI = factory.createURI(NAMESPACE,"gibi");
+        TEBI = factory.createURI(NAMESPACE,"tebi");
+        PEBI = factory.createURI(NAMESPACE,"pebi");
+        EXBI = factory.createURI(NAMESPACE,"exbi");
+        ZEBI = factory.createURI(NAMESPACE,"zebi");
+        YOBI = factory.createURI(NAMESPACE,"yobi");
 
         // measurement scales
         MEASUREMENT_SCALE = factory.createURI(NAMESPACE, "Measurement_scale");
