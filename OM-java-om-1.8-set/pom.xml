@@ -46,8 +46,17 @@
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-rio-rdfxml</artifactId>
-        <version>${sesame.version}</version>
-    </dependency>
+            <version>${sesame.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-conversion</artifactId>
+            <version>0.3.0</version>
+            <scope>test</scope>
+        </dependency>
+
 	</dependencies>
 
 	<build>
