@@ -157,7 +157,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             }else if(type.equals(OM.UNIT_MULTIPLICATION)){
                 nobject = this.createUnitMultiplication(uri, connection);
             }else if(type.equals(OM.UNIT_DIVISION)){
-
+                nobject = this.createUnitDivision(uri, connection);
             }else if(type.equals(OM.UNIT_EXPONENTIATION)){
                 nobject = this.createUnitExponentiation(uri, connection);
             }else if(type.equals(OM.MEASUREMENT_SCALE)){
@@ -339,7 +339,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
      * determined to be a unit multiplication.
      * @param uri The URI (identifier) of the unit.
      * @param connection The connection to the repository.
-     * @return The unit exponentiation.
+     * @return The unit multiplication.
      * @throws MalformedQueryException When the query was malformed.
      * @throws RepositoryException When the repository could not be accessed.
      * @throws QueryEvaluationException When the query could not be evaluated.
@@ -363,6 +363,37 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             return unit;
         }
         throw new InsufficientDataException("Could not acquire the data of the unit multiplication identified by <"+uri+">",uri.stringValue());
+    }
+
+    /**
+     * Creates a unit division identified by the specified OM URI. The type of unit should already be
+     * determined to be a unit division.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The unit division.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit,
+     * or when one of the parent units could not be created.
+     */
+    private UnitDivision createUnitDivision(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
+        String sparql = "" +
+                "SELECT * WHERE{\n" +
+                "   <"+uri+"> <"+OM.HAS_NUMERATOR+"> ?numerator.\n"+
+                "   <"+uri+"> <"+OM.HAS_DENOMINATOR+"> ?denominator.\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()) {
+            BindingSet bs = result.next();
+            URI numeratorURI = (URI) bs.getValue("numerator");
+            URI denominatorURI = (URI) bs.getValue("denominator");
+            Unit numerator = (Unit) this.getUnitOrScale(numeratorURI.stringValue());
+            Unit denominator = (Unit) this.getUnitOrScale(denominatorURI.stringValue());
+            UnitDivision unit = this.createUnitDivision(uri.stringValue(), null, null, numerator, denominator);
+            return unit;
+        }
+        throw new InsufficientDataException("Could not acquire the data of the unit division identified by <"+uri+">",uri.stringValue());
     }
 
     /**

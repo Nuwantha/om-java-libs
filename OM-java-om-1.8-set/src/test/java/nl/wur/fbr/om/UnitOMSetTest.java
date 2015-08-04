@@ -78,7 +78,7 @@ public class UnitOMSetTest {
     }
 
     /**
-     * Tests the creation of unit exponentiations in OM.
+     * Tests the creation of unit multiplications in OM.
      */
     @Test
     public void testOMUnitMultiplication(){
@@ -91,6 +91,27 @@ public class UnitOMSetTest {
             Unit metre = (Unit) factory.getUnitOrScale("metre");
             Assert.assertEquals("Testing OM Unit Multiplication creation", newton, ((UnitMultiplication) newtonMetre).getTerm1());
             Assert.assertEquals("Testing OM Unit Multiplication creation", metre, ((UnitMultiplication) newtonMetre).getTerm2());
+
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create OMUnitAndScaleFactory.");
+        }
+    }
+
+    /**
+     * Tests the creation of unit divisions in OM.
+     */
+    @Test
+    public void testOMUnitDivision(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            Unit metre_per_second = (Unit) factory.getUnitOrScale("metre_per_second-time");
+            Assert.assertEquals("Testing OM Unit Division creation", "metre per second", metre_per_second.getName());
+            Assert.assertEquals("Testing OM Unit Division creation", "m/s", metre_per_second.getSymbol());
+            Unit second = (Unit) factory.getUnitOrScale("second-time");
+            Unit metre = (Unit) factory.getUnitOrScale("metre");
+            Assert.assertEquals("Testing OM Unit Division creation", metre, ((UnitDivision) metre_per_second).getNumerator());
+            Assert.assertEquals("Testing OM Unit Division creation", second, ((UnitDivision) metre_per_second).getDenominator());
 
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();

@@ -160,7 +160,7 @@ public class OMUnitConversionTest {
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit kmh = (Unit) factory.getUnitOrScale("kilometre_per_hour");
-            Unit ms = (Unit) factory.getUnitOrScale("metre_per_second");
+            Unit ms = (Unit) factory.getUnitOrScale("metre_per_second-time");
             Measure m1 = measureFactory.createScalarMeasure(120,kmh);
             Measure m2 = conversion.convertToUnit(m1,ms);
             Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
