@@ -38,8 +38,8 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         Unit mile = this.createSingularUnit(CoreUnitSet.MILE, "mile", "mi", metre, 1609.344);
         Unit nauticalMile = this.createSingularUnit(CoreUnitSet.NAUTICAL_MILE, "nautical mile", "M", metre, 1853.184);
         this.createSingularUnit(CoreUnitSet.FATHOM, "fathom", null, feet, 6);
-        Unit gram = this.createBaseUnit(CoreUnitSet.GRAM, "gram", "g", SIDimension.MASS);
-        Unit kilogram = this.createPrefixedUnit(CoreUnitSet.KILOGRAM, "kilogram", "kg", (SingularUnit) gram, DecimalPrefix.KILO);
+        Unit gram = this.createSingularUnit(CoreUnitSet.GRAM, "gram", "g");
+        Unit kilogram = this.createPrefixedBaseUnit(CoreUnitSet.KILOGRAM, "kilogram", SIDimension.MASS, (SingularUnit)gram, DecimalPrefix.KILO);
         this.createPrefixedUnit(CoreUnitSet.MILLIGRAM, "milligram", "mg", (SingularUnit) gram, DecimalPrefix.MILLI);
         this.createPrefixedUnit(CoreUnitSet.MICROGRAM, "microgram", "μg", (SingularUnit) gram, DecimalPrefix.MICRO);
         Unit second = this.createBaseUnit(CoreUnitSet.SECOND, "second", "s", SIDimension.TIME);

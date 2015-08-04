@@ -20,15 +20,15 @@ public class DimensionTest {
      */
     @Test
     public void testCompoundUnitDimension(){UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        SingularUnit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
-        SingularUnit second = factory.createBaseUnit("second", "s",SIDimension.TIME);
+        Unit metre = factory.createBaseUnit("metre", "m", SIDimension.LENGTH);
+        Unit second = factory.createBaseUnit("second", "s",SIDimension.TIME);
         Unit metrePerSecondSquared = factory.createUnitDivision("metre per second squared", "m/s^2", metre, factory.createUnitExponentiation(second, 2));
         Unit gram = factory.createBaseUnit("gram", "g", SIDimension.MASS);
         Unit kilogram = factory.createPrefixedUnit("kilogram", "kg", (SingularUnit) gram, DecimalPrefix.KILO);
         Unit newton = factory.createUnitMultiplication("Newton", "N", kilogram, metrePerSecondSquared);
         UnitMultiplication newtonmetre = factory.createUnitMultiplication("Newton metre", "N.m", newton, metre);
         SingularUnit pascal = factory.createSingularUnit("Pascal", "Pa", newtonmetre);
-        PrefixedUnit millisecond = factory.createPrefixedUnit("millisecond", second, DecimalPrefix.MILLI);
+        PrefixedUnit millisecond = factory.createPrefixedUnit("millisecond", (SingularUnit)second, DecimalPrefix.MILLI);
         UnitExponentiation millisecondSquared = factory.createUnitExponentiation("millisecond squared", "ms^2", millisecond, 2);
         UnitDivision pascalPerMillisecondSquared = factory.createUnitDivision("Pascal per second squared", "Pa/ms^2", pascal, millisecondSquared);
 

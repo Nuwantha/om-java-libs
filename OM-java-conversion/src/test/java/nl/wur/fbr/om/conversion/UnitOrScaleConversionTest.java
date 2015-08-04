@@ -9,12 +9,15 @@ import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.dimensions.SIDimension;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
+import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -80,6 +83,26 @@ public class UnitOrScaleConversionTest {
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
             Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
+        }
+    }
+
+    @Test
+    public void testKilogramUnitConversion(){
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+
+        try {
+            Unit gram = (Unit) factory.getUnitOrScale(CoreUnitSet.GRAM);
+            Unit kilogram = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOGRAM);
+            Measure m1 = measureFactory.createScalarMeasure(1204, gram);
+            Measure m2 = conversion.convertToUnit(m1, kilogram);
+            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
+            Assert.assertEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+        } catch (UnitOrScaleCreationException e) {
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        } catch (ConversionException e) {
+            Assert.fail("Exception thrown when converting a unit. " + e);
         }
     }
 
