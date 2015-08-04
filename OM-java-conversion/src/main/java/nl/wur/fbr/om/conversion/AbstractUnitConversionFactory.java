@@ -152,13 +152,9 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             UnitOrScaleConversion tobase1 = this.getScaleConversionToBaseScale(sourceScale, 1.0, 0.0);
             UnitOrScaleConversion tobase2 = this.getScaleConversionToBaseScale(targetScale,1.0,0.0);
 
-            System.out.println("conversion 1 = "+tobase1.factor+" "+tobase1.offset);
-            System.out.println("conversion 2 = "+tobase2.factor+" "+tobase2.offset);
-
             double factor = tobase2.factor/tobase1.factor;
             double offset = tobase2.offset-tobase1.offset*factor;
             conversion = new UnitOrScaleConversion(factor,offset);
-            System.out.println("conversion = "+conversion.factor+" "+conversion.offset);
 
             return conversion;
         } catch (Throwable e) {
@@ -176,6 +172,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @return The conversion to its base unit.
      */
     private UnitOrScaleConversion getUnitConversionToBaseUnit(Unit unit, double factor){
+        if(unit instanceof BaseUnit) return new UnitOrScaleConversion(factor,0);
         if(unit instanceof SingularUnit){
             SingularUnit singularUnit = (SingularUnit)unit;
             if(singularUnit.getDefinitionUnit() == null){
