@@ -74,9 +74,9 @@ public class PrefixTest {
         Assert.assertEquals("Failure in prefix name for zepto.", DecimalPrefix.ZEPTO.getName(), "zepto");
         Assert.assertEquals("Failure in prefix symbol for zepto.", DecimalPrefix.ZEPTO.getSymbol(), "z");
         Assert.assertTrue("Failure in prefix factor for zepto.", DecimalPrefix.ZEPTO.getFactor() == 1e-21);
-        Assert.assertEquals("Failure in prefix name for yocta.", DecimalPrefix.YOCTA.getName(), "yocta");
-        Assert.assertEquals("Failure in prefix symbol for yocta.", DecimalPrefix.YOCTA.getSymbol(), "y");
-        Assert.assertTrue("Failure in prefix factor for yocta.", DecimalPrefix.YOCTA.getFactor() == 1e-24);
+        Assert.assertEquals("Failure in prefix name for yocto.", DecimalPrefix.YOCTO.getName(), "yocto");
+        Assert.assertEquals("Failure in prefix symbol for yocto.", DecimalPrefix.YOCTO.getSymbol(), "y");
+        Assert.assertTrue("Failure in prefix factor for yocto.", DecimalPrefix.YOCTO.getFactor() == 1e-24);
     }
 
     /**

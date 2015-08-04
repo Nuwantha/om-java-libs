@@ -105,7 +105,7 @@ public enum DecimalPrefix implements Prefix{
     /**
      * The yocta prefix with a multiplication factor of 1e-24.
      */
-    YOCTA ("y",-24);
+    YOCTO ("y",-24);
 
     /** The prefix multiplication factor. */
     private final double prefixFactor;
