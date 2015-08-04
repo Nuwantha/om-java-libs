@@ -8,9 +8,7 @@ import nl.wur.fbr.om.model.units.UnitDivision;
 /**
  * This class implements a base unit.
  * A Base unit is a unit for which the dimension is explicitly defined. It does not depend on the definition of
- * another unit. The metre, is for example, a base unit with dimension length (L). Base units are often, but not
- * necessarily base units in a system of units such as SI. For instance, the kilogram is defined in SI as a base
- * unit, but for this library kilogram should be defined as a prefixed unit with prefix kilo and base unit gram.
+ * another unit. The metre, is for example, a base unit with dimension length (L).
  *
  * @author Don Willems on 02/08/15.
  */
