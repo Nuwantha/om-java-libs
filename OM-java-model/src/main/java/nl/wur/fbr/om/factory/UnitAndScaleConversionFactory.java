@@ -53,7 +53,7 @@ public interface UnitAndScaleConversionFactory {
      * Compares the two measures and returns a true when they are equal. This includes the conversion of units,
      * e.g. 1 km is equal to 1000000 mm. If the compared measures are {@link nl.wur.fbr.om.model.measures.VectorMeasure VectorMeasures}
      * each of the components of the vector should be equals to the same component of the other vector (including
-     * unit comversion). When the measures cannot be compared because the units cannot be converted into each other,
+     * unit conversion). When the measures cannot be compared because the units cannot be converted into each other,
      * this method returns false.
      * @param measure1 The first measure to compare.
      * @param measure2 The second measure to compare.
@@ -79,7 +79,7 @@ public interface UnitAndScaleConversionFactory {
      * Compares the two point and returns a true when they are equal. This includes the conversion of units,
      * e.g. 1 K is equal to 1.8 F. If the compared points are {@link nl.wur.fbr.om.model.points.VectorPoint VectorPoints}
      * each of the components of the vector should be equals to the same component of the other vector (including
-     * unit comversion and scale conversion). When the points cannot be compared because the units cannot be converted into each other,
+     * unit conversion and scale conversion). When the points cannot be compared because the units cannot be converted into each other,
      * this method returns false.
      * @param point1 The first point to compare.
      * @param point2 The second point to compare.
