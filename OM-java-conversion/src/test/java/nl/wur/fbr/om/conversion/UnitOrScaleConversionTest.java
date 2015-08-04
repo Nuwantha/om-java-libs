@@ -117,6 +117,37 @@ public class UnitOrScaleConversionTest {
     }
 
     /**
+     * Tests conversion chaining as suggested by Hajo.
+     */
+    @Test
+    public void testConversionChaining(){
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+        try {
+            Unit cubicmetre = (Unit) factory.getUnitOrScale(CoreUnitSet.CUBIC_METRE);
+            SingularUnit teaspoon = factory.createSingularUnit("Hajo's teaspoon","htsp",cubicmetre,4.928922e-6);
+            SingularUnit dessertspoon = factory.createSingularUnit("Hajo's dessertspoon","hdsp",teaspoon,2);
+            Unit litre = (Unit) factory.getUnitOrScale(CoreUnitSet.LITRE);
+            Measure m1 = measureFactory.createScalarMeasure(1,dessertspoon);
+            Measure m2 = conversion.convertToUnit(m1, teaspoon);
+            Measure m3 = conversion.convertToUnit(m1,cubicmetre);
+            Measure m4 = conversion.convertToUnit(m1,litre);
+            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
+            Assert.assertEquals("Test measure equals after conversion", 2, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 9.857844e-6, ((ScalarMeasure) m3).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 0.009857844, ((ScalarMeasure) m4).doubleValue(), 0.0000001);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+    }
+
+
+    /**
      * Test for unit division conversion.
      */
     @Test
@@ -207,8 +238,6 @@ public class UnitOrScaleConversionTest {
 
             Point p1 = measureFactory.createScalarPoint(0.0,celsiusscale);
             Point p2 = conversion.convertToScale(p1,fahrenheitscale);
-            System.out.println("p1: "+((ScalarPoint)p1).doubleValue() + p1.getScale().getUnit().getSymbol()+" "+p1.getClass());
-            System.out.println("p2: "+((ScalarPoint)p2).doubleValue() + p2.getScale().getUnit().getSymbol()+" "+p2.getClass());
             Assert.assertEquals("Test measure equals after conversion", 32.0, ((ScalarPoint) p2).doubleValue(), 0.0000001);
             Assert.assertTrue("Test measure equals after conversion", conversion.equals(p1, p2,1e-12));
         } catch (UnitOrScaleCreationException e) {
