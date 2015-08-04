@@ -22,10 +22,10 @@ public enum SIDimension implements Dimension {
     ELECTRIC_CURRENT ("Electric current","I"),
 
     /** The dimension of thermodynamic temperature. */
-    TEMPERATURE ("Thermodynamic temperature","Θ"),
+    THERMODYNAMIC_TEMPERATURE("Thermodynamic temperature","Θ"),
 
     /** The dimension of amount of substance. */
-    AMOUNT ("Amount of substance","N"),
+    AMOUNT_OF_SUBSTANCE("Amount of substance","N"),
 
     /** The dimension of luminous intensity. */
     LUMINOUS_INTENSITY ("Luminous intensity","J");

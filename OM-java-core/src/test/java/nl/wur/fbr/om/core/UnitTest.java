@@ -241,7 +241,7 @@ public class UnitTest {
     @Test
     public void testScaleCreation(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
-        Unit kelvin = factory.createBaseUnit("Kelvin", "K", SIDimension.TEMPERATURE);
+        Unit kelvin = factory.createBaseUnit("Kelvin", "K", SIDimension.THERMODYNAMIC_TEMPERATURE);
         SingularUnit celsius = factory.createSingularUnit("Celsius", "°C", kelvin);
         SingularUnit fahrenheit = factory.createSingularUnit("Fahrenheit", "°C", kelvin, 1.8);
         Scale kelvinScale = factory.createScale("Kelvin scale", null, kelvin);

@@ -56,7 +56,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * Converts a numerical value of double type specified in a specific scale to a double value in the
      * specified target scale. This method should only be called from implementations of a unit conversion factory.
      * @param value The double value to be converted.
-     * @param sourceScale The source scale in which the specified double value is specified.
+     * @param sourceScale The source scale in which the double value is specified.
      * @param targetScale The target scale in which the return value is specified.
      * @return The converted double value in the target scale.
      * @throws UnitConversionException When the numerical value could not be converted to the specified target scale.
@@ -201,7 +201,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         if(unit instanceof UnitExponentiation) {
             UnitExponentiation unitExponentiation = (UnitExponentiation)unit;
             double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(), 1.0).factor;
-            return new UnitOrScaleConversion(Math.pow(efac,unitExponentiation.getExponent()),1.0);
+            return new UnitOrScaleConversion(factor*Math.pow(efac,unitExponentiation.getExponent()),1.0);
         }
         return null;
     }

@@ -51,7 +51,6 @@ public class UnitCoreSetTest {
         }
     }
 
-
     /**
      * Unit test for the creation of measurement scales from the core set.
      */

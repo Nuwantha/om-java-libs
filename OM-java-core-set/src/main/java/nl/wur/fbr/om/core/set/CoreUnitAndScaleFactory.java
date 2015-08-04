@@ -51,10 +51,10 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         this.createSingularUnit(CoreUnitSet.DAY, "day", "d", second, 86400);
         this.createSingularUnit(CoreUnitSet.YEAR, "year", "yr", second, 31556925.9747);
         Unit ampere = this.createBaseUnit(CoreUnitSet.AMPERE, "ampere", "A",SIDimension.ELECTRIC_CURRENT);
-        Unit kelvin = this.createBaseUnit(CoreUnitSet.KELVIN, "kelvin", "K", SIDimension.TEMPERATURE);
+        Unit kelvin = this.createBaseUnit(CoreUnitSet.KELVIN, "kelvin", "K", SIDimension.THERMODYNAMIC_TEMPERATURE);
         Unit celsius = this.createSingularUnit(CoreUnitSet.CELSIUS,"celsius", "°C", kelvin);
         Unit fahrenheit = this.createSingularUnit(CoreUnitSet.FAHRENHEIT,"fahrenheit", "°F", kelvin, 1.8);
-        Unit mole = this.createBaseUnit(CoreUnitSet.MOLE, "mole", "mol", SIDimension.AMOUNT);
+        Unit mole = this.createBaseUnit(CoreUnitSet.MOLE, "mole", "mol", SIDimension.AMOUNT_OF_SUBSTANCE);
         Unit candela = this.createBaseUnit(CoreUnitSet.CANDELA, "candela", "cd", SIDimension.LUMINOUS_INTENSITY);
         Unit squareMetre = this.createUnitExponentiation(CoreUnitSet.SQUARE_METRE,"square metre", "m^2", metre, 2);
         this.createUnitExponentiation(CoreUnitSet.SQUARE_KILOMETRE,"square kilometre", "km^2", kilometre, 2);
