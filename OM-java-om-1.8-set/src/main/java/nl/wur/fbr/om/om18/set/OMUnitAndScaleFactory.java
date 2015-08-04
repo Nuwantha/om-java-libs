@@ -155,7 +155,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             }else if(type.equals(OM.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
                 nobject = this.createUnitMultiple(uri,connection);
             }else if(type.equals(OM.UNIT_MULTIPLICATION)){
-
+                nobject = this.createUnitMultiplication(uri, connection);
             }else if(type.equals(OM.UNIT_DIVISION)){
 
             }else if(type.equals(OM.UNIT_EXPONENTIATION)){
@@ -334,6 +334,36 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         throw new InsufficientDataException("Could not acquire the data of the unit multiple identified by <"+uri+">",uri.stringValue());
     }
 
+    /**
+     * Creates a unit multiplication identified by the specified OM URI. The type of unit should already be
+     * determined to be a unit multiplication.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The unit exponentiation.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit,
+     * or when one of the parent units could not be created.
+     */
+    private UnitMultiplication createUnitMultiplication(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
+        String sparql = "" +
+                "SELECT * WHERE{\n" +
+                "   <"+uri+"> <"+OM.HAS_TERM1+"> ?term1.\n"+
+                "   <"+uri+"> <"+OM.HAS_TERM2+"> ?term2.\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()) {
+            BindingSet bs = result.next();
+            URI term1URI = (URI) bs.getValue("term1");
+            URI term2URI = (URI) bs.getValue("term2");
+            Unit term1 = (Unit) this.getUnitOrScale(term1URI.stringValue());
+            Unit term2 = (Unit) this.getUnitOrScale(term2URI.stringValue());
+            UnitMultiplication unit = this.createUnitMultiplication(uri.stringValue(), null, null, term1, term2);
+            return unit;
+        }
+        throw new InsufficientDataException("Could not acquire the data of the unit multiplication identified by <"+uri+">",uri.stringValue());
+    }
 
     /**
      * Creates a unit exponentiation identified by the specified OM URI. The type of unit should already be
@@ -346,7 +376,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
      * @throws QueryEvaluationException When the query could not be evaluated.
      * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit, or when the parent unit could not be created.
      */
-    private NamedObject createUnitExponentiation(URI uri, RepositoryConnection connection) throws UnitOrScaleCreationException, MalformedQueryException, RepositoryException, QueryEvaluationException {
+    private UnitExponentiation createUnitExponentiation(URI uri, RepositoryConnection connection) throws UnitOrScaleCreationException, MalformedQueryException, RepositoryException, QueryEvaluationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
                 "   <"+uri+"> <"+OM.HAS_BASE+"> ?base.\n"+

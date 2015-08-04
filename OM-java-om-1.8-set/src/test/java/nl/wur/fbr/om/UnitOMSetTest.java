@@ -81,6 +81,27 @@ public class UnitOMSetTest {
      * Tests the creation of unit exponentiations in OM.
      */
     @Test
+    public void testOMUnitMultiplication(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            Unit newtonMetre = (Unit) factory.getUnitOrScale("newton_metre");
+            Assert.assertEquals("Testing OM Unit Multiplication creation", "newton metre", newtonMetre.getName());
+            Assert.assertEquals("Testing OM Unit Multiplication creation", "N m", newtonMetre.getSymbol());
+            Unit newton = (Unit) factory.getUnitOrScale("newton");
+            Unit metre = (Unit) factory.getUnitOrScale("metre");
+            Assert.assertEquals("Testing OM Unit Multiplication creation", newton, ((UnitMultiplication) newtonMetre).getTerm1());
+            Assert.assertEquals("Testing OM Unit Multiplication creation", metre, ((UnitMultiplication) newtonMetre).getTerm2());
+
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create OMUnitAndScaleFactory.");
+        }
+    }
+
+    /**
+     * Tests the creation of unit exponentiations in OM.
+     */
+    @Test
     public void testOMUnitExponentiation(){
         try {
             UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
