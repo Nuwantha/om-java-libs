@@ -50,14 +50,15 @@ public interface UnitAndScaleConversionFactory {
     public int compare(ScalarMeasure measure1, ScalarMeasure measure2) throws ConversionException;
 
     /**
-     * Compares the two measures and returns a true when they are equal. This includes the conversion of units,
+     * Compares the two measures and returns true when they are equal. This includes the conversion of units,
      * e.g. 1 km is equal to 1000000 mm. If the compared measures are {@link nl.wur.fbr.om.model.measures.VectorMeasure VectorMeasures}
      * each of the components of the vector should be equals to the same component of the other vector (including
      * unit conversion). When the measures cannot be compared because the units cannot be converted into each other,
      * this method returns false.
      * @param measure1 The first measure to compare.
      * @param measure2 The second measure to compare.
-     * @param diff The maximum difference between the two values for the method to return true.
+     * @param diff The maximum difference between the two values for the method to return true, e.g. if the first measure
+     *             has value 12.002 and the second 12.003 and diff is 0.002, this method will return true.
      * @return True when the measures are equal, or false otherwise.
      */
     public boolean equals(Measure measure1, Measure measure2,double diff);
@@ -76,14 +77,15 @@ public interface UnitAndScaleConversionFactory {
     public int compare(ScalarPoint point1, ScalarPoint point2) throws ConversionException;
 
     /**
-     * Compares the two point and returns a true when they are equal. This includes the conversion of units,
+     * Compares the two points and returns true when they are equal. This includes the conversion of units,
      * e.g. 1 K is equal to 1.8 F. If the compared points are {@link nl.wur.fbr.om.model.points.VectorPoint VectorPoints}
      * each of the components of the vector should be equals to the same component of the other vector (including
      * unit conversion and scale conversion). When the points cannot be compared because the units cannot be converted into each other,
      * this method returns false.
      * @param point1 The first point to compare.
      * @param point2 The second point to compare.
-     * @param diff The maximum difference between the two values for the method to return true.
+     * @param diff The maximum difference between the two values for the method to return true, e.g. if the first point
+     *             has value 12.002 and the second 12.003 and diff is 0.002, this method will return true.
      * @return True when the points are equal, or false otherwise.
      */
     public boolean equals(Point point1, Point point2,double diff);
