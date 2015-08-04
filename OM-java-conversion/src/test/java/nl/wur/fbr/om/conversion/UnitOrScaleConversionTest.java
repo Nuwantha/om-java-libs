@@ -46,8 +46,10 @@ public class UnitOrScaleConversionTest {
 
 
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
     }
@@ -68,8 +70,10 @@ public class UnitOrScaleConversionTest {
             Measure m2 = conversion.convertToUnit(m1,kilometre);
             Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
 
@@ -80,6 +84,7 @@ public class UnitOrScaleConversionTest {
             Measure m2 = conversion.convertToUnit(m1,kilogram);
             Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
             Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
@@ -100,8 +105,10 @@ public class UnitOrScaleConversionTest {
             Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
             Assert.assertEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
     }
@@ -124,8 +131,10 @@ public class UnitOrScaleConversionTest {
             Assert.assertEquals("Test measure equals after conversion", 33.33333333333333, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
 
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
     }
@@ -148,8 +157,10 @@ public class UnitOrScaleConversionTest {
             Assert.assertEquals("Test measure equals after conversion", 0.0286806883, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
 
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
     }
@@ -172,8 +183,10 @@ public class UnitOrScaleConversionTest {
             Assert.assertEquals("Test measure equals after conversion",1.0, ((ScalarMeasure)m2).doubleValue(),0.0000001);
 
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
     }
@@ -196,8 +209,10 @@ public class UnitOrScaleConversionTest {
             Assert.assertEquals("Test measure equals after conversion", 32.0, ((ScalarPoint) p2).doubleValue(), 0.0000001);
             Assert.assertTrue("Test measure equals after conversion", conversion.equals(p1, p2,1e-12));
         } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
         } catch (ConversionException e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when converting a scale. " + e);
         }
     }
