@@ -91,6 +91,9 @@ public class UnitOrScaleConversionTest {
         }
     }
 
+    /**
+     * Tests the special unit kilogram as a base unit.
+     */
     @Test
     public void testKilogramUnitConversion(){
         UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();

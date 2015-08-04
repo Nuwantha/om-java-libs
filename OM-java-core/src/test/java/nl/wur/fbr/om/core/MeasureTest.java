@@ -84,7 +84,7 @@ public class MeasureTest {
     public void testPointCreation(){
         MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
         UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit kelvin = unitfactory.createBaseUnit("Kelvin", "K", SIDimension.TEMPERATURE);
+        Unit kelvin = unitfactory.createBaseUnit("Kelvin", "K", SIDimension.THERMODYNAMIC_TEMPERATURE);
         Unit celsius = unitfactory.createSingularUnit("Celsius", "°C", kelvin, 1.0);
         Scale kelvinScale = unitfactory.createScale("kelvin scale", null, kelvin);
         Scale celsiusScale = unitfactory.createScale("celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
