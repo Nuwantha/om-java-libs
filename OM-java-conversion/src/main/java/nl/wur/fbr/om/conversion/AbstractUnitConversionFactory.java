@@ -201,7 +201,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         if(unit instanceof UnitExponentiation) {
             UnitExponentiation unitExponentiation = (UnitExponentiation)unit;
             double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(), 1.0).factor;
-            return new UnitOrScaleConversion(Math.pow(efac,unitExponentiation.getExponent()),1.0);
+            return new UnitOrScaleConversion(factor*Math.pow(efac,unitExponentiation.getExponent()),1.0);
         }
         return null;
     }
