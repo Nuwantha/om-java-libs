@@ -376,9 +376,9 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 }else if(length==0 && mass==0 && time==0 && current==1 && temperature==0 && amount==0 && intensity==0){
                     dimension = SIDimension.ELECTRIC_CURRENT;
                 }else if(length==0 && mass==0 && time==0 && current==0 && temperature==1 && amount==0 && intensity==0){
-                    dimension = SIDimension.TEMPERATURE;
+                    dimension = SIDimension.THERMODYNAMIC_TEMPERATURE;
                 }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==1 && intensity==0){
-                    dimension = SIDimension.AMOUNT;
+                    dimension = SIDimension.AMOUNT_OF_SUBSTANCE;
                 }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==1){
                     dimension = SIDimension.LUMINOUS_INTENSITY;
                 }
