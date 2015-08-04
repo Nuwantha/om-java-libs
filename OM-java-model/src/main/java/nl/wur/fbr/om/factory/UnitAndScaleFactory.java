@@ -160,10 +160,9 @@ public interface UnitAndScaleFactory {
      * Creates a new singular unit without any relation to other units. This creation method should be used when
      * the definition unit and factor are set by other means, for instance, when creating a dependent base unit such
      * as kilogram (depends on singular unit gram).
-     * @param name The preferred name of the unit.
      * @return The requested singular unit.
      */
-    public SingularUnit createSingularUnit(String name);
+    public SingularUnit createSingularUnit();
 
     /**
      * Creates a new singular unit without any relation to other units. This creation method should be used when

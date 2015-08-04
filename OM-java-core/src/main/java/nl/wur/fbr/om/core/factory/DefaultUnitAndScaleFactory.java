@@ -208,11 +208,10 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * the definition unit and factor are set by other means, for instance, when creating a dependent base unit such
      * as kilogram (depends on singular unit gram).
      *
-     * @param name The preferred name of the unit.
      * @return The requested singular unit.
      */
     @Override
-    public SingularUnit createSingularUnit(String name) {
+    public SingularUnit createSingularUnit() {
         SingularUnit unit = new SingularUnitImpl((Unit)null);
         unitsOrScalesByID.put(unit.getIdentifier(),unit);
         return unit;
