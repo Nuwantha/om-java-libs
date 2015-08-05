@@ -1,7 +1,7 @@
 package nl.wur.fbr.om.core.impl.units;
 
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.BaseUnit;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.prefixes.Prefix;
@@ -16,18 +16,18 @@ import nl.wur.fbr.om.prefixes.Prefix;
 public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
 
     /** The dimension in which this unit is defined. */
-    private Dimension definitionDimension;
+    private BaseDimension definitionDimension;
 
     /**
      * Creates a new prefixed base unit in the specified dimension, based on the specified singular unit and using
      * the specified prefix. For instance, the base unit kilogram has as singular unit the gram and as prefix kilo
-     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIDimension#MASS}.
+     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIBaseDimension#MASS}.
      * The symbol for this unit is created by concatenating the prefix symbol with the symbol of the singular unit.
      * @param singularUnit The singular unit on which this prefixed unit is based.
      * @param prefix The prefix.
      * @param dimension The dimension in which this base unit is defined.
      */
-    public PrefixedBaseUnitImpl(SingularUnit singularUnit, Prefix prefix, Dimension dimension){
+    public PrefixedBaseUnitImpl(SingularUnit singularUnit, Prefix prefix, BaseDimension dimension){
         super(singularUnit,prefix);
         this.definitionDimension = dimension;
         if(singularUnit!=null && singularUnit.getSymbol()!=null){
@@ -40,14 +40,14 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
     /**
      * Creates a new prefixed base unit in the specified dimension, based on the specified singular unit and using
      * the specified prefix. For instance, the base unit kilogram has as singular unit the gram and as prefix kilo
-     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIDimension#MASS}.
+     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIBaseDimension#MASS}.
      * The symbol for this unit is created by concatenating the prefix symbol with the symbol of the singular unit.
      * @param name The name of the unit.
      * @param singularUnit The singular unit on which this prefixed unit is based.
      * @param prefix The prefix.
      * @param dimension The dimension in which this base unit is defined.
      */
-    public PrefixedBaseUnitImpl(String name, SingularUnit singularUnit, Prefix prefix, Dimension dimension){
+    public PrefixedBaseUnitImpl(String name, SingularUnit singularUnit, Prefix prefix, BaseDimension dimension){
         super(name,singularUnit,prefix);
         this.definitionDimension = dimension;
         if(singularUnit!=null && singularUnit.getSymbol()!=null){
@@ -60,7 +60,7 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
     /**
      * Creates a new prefixed base unit in the specified dimension, based on the specified singular unit and using
      * the specified prefix. For instance, the base unit kilogram has as singular unit the gram and as prefix kilo
-     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIDimension#MASS}.
+     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIBaseDimension#MASS}.
      * The symbol for this unit is created by concatenating the prefix symbol with the symbol of the singular unit.
      * @param identifier The unique identifier for the unit.
      * @param name The name of the unit.
@@ -68,7 +68,7 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
      * @param prefix The prefix.
      * @param dimension The dimension in which this base unit is defined.
      */
-    public PrefixedBaseUnitImpl(String identifier, String name, SingularUnit singularUnit, Prefix prefix, Dimension dimension){
+    public PrefixedBaseUnitImpl(String identifier, String name, SingularUnit singularUnit, Prefix prefix, BaseDimension dimension){
         super(identifier,name,null,singularUnit,prefix);
         this.definitionDimension = dimension;
         if(singularUnit!=null && singularUnit.getSymbol()!=null){
@@ -81,7 +81,7 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
     /**
      * Creates a new prefixed base unit in the specified dimension, based on the specified singular unit and using
      * the specified prefix. For instance, the base unit kilogram has as singular unit the gram and as prefix kilo
-     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIDimension#MASS}.
+     * and it is defined in the dimension {@link nl.wur.fbr.om.model.dimensions.SIBaseDimension#MASS}.
      * @param identifier The unique identifier for the unit.
      * @param name The name of the unit.
      * @param symbol The symbol of the unit.
@@ -89,7 +89,7 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
      * @param prefix The prefix.
      * @param dimension The dimension in which this base unit is defined.
      */
-    public PrefixedBaseUnitImpl(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix, Dimension dimension) {
+    public PrefixedBaseUnitImpl(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix, BaseDimension dimension) {
         super(identifier,name,symbol,singularUnit,prefix);
         this.definitionDimension = dimension;
         ((SingularUnitImpl)singularUnit).setDefinitionUnit(this);
@@ -104,7 +104,7 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
      * @return The dimension of the unit.
      */
     @Override
-    public Dimension getDefinitionDimension() {
+    public BaseDimension getDefinitionDimension() {
         return definitionDimension;
     }
 
@@ -120,8 +120,8 @@ public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
-        DimensionMap map = new DimensionMap();
+    public Dimension getUnitDimension() {
+        Dimension map = new Dimension();
         map.setDimensionalExponent(definitionDimension,1);
         return map;
     }

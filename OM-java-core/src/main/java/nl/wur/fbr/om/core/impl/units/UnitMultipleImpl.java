@@ -1,6 +1,6 @@
 package nl.wur.fbr.om.core.impl.units;
 
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitMultiple;
@@ -140,7 +140,7 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
+    public Dimension getUnitDimension() {
         return unit.getUnitDimension();
     }
 }

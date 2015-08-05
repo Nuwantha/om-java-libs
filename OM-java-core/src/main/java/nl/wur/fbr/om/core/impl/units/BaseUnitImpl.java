@@ -1,9 +1,8 @@
 package nl.wur.fbr.om.core.impl.units;
 
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.BaseUnit;
-import nl.wur.fbr.om.model.units.UnitDivision;
 
 /**
  * This class implements a base unit.
@@ -15,13 +14,13 @@ import nl.wur.fbr.om.model.units.UnitDivision;
 public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {
 
     /** The dimension in which this unit is defined. */
-    private Dimension definitionDimension;
+    private BaseDimension definitionDimension;
 
     /**
      * Creates a unit that is a base unit in some system of units.
      * @param dimension The dimension in which the unit is defined.
      */
-    public BaseUnitImpl(Dimension dimension){
+    public BaseUnitImpl(BaseDimension dimension){
         super();
         definitionDimension = dimension;
     }
@@ -32,7 +31,7 @@ public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {
      * @param symbol The symbol used for the unit.
      * @param dimension The dimension in which the unit is defined.
      */
-    public BaseUnitImpl(String name, String symbol, Dimension dimension){
+    public BaseUnitImpl(String name, String symbol, BaseDimension dimension){
         super(name,symbol);
         this.definitionDimension = dimension;
     }
@@ -44,7 +43,7 @@ public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {
      * @param symbol The symbol used for the unit.
      * @param dimension The dimension in which the unit is defined.
      */
-    public BaseUnitImpl(String identifier, String name, String symbol, Dimension dimension){
+    public BaseUnitImpl(String identifier, String name, String symbol, BaseDimension dimension){
         super(identifier,name,symbol);
         this.definitionDimension = dimension;
     }
@@ -56,7 +55,7 @@ public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {
      * @return The dimension of the unit.
      */
     @Override
-    public Dimension getDefinitionDimension() {
+    public BaseDimension getDefinitionDimension() {
         return definitionDimension;
     }
 
@@ -72,8 +71,8 @@ public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
-        DimensionMap map = new DimensionMap();
+    public Dimension getUnitDimension() {
+        Dimension map = new Dimension();
         map.setDimensionalExponent(definitionDimension,1);
         return map;
     }

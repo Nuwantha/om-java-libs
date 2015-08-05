@@ -1,8 +1,8 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitDivision;
 
@@ -100,17 +100,17 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
-        DimensionMap map = new DimensionMap();
-        DimensionMap map1 = getNumerator().getUnitDimension();
-        DimensionMap map2 = getDenominator().getUnitDimension();
-        Set<Dimension> dims1 = map1.getDimensions();
-        for(Dimension dim : dims1){
+    public Dimension getUnitDimension() {
+        Dimension map = new Dimension();
+        Dimension map1 = getNumerator().getUnitDimension();
+        Dimension map2 = getDenominator().getUnitDimension();
+        Set<BaseDimension> dims1 = map1.getDimensions();
+        for(BaseDimension dim : dims1){
             int exp = map1.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,exp);
         }
-        Set<Dimension> dims2 = map2.getDimensions();
-        for(Dimension dim : dims2){
+        Set<BaseDimension> dims2 = map2.getDimensions();
+        for(BaseDimension dim : dims2){
             int exp = map2.getDimensionalExponent(dim);
             int eee = map.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,eee-exp);

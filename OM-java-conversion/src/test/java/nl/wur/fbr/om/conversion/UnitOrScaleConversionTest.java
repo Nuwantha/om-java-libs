@@ -9,7 +9,6 @@ import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
-import nl.wur.fbr.om.model.dimensions.SIDimension;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
@@ -17,7 +16,6 @@ import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
-import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -233,8 +231,8 @@ public class UnitOrScaleConversionTest {
         UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
 
         try {
-            Scale celsiusscale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS);
-            Scale fahrenheitscale = (Scale) factory.getUnitOrScale(CoreScaleSet.FAHRENHEIT);
+            Scale celsiusscale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS_SCALE);
+            Scale fahrenheitscale = (Scale) factory.getUnitOrScale(CoreScaleSet.FAHRENHEIT_SCALE);
 
             Point p1 = measureFactory.createScalarPoint(0.0,celsiusscale);
             Point p2 = conversion.convertToScale(p1,fahrenheitscale);
