@@ -16,6 +16,7 @@ import org.junit.Test;
 /**
  * Unit tests for testing unit creation and properties.
  *
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitTest {

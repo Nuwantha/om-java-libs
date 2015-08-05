@@ -70,6 +70,7 @@ import java.util.Map;
  *              </td></tr>
  *     </tbody>
  * </table>
+ *
  * @author Don Willems on 19/07/15.
  */
 public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{

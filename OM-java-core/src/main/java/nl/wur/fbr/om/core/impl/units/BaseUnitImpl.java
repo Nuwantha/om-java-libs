@@ -9,6 +9,7 @@ import nl.wur.fbr.om.model.units.BaseUnit;
  * A Base unit is a unit for which the dimension is explicitly defined. It does not depend on the definition of
  * another unit. The metre, is for example, a base unit with dimension length (L).
  *
+ *
  * @author Don Willems on 02/08/15.
  */
 public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {

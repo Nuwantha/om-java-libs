@@ -15,6 +15,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * of 125.
  * A special case of unit multiples are prefixed units where the multiplication factor is defined by the prefix used
  * such as kilo in kilogram. For prefixed units, use {@link PrefixedUnitImpl}.
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {

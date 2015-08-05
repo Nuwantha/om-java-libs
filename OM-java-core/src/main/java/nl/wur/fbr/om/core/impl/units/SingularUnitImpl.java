@@ -211,6 +211,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * If no definition unit is set (i.e. this unit is a base unit for a system of units), this method
      * should return 1.
      *
+     *
      * @return The numerical value used to convert between this unit and its base.
      */
     @Override

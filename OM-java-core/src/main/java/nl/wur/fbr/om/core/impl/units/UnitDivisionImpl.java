@@ -12,6 +12,7 @@ import java.util.Set;
  * The core implementation of a compound unit that is the division of two other units.
  * For instance, the unit used for denstiy, kilogram per
  * cubic metre is a unit division of the numerator kilogram and the denominator cubic metre.
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
