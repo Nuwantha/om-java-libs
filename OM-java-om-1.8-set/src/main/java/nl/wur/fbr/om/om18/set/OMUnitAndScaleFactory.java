@@ -149,33 +149,31 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
      */
     private Object createUnitOrScaleFromURI(URI uri,RepositoryConnection connection) throws UnitOrScaleCreationException {
         try {
-            URI type = this.getTypeOfResource(uri,connection);
+            List<URI> types = this.getTypeOfResource(uri,connection);
             NamedObject nobject = null;
-            if(type.equals(OM.SINGULAR_UNIT)){
+            if(types.contains(OM.SINGULAR_UNIT)){
                 nobject = this.createSingularUnit(uri,connection);
-            }else if(type.equals(OM.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
+            }else if(types.contains(OM.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
                 nobject = this.createUnitMultiple(uri,connection);
-            }else if(type.equals(OM.UNIT_MULTIPLICATION)){
+            }else if(types.contains(OM.UNIT_MULTIPLICATION)){
                 nobject = this.createUnitMultiplication(uri, connection);
-            }else if(type.equals(OM.UNIT_DIVISION)){
+            }else if(types.contains(OM.UNIT_DIVISION)){
                 nobject = this.createUnitDivision(uri, connection);
-            }else if(type.equals(OM.UNIT_EXPONENTIATION)){
+            }else if(types.contains(OM.UNIT_EXPONENTIATION)){
                 nobject = this.createUnitExponentiation(uri, connection);
-            }else if(type.equals(OM.MEASUREMENT_SCALE)){
-
-            }else if(type.equals(OM.CARDINAL_SCALE)){
-
-            }else if(type.equals(OM.INTERVAL_SCALE)){
+            }else if(types.contains(OM.INTERVAL_SCALE)){
                 nobject = this.createScale(uri, connection);
-            }else if(type.equals(OM.NOMINAL_SCALE)){
-
-            }else if(type.equals(OM.ORDINAL_SCALE)){
-
-            }else if(type.equals(OM.RATIO_SCALE)){
+            }else if(types.contains(OM.NOMINAL_SCALE)){
+                throw new UnsupportedOperationException("Nominal scales are not yet supported.");
+            }else if(types.contains(OM.ORDINAL_SCALE)){
+                throw new UnsupportedOperationException("Ordinal scales are not yet supported.");
+            }else if(types.contains(OM.RATIO_SCALE)){
+                nobject = this.createScale(uri, connection);
+            }else if(types.contains(OM.CARDINAL_SCALE)){
                 nobject = this.createScale(uri, connection);
             }else {
                 throw new UnitOrScaleCreationException("The type of the requested resource with identifier <"+uri+"> " +
-                        "is not one of the expected unit or scale types (type = <"+type+">.");
+                        "is not one of the expected unit or scale types (types = "+types+".");
             }
             this.addNamesAndSymbols(uri,nobject,connection);
             return nobject;
@@ -596,15 +594,19 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
      * @throws QueryEvaluationException When the query could not be evaluated.
      * @throws UnitOrScaleCreationException When type of the resource could not be found.
      */
-    private URI getTypeOfResource(URI resourceURI,RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
+    private List<URI> getTypeOfResource(URI resourceURI,RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
         String sparql = "" +
                 "SELECT ?type WHERE {\n" +
-                "   <"+resourceURI+"> <"+ RDF.TYPE+"> ?type. \n"+
+                "   <"+resourceURI+"> <"+ RDF.TYPE+"> ?dtype. \n"+
+                "   ?dtype <"+ RDFS.SUBCLASSOF+">* ?type. \n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
-        if(result.hasNext()){
-            return (URI)result.next().getValue("type");
+        List<URI> types = new ArrayList<>();
+        while(result.hasNext()){
+            BindingSet bs = result.next();
+            if(bs.getValue("type") instanceof URI) types.add((URI)bs.getValue("type"));
         }
+        if(types.size()>0) return types;
         throw new InsufficientDataException("Could not acquire the type of the resource identified by <"+resourceURI+">",resourceURI.stringValue());
     }
 }
