@@ -196,7 +196,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * that is to be used as a parent unit of a unit that is defined as a base unit. For instance, the kilogram is a
      * base unit in SI, but is also a prefixed unit of the unit gram. The unit gram should be created as a singular unit
      * with a null definition unit. When the kilogram is created it should reference the gram unit as the unit being
-     * prefix and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
+     * prefixed and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
      * and the definition value should be set to 0.001.
      * @param definitionUnit The new definition unit.
      */
@@ -224,7 +224,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * that is to be used as a parent unit of a unit that is defined as a base unit. For instance, the kilogram is a
      * base unit in SI, but is also a prefixed unit of the unit gram. The unit gram should be created as a singular unit
      * with a null definition unit. When the kilogram is created it should reference the gram unit as the unit being
-     * prefix and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
+     * prefixed and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
      * and the definition value should be set to 0.001.
      * @param definitionNumericalValue The new definition value.
      */

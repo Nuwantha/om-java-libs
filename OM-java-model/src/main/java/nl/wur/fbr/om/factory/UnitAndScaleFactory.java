@@ -167,7 +167,7 @@ public interface UnitAndScaleFactory {
     /**
      * Creates a new singular unit without any relation to other units. This creation method should be used when
      * the definition unit and factor are set by other means, for instance, when creating a dependent base unit such
-     * as kilogram (depends on singular unit gram).
+     * as kilogram (depends on singular unit gram). Or, if a unit has no relation to existing units, such as the bit.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
      * @return The requested singular unit.
@@ -177,7 +177,7 @@ public interface UnitAndScaleFactory {
     /**
      * Creates a new singular unit without any relation to other units. This creation method should be used when
      * the definition unit and factor are set by other means, for instance, when creating a dependent base unit such
-     * as kilogram (depends on singular unit gram).
+     * as kilogram (depends on singular unit gram). Or, if a unit has no relation to existing units, such as the bit.
      * @param identifier A unique identifier for the unit.
      * @param name The preferred name of the unit.
      * @param symbol The symbol used for the unit.
