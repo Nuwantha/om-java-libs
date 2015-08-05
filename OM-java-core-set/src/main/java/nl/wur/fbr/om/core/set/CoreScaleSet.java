@@ -11,19 +11,19 @@ public abstract class CoreScaleSet {
     public final static String NAMESPACE;
 
     /** The identifier for the Kelvin temperature scale.*/
-    public final static String KELVIN;
+    public final static String KELVIN_SCALE;
 
     /** The identifier for the Celsius temperature scale.*/
-    public final static String CELSIUS;
+    public final static String CELSIUS_SCALE;
 
     /** The identifier for the Fahrenheit temperature scale.*/
-    public final static String FAHRENHEIT;
+    public final static String FAHRENHEIT_SCALE;
 
     static {
         NAMESPACE = "nl.wur.fbr.om.core.set.scale.";
 
-        KELVIN = NAMESPACE+"kelvin";
-        CELSIUS = NAMESPACE+"celsius";
-        FAHRENHEIT = NAMESPACE+"fahrenheit";
+        KELVIN_SCALE = NAMESPACE+"kelvin";
+        CELSIUS_SCALE = NAMESPACE+"celsius";
+        FAHRENHEIT_SCALE = NAMESPACE+"fahrenheit";
     }
 }

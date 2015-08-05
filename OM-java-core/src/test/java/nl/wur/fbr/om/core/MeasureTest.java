@@ -2,9 +2,9 @@ package nl.wur.fbr.om.core;
 
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
-import nl.wur.fbr.om.core.impl.points.VectorPointImpl;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.measures.VectorMeasure;
@@ -27,8 +27,8 @@ public class MeasureTest {
     public void testScalarMeasureCreation(){
         MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
         UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit metre = unitfactory.createSingularUnit("metre", "m");
-        Unit second = unitfactory.createSingularUnit("metre", "m");
+        Unit metre = unitfactory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
+        Unit second = unitfactory.createBaseUnit("second", "s",SIBaseDimension.TIME);
         ScalarMeasure m1 = factory.createScalarMeasure(15.3, metre);
         Assert.assertTrue("Test measure creation",m1.getScalarValue().doubleValue()==15.3);
         Assert.assertTrue("Test measure creation",m1.getNumericalValue() instanceof Number);
@@ -54,8 +54,7 @@ public class MeasureTest {
     public void testVectorMeasureCreation(){
         MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
         UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit metre = unitfactory.createSingularUnit("metre", "m");
-        Unit second = unitfactory.createSingularUnit("metre", "m");
+        Unit metre = unitfactory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
         Double[] vector = {4.0,3.0};
         VectorMeasure m1 = factory.createVectorMeasure(vector, metre);
         Assert.assertTrue("Test measure creation", ((Number) m1.getVectorValue()[0]).doubleValue() == 4.0);
@@ -84,8 +83,8 @@ public class MeasureTest {
     public void testPointCreation(){
         MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
         UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit kelvin = unitfactory.createSingularUnit("Kelvin", "K");
-        Unit celsius = unitfactory.createSingularUnit("Celsius", "°C");
+        Unit kelvin = unitfactory.createBaseUnit("Kelvin", "K", SIBaseDimension.THERMODYNAMIC_TEMPERATURE);
+        Unit celsius = unitfactory.createSingularUnit("Celsius", "°C", kelvin, 1.0);
         Scale kelvinScale = unitfactory.createScale("kelvin scale", null, kelvin);
         Scale celsiusScale = unitfactory.createScale("celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
         ScalarPoint boilingpoint = factory.createScalarPoint(100.0, celsiusScale);

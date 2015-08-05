@@ -1,6 +1,8 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
+import nl.wur.fbr.om.model.dimensions.Dimension;
+import nl.wur.fbr.om.model.units.BaseUnit;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 
@@ -190,6 +192,19 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
     }
 
     /**
+     * Sets the definition unit to the specified unit. This method should only be used when creating a Singular Unit
+     * that is to be used as a parent unit of a unit that is defined as a base unit. For instance, the kilogram is a
+     * base unit in SI, but is also a prefixed unit of the unit gram. The unit gram should be created as a singular unit
+     * with a null definition unit. When the kilogram is created it should reference the gram unit as the unit being
+     * prefixed and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
+     * and the definition value should be set to 0.001.
+     * @param definitionUnit The new definition unit.
+     */
+    protected void setDefinitionUnit(Unit definitionUnit){
+        this.definitionUnit = definitionUnit;
+    }
+
+    /**
      * Returns the numerical conversion factor to covert between this unit and its definition unit.
      * For instance, the unit Astronomical Unit (AU) is defined as
      * 1.495978707e11 metre. The numerical value is in this case: 1.495978707e11.
@@ -201,5 +216,36 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
     @Override
     public double getDefinitionNumericalValue() {
         return definitionNumericalValue;
+    }
+
+    /**
+     * Sets the numerical conversion factor to covert between this unit and its definition unit.
+     * This method should only be used when creating a Singular Unit
+     * that is to be used as a parent unit of a unit that is defined as a base unit. For instance, the kilogram is a
+     * base unit in SI, but is also a prefixed unit of the unit gram. The unit gram should be created as a singular unit
+     * with a null definition unit. When the kilogram is created it should reference the gram unit as the unit being
+     * prefixed and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
+     * and the definition value should be set to 0.001.
+     * @param definitionNumericalValue The new definition value.
+     */
+    protected void setDefinitionNumericalValue(double definitionNumericalValue){
+        this.definitionNumericalValue = definitionNumericalValue;
+    }
+
+    /**
+     * Returns the dimensions, and therefore, the dimensional exponents, in which this unit is defined.
+     * Singular units have the same dimension as their definition unit.<br>
+     * The dimensions of the derived units are written as products of powers of the dimensions of the
+     * base units using the equations that relate the derived units to the base units or
+     * quantities. In SI the dimension of any unit U is written in the form of a dimensional product,
+     * dim U = L^&#945; M^&#946; T^&#947; l^&#948; &#920;^&#949; N^&#950; J^eta
+     * where the exponents &#945;, &#946;, &#947;, &#948;, &#949;, &#950;, and &#951;, which are generally small integers
+     * which can be positive, negative or zero, are called the dimensional exponents.
+     *
+     * @return The set of dimensions and dimensional exponents.
+     */
+    @Override
+    public Dimension getUnitDimension() {
+        return definitionUnit.getUnitDimension();
     }
 }
