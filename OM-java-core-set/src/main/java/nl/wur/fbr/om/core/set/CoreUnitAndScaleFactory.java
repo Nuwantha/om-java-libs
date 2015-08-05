@@ -107,9 +107,9 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         this.createUnitDivision(CoreUnitSet.KATAL,"katal", "kat", mole, second);
 
         // scales
-        Scale kelvinScale = this.createScale(CoreScaleSet.KELVIN,"Kelvin temperature scale",null,kelvin);
-        this.createScale(CoreScaleSet.CELSIUS,"Celsius temperature scale",null,kelvinScale,-273.15,1.0,celsius);
-        this.createScale(CoreScaleSet.FAHRENHEIT,"Fahrenheit temperature scale",null,kelvinScale,-459.67,1.8,fahrenheit);
+        Scale kelvinScale = this.createScale(CoreScaleSet.KELVIN_SCALE,"Kelvin temperature scale",null,kelvin);
+        this.createScale(CoreScaleSet.CELSIUS_SCALE,"Celsius temperature scale",null,kelvinScale,-273.15,1.0,celsius);
+        this.createScale(CoreScaleSet.FAHRENHEIT_SCALE,"Fahrenheit temperature scale",null,kelvinScale,-459.67,1.8,fahrenheit);
     }
 
     /**
