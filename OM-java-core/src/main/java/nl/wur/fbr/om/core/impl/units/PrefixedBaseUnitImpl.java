@@ -11,6 +11,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * A Base unit is a unit for which the dimension is explicitly defined. For instance, the kilogram is defined in SI
  * as a base unit with dimension Mass (M), it is also a prefixed unit with prefix kilo and base unit gram.
  *
+ *
  * @author Don Willems on 04/08/15.
  */
 public class PrefixedBaseUnitImpl extends PrefixedUnitImpl implements BaseUnit{

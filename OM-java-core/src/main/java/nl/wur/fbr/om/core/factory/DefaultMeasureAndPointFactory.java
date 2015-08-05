@@ -19,6 +19,7 @@ import nl.wur.fbr.om.model.units.Unit;
 /**
  * This core class implements methods that can be used to create measures and points on a measurement scale.
  *
+ *
  * @author Don Willems on 22/07/15.
  */
 public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {

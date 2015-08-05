@@ -19,6 +19,7 @@ import org.junit.Test;
 /**
  * Unit tests for the core classes Measure and Point and the factory MeasureAndPointFactory.
  *
+ *
  * @author Don Willems on 22/07/15.
  */
 public class MeasureTest {

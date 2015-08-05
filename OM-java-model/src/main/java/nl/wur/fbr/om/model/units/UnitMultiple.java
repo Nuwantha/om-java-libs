@@ -7,6 +7,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * then the factor is 125 and the unit is gram. Special cases of unit multiples are prefixed units, defined in the
  * interface {@link PrefixedUnit}, where the multiplication factor is defined by the prefix to the unit (for instance
  * kilo in kilometre).
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface UnitMultiple extends Unit {

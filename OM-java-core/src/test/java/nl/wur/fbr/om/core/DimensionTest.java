@@ -11,6 +11,7 @@ import org.junit.Test;
 
 /**
  * This class contains the unit tests for dimension testing.
+ *
  * @author Don Willems on 02/08/15.
  */
 public class DimensionTest {

@@ -9,6 +9,7 @@ import nl.wur.fbr.om.factory.MeasureAndPointFactory;
  */
 public class MeasureOrPointCreationException extends Exception {
 
+
     /**
      * Creates an new exception with the specified message.
      * @param message A human readable message describing the exception.

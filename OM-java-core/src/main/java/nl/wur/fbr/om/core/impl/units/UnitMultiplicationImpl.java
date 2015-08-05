@@ -11,6 +11,7 @@ import java.util.Set;
 /**
  * The core implementation for Unit multiplication, which is a compound unit consisting of two base units that are multiplied.
  * For instance, the unit Newton metre (N.m) is a multiplication of Newton (N) and metre (m).
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplication {

@@ -12,6 +12,7 @@ import java.util.Set;
  * A unit that is defined as an exponentiation of another unit.
  * For instance, the unit exponentiation cubic metre (m^3) is the exponentiation (with exponent 3) of the unit
  * metre.
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiation {

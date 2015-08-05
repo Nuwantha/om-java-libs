@@ -5,6 +5,7 @@ import nl.wur.fbr.om.model.units.Unit;
 
 /**
  * This class implements the specific methods for measures that have a scalar as numerical value.
+ *
  * @author Don Willems on 22/07/15.
  */
 public class ScalarMeasureImpl extends MeasureImpl implements ScalarMeasure {

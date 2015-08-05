@@ -15,6 +15,7 @@ import nl.wur.fbr.om.model.units.Unit;
  * Each library that implements the model classes should also provide an implementation of the
  * <code>MeasureAndPointFactory</code> to create instances from its own implementation classes.
  *
+ *
  * @author Don Willems on 21/07/15.
  */
 public interface MeasureAndPointFactory {

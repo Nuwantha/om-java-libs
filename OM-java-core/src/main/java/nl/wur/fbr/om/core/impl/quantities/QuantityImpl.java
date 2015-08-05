@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * The core implementation of the {@link Quantity} interface.
+ *
  * @author Don Willems on 20/07/15.
  */
 public class QuantityImpl implements Quantity {

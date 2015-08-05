@@ -8,6 +8,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * (see {@link nl.wur.fbr.om.prefixes.DecimalPrefix DecimalPrefix}) or
  * binary (see {@link nl.wur.fbr.om.prefixes.BinaryPrefix BinaryPrefix} or
  * {@link nl.wur.fbr.om.prefixes.JEDECBinaryPrefix JEDEXBinaryPrefix}).
+ *
  * @author Don Willems on 28/07/15.
  */
 public interface PrefixedUnit extends UnitMultiple {

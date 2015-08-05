@@ -14,6 +14,7 @@ import java.util.UUID;
  * The four types of measurement scales are: nominal scales, ordinal scales, interval scales and ratio scales.
  * The latter two scales are also called cardinal scales.
  * An example of a scale is the Celsius scale, a temperature scale.
+ *
  * @author Don Willems on 20/07/15.
  */
 public class ScaleImpl implements Scale {
