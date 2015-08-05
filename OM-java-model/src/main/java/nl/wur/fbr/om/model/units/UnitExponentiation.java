@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.model;
+package nl.wur.fbr.om.model.units;
 
 /**
  * A unit that is defined as an exponentiation of a base unit.
@@ -14,7 +14,7 @@ public interface UnitExponentiation extends Unit {
      * For instance, for the unit m^3, the base unit is m.
      * @return The base unit.
      */
-    public Unit getBaseUnit();
+    public Unit getBase();
 
     /**
      * Returns the exponent of the unit exponentiation.

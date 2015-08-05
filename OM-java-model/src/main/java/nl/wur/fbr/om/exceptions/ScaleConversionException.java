@@ -1,13 +1,14 @@
-package nl.wur.fbr.om.factory;
+package nl.wur.fbr.om.exceptions;
 
-import nl.wur.fbr.om.model.Scale;
+import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.model.scales.Scale;
 
 /**
  * Represents an exception being thrown during unit conversion.
  *
  * @author Don Willems on 17/07/15.
  */
-public class ScaleConversionException extends ConversionException{
+public class ScaleConversionException extends ConversionException {
 
     private Scale sourceScale;
     private Scale targetScale;

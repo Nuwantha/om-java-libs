@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.model;
+package nl.wur.fbr.om.model.units;
 
 /**
  * A compound unit that is the division of two other units. For instance, the unit used for denstiy kilogram per

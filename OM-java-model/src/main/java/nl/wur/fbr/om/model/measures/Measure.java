@@ -1,4 +1,7 @@
-package nl.wur.fbr.om.model;
+package nl.wur.fbr.om.model.measures;
+
+import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.units.Unit;
 
 /**
  * This interface represents a value expressed in a unit.

@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.factory;
+package nl.wur.fbr.om.exceptions;
 
 /**
  * Represents an exception being thrown during unit or scale conversion.

@@ -1,6 +1,7 @@
-package nl.wur.fbr.om.factory;
+package nl.wur.fbr.om.exceptions;
 
-import nl.wur.fbr.om.model.Unit;
+import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.model.units.Unit;
 
 /**
  * Represents an exception being thrown during unit conversion.

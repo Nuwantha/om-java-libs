@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.factory;
+package nl.wur.fbr.om.exceptions;
 
 /**
  * These exceptions are thrown when a unit or scale is being created by a factory method based

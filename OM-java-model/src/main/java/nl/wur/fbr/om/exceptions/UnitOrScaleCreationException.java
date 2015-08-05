@@ -1,4 +1,6 @@
-package nl.wur.fbr.om.factory;
+package nl.wur.fbr.om.exceptions;
+
+import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 
 /**
  * Exceptions of this class are thrown when a unit or scale could not be created, for instance in the factory methods
