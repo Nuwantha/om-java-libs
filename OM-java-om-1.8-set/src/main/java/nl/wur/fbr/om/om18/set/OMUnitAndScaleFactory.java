@@ -7,6 +7,7 @@ import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.vocabulary.OM;
 import nl.wur.fbr.om.prefixes.BinaryPrefix;
@@ -165,13 +166,13 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             }else if(type.equals(OM.CARDINAL_SCALE)){
 
             }else if(type.equals(OM.INTERVAL_SCALE)){
-
+                nobject = this.createScale(uri, connection);
             }else if(type.equals(OM.NOMINAL_SCALE)){
 
             }else if(type.equals(OM.ORDINAL_SCALE)){
 
             }else if(type.equals(OM.RATIO_SCALE)){
-
+                nobject = this.createScale(uri, connection);
             }else {
                 throw new UnitOrScaleCreationException("The type of the requested resource with identifier <"+uri+"> " +
                         "is not one of the expected unit or scale types (type = <"+type+">.");
@@ -419,10 +420,46 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             URI baseURI = (URI) bs.getValue("base");
             int exponent = ((Literal) bs.getValue("exponent")).intValue();
             Unit unit = (Unit) this.getUnitOrScale(baseURI.stringValue());
-            UnitExponentiation unitExponentiation = this.createUnitExponentiation(uri.stringValue(),null,null,unit,exponent);
+            UnitExponentiation unitExponentiation = this.createUnitExponentiation(uri.stringValue(), null, null, unit, exponent);
             return unitExponentiation;
         }
         throw new InsufficientDataException("Could not acquire the data of the unit exponentiation identified by <"+uri+">",uri.stringValue());
+    }
+
+    /**
+     * Creates a measurement scale identified by the specified OM URI. The type of scale should already be
+     * determined to be a unit exponentiation.
+     * @param uri The URI (identifier) of the unit.
+     * @param connection The connection to the repository.
+     * @return The unit exponentiation.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     * @throws UnitOrScaleCreationException When not enough data could be found in the OM repository to create the unit, or when the parent scale could not be created.
+     */
+    private Scale createScale(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
+        String sparql = "" +
+                "SELECT * WHERE{\n" +
+                "   <"+uri+"> <"+OM.HAS_DEFINITION_RELATIVE_TO+"> ?parent.\n"+
+                "   <"+uri+"> <"+OM.HAS_DEFINITION_FACTOR+"> ?factor.\n"+
+                "   <"+uri+"> <"+OM.HAS_DEFINITION_OFFSET+"> ?offset.\n"+
+                "   <"+uri+"> <"+OM.HAS_UNIT_OF_MEASURE+"> ?unit.\n"+
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        if(result.hasNext()) {
+            BindingSet bs = result.next();
+            URI parentURI = (URI) bs.getValue("parent");
+            double factor = ((Literal) bs.getValue("factor")).doubleValue();
+            double offset = ((Literal) bs.getValue("offset")).doubleValue();
+            URI unitURI = (URI) bs.getValue("unit");
+            Unit unit = (Unit) this.getUnitOrScale(unitURI.stringValue());
+            Scale parentscale = (Scale) this.getUnitOrScale(parentURI.stringValue());
+            Scale scale = this.createScale(uri.stringValue(), null, null, parentscale, offset, factor,unit);
+            return scale;
+        }else{ // top scales such as Kelvin with not parent scale
+            Scale scale = this.createScale(uri.stringValue(),null,null);
+            return scale;
+        }
     }
 
     /**

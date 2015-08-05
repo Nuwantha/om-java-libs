@@ -3,6 +3,7 @@ package nl.wur.fbr.om;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
 import org.junit.Assert;
@@ -132,6 +133,26 @@ public class UnitOMSetTest {
             Assert.assertEquals("Testing OM Unit Exponentiation creation", 3, ((UnitExponentiation) cubicMetre).getExponent(), 0.0000001);
             Unit metre = (Unit) factory.getUnitOrScale("metre");
             Assert.assertEquals("Testing OM Unit Exponentiation creation", metre, ((UnitExponentiation) cubicMetre).getBase());
+
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create OMUnitAndScaleFactory.");
+        }
+    }
+
+    /**
+     * Tests the creation of unit exponentiations in OM.
+     */
+    @Test
+    public void testOMScaleCreation(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            Scale celsius_scale = (Scale) factory.getUnitOrScale("Celsius_scale");
+            Assert.assertEquals("Testing OM Scale creation", "Celsius scale", celsius_scale.getName());
+            Assert.assertEquals("Testing OM Scale creation", 1, ((Scale) celsius_scale).getFactorFromDefinitionScale(), 0.0000001);
+            Assert.assertEquals("Testing OM Scale creation", -273.15, ((Scale) celsius_scale).getOffsetFromDefinitionScale(), 0.0000001);
+            Unit celsius = (Unit) factory.getUnitOrScale("celsius");
+            Assert.assertEquals("Testing OM Unit Scale creation", celsius, ((Scale) celsius_scale).getUnit());
 
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
