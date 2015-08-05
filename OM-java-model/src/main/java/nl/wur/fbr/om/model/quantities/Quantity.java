@@ -8,7 +8,6 @@ import nl.wur.fbr.om.model.points.Point;
 /**
  * This interface represents a quantity.
  *
- *
  * @author Don Willems on 14/07/15.
  */
 public interface Quantity extends NamedObject {

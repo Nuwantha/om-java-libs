@@ -3,6 +3,7 @@ package nl.wur.fbr.om.model.units;
 /**
  * Unit multiplication is a compound unit consisting of two base units that are multiplied.
  * For instance, the unit Newton metre (N.m) is a multiplication of Newton (N) and metre (m).
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface UnitMultiplication extends Unit{

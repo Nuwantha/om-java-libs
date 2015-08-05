@@ -10,6 +10,7 @@ import nl.wur.fbr.om.model.units.Unit;
  * The definition unit does not have to be a singular unit itself. For instance the singular unit Pascal is defined in
  * terms of unit newton per square metre.
  *
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface SingularUnit extends Unit {
