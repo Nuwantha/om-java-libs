@@ -8,6 +8,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * interface {@link PrefixedUnit}, where the multiplication factor is defined by the prefix to the unit (for instance
  * kilo in kilometre).
  *
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface UnitMultiple extends Unit {

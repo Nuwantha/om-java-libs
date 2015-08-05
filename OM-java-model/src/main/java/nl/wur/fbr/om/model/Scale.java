@@ -8,6 +8,7 @@ import java.util.List;
  * The latter two scales are also called cardinal scales.
  * An example of a scale is the Celsius scale, a temperature scale.
  *
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface Scale extends NamedObject {

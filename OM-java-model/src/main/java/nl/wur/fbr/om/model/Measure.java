@@ -6,6 +6,7 @@ package nl.wur.fbr.om.model;
  * {@link Point Point} should be used instead of <code>Measure</code> as these measurements are defined on a
  * measurement scale.
  *
+ * 
  * @author Don Willems on 14/07/15.
  */
 public interface Measure {
