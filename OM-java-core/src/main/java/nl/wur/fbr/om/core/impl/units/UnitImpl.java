@@ -13,6 +13,7 @@ import java.util.UUID;
  * This class provides access to name(s) and symbol(s) that are used for a Unit.
  * Names may be added in multiple languages.
  *
+ *
  * @author Don Willems on 18/07/15.
  */
 public abstract class UnitImpl implements Unit {

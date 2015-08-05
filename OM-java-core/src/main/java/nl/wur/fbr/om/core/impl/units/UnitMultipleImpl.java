@@ -1,6 +1,6 @@
 package nl.wur.fbr.om.core.impl.units;
 
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitMultiple;
@@ -15,6 +15,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * of 125.
  * A special case of unit multiples are prefixed units where the multiplication factor is defined by the prefix used
  * such as kilo in kilogram. For prefixed units, use {@link PrefixedUnitImpl}.
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
@@ -140,7 +141,7 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
+    public Dimension getUnitDimension() {
         return unit.getUnitDimension();
     }
 }

@@ -15,6 +15,7 @@ import nl.wur.fbr.om.model.scales.Scale;
  * to be used, e.g. the temperature is 10 degrees Celsius, while temperature differences need to be expressed as
  * {@link Measure Measure}s as these values are relative.
  *
+ *
  * @author Don Willems on 20/07/15.
  */
 public class PointImpl implements Point{

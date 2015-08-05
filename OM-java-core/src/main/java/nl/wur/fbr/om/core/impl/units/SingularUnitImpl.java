@@ -1,7 +1,7 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.units.BaseUnit;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
@@ -196,7 +196,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * that is to be used as a parent unit of a unit that is defined as a base unit. For instance, the kilogram is a
      * base unit in SI, but is also a prefixed unit of the unit gram. The unit gram should be created as a singular unit
      * with a null definition unit. When the kilogram is created it should reference the gram unit as the unit being
-     * prefix and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
+     * prefixed and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
      * and the definition value should be set to 0.001.
      * @param definitionUnit The new definition unit.
      */
@@ -211,6 +211,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * If no definition unit is set (i.e. this unit is a base unit for a system of units), this method
      * should return 1.
      *
+     *
      * @return The numerical value used to convert between this unit and its base.
      */
     @Override
@@ -224,7 +225,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * that is to be used as a parent unit of a unit that is defined as a base unit. For instance, the kilogram is a
      * base unit in SI, but is also a prefixed unit of the unit gram. The unit gram should be created as a singular unit
      * with a null definition unit. When the kilogram is created it should reference the gram unit as the unit being
-     * prefix and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
+     * prefixed and during initialisation of the kilogram, the definition unit of gram should be set to kilogram
      * and the definition value should be set to 0.001.
      * @param definitionNumericalValue The new definition value.
      */
@@ -245,7 +246,7 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
+    public Dimension getUnitDimension() {
         return definitionUnit.getUnitDimension();
     }
 }

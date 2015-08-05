@@ -1,9 +1,9 @@
 package nl.wur.fbr.om.model.units;
 
-import nl.wur.fbr.om.model.dimensions.Dimension;
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
 
 /**
- * A Base unit is a unit for which the dimension is explicitly defined. It does not depend on the definition of
+ * A Base unit is a unit for which the base dimension is explicitly defined. It does not depend on the definition of
  * another unit. The metre, is for example, a base unit with dimension length (L).
  *
  * Most base units will be singular units, but in SI we have a base unit Kilogram which is a prefixed unit. In the
@@ -17,9 +17,9 @@ import nl.wur.fbr.om.model.dimensions.Dimension;
 public interface BaseUnit extends Unit{
 
     /**
-     * Returns the dimension in which this base unit is defined. For instance the SI base unit metre is defined
-     * in the SI dimension for length (L).
-     * @return The dimension of the unit.
+     * Returns the base dimension in which this base unit is defined. For instance the SI base unit metre is defined
+     * in the SI base dimension for length (L).
+     * @return The base dimension of the unit.
      */
-    public Dimension getDefinitionDimension();
+    public BaseDimension getDefinitionDimension();
 }

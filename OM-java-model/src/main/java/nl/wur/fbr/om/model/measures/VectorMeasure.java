@@ -2,6 +2,7 @@ package nl.wur.fbr.om.model.measures;
 
 /**
  * This interface defines the specific methods for measures that have a vector as numerical value.
+ *
  * @author Don Willems on 21/07/15.
  */
 public interface VectorMeasure extends Measure {

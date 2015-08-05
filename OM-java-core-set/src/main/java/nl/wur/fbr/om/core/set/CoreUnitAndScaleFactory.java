@@ -2,7 +2,7 @@ package nl.wur.fbr.om.core.set;
 
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
-import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
@@ -24,7 +24,7 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
      */
     public CoreUnitAndScaleFactory(){
         // units
-        Unit metre = this.createBaseUnit(CoreUnitSet.METRE, "metre", "m", SIDimension.LENGTH);
+        Unit metre = this.createBaseUnit(CoreUnitSet.METRE, "metre", "m", SIBaseDimension.LENGTH);
         Unit kilometre = this.createPrefixedUnit(CoreUnitSet.KILOMETRE,"kilometre", "km", (SingularUnit) metre, DecimalPrefix.KILO);
         this.createPrefixedUnit(CoreUnitSet.CENTIMETRE, "centimetre", "cm", (SingularUnit) metre, DecimalPrefix.CENTI);
         this.createPrefixedUnit(CoreUnitSet.DECIMETRE, "decimetre", "dm", (SingularUnit) metre, DecimalPrefix.DECI);
@@ -39,10 +39,10 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         Unit nauticalMile = this.createSingularUnit(CoreUnitSet.NAUTICAL_MILE, "nautical mile", "M", metre, 1853.184);
         this.createSingularUnit(CoreUnitSet.FATHOM, "fathom", null, feet, 6);
         Unit gram = this.createSingularUnit(CoreUnitSet.GRAM, "gram", "g");
-        Unit kilogram = this.createPrefixedBaseUnit(CoreUnitSet.KILOGRAM, "kilogram", SIDimension.MASS, (SingularUnit)gram, DecimalPrefix.KILO);
+        Unit kilogram = this.createPrefixedBaseUnit(CoreUnitSet.KILOGRAM, "kilogram", SIBaseDimension.MASS, (SingularUnit)gram, DecimalPrefix.KILO);
         this.createPrefixedUnit(CoreUnitSet.MILLIGRAM, "milligram", "mg", (SingularUnit) gram, DecimalPrefix.MILLI);
         this.createPrefixedUnit(CoreUnitSet.MICROGRAM, "microgram", "μg", (SingularUnit) gram, DecimalPrefix.MICRO);
-        Unit second = this.createBaseUnit(CoreUnitSet.SECOND, "second", "s", SIDimension.TIME);
+        Unit second = this.createBaseUnit(CoreUnitSet.SECOND, "second", "s", SIBaseDimension.TIME);
         this.createPrefixedUnit(CoreUnitSet.MILLISECOND, "millisecond", "ms", (SingularUnit) second, DecimalPrefix.MILLI);
         this.createPrefixedUnit(CoreUnitSet.MICROSECOND, "microsecond", "μs", (SingularUnit) second, DecimalPrefix.MICRO);
         this.createPrefixedUnit(CoreUnitSet.NANOSECOND, "nanosecond", "ns", (SingularUnit) second, DecimalPrefix.NANO);
@@ -50,12 +50,12 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         Unit hour = this.createSingularUnit(CoreUnitSet.HOUR, "hour", "h", second, 3600);
         this.createSingularUnit(CoreUnitSet.DAY, "day", "d", second, 86400);
         this.createSingularUnit(CoreUnitSet.YEAR, "year", "yr", second, 31556925.9747);
-        Unit ampere = this.createBaseUnit(CoreUnitSet.AMPERE, "ampere", "A",SIDimension.ELECTRIC_CURRENT);
-        Unit kelvin = this.createBaseUnit(CoreUnitSet.KELVIN, "kelvin", "K", SIDimension.THERMODYNAMIC_TEMPERATURE);
+        Unit ampere = this.createBaseUnit(CoreUnitSet.AMPERE, "ampere", "A",SIBaseDimension.ELECTRIC_CURRENT);
+        Unit kelvin = this.createBaseUnit(CoreUnitSet.KELVIN, "kelvin", "K", SIBaseDimension.THERMODYNAMIC_TEMPERATURE);
         Unit celsius = this.createSingularUnit(CoreUnitSet.CELSIUS,"celsius", "°C", kelvin);
         Unit fahrenheit = this.createSingularUnit(CoreUnitSet.FAHRENHEIT,"fahrenheit", "°F", kelvin, 1.8);
-        Unit mole = this.createBaseUnit(CoreUnitSet.MOLE, "mole", "mol", SIDimension.AMOUNT_OF_SUBSTANCE);
-        Unit candela = this.createBaseUnit(CoreUnitSet.CANDELA, "candela", "cd", SIDimension.LUMINOUS_INTENSITY);
+        Unit mole = this.createBaseUnit(CoreUnitSet.MOLE, "mole", "mol", SIBaseDimension.AMOUNT_OF_SUBSTANCE);
+        Unit candela = this.createBaseUnit(CoreUnitSet.CANDELA, "candela", "cd", SIBaseDimension.LUMINOUS_INTENSITY);
         Unit squareMetre = this.createUnitExponentiation(CoreUnitSet.SQUARE_METRE,"square metre", "m^2", metre, 2);
         this.createUnitExponentiation(CoreUnitSet.SQUARE_KILOMETRE,"square kilometre", "km^2", kilometre, 2);
         this.createUnitExponentiation(CoreUnitSet.SQUARE_MILE,"square mile", "sq mi", mile, 2);
@@ -107,9 +107,9 @@ public class CoreUnitAndScaleFactory extends DefaultUnitAndScaleFactory {
         this.createUnitDivision(CoreUnitSet.KATAL,"katal", "kat", mole, second);
 
         // scales
-        Scale kelvinScale = this.createScale(CoreScaleSet.KELVIN,"Kelvin temperature scale",null,kelvin);
-        this.createScale(CoreScaleSet.CELSIUS,"Celsius temperature scale",null,kelvinScale,-273.15,1.0,celsius);
-        this.createScale(CoreScaleSet.FAHRENHEIT,"Fahrenheit temperature scale",null,kelvinScale,-459.67,1.8,fahrenheit);
+        Scale kelvinScale = this.createScale(CoreScaleSet.KELVIN_SCALE,"Kelvin temperature scale",null,kelvin);
+        this.createScale(CoreScaleSet.CELSIUS_SCALE,"Celsius temperature scale",null,kelvinScale,-273.15,1.0,celsius);
+        this.createScale(CoreScaleSet.FAHRENHEIT_SCALE,"Fahrenheit temperature scale",null,kelvinScale,-459.67,1.8,fahrenheit);
     }
 
     /**

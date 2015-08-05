@@ -58,9 +58,9 @@ public class UnitCoreSetTest {
     public void testScaleCreation(){
         UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
         try {
-            Scale kelvinScale = (Scale) factory.getUnitOrScale(CoreScaleSet.KELVIN);
-            Scale celsiusScale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS);
-            Scale fahrenheitScale = (Scale) factory.getUnitOrScale(CoreScaleSet.FAHRENHEIT);
+            Scale kelvinScale = (Scale) factory.getUnitOrScale(CoreScaleSet.KELVIN_SCALE);
+            Scale celsiusScale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS_SCALE);
+            Scale fahrenheitScale = (Scale) factory.getUnitOrScale(CoreScaleSet.FAHRENHEIT_SCALE);
             Assert.assertEquals("Test scale creation",fahrenheitScale.getDefinitionScale(),kelvinScale);
             Assert.assertEquals("Test scale creation",fahrenheitScale.getUnit().getIdentifier(),CoreUnitSet.FAHRENHEIT);
             Assert.assertTrue("Test scale creation", fahrenheitScale.getOffsetFromDefinitionScale() == -459.67);

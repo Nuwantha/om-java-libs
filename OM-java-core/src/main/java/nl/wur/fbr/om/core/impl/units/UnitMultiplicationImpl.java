@@ -1,8 +1,8 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitMultiplication;
 
@@ -11,6 +11,7 @@ import java.util.Set;
 /**
  * The core implementation for Unit multiplication, which is a compound unit consisting of two base units that are multiplied.
  * For instance, the unit Newton metre (N.m) is a multiplication of Newton (N) and metre (m).
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplication {
@@ -101,17 +102,17 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
-        DimensionMap map = new DimensionMap();
-        DimensionMap map1 = getTerm1().getUnitDimension();
-        DimensionMap map2 = getTerm2().getUnitDimension();
-        Set<Dimension> dims1 = map1.getDimensions();
-        for(Dimension dim : dims1){
+    public Dimension getUnitDimension() {
+        Dimension map = new Dimension();
+        Dimension map1 = getTerm1().getUnitDimension();
+        Dimension map2 = getTerm2().getUnitDimension();
+        Set<BaseDimension> dims1 = map1.getDimensions();
+        for(BaseDimension dim : dims1){
             int exp = map1.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,exp);
         }
-        Set<Dimension> dims2 = map2.getDimensions();
-        for(Dimension dim : dims2){
+        Set<BaseDimension> dims2 = map2.getDimensions();
+        for(BaseDimension dim : dims2){
             int exp = map2.getDimensionalExponent(dim);
             int eee = map.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,eee+exp);

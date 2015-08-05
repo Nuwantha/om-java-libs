@@ -10,6 +10,7 @@ import nl.wur.fbr.om.model.units.Unit;
  * For some measurements like temperature (if it is not relative, i.e. difference between temperatures),
  * {@link Point Point} should be used instead of <code>Measure</code> as these measurements are defined on a
  * measurement scale.
+ *
  * @author Don Willems on 20/07/15.
  */
 public class MeasureImpl implements Measure {

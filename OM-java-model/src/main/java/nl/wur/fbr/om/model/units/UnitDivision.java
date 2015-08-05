@@ -3,6 +3,7 @@ package nl.wur.fbr.om.model.units;
 /**
  * A compound unit that is the division of two other units. For instance, the unit used for denstiy kilogram per
  * cubic metre is a unit division of the numerator kilogram and the denominator cubic metre.
+ *
  * @author Don Willems on 14/07/15.
  */
 public interface UnitDivision extends Unit {

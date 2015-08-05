@@ -3,6 +3,7 @@ package nl.wur.fbr.om.exceptions;
 /**
  * Represents an exception being thrown during unit or scale conversion.
  * @author Don Willems on 17/07/15.
+ *
  */
 public class ConversionException extends Exception {
 

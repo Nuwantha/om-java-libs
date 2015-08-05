@@ -45,7 +45,7 @@ public interface UnitAndScaleConversionFactory {
      * @param measure2 The second measure to compare.
      * @return A negative integer if the first measure is smaller than the second measure, 0 if the measures
      * are equal, and a positive integer if the first measure is larger.
-     * @throws ConversionException When the units of the measures are in different dimensions.
+     * @throws ConversionException When the units of the measures are in a different dimension.
      */
     public int compare(ScalarMeasure measure1, ScalarMeasure measure2) throws ConversionException;
 
@@ -71,7 +71,7 @@ public interface UnitAndScaleConversionFactory {
      * @param point2 The second point to compare.
      * @return A negative integer if the first point is smaller than the second point, 0 if the points
      * are equal, and a positive integer if the first point is larger.
-     * @throws ConversionException When the units of the points are in different dimensions, or if the measures
+     * @throws ConversionException When the units of the points are in a different dimension, or if the measures
      * have incompatible numerical values, e.g. a scalar and a vector.
      */
     public int compare(ScalarPoint point1, ScalarPoint point2) throws ConversionException;

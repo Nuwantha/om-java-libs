@@ -2,6 +2,7 @@ package nl.wur.fbr.om.model.points;
 
 /**
  * This interface defines the specific methods for point that have a scalar as numerical value.
+ *
  * @author Don Willems on 28/07/15.
  */
 public interface ScalarPoint extends Point {

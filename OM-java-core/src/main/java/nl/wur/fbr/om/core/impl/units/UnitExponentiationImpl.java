@@ -1,8 +1,8 @@
 package nl.wur.fbr.om.core.impl.units;
 
 
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.dimensions.DimensionMap;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitExponentiation;
 
@@ -12,6 +12,7 @@ import java.util.Set;
  * A unit that is defined as an exponentiation of another unit.
  * For instance, the unit exponentiation cubic metre (m^3) is the exponentiation (with exponent 3) of the unit
  * metre.
+ *
  * @author Don Willems on 19/07/15.
  */
 public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiation {
@@ -98,11 +99,11 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
      * @return The set of dimensions and dimensional exponents.
      */
     @Override
-    public DimensionMap getUnitDimension() {
-        DimensionMap map = new DimensionMap();
-        DimensionMap bmap = base.getUnitDimension();
-        Set<Dimension> dims = bmap.getDimensions();
-        for(Dimension dim : dims){
+    public Dimension getUnitDimension() {
+        Dimension map = new Dimension();
+        Dimension bmap = base.getUnitDimension();
+        Set<BaseDimension> dims = bmap.getDimensions();
+        for(BaseDimension dim : dims){
             int exp = bmap.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,exp*(int)getExponent());
         }

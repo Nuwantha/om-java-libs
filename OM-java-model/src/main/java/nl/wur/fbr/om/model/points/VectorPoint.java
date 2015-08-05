@@ -4,6 +4,7 @@ import nl.wur.fbr.om.model.measures.ScalarMeasure;
 
 /**
  * This interface defines the specific methods for points that have a vector as numerical value.
+ *
  * @author Don Willems on 28/07/15.
  */
 public interface VectorPoint extends Point{

@@ -5,6 +5,7 @@ import nl.wur.fbr.om.model.scales.Scale;
 
 /**
  * The core implementation for a point that has a scalar as numerical value.
+ *
  * @author Don Willems on 28/07/15.
  */
 public class ScalarPointImpl extends PointImpl implements ScalarPoint {
