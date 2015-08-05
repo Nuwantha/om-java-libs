@@ -153,7 +153,7 @@ public class UnitOMSetTest {
             Assert.assertEquals("Testing OM Scale creation", -273.15, ((Scale) celsius_scale).getOffsetFromDefinitionScale(), 0.0000001);
             Unit celsius = (Unit) factory.getUnitOrScale("degree_Celsius");
             Assert.assertEquals("Testing OM Unit Scale creation", celsius, ((Scale) celsius_scale).getUnit());
-
+            Assert.assertEquals("Testing OM Unit Scale creation", 15, ((Scale) celsius_scale).getDefinitionPoints().size());
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Could not create OMUnitAndScaleFactory.");

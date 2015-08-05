@@ -49,6 +49,13 @@ public interface Scale extends NamedObject {
     public List<Point> getDefinitionPoints();
 
     /**
+     * Adds a point on this measurement scale that is used to define the scale. For instance, the
+     * Celsius scale is defined by points such as the boiling point of water (i.e. 100 degrees Celsius).
+     * @param point The point.
+     */
+    public void addDefinitionPoint(Point point);
+
+    /**
      * Returns the associated unit for this measurement scale.
      * The celsius scale has, for instance, the unit celsius.
      * @return The associated unit.

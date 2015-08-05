@@ -70,6 +70,8 @@ public class OM {
     public final static URI APPLICATION_AREA;
     public final static URI DIMENSION;
 	public final static URI PHENOMENON;
+    public final static URI POINT;
+    public final static URI FIXED_POINT;
 
     // properties (prefixed with HAS_ as there are many properties having the same name as a concept)
     public final static URI HAS_QUANTITY;
@@ -78,6 +80,7 @@ public class OM {
     public final static URI HAS_NUMERICAL_VALUE;
     public final static URI HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE;
     public final static URI HAS_PHENOMENON;
+    public final static URI HAS_ELEMENT;
 
     // properties for compound units and prefixes
     public final static URI HAS_FACTOR;
@@ -189,6 +192,8 @@ public class OM {
         APPLICATION_AREA = factory.createURI(NAMESPACE, "Application_area");
         DIMENSION = factory.createURI(NAMESPACE, "Dimension");
         PHENOMENON = factory.createURI(NAMESPACE, "Phenomenon");
+        POINT = factory.createURI(NAMESPACE, "Point");
+        FIXED_POINT = factory.createURI(NAMESPACE, "Fixed_point");
 
         // properties (prefixed with HAS_ as there are many properties having the same name as a concept)
         HAS_QUANTITY = factory.createURI(NAMESPACE, "quantity");
@@ -197,6 +202,7 @@ public class OM {
         HAS_NUMERICAL_VALUE = factory.createURI(NAMESPACE, "numerical_value");
         HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE = factory.createURI(NAMESPACE, "unit_of_measure_or_measurement_scale");
         HAS_PHENOMENON = factory.createURI(NAMESPACE, "phenomenon");
+        HAS_ELEMENT = factory.createURI(NAMESPACE, "element");
 
         // properties for compound units and prefixes
         HAS_FACTOR = factory.createURI(NAMESPACE, "factor");

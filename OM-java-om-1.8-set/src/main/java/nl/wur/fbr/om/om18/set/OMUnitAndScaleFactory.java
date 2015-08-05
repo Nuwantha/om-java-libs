@@ -2,11 +2,15 @@ package nl.wur.fbr.om.om18.set;
 
 import javafx.util.Pair;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;
+import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;
 import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.points.ScalarPoint;
+import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.vocabulary.OM;
@@ -438,25 +442,70 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private Scale createScale(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+uri+"> <"+OM.HAS_DEFINITION_RELATIVE_TO+"> ?parent.\n"+
-                "   <"+uri+"> <"+OM.HAS_DEFINITION_FACTOR+"> ?factor.\n"+
-                "   <"+uri+"> <"+OM.HAS_DEFINITION_OFFSET+"> ?offset.\n"+
-                "   <"+uri+"> <"+OM.HAS_UNIT_OF_MEASURE+"> ?unit.\n"+
+                "   OPTIONAL{ \n" +
+                "       <"+uri+"> <"+OM.HAS_DEFINITION_RELATIVE_TO+"> ?parent.\n"+
+                "       <"+uri+"> <"+OM.HAS_DEFINITION_FACTOR+"> ?factor.\n"+
+                "       <"+uri+"> <"+OM.HAS_DEFINITION_OFFSET+"> ?offset.\n" +
+                "   }\n"+
+                "   OPTIONAL{ <"+uri+"> <"+OM.HAS_UNIT_OF_MEASURE+"> ?unit.}\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
             BindingSet bs = result.next();
-            URI parentURI = (URI) bs.getValue("parent");
-            double factor = new Double(((Literal) bs.getValue("factor")).stringValue());
-            double offset = new Double(((Literal) bs.getValue("offset")).stringValue());
             URI unitURI = (URI) bs.getValue("unit");
             Unit unit = (Unit) this.getUnitOrScale(unitURI.stringValue());
-            Scale parentscale = (Scale) this.getUnitOrScale(parentURI.stringValue());
-            Scale scale = this.createScale(uri.stringValue(), null, null, parentscale, offset, factor,unit);
-            return scale;
-        }else{ // top scales such as Kelvin with not parent scale
-            Scale scale = this.createScale(uri.stringValue(),null,null);
-            return scale;
+            if (bs.hasBinding("parent")) {
+                URI parentURI = (URI) bs.getValue("parent");
+                double factor = new Double(((Literal) bs.getValue("factor")).stringValue());
+                double offset = new Double(((Literal) bs.getValue("offset")).stringValue());
+                Scale parentscale = (Scale) this.getUnitOrScale(parentURI.stringValue());
+                Scale scale = this.createScale(uri.stringValue(), null, null, parentscale, offset, factor, unit);
+                this.addFixedPointsToScale(scale, connection);
+                return scale;
+            } else { // top scales such as Kelvin with not parent scale
+                Scale scale = this.createScale(uri.stringValue(), null, null,unit);
+                this.addFixedPointsToScale(scale, connection);
+                return scale;
+            }
+        }
+        throw new InsufficientDataException("Could not acquire the data of the measurement scale identified by <"+uri+">",uri.stringValue());
+    }
+
+    /**
+     * Retrieves the fixed points that define the measurement scale.
+     * @param scale The scale.
+     * @param connection The connection to the repository.
+     * @throws MalformedQueryException When the query was malformed.
+     * @throws RepositoryException When the repository could not be accessed.
+     * @throws QueryEvaluationException When the query could not be evaluated.
+     */
+    private void addFixedPointsToScale(Scale scale, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
+        String sparql = "" +
+                "SELECT * WHERE{\n" +
+                "   <"+scale.getIdentifier()+"> <"+ OM.HAS_ELEMENT+ "> ?element.\n" +
+                "   ?element a <"+OM.FIXED_POINT+">.\n" +
+                "   ?element <"+OM.HAS_NUMERICAL_VALUE+"> ?value." +
+                "}";
+        TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
+        while(result.hasNext()) {
+            BindingSet bs = result.next();
+            URI elementURI = (URI) bs.getValue("element");
+            try {
+                String nvalue = ((Literal) bs.getValue("value")).stringValue();
+                if (nvalue.contains(" to ")) {
+                    int pos = nvalue.indexOf(" to ");
+                    double minv = new Double(nvalue.substring(0, pos));
+                    double maxv = new Double(nvalue.substring(pos + 4));
+                    ScalarRangePoint point = new ScalarRangePointImpl(minv, maxv, scale);
+                    scale.addDefinitionPoint(point);
+                } else {
+                    double value = new Double(nvalue);
+                    ScalarPoint point = new ScalarPointImpl(value, scale);
+                    scale.addDefinitionPoint(point);
+                }
+            }catch (NumberFormatException e){
+                // todo logging of warnings
+            }
         }
     }
 

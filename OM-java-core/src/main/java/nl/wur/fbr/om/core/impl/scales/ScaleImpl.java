@@ -205,6 +205,7 @@ public class ScaleImpl implements Scale {
      * Celsius scale is defined by points such as the boiling point of water (i.e. 100 degrees Celsius).
      * @param point The point.
      */
+    @Override
     public void addDefinitionPoint(Point point){
         definitionPoints.add(point);
     }
