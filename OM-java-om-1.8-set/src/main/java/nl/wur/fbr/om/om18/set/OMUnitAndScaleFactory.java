@@ -234,7 +234,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 definitionUnitURI = (URI) bs.getValue("definitionUnit");
             }
             if(bs.hasBinding("factor")){
-                factor = ((Literal) bs.getValue("factor")).doubleValue();
+                factor = new Double(((Literal) bs.getValue("factor")).stringValue());
             }
             if(definitionUnitURI!=null && !uri.equals(gramURI)){
                 Unit defUnit = null;
@@ -449,8 +449,8 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         if(result.hasNext()) {
             BindingSet bs = result.next();
             URI parentURI = (URI) bs.getValue("parent");
-            double factor = ((Literal) bs.getValue("factor")).doubleValue();
-            double offset = ((Literal) bs.getValue("offset")).doubleValue();
+            double factor = new Double(((Literal) bs.getValue("factor")).stringValue());
+            double offset = new Double(((Literal) bs.getValue("offset")).stringValue());
             URI unitURI = (URI) bs.getValue("unit");
             Unit unit = (Unit) this.getUnitOrScale(unitURI.stringValue());
             Scale parentscale = (Scale) this.getUnitOrScale(parentURI.stringValue());

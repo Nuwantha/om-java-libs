@@ -190,7 +190,7 @@ public class OMUnitConversionTest {
             Measure m1 = measureFactory.createScalarMeasure(120,joule);
             Measure m2 = conversion.convertToUnit(m1,kcal);
             Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 0.0286806883, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 120/4.19002/1000, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
 
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
