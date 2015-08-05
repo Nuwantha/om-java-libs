@@ -1,5 +1,6 @@
 package nl.wur.fbr.om.core.impl.units;
 
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitMultiple;
@@ -124,5 +125,22 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
     @Override
     public double getFactor() {
         return factor;
+    }
+
+    /**
+     * Returns the dimensions, and therefore, the dimensional exponents, in which this unit is defined.
+     * UnitMultiples have the same dimension as the basis unit.<br>
+     * The dimensions of the derived units are written as products of powers of the dimensions of the
+     * base units using the equations that relate the derived units to the base units or
+     * quantities. In SI the dimension of any unit U is written in the form of a dimensional product,
+     * dim U = L^&#945; M^&#946; T^&#947; l^&#948; &#920;^&#949; N^&#950; J^eta
+     * where the exponents &#945;, &#946;, &#947;, &#948;, &#949;, &#950;, and &#951;, which are generally small integers
+     * which can be positive, negative or zero, are called the dimensional exponents.
+     *
+     * @return The set of dimensions and dimensional exponents.
+     */
+    @Override
+    public Dimension getUnitDimension() {
+        return unit.getUnitDimension();
     }
 }

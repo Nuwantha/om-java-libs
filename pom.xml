@@ -24,7 +24,8 @@
     <modules>
         <module>om-java-model</module>
         <module>om-java-core</module>
-        <!--<module>om-java-conversion</module>-->
+        <module>om-java-core-set</module>
+        <module>om-java-conversion</module>
     </modules>
 
 	<build>
