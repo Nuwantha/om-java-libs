@@ -13,44 +13,21 @@ import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 
 /**
+ * A default implementation of the conversion factory uses the conversion algorithm implemented in
+ * {@link AbstractUnitConversionFactory}.
  * @author Don Willems on 01/08/15.
  */
 public class DefaultUnitConversionFactory extends AbstractUnitConversionFactory implements UnitAndScaleConversionFactory {
 
     private MeasureAndPointFactory creationFactory;
 
+    /**
+     * The constructor for a unit conversion factory takes one parameter, an instance of a
+     * {@link MeasureAndPointFactory} used for creating converted measures.
+     * @param creationFactory The measure and point creation factory.
+     */
     public DefaultUnitConversionFactory(MeasureAndPointFactory creationFactory){
         this.creationFactory = creationFactory;
-    }
-
-    /**
-     * Converts a double value expressed in the specified unit to the target unit.
-     *
-     * @param value      The double value.
-     * @param unit       The unit in which the double is expressed.
-     * @param targetUnit The target unit into which the double should be converted.
-     * @return The converted value expressed in the target unit.
-     * @throws ConversionException When the double could not be converted to the specified target unit.
-     */
-    @Override
-    public double convert(double value, Unit unit, Unit targetUnit) throws ConversionException {
-        double cvalue = this.convertDoubleValueToUnit(value,unit,targetUnit);
-        return cvalue;
-    }
-
-    /**
-     * Converts a double value on the specified measurement scalte to the target measurement scale.
-     *
-     * @param value       The double value.
-     * @param scale       The unit in which the double is expressed.
-     * @param targetScale The target unit into which the double should be converted.
-     * @return The converted value expressed in the target unit.
-     * @throws ConversionException When the double could not be converted to the specified target unit.
-     */
-    @Override
-    public double convert(double value, Scale scale, Scale targetScale) throws ConversionException {
-        double cvalue = this.convertDoubleValueToScale(value,scale, targetScale);
-        return cvalue;
     }
 
     /**

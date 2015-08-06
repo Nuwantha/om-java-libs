@@ -119,4 +119,24 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
         }
         return map;
     }
+
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal. If not and if the object is also a {@link UnitMultiplication}, the term units are tested
+     * if they are equal and if both terms are equal, the method returns true. This check is needed for dimensionless
+     * units.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(super.equals(object)) return true;
+        if(object instanceof UnitMultiplication){
+            UnitMultiplication umult = (UnitMultiplication)object;
+            return getTerm1().equals(umult.getTerm1()) && getTerm2().equals(umult.getTerm2());
+        }
+        return false;
+    }
 }
