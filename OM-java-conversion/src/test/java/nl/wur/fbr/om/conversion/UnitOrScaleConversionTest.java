@@ -115,6 +115,29 @@ public class UnitOrScaleConversionTest {
     }
 
     /**
+     * Tests the special unit kilogram as a base unit without measures but with doubles.
+     */
+    @Test
+    public void testKilogramUnitConversionWithDoubles(){
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+
+        try {
+            Unit gram = (Unit) factory.getUnitOrScale(CoreUnitSet.GRAM);
+            Unit kilogram = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOGRAM);
+            double convValue = conversion.convert(1024,gram,kilogram);
+            Assert.assertEquals("Test value equals after conversion", 1.024, convValue, 0.00001);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+    }
+
+    /**
      * Tests conversion chaining as suggested by Hajo.
      */
     @Test
