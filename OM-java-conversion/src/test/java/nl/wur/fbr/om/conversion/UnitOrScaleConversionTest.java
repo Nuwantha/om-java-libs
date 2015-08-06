@@ -9,6 +9,7 @@ import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
@@ -125,7 +126,7 @@ public class UnitOrScaleConversionTest {
         try {
             Unit cubicmetre = (Unit) factory.getUnitOrScale(CoreUnitSet.CUBIC_METRE);
             SingularUnit teaspoon = factory.createSingularUnit("Hajo's teaspoon","htsp",cubicmetre,4.928922e-6);
-            SingularUnit dessertspoon = factory.createSingularUnit("Hajo's dessertspoon","hdsp",teaspoon,2);
+            SingularUnit dessertspoon = factory.createSingularUnit("Hajo's dessertspoon", "hdsp", teaspoon, 2);
             Unit litre = (Unit) factory.getUnitOrScale(CoreUnitSet.LITRE);
             Measure m1 = measureFactory.createScalarMeasure(1,dessertspoon);
             Measure m2 = conversion.convertToUnit(m1, teaspoon);
@@ -157,9 +158,9 @@ public class UnitOrScaleConversionTest {
         try {
             Unit kmh = (Unit) factory.getUnitOrScale(CoreUnitSet.KILOMETRE_PER_HOUR);
             Unit ms = (Unit) factory.getUnitOrScale(CoreUnitSet.METRE_PER_SECOND);
-            Measure m1 = measureFactory.createScalarMeasure(120,kmh);
+            Measure m1 = measureFactory.createScalarMeasure(120, kmh);
             Measure m2 = conversion.convertToUnit(m1,ms);
-            Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
+            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2, 1e-12));
             Assert.assertEquals("Test measure equals after conversion", 33.33333333333333, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
 
         } catch (UnitOrScaleCreationException e) {
@@ -234,10 +235,85 @@ public class UnitOrScaleConversionTest {
             Scale celsiusscale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS_SCALE);
             Scale fahrenheitscale = (Scale) factory.getUnitOrScale(CoreScaleSet.FAHRENHEIT_SCALE);
 
-            Point p1 = measureFactory.createScalarPoint(0.0,celsiusscale);
-            Point p2 = conversion.convertToScale(p1,fahrenheitscale);
+            Point p1 = measureFactory.createScalarPoint(0.0, celsiusscale);
+            Point p2 = conversion.convertToScale(p1, fahrenheitscale);
             Assert.assertEquals("Test measure equals after conversion", 32.0, ((ScalarPoint) p2).doubleValue(), 0.0000001);
-            Assert.assertTrue("Test measure equals after conversion", conversion.equals(p1, p2,1e-12));
+            Assert.assertTrue("Test measure equals after conversion", conversion.equals(p1, p2, 1e-12));
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a scale. " + e);
+        }
+    }
+
+    @Test
+    public void testUnrelatedBaseUnitsConversion(){
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+
+        try {
+            Unit metre = (Unit) factory.getUnitOrScale(CoreUnitSet.METRE);
+            Unit second = (Unit) factory.getUnitOrScale(CoreUnitSet.SECOND);
+            Unit zaphoid = (Unit) factory.createBaseUnit("zaphoid", "Zp", SIBaseDimension.LENGTH);
+
+            Measure m1 = measureFactory.createScalarMeasure(5,metre);
+
+            try{
+                Measure m2 = conversion.convertToUnit(m1, second);
+                Assert.fail("Conversion should have thrown a conversion exception when converting from metre to second. " );
+            } catch (ConversionException e) {
+                Assert.assertTrue("Expected exception thrown when converting from metre to second. " + e, true);
+            }
+
+            try{
+                Measure m2 = conversion.convertToUnit(m1, zaphoid);
+                Assert.fail("Conversion should have thrown a conversion exception when converting from metre to zaphoid. " );
+            } catch (ConversionException e) {
+                Assert.assertTrue("Expected exception thrown when converting from metre to zaphoid. " + e, true);
+            }
+
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
+        }
+    }
+
+    /** Tests dimensional conversion. */
+    @Test
+    public void testBaseUnitsOfDimensionalUnitConversion(){
+        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+
+        try {
+            Unit metre = (Unit) factory.getUnitOrScale(CoreUnitSet.METRE);
+            Unit inch = (Unit) factory.getUnitOrScale(CoreUnitSet.INCH);
+            Unit second = (Unit) factory.getUnitOrScale(CoreUnitSet.SECOND);
+
+            Unit metrePerMetre = (Unit) factory.createUnitDivision(metre, metre);
+            Unit inchPerInch = (Unit) factory.createUnitDivision(inch, inch);
+            Measure m1 = measureFactory.createScalarMeasure(5,metrePerMetre);
+            Measure m2 = conversion.convertToUnit(m1,inchPerInch);
+            Assert.assertEquals("Test measure equals after conversion", 5.0, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+
+            Unit metrePerInch = (Unit) factory.createUnitDivision(metre, inch);
+            Unit inchPerMetre = (Unit) factory.createUnitDivision(inch, metre);
+            Measure m3 = measureFactory.createScalarMeasure(5,metrePerInch);
+            Measure m4 = conversion.convertToUnit(m3, inchPerMetre);
+            Measure m5 = conversion.convertToUnit(m3,metrePerMetre);
+            Assert.assertNotEquals("Test measure equals after conversion", 5.0, ((ScalarMeasure) m4).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 5.0*39.3700787402, ((ScalarMeasure) m5).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 5.0*1550.0031000062, ((ScalarMeasure) m4).doubleValue(), 0.0000001);
+            try{
+                Unit secondPerSecond = (Unit) factory.createUnitDivision(second, second);
+                Measure m6 = conversion.convertToUnit(m3, inchPerMetre);
+                Assert.fail("Conversion should have thrown a conversion exception when converting from metre/inch to second/second. " );
+            } catch (ConversionException e) {
+                Assert.assertTrue("Expected exception thrown when converting a dimensionless unit from metre/inch to second/second. " + e, true);
+            }
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
