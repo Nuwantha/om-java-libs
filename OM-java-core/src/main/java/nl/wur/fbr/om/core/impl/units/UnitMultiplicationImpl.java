@@ -135,7 +135,9 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
         if(super.equals(object)) return true;
         if(object instanceof UnitMultiplication){
             UnitMultiplication umult = (UnitMultiplication)object;
-            return getTerm1().equals(umult.getTerm1()) && getTerm2().equals(umult.getTerm2());
+            boolean ok = getTerm1().equals(umult.getTerm1()) && getTerm2().equals(umult.getTerm2());
+            if(ok) return true;     // Multiplication can be reversed m.s == s.m
+            return getTerm1().equals(umult.getTerm2()) && getTerm2().equals(umult.getTerm1());
         }
         return false;
     }
