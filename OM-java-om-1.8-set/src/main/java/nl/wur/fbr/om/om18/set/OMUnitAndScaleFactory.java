@@ -7,8 +7,8 @@ import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;
 import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.NamedObject;
-import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
+import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
@@ -231,7 +231,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             BindingSet bs = result.next();
             URI definitionUnitURI = null;
             double factor = 1;
-            Dimension dimension = this.getDimension(uri,connection);
+            BaseDimension dimension = this.getBaseDimension(uri,connection);
             if(bs.hasBinding("definitionUnit")) {
                 definitionUnitURI = (URI) bs.getValue("definitionUnit");
             }
@@ -324,7 +324,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 else if(prefixuri.equals(OM.ZEBI)) prefix = BinaryPrefix.ZEBI;
                 else if(prefixuri.equals(OM.YOBI)) prefix = BinaryPrefix.YOBI;
                 if(uri.equals(kilogramURI)){
-                    PrefixedUnit prefixedUnit = (PrefixedUnit)this.createPrefixedBaseUnit(uri.stringValue(), (String) null, (String) null, SIDimension.MASS, sunit, prefix);
+                    PrefixedUnit prefixedUnit = (PrefixedUnit)this.createPrefixedBaseUnit(uri.stringValue(), (String) null, (String) null, SIBaseDimension.MASS, sunit, prefix);
                     return prefixedUnit;
                 }else{
                     PrefixedUnit prefixedUnit = this.createPrefixedUnit(uri.stringValue(), (String) null, (String) null, sunit,prefix);
@@ -518,7 +518,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
      * @throws RepositoryException When the repository could not be accessed.
      * @throws QueryEvaluationException When the query could not be evaluated.
      */
-    private Dimension getDimension(URI uri,RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
+    private BaseDimension getBaseDimension(URI uri,RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
                 "   <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
@@ -533,7 +533,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
             BindingSet bs = result.next();
-            Dimension dimension = null;
+            BaseDimension dimension = null;
             if(bs.hasBinding("dimension")) {
                 int length = ((Literal) bs.getValue("length")).intValue();
                 int mass = ((Literal) bs.getValue("mass")).intValue();
@@ -543,19 +543,19 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 int amount = ((Literal) bs.getValue("amount")).intValue();
                 int intensity = ((Literal) bs.getValue("intensity")).intValue();
                 if(length==1 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.LENGTH;
+                    dimension = SIBaseDimension.LENGTH;
                 }else if(length==0 && mass==1 && time==0 && current==0 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.MASS;
+                    dimension = SIBaseDimension.MASS;
                 }else if(length==0 && mass==0 && time==1 && current==0 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.TIME;
+                    dimension = SIBaseDimension.TIME;
                 }else if(length==0 && mass==0 && time==0 && current==1 && temperature==0 && amount==0 && intensity==0){
-                    dimension = SIDimension.ELECTRIC_CURRENT;
+                    dimension = SIBaseDimension.ELECTRIC_CURRENT;
                 }else if(length==0 && mass==0 && time==0 && current==0 && temperature==1 && amount==0 && intensity==0){
-                    dimension = SIDimension.THERMODYNAMIC_TEMPERATURE;
+                    dimension = SIBaseDimension.THERMODYNAMIC_TEMPERATURE;
                 }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==1 && intensity==0){
-                    dimension = SIDimension.AMOUNT_OF_SUBSTANCE;
+                    dimension = SIBaseDimension.AMOUNT_OF_SUBSTANCE;
                 }else if(length==0 && mass==0 && time==0 && current==0 && temperature==0 && amount==0 && intensity==1){
-                    dimension = SIDimension.LUMINOUS_INTENSITY;
+                    dimension = SIBaseDimension.LUMINOUS_INTENSITY;
                 }
             }
             return dimension;

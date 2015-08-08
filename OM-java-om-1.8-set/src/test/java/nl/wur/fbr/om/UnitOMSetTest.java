@@ -2,7 +2,7 @@ package nl.wur.fbr.om;
 
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
-import nl.wur.fbr.om.model.dimensions.SIDimension;
+import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
@@ -24,15 +24,15 @@ public class UnitOMSetTest {
         try {
             UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
             Unit metre = (Unit) factory.getUnitOrScale("metre");
-            Assert.assertEquals("Testing OM Base Unit creation", SIDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());
+            Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());
             Assert.assertEquals("Testing OM Base Unit creation", "metre",metre.getName());
             Assert.assertEquals("Testing OM Base Unit creation", "m",metre.getSymbol());
             Unit second = (Unit) factory.getUnitOrScale("second-time");
-            Assert.assertEquals("Testing OM Base Unit creation", SIDimension.TIME,((BaseUnit)second).getDefinitionDimension());
+            Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.TIME,((BaseUnit)second).getDefinitionDimension());
             Unit candela = (Unit) factory.getUnitOrScale("candela");
-            Assert.assertEquals("Testing OM Base Unit creation", SIDimension.LUMINOUS_INTENSITY, ((BaseUnit) candela).getDefinitionDimension());
-            Assert.assertNotEquals("Testing OM Base Unit creation", SIDimension.LENGTH, ((BaseUnit) candela).getDefinitionDimension());
-            Assert.assertNotEquals("Testing OM Base Unit creation", SIDimension.ELECTRIC_CURRENT,((BaseUnit)candela).getDefinitionDimension());
+            Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LUMINOUS_INTENSITY, ((BaseUnit) candela).getDefinitionDimension());
+            Assert.assertNotEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH, ((BaseUnit) candela).getDefinitionDimension());
+            Assert.assertNotEquals("Testing OM Base Unit creation", SIBaseDimension.ELECTRIC_CURRENT,((BaseUnit)candela).getDefinitionDimension());
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Could not create OMUnitAndScaleFactory.");
