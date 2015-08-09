@@ -1,5 +1,6 @@
 package nl.wur.fbr.om;
 
+import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -23,7 +24,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMBaseUnits(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit metre = (Unit) factory.getUnitOrScale("metre");
             Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());
             Assert.assertEquals("Testing OM Base Unit creation", "metre",metre.getName());
@@ -46,7 +47,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMSingularUnits(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit au = (Unit) factory.getUnitOrScale("astronomical_unit");
             Assert.assertEquals("Testing OM Singular Unit creation", "astronomical unit", au.getName());
             Assert.assertEquals("Testing OM Singular Unit creation", "au", au.getSymbol());
@@ -63,7 +64,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitMultiples(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit kilometre = (Unit) factory.getUnitOrScale("kilometre");
             Assert.assertEquals("Testing OM Unit Multiple creation", "kilometre", kilometre.getName());
             Assert.assertEquals("Testing OM Unit Multiple creation", "km", kilometre.getSymbol());
@@ -85,7 +86,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitMultiplication(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit newtonMetre = (Unit) factory.getUnitOrScale("newton_metre");
             Assert.assertEquals("Testing OM Unit Multiplication creation", "newton metre", newtonMetre.getName());
             Assert.assertEquals("Testing OM Unit Multiplication creation", "N m", newtonMetre.getSymbol());
@@ -106,7 +107,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitDivision(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit metre_per_second = (Unit) factory.getUnitOrScale("metre_per_second-time");
             Assert.assertEquals("Testing OM Unit Division creation", "metre per second", metre_per_second.getName());
             Assert.assertEquals("Testing OM Unit Division creation", "m/s", metre_per_second.getSymbol());
@@ -127,7 +128,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitExponentiation(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit cubicMetre = (Unit) factory.getUnitOrScale("cubic_metre");
             Assert.assertEquals("Testing OM Unit Exponentiation creation", "cubic metre", cubicMetre.getName());
             Assert.assertEquals("Testing OM Unit Exponentiation creation", "m3", cubicMetre.getSymbol());
@@ -147,7 +148,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMScaleCreation(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Scale celsius_scale = (Scale) factory.getUnitOrScale("Celsius_scale");
             Assert.assertEquals("Testing OM Scale creation", "Celsius scale", celsius_scale.getName());
             Assert.assertEquals("Testing OM Scale creation", 1, ((Scale) celsius_scale).getFactorFromDefinitionScale(), 0.0000001);
@@ -167,7 +168,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMVocabulary(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             Unit metre = (Unit) factory.getUnitOrScale(OM.Metre);
             Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());
             Assert.assertEquals("Testing OM Base Unit creation", "metre",metre.getName());

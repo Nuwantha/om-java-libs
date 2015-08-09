@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class contains the identifier for the core set of units. All SI base and derived units are included in this set.
+ * This class contains the identifiers for the core set of units. All SI base and derived units are included in this set.
  * Other frequently used units that are not part of the SI set are also included.
  *
  * @author Don Willems on 29/07/15.

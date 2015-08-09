@@ -6,6 +6,7 @@ import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;
 import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;
 import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -26,22 +27,14 @@ import org.openrdf.query.*;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.sail.SailRepository;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.sail.memory.MemoryStore;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is an extension of the {@link DefaultUnitAndScaleFactory} that includes
- * the units and measurement scales defined in the OM ontology (v1.8). The Identifiers for these units and scales
- * are defined as URIs.
- * Use these identifiers as parameter to {@link #getUnitOrScale(String)} to access the
- * OM set of units and scales.
+ * This implementation of {@link UnitAndScaleFactory} can be used to create unit and scale instances
+ * from an ontology that uses the OM ontology to define the different units and scales. The OM ontology
+ * itself does not have to be accesses via this factory as the units and scales are fully initialised in
+ * the OM set library.
  * @author Don Willems on 03/08/15.
  */
 public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
@@ -53,44 +46,9 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private Repository repository = null;
 
     /**
-     * Constructs the default {@link OMUnitAndScaleFactory}. This constructor creates a new in-memory repository
-     * with the RDF data contained in this release of the om-1.8-set library.
-     * @throws UnitOrScaleCreationException When the in-memory repository could not be created.
-     */
-    public OMUnitAndScaleFactory() throws UnitOrScaleCreationException {
-        repository = new SailRepository(new MemoryStore());
-        try {
-            repository.initialize();
-        } catch (RepositoryException e) {
-            throw new UnitOrScaleCreationException("Could not initialise the repository containing the OM ontology.",e);
-        }
-        InputStream in = OMUnitAndScaleFactory.class.getResourceAsStream("/om.owl");
-        System.out.println("RDF file: "+in);
-        RepositoryConnection connection = null;
-        try{
-            connection = repository.getConnection();
-            ValueFactory factory = connection.getValueFactory();
-            URI fileContext = factory.createURI("http://www.wurvoc.org/contexts/om");
-            connection.add(in, OMMeta.NAMESPACE, RDFFormat.RDFXML,fileContext);
-        } catch (RepositoryException e) {
-            throw new UnitOrScaleCreationException("Could not add the OM ontology to the in-memory repository.",e);
-        } catch (RDFParseException e) {
-            throw new UnitOrScaleCreationException("Could not parse the OM ontology file into the in-memory repository.",e);
-        } catch (IOException e) {
-            throw new UnitOrScaleCreationException("Could not access the OM ontology file.",e);
-        } finally {
-            if(connection!=null){
-                try {
-                    connection.close();
-                } catch (RepositoryException e) {
-                }
-            }
-        }
-    }
-
-    /**
      * Creates a new factory initialised with the specified repository. This repository should contain the
-     * OM ontology but may be available from for instance an HTTP server.
+     * OM ontology but may be available from for instance an HTTP server. The repository should be fully
+     * initialised.
      * @param repository The repository containing the OM ontology.
      */
     public OMUnitAndScaleFactory(Repository repository){

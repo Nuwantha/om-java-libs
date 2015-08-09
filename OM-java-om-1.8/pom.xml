@@ -13,11 +13,11 @@
     </properties>
 
     <groupId>nl.wur.fbr.om</groupId>
-    <artifactId>om-java-om-1.8-set</artifactId>
+    <artifactId>om-java-om-1.8</artifactId>
     <version>0.3.0</version>
 	<packaging>jar</packaging>
 
-	<name>OM 1.8 set of units and measurement scales</name>
+	<name>Factory implementations for OM units and scales</name>
 	<url>http://www.fbresearch.nl/IM</url>
 
     <dependencies>
@@ -31,12 +31,6 @@
             <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-core</artifactId>
 			<version>0.3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>om-java-om-1.8</artifactId>
-            <version>0.3.0</version>
         </dependency>
 
         <dependency>

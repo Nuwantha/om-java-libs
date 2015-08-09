@@ -2,6 +2,7 @@ package nl.wur.fbr.om;
 
 import nl.wur.fbr.om.conversion.DefaultUnitConversionFactory;
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
+import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
@@ -32,7 +33,7 @@ public class OMUnitConversionTest {
     public void testSingularUnitConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = (Unit) factory.getUnitOrScale("metre");
@@ -59,7 +60,7 @@ public class OMUnitConversionTest {
     public void testPrefixedUnitConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = (Unit) factory.getUnitOrScale("metre");
@@ -76,7 +77,7 @@ public class OMUnitConversionTest {
         }
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = (Unit) factory.getUnitOrScale("metre");
@@ -99,7 +100,7 @@ public class OMUnitConversionTest {
     public void testKilogramUnitConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit gram = (Unit) factory.getUnitOrScale("gram");
@@ -123,7 +124,7 @@ public class OMUnitConversionTest {
     @Test
     public void testConversionChaining(){
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit cubicmetre = (Unit) factory.getUnitOrScale("cubic_metre");
@@ -154,7 +155,7 @@ public class OMUnitConversionTest {
     public void testUnitDivisionConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit kmh = (Unit) factory.getUnitOrScale("kilometre_per_hour");
@@ -180,7 +181,7 @@ public class OMUnitConversionTest {
     public void testUnitMultiplicationConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit joule = (Unit) factory.getUnitOrScale("joule");
@@ -206,7 +207,7 @@ public class OMUnitConversionTest {
     public void testUnitExponentiationConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit squaremetre = (Unit) factory.getUnitOrScale("square_metre");
@@ -230,7 +231,7 @@ public class OMUnitConversionTest {
     public void testScaleConversion(){
 
         try {
-            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Scale celsiusscale = (Scale) factory.getUnitOrScale("Celsius_scale");
