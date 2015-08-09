@@ -13,7 +13,7 @@ import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
-import nl.wur.fbr.om.om18.vocabulary.OM;
+import nl.wur.fbr.om.om18.vocabulary.OMMeta;
 import nl.wur.fbr.om.prefixes.BinaryPrefix;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import nl.wur.fbr.om.prefixes.Prefix;
@@ -71,7 +71,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             connection = repository.getConnection();
             ValueFactory factory = connection.getValueFactory();
             URI fileContext = factory.createURI("http://www.wurvoc.org/contexts/om");
-            connection.add(in,OM.NAMESPACE, RDFFormat.RDFXML,fileContext);
+            connection.add(in, OMMeta.NAMESPACE, RDFFormat.RDFXML,fileContext);
         } catch (RepositoryException e) {
             throw new UnitOrScaleCreationException("Could not add the OM ontology to the in-memory repository.",e);
         } catch (RDFParseException e) {
@@ -155,25 +155,25 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         try {
             List<URI> types = this.getTypeOfResource(uri,connection);
             NamedObject nobject = null;
-            if(types.contains(OM.SINGULAR_UNIT)){
+            if(types.contains(OMMeta.SINGULAR_UNIT)){
                 nobject = this.createSingularUnit(uri,connection);
-            }else if(types.contains(OM.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
+            }else if(types.contains(OMMeta.UNIT_MULTIPLE_OR_SUBMULTIPLE)){
                 nobject = this.createUnitMultiple(uri,connection);
-            }else if(types.contains(OM.UNIT_MULTIPLICATION)){
+            }else if(types.contains(OMMeta.UNIT_MULTIPLICATION)){
                 nobject = this.createUnitMultiplication(uri, connection);
-            }else if(types.contains(OM.UNIT_DIVISION)){
+            }else if(types.contains(OMMeta.UNIT_DIVISION)){
                 nobject = this.createUnitDivision(uri, connection);
-            }else if(types.contains(OM.UNIT_EXPONENTIATION)){
+            }else if(types.contains(OMMeta.UNIT_EXPONENTIATION)){
                 nobject = this.createUnitExponentiation(uri, connection);
-            }else if(types.contains(OM.INTERVAL_SCALE)){
+            }else if(types.contains(OMMeta.INTERVAL_SCALE)){
                 nobject = this.createScale(uri, connection);
-            }else if(types.contains(OM.NOMINAL_SCALE)){
+            }else if(types.contains(OMMeta.NOMINAL_SCALE)){
                 throw new UnsupportedOperationException("Nominal scales are not yet supported.");
-            }else if(types.contains(OM.ORDINAL_SCALE)){
+            }else if(types.contains(OMMeta.ORDINAL_SCALE)){
                 throw new UnsupportedOperationException("Ordinal scales are not yet supported.");
-            }else if(types.contains(OM.RATIO_SCALE)){
+            }else if(types.contains(OMMeta.RATIO_SCALE)){
                 nobject = this.createScale(uri, connection);
-            }else if(types.contains(OM.CARDINAL_SCALE)){
+            }else if(types.contains(OMMeta.CARDINAL_SCALE)){
                 nobject = this.createScale(uri, connection);
             }else {
                 throw new UnitOrScaleCreationException("The type of the requested resource with identifier <"+uri+"> " +
@@ -210,24 +210,24 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         String sparql = "" +
                 "SELECT ?dimension ?length ?mass ?time ?current ?temperature ?amount ?intensity ?definitionUnit ?factor WHERE {\n" +
                 "   OPTIONAL{ \n" +
-                "       <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
-                "       ?dimension <"+OM.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
-                "       ?dimension <"+OM.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
-                "       ?dimension <"+OM.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
-                "       ?dimension <"+OM.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
-                "       ?dimension <"+OM.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
-                "       ?dimension <"+OM.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
-                "       ?dimension <"+OM.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
+                "       <"+uri+"> <"+ OMMeta.HAS_DIMENSION+ "> ?dimension.\n" +
+                "       ?dimension <"+ OMMeta.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
                 "   } \n" +
                 "   OPTIONAL{ \n" +
-                "       <"+uri+"> <"+ OM.HAS_DEFINITION+ "> ?definition.\n" +
-                "       ?definition <"+ OM.HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE+ "> ?definitionUnit.\n" +
-                "       ?definition <"+ OM.HAS_NUMERICAL_VALUE+ "> ?factor.\n" +
+                "       <"+uri+"> <"+ OMMeta.HAS_DEFINITION+ "> ?definition.\n" +
+                "       ?definition <"+ OMMeta.HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE+ "> ?definitionUnit.\n" +
+                "       ?definition <"+ OMMeta.HAS_NUMERICAL_VALUE+ "> ?factor.\n" +
                 "   }\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()){
-            URI gramURI = connection.getValueFactory().createURI(OM.NAMESPACE, "gram");
+            URI gramURI = connection.getValueFactory().createURI(OMMeta.NAMESPACE, "gram");
             BindingSet bs = result.next();
             URI definitionUnitURI = null;
             double factor = 1;
@@ -273,17 +273,17 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private UnitMultiple createUnitMultiple(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+uri+"> <"+OM.HAS_SINGULAR_UNIT+"> ?sunit.\n"+
-                "   <"+uri+"> <"+OM.HAS_PREFIX+"> ?prefix.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_SINGULAR_UNIT+"> ?sunit.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_PREFIX+"> ?prefix.\n"+
                 "   OPTIONAL{ \n" +
-                "       <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
-                "       ?dimension <"+OM.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
-                "       ?dimension <"+OM.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
-                "       ?dimension <"+OM.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
-                "       ?dimension <"+OM.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
-                "       ?dimension <"+OM.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
-                "       ?dimension <"+OM.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
-                "       ?dimension <"+OM.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
+                "       <"+uri+"> <"+ OMMeta.HAS_DIMENSION+ "> ?dimension.\n" +
+                "       ?dimension <"+ OMMeta.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
+                "       ?dimension <"+ OMMeta.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
                 "   } \n" +
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
@@ -291,38 +291,38 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
             BindingSet bs = result.next();
             try {
                 // prefixed units can also be base units (e.g. kilogram)
-                URI kilogramURI = connection.getValueFactory().createURI(OM.NAMESPACE, "kilogram");
+                URI kilogramURI = connection.getValueFactory().createURI(OMMeta.NAMESPACE, "kilogram");
                 SingularUnit sunit = (SingularUnit) this.getUnitOrScale(bs.getValue("sunit").stringValue());
                 URI prefixuri = (URI) bs.getValue("prefix");
                 Prefix prefix = null;
-                if(prefixuri.equals(OM.YOCTO)) prefix = DecimalPrefix.YOCTO;
-                else if(prefixuri.equals(OM.ZEPTO)) prefix = DecimalPrefix.ZEPTO;
-                else if(prefixuri.equals(OM.ATTO)) prefix = DecimalPrefix.ATTO;
-                else if(prefixuri.equals(OM.PICO)) prefix = DecimalPrefix.PICO;
-                else if(prefixuri.equals(OM.FEMTO)) prefix = DecimalPrefix.FEMTO;
-                else if(prefixuri.equals(OM.NANO)) prefix = DecimalPrefix.NANO;
-                else if(prefixuri.equals(OM.MICRO)) prefix = DecimalPrefix.MICRO;
-                else if(prefixuri.equals(OM.MILLI)) prefix = DecimalPrefix.MILLI;
-                else if(prefixuri.equals(OM.CENTI)) prefix = DecimalPrefix.CENTI;
-                else if(prefixuri.equals(OM.DECI)) prefix = DecimalPrefix.DECI;
-                else if(prefixuri.equals(OM.DECA)) prefix = DecimalPrefix.DECA;
-                else if(prefixuri.equals(OM.HECTO)) prefix = DecimalPrefix.HECTO;
-                else if(prefixuri.equals(OM.KILO)) prefix = DecimalPrefix.KILO;
-                else if(prefixuri.equals(OM.MEGA)) prefix = DecimalPrefix.MEGA;
-                else if(prefixuri.equals(OM.GIGA)) prefix = DecimalPrefix.GIGA;
-                else if(prefixuri.equals(OM.TERA)) prefix = DecimalPrefix.TERA;
-                else if(prefixuri.equals(OM.PETA)) prefix = DecimalPrefix.PETA;
-                else if(prefixuri.equals(OM.EXA)) prefix = DecimalPrefix.EXA;
-                else if(prefixuri.equals(OM.ZETTA)) prefix = DecimalPrefix.ZETTA;
-                else if(prefixuri.equals(OM.YOTTA)) prefix = DecimalPrefix.YOTTA;
-                else if(prefixuri.equals(OM.KIBI)) prefix = BinaryPrefix.KIBI;
-                else if(prefixuri.equals(OM.MEBI)) prefix = BinaryPrefix.MEBI;
-                else if(prefixuri.equals(OM.GIBI)) prefix = BinaryPrefix.GIBI;
-                else if(prefixuri.equals(OM.TEBI)) prefix = BinaryPrefix.TEBI;
-                else if(prefixuri.equals(OM.PEBI)) prefix = BinaryPrefix.PEBI;
-                else if(prefixuri.equals(OM.EXBI)) prefix = BinaryPrefix.EXBI;
-                else if(prefixuri.equals(OM.ZEBI)) prefix = BinaryPrefix.ZEBI;
-                else if(prefixuri.equals(OM.YOBI)) prefix = BinaryPrefix.YOBI;
+                if(prefixuri.equals(OMMeta.YOCTO)) prefix = DecimalPrefix.YOCTO;
+                else if(prefixuri.equals(OMMeta.ZEPTO)) prefix = DecimalPrefix.ZEPTO;
+                else if(prefixuri.equals(OMMeta.ATTO)) prefix = DecimalPrefix.ATTO;
+                else if(prefixuri.equals(OMMeta.PICO)) prefix = DecimalPrefix.PICO;
+                else if(prefixuri.equals(OMMeta.FEMTO)) prefix = DecimalPrefix.FEMTO;
+                else if(prefixuri.equals(OMMeta.NANO)) prefix = DecimalPrefix.NANO;
+                else if(prefixuri.equals(OMMeta.MICRO)) prefix = DecimalPrefix.MICRO;
+                else if(prefixuri.equals(OMMeta.MILLI)) prefix = DecimalPrefix.MILLI;
+                else if(prefixuri.equals(OMMeta.CENTI)) prefix = DecimalPrefix.CENTI;
+                else if(prefixuri.equals(OMMeta.DECI)) prefix = DecimalPrefix.DECI;
+                else if(prefixuri.equals(OMMeta.DECA)) prefix = DecimalPrefix.DECA;
+                else if(prefixuri.equals(OMMeta.HECTO)) prefix = DecimalPrefix.HECTO;
+                else if(prefixuri.equals(OMMeta.KILO)) prefix = DecimalPrefix.KILO;
+                else if(prefixuri.equals(OMMeta.MEGA)) prefix = DecimalPrefix.MEGA;
+                else if(prefixuri.equals(OMMeta.GIGA)) prefix = DecimalPrefix.GIGA;
+                else if(prefixuri.equals(OMMeta.TERA)) prefix = DecimalPrefix.TERA;
+                else if(prefixuri.equals(OMMeta.PETA)) prefix = DecimalPrefix.PETA;
+                else if(prefixuri.equals(OMMeta.EXA)) prefix = DecimalPrefix.EXA;
+                else if(prefixuri.equals(OMMeta.ZETTA)) prefix = DecimalPrefix.ZETTA;
+                else if(prefixuri.equals(OMMeta.YOTTA)) prefix = DecimalPrefix.YOTTA;
+                else if(prefixuri.equals(OMMeta.KIBI)) prefix = BinaryPrefix.KIBI;
+                else if(prefixuri.equals(OMMeta.MEBI)) prefix = BinaryPrefix.MEBI;
+                else if(prefixuri.equals(OMMeta.GIBI)) prefix = BinaryPrefix.GIBI;
+                else if(prefixuri.equals(OMMeta.TEBI)) prefix = BinaryPrefix.TEBI;
+                else if(prefixuri.equals(OMMeta.PEBI)) prefix = BinaryPrefix.PEBI;
+                else if(prefixuri.equals(OMMeta.EXBI)) prefix = BinaryPrefix.EXBI;
+                else if(prefixuri.equals(OMMeta.ZEBI)) prefix = BinaryPrefix.ZEBI;
+                else if(prefixuri.equals(OMMeta.YOBI)) prefix = BinaryPrefix.YOBI;
                 if(uri.equals(kilogramURI)){
                     PrefixedUnit prefixedUnit = (PrefixedUnit)this.createPrefixedBaseUnit(uri.stringValue(), (String) null, (String) null, SIBaseDimension.MASS, sunit, prefix);
                     return prefixedUnit;
@@ -352,8 +352,8 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private UnitMultiplication createUnitMultiplication(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+uri+"> <"+OM.HAS_TERM1+"> ?term1.\n"+
-                "   <"+uri+"> <"+OM.HAS_TERM2+"> ?term2.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_TERM1+"> ?term1.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_TERM2+"> ?term2.\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
@@ -383,8 +383,8 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private UnitDivision createUnitDivision(URI uri, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, UnitOrScaleCreationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+uri+"> <"+OM.HAS_NUMERATOR+"> ?numerator.\n"+
-                "   <"+uri+"> <"+OM.HAS_DENOMINATOR+"> ?denominator.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_NUMERATOR+"> ?numerator.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_DENOMINATOR+"> ?denominator.\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
@@ -413,8 +413,8 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private UnitExponentiation createUnitExponentiation(URI uri, RepositoryConnection connection) throws UnitOrScaleCreationException, MalformedQueryException, RepositoryException, QueryEvaluationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+uri+"> <"+OM.HAS_BASE+"> ?base.\n"+
-                "   <"+uri+"> <"+OM.HAS_EXPONENT+"> ?exponent.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_BASE+"> ?base.\n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_EXPONENT+"> ?exponent.\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
@@ -443,11 +443,11 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
         String sparql = "" +
                 "SELECT * WHERE{\n" +
                 "   OPTIONAL{ \n" +
-                "       <"+uri+"> <"+OM.HAS_DEFINITION_RELATIVE_TO+"> ?parent.\n"+
-                "       <"+uri+"> <"+OM.HAS_DEFINITION_FACTOR+"> ?factor.\n"+
-                "       <"+uri+"> <"+OM.HAS_DEFINITION_OFFSET+"> ?offset.\n" +
+                "       <"+uri+"> <"+ OMMeta.HAS_DEFINITION_RELATIVE_TO+"> ?parent.\n"+
+                "       <"+uri+"> <"+ OMMeta.HAS_DEFINITION_FACTOR+"> ?factor.\n"+
+                "       <"+uri+"> <"+ OMMeta.HAS_DEFINITION_OFFSET+"> ?offset.\n" +
                 "   }\n"+
-                "   OPTIONAL{ <"+uri+"> <"+OM.HAS_UNIT_OF_MEASURE+"> ?unit.}\n"+
+                "   OPTIONAL{ <"+uri+"> <"+ OMMeta.HAS_UNIT_OF_MEASURE+"> ?unit.}\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
@@ -482,9 +482,9 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private void addFixedPointsToScale(Scale scale, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+scale.getIdentifier()+"> <"+ OM.HAS_ELEMENT+ "> ?element.\n" +
-                "   ?element a <"+OM.FIXED_POINT+">.\n" +
-                "   ?element <"+OM.HAS_NUMERICAL_VALUE+"> ?value." +
+                "   <"+scale.getIdentifier()+"> <"+ OMMeta.HAS_ELEMENT+ "> ?element.\n" +
+                "   ?element a <"+ OMMeta.FIXED_POINT+">.\n" +
+                "   ?element <"+ OMMeta.HAS_NUMERICAL_VALUE+"> ?value." +
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         while(result.hasNext()) {
@@ -521,14 +521,14 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     private BaseDimension getBaseDimension(URI uri,RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
         String sparql = "" +
                 "SELECT * WHERE{\n" +
-                "   <"+uri+"> <"+ OM.HAS_DIMENSION+ "> ?dimension.\n" +
-                "   ?dimension <"+OM.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
-                "   ?dimension <"+OM.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
-                "   ?dimension <"+OM.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
-                "   ?dimension <"+OM.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
-                "   ?dimension <"+OM.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
-                "   ?dimension <"+OM.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
-                "   ?dimension <"+OM.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
+                "   <"+uri+"> <"+ OMMeta.HAS_DIMENSION+ "> ?dimension.\n" +
+                "   ?dimension <"+ OMMeta.HAS_SI_LENGTH_DIMENSION_EXPONENT + "> ?length. \n"+
+                "   ?dimension <"+ OMMeta.HAS_SI_MASS_DIMENSION_EXPONENT + "> ?mass. \n"+
+                "   ?dimension <"+ OMMeta.HAS_SI_TIME_DIMENSION_EXPONENT + "> ?time. \n"+
+                "   ?dimension <"+ OMMeta.HAS_SI_ELECTRIC_CURRENT_DIMENSION_EXPONENT + "> ?current. \n"+
+                "   ?dimension <"+ OMMeta.HAS_SI_THERMODYNAMIC_TEMPERATURE_DIMENSION_EXPONENT + "> ?temperature. \n"+
+                "   ?dimension <"+ OMMeta.HAS_SI_AMOUNT_OF_SUBSTANCE_DIMENSION_EXPONENT + "> ?amount. \n"+
+                "   ?dimension <"+ OMMeta.HAS_SI_LUMINOUS_INTENSITY_DIMENSION_EXPONENT + "> ?intensity. \n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         if(result.hasNext()) {
@@ -580,20 +580,20 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 "    <"+uri.stringValue()+"> <"+ RDFS.LABEL+"> ?label.\n" +
                 "    BIND (<"+ RDFS.LABEL+"> AS ?prop)\n" +
                 "  } UNION {\n" +
-                "    <"+uri.stringValue()+"> <"+OM.HAS_ALTERNATIVE_LABEL+"> ?label.\n" +
-                "    BIND (<"+OM.HAS_ALTERNATIVE_LABEL+"> AS ?prop)\n" +
+                "    <"+uri.stringValue()+"> <"+ OMMeta.HAS_ALTERNATIVE_LABEL+"> ?label.\n" +
+                "    BIND (<"+ OMMeta.HAS_ALTERNATIVE_LABEL+"> AS ?prop)\n" +
                 "  } UNION {\n" +
-                "    <"+uri.stringValue()+"> <"+OM.HAS_SYMBOL+"> ?label.\n" +
-                "    BIND (<"+OM.HAS_SYMBOL+"> AS ?prop)\n" +
+                "    <"+uri.stringValue()+"> <"+ OMMeta.HAS_SYMBOL+"> ?label.\n" +
+                "    BIND (<"+ OMMeta.HAS_SYMBOL+"> AS ?prop)\n" +
                 "  } UNION {\n" +
-                "    <"+uri.stringValue()+"> <"+OM.HAS_ALTERNATIVE_SYMBOL+"> ?label.\n" +
-                "    BIND (<"+OM.HAS_ALTERNATIVE_SYMBOL+"> AS ?prop)\n" +
+                "    <"+uri.stringValue()+"> <"+ OMMeta.HAS_ALTERNATIVE_SYMBOL+"> ?label.\n" +
+                "    BIND (<"+ OMMeta.HAS_ALTERNATIVE_SYMBOL+"> AS ?prop)\n" +
                 "  } UNION {\n" +
-                "    <"+uri.stringValue()+"> <"+OM.HAS_UNOFFICIAL_ABBREVIATION+"> ?label.\n" +
-                "    BIND (<"+OM.HAS_UNOFFICIAL_ABBREVIATION+"> AS ?prop)\n" +
+                "    <"+uri.stringValue()+"> <"+ OMMeta.HAS_UNOFFICIAL_ABBREVIATION+"> ?label.\n" +
+                "    BIND (<"+ OMMeta.HAS_UNOFFICIAL_ABBREVIATION+"> AS ?prop)\n" +
                 "  } UNION {\n" +
-                "    <"+uri.stringValue()+"> <"+OM.HAS_ABBREVIATION+"> ?label.\n" +
-                "    BIND (<"+OM.HAS_ABBREVIATION+"> AS ?prop)\n" +
+                "    <"+uri.stringValue()+"> <"+ OMMeta.HAS_ABBREVIATION+"> ?label.\n" +
+                "    BIND (<"+ OMMeta.HAS_ABBREVIATION+"> AS ?prop)\n" +
                 "  }\n" +
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
@@ -610,15 +610,15 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 }else{
                     names.add(new Pair<>(label.getLanguage(),label.stringValue()));
                 }
-            }else if(prop.equals(OM.HAS_ALTERNATIVE_LABEL)){
+            }else if(prop.equals(OMMeta.HAS_ALTERNATIVE_LABEL)){
                 altnames.add(0,new Pair<>(label.getLanguage(),label.stringValue()));
-            }else if(prop.equals(OM.HAS_ABBREVIATION)){
+            }else if(prop.equals(OMMeta.HAS_ABBREVIATION)){
                 altnames.add(new Pair<>(label.getLanguage(),label.stringValue()));
-            }else if(prop.equals(OM.HAS_UNOFFICIAL_ABBREVIATION)){
+            }else if(prop.equals(OMMeta.HAS_UNOFFICIAL_ABBREVIATION)){
                 altnames.add(new Pair<>(label.getLanguage(),label.stringValue()));
-            }else if(prop.equals(OM.HAS_SYMBOL)){
+            }else if(prop.equals(OMMeta.HAS_SYMBOL)){
                 symbols.add(0,label.stringValue());
-            }else if(prop.equals(OM.HAS_ALTERNATIVE_SYMBOL)){
+            }else if(prop.equals(OMMeta.HAS_ALTERNATIVE_SYMBOL)){
                 symbols.add(label.stringValue());
             }
         }
@@ -634,7 +634,7 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
     }
 
     /**
-     * Returns the OM type as a URI of the specified resource. The different types can be accessed in {@link OM}.
+     * Returns the OM type as a URI of the specified resource. The different types can be accessed in {@link OMMeta}.
      * @param resourceURI The URI of the unit or scale whose type needs to be determined.
      * @param connection The connection to the repository.
      * @return The type of unit that should be created.

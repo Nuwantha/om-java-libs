@@ -6,6 +6,7 @@ import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
+import nl.wur.fbr.om.om18.vocabulary.set.OM;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -152,6 +153,31 @@ public class UnitOMSetTest {
             Assert.assertEquals("Testing OM Scale creation", 1, ((Scale) celsius_scale).getFactorFromDefinitionScale(), 0.0000001);
             Assert.assertEquals("Testing OM Scale creation", -273.15, ((Scale) celsius_scale).getOffsetFromDefinitionScale(), 0.0000001);
             Unit celsius = (Unit) factory.getUnitOrScale("degree_Celsius");
+            Assert.assertEquals("Testing OM Unit Scale creation", celsius, ((Scale) celsius_scale).getUnit());
+            Assert.assertEquals("Testing OM Unit Scale creation", 15, ((Scale) celsius_scale).getDefinitionPoints().size());
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not create OMUnitAndScaleFactory.");
+        }
+    }
+
+    /**
+     * Tests the creation of unit with the automatically generated vocabulary of identifiers.
+     */
+    @Test
+    public void testOMVocabulary(){
+        try {
+            UnitAndScaleFactory factory = new OMUnitAndScaleFactory();
+            Unit metre = (Unit) factory.getUnitOrScale(OM.Metre);
+            Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());
+            Assert.assertEquals("Testing OM Base Unit creation", "metre",metre.getName());
+            Assert.assertEquals("Testing OM Base Unit creation", "m",metre.getSymbol());
+
+            Scale celsius_scale = (Scale) factory.getUnitOrScale(OM.CelsiusScale);
+            Assert.assertEquals("Testing OM Scale creation", "Celsius scale", celsius_scale.getName());
+            Assert.assertEquals("Testing OM Scale creation", 1, ((Scale) celsius_scale).getFactorFromDefinitionScale(), 0.0000001);
+            Assert.assertEquals("Testing OM Scale creation", -273.15, ((Scale) celsius_scale).getOffsetFromDefinitionScale(), 0.0000001);
+            Unit celsius = (Unit) factory.getUnitOrScale(OM.DegreeCelsius);
             Assert.assertEquals("Testing OM Unit Scale creation", celsius, ((Scale) celsius_scale).getUnit());
             Assert.assertEquals("Testing OM Unit Scale creation", 15, ((Scale) celsius_scale).getDefinitionPoints().size());
         } catch (UnitOrScaleCreationException e) {
