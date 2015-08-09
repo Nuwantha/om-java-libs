@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.factory;
 
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
@@ -72,6 +73,14 @@ import nl.wur.fbr.om.prefixes.Prefix;
  * @author Don Willems on 15/07/15.
  */
 public interface UnitAndScaleFactory {
+
+    /**
+     * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
+     * full set in this factory so that these units and scales are also searched through when searching through
+     * the full set in this factory.
+     * @param set The set to be added.
+     */
+    public void addUnitAndScaleSet(UnitAndScaleSet set);
 
     /**
      * Implementations should return a unit or scale identified by the specified

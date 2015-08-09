@@ -5,6 +5,7 @@ import nl.wur.fbr.om.core.impl.units.*;
 import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
@@ -12,6 +13,7 @@ import nl.wur.fbr.om.prefixes.Prefix;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This core class implements methods that should be used for the creation of the different types of Units and Scales.
@@ -77,6 +79,25 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
 
     /** A map containing all previously created units and scales, identified by their identifier as key in the map. */
     private Map<String,Object> unitsOrScalesByID = new HashMap<>();
+
+    /**
+     * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
+     * full set in this factory so that these units and scales are also searched through when searching through
+     * the full set in this factory.
+     *
+     * @param set The set to be added.
+     */
+    @Override
+    public void addUnitAndScaleSet(UnitAndScaleSet set) {
+        Set<Unit> setUnits = set.getAllUnits();
+        for(Unit setUnit : setUnits) {
+            this.addUnit(setUnit);
+        }
+        Set<Scale> setScales = set.getAllScales();
+        for(Scale setScale : setScales){
+            this.addScale(setScale);
+        }
+    }
 
     /**
      * Returns the Unit or Scale identified by the specified identifier.
@@ -781,5 +802,22 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
         Scale scale = new ScaleImpl(identifier,name,symbol,definitionScale,definitionOffset,definitionFactor,unit);
         unitsOrScalesByID.put(scale.getIdentifier(),scale);
         return scale;
+    }
+
+
+    /**
+     * Adds a unit to the full set of units and scales in this factory.
+     * @param unit The unit being added.
+     */
+    private void addUnit(Unit unit) {
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+    }
+
+    /**
+     * Adds a scale to the full set of units and scales in this factory.
+     * @param scale The scale being added.
+     */
+    private void addScale(Scale scale) {
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
     }
 }
