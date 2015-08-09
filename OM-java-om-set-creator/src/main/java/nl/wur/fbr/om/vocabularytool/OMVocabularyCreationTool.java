@@ -1,6 +1,12 @@
 package nl.wur.fbr.om.vocabularytool;
 
+import nl.wur.fbr.om.core.impl.units.PrefixedBaseUnitImpl;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.*;
+import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
+import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -23,6 +29,8 @@ import java.util.*;
  * @author Don Willems on 09/08/15.
  */
 public class OMVocabularyCreationTool {
+
+    private static OMUnitAndScaleFactory factory;
 
 
     /**
@@ -85,6 +93,7 @@ public class OMVocabularyCreationTool {
 
         // Create in memory triple store for querying
         Repository repository = new SailRepository(new MemoryStore());
+        factory = new OMUnitAndScaleFactory(repository);
         try {
             repository.initialize();
         } catch (RepositoryException e) {
@@ -133,7 +142,6 @@ public class OMVocabularyCreationTool {
         sparql+= ""+
                 "   }\n" +
                 "}";
-        System.out.println("sparql: "+sparql);
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         while(result.hasNext()){
             BindingSet bs = result.next();
@@ -156,6 +164,17 @@ public class OMVocabularyCreationTool {
         if(unitsAndScales.size()>0) { // only create class when there are units or scales
             Set<String> varNames = unitsAndScales.keySet();
             String contents = "package "+targetPackage+";\n\n";
+            contents+= "" +
+                    "import nl.wur.fbr.om.model.scales.Scale;\n" +
+                    "import nl.wur.fbr.om.model.units.*;\n" +
+                    "import nl.wur.fbr.om.core.impl.scales.ScaleImpl;\n" +
+                    "import nl.wur.fbr.om.core.impl.units.*;\n" +
+                    "import nl.wur.fbr.om.model.UnitAndScaleSet;\n" +
+                    "import nl.wur.fbr.om.model.dimensions.SIBaseDimension;\n" +
+                    "import nl.wur.fbr.om.model.scales.Scale;\n" +
+                    "import nl.wur.fbr.om.model.units.SingularUnit;\n" +
+                    "import nl.wur.fbr.om.model.units.Unit;\n" +
+                    "import nl.wur.fbr.om.prefixes.DecimalPrefix;\n\n";
             if(apparea!=null) {
                 contents += "/**\n" +
                         " * This class contains the identifiers for the units and scales defined for the\n" +
@@ -181,7 +200,33 @@ public class OMVocabularyCreationTool {
                     description = description.replace('\n',' ');
                     contents += "\t/** "+description+" */\n";
                 }
-                contents += "\tpublic final static String "+varName+" = \""+unitsAndScales.get(varName)+"\";\n\n";
+                String type = "Unit";
+                if(varName.contains("Scale")){
+                    type = "Scale";
+                }
+                if(className.equals("OM")){
+                    contents += "\tpublic final static "+type+" "+varName+";\n\n";
+                }else {
+                    contents += "\tpublic final static "+type+" "+varName+" = OM."+varName+";\n\n";
+                }
+            }
+            if(className.equals("OM")) {
+                contents += "\n\n" +
+                        "\tstatic {\n";
+
+                // Add constructors
+                ValueFactory vf = connection.getValueFactory();
+                List<String> urisDone = new ArrayList<>();
+                for (String varName : varNames) {
+                    try {
+                        contents += OMVocabularyCreationTool.createConstructor(varName, unitsAndScales, unitsAndScales.get(varName), vf, urisDone);
+                    } catch (UnitOrScaleCreationException e) {
+                        System.err.println("Could not create variable " + varName);
+                        e.printStackTrace();
+                        contents += "\t\t" + varName + " = null;\n";
+                    }
+                }
+                contents += "\t}\n";
             }
             contents += "}";
 
@@ -194,6 +239,173 @@ public class OMVocabularyCreationTool {
 
             System.out.println("Wrote file: "+outfile);
         }
+    }
+
+    /**
+     * Escapes the string literals '"' in a string and returns the escaped string.
+     * @param string The input string.
+     * @return The escaped string.
+     */
+    private static String escapeStringLiterals(String string){
+        if(string !=null){
+            int pos = string.indexOf("\"");
+            while (pos>=0){
+                string = string.substring(0,pos)+"\\"+string.substring(pos);
+                pos = string.indexOf("\"",pos+2);
+            }
+        }
+        return string;
+    }
+
+    /**
+     * Creates the Java code to construct the unit or scale specified.
+     * @param varName The Java name of the unit or scale.
+     * @param varNames The Map of Java names (key) with URIs as string.
+     * @param uri The URI as string of the unit or scale.
+     * @param vf The value factory.
+     * @param urisDone The set of already created units and scales.
+     */
+    private static String createConstructor(String varName, Map<String,String> varNames, String uri, ValueFactory vf, List<String> urisDone) throws UnitOrScaleCreationException {
+        if(urisDone.contains(uri)) return "";
+        Object unitOrScale = factory.getUnitOrScale(uri);
+        String contents = "";
+        if(unitOrScale instanceof PrefixedUnit && unitOrScale instanceof BaseUnit){
+            urisDone.add(uri);
+            PrefixedUnit prefixedUnit = (PrefixedUnit)unitOrScale;
+            Unit bunit = prefixedUnit.getUnit();
+            String newVarName = OMVocabularyCreationTool.getVariableNameForURI(bunit.getIdentifier(),varNames);
+            if(!urisDone.contains(bunit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
+            }
+            String prefix = ""+prefixedUnit.getPrefix().getClass().getTypeName()+"."+prefixedUnit.getPrefix().toString();
+            BaseUnit baseUnit = (BaseUnit)unitOrScale;
+            String dim = "null";
+            if(baseUnit.getDefinitionDimension()!=null) {
+                dim = ""+baseUnit.getDefinitionDimension().getClass().getTypeName()+"."+baseUnit.getDefinitionDimension().toString();
+            }
+            contents+= "\t\t"+varName+" = new PrefixedBaseUnitImpl(\""+prefixedUnit.getIdentifier()+"\",\""+prefixedUnit.getName()+"\",\""+prefixedUnit.getSymbol()+"\",(SingularUnit)"+newVarName+", "+prefix+", "+dim+");\n";
+        }else if(unitOrScale instanceof SingularUnit && unitOrScale instanceof BaseUnit){
+            urisDone.add(uri);
+            BaseUnit unit = (BaseUnit)unitOrScale;
+            String dim = "null";
+            if(unit.getDefinitionDimension()!=null) {
+                dim = ""+unit.getDefinitionDimension().getClass().getTypeName()+"."+unit.getDefinitionDimension().toString();
+            }
+            contents += "\t\t"+varName+" = new BaseUnitImpl(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+dim+");\n";
+        }else if(unitOrScale instanceof SingularUnit){
+            urisDone.add(uri);
+            SingularUnit unit = (SingularUnit)unitOrScale;
+            if(varName.equals("Gram")){
+                contents += "\t\t"+varName+" =  new SingularUnitImpl(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\" );\n";
+            }else{
+                Unit defunit = unit.getDefinitionUnit();
+                String defVarName = OMVocabularyCreationTool.getVariableNameForURI(defunit.getIdentifier(), varNames);
+                double factor = unit.getDefinitionNumericalValue();
+                if(defunit!=null && !urisDone.contains(defunit.getIdentifier())){
+                    contents +=OMVocabularyCreationTool.createConstructor(defVarName,varNames,defunit.getIdentifier(),vf,urisDone);
+                }
+                contents += "\t\t"+varName+" =  new SingularUnitImpl(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+defVarName+", "+factor+" );\n";
+            }
+        }else if(unitOrScale instanceof PrefixedUnit){
+            urisDone.add(uri);
+            PrefixedUnit unit = (PrefixedUnit)unitOrScale;
+            Unit bunit = unit.getUnit();
+            String newVarName = OMVocabularyCreationTool.getVariableNameForURI(bunit.getIdentifier(),varNames);
+            if(!urisDone.contains(bunit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
+            }
+            String prefix = ""+unit.getPrefix().getClass().getTypeName()+"."+unit.getPrefix().toString();
+            contents+= "\t\t"+varName+" = new PrefixedUnitImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+prefix+");\n";
+        }else if(unitOrScale instanceof UnitMultiple){
+            urisDone.add(uri);
+            UnitMultiple unit = (UnitMultiple)unitOrScale;
+            double factor = unit.getFactor();
+            Unit bunit = unit.getUnit();
+            String newVarName = OMVocabularyCreationTool.getVariableNameForURI(bunit.getIdentifier(),varNames);
+            if(!urisDone.contains(bunit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
+            }
+            contents+= "\t\t"+varName+" = new UnitMultipleImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+factor+");\n";
+        }else if(unitOrScale instanceof UnitMultiplication) {
+            urisDone.add(uri);
+            UnitMultiplication unit = (UnitMultiplication)unitOrScale;
+            Unit term1 = unit.getTerm1();
+            Unit term2 = unit.getTerm2();
+            String term1Name = OMVocabularyCreationTool.getVariableNameForURI(term1.getIdentifier(), varNames);
+            if(!urisDone.contains(term1.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(term1Name,varNames,term1.getIdentifier(),vf,urisDone);
+            }
+            String term2Name = OMVocabularyCreationTool.getVariableNameForURI(term2.getIdentifier(), varNames);
+            if(!urisDone.contains(term2.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(term2Name,varNames,term2.getIdentifier(),vf,urisDone);
+            }
+            contents+= "\t\t"+varName+" = new UnitMultiplicationImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+term1Name+", "+term2Name+");\n";
+        }else if(unitOrScale instanceof UnitDivision) {
+            urisDone.add(uri);
+            UnitDivision unit = (UnitDivision)unitOrScale;
+            Unit numerator = unit.getNumerator();
+            Unit denominator = unit.getDenominator();
+            String numeratorName = OMVocabularyCreationTool.getVariableNameForURI(numerator.getIdentifier(), varNames);
+            if(!urisDone.contains(numerator.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(numeratorName,varNames,numerator.getIdentifier(),vf,urisDone);
+            }
+            String denominatorName = OMVocabularyCreationTool.getVariableNameForURI(denominator.getIdentifier(), varNames);
+            if(!urisDone.contains(denominator.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(denominatorName,varNames,denominator.getIdentifier(),vf,urisDone);
+            }
+            contents+= "\t\t"+varName+" = new UnitDivisionImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+numeratorName+", "+denominatorName+");\n";
+        }else if(unitOrScale instanceof UnitExponentiation) {
+            urisDone.add(uri);
+            UnitExponentiation unit = (UnitExponentiation)unitOrScale;
+            Unit base = unit.getBase();
+            double exponent = unit.getExponent();
+            String baseName = OMVocabularyCreationTool.getVariableNameForURI(base.getIdentifier(), varNames);
+            if(!urisDone.contains(base.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(baseName,varNames,base.getIdentifier(),vf,urisDone);
+            }
+            contents+= "\t\t"+varName+" = new UnitExponentiationImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+baseName+", "+exponent+");\n";
+        }else if(unitOrScale instanceof Scale) {
+            urisDone.add(uri);
+            Scale scale = (Scale)unitOrScale;
+            Unit unit = scale.getUnit();
+            String unitName = OMVocabularyCreationTool.getVariableNameForURI(unit.getIdentifier(), varNames);
+            if(!urisDone.contains(unit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(unitName,varNames,unit.getIdentifier(),vf,urisDone);
+            }
+            Scale defscale = scale.getDefinitionScale();
+            if(defscale!=null){
+                String defscaleName = OMVocabularyCreationTool.getVariableNameForURI(defscale.getIdentifier(), varNames);
+                if(!urisDone.contains(defscale.getIdentifier())){
+                    contents +=OMVocabularyCreationTool.createConstructor(defscaleName,varNames,defscale.getIdentifier(),vf,urisDone);
+                }
+                double offset = scale.getOffsetFromDefinitionScale();
+                double factor = scale.getFactorFromDefinitionScale();
+                contents+= "\t\t"+varName+" = new ScaleImpl(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\","+defscaleName+", "+offset+", "+factor+", "+unitName+");\n";
+            }else{
+                contents+= "\t\t"+varName+" = new ScaleImpl(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\", "+unitName+");\n";
+            }
+            // todo definition points
+        }
+        return contents;
+    }
+
+    /**
+     * Returns the name of the variable that defines the unit or scale with the specified URI.
+     * @param uri The URI of the unit or scale.
+     * @param varNames A map with variable names as key and uri as value.
+     * @return The name of the variable or null if not specified in the map.
+     */
+    private static String getVariableNameForURI(String uri, Map<String,String> varNames){
+        String varName = null;
+        Set<String> vns = varNames.keySet();
+        for(String vn : vns){
+            String vnuir = varNames.get(vn);
+            if(vnuir.equals(uri)) {
+                varName = vn;
+                break;
+            }
+        }
+        return varName;
     }
 
     /**

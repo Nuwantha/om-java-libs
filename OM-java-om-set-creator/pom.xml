@@ -52,9 +52,8 @@
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>om-java-conversion</artifactId>
+            <artifactId>om-java-om-1.8</artifactId>
             <version>0.3.0</version>
-            <scope>test</scope>
         </dependency>
 
 	</dependencies>

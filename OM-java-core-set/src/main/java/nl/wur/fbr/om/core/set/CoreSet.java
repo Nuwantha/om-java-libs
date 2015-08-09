@@ -1,6 +1,5 @@
 package nl.wur.fbr.om.core.set;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import nl.wur.fbr.om.core.impl.scales.ScaleImpl;
 import nl.wur.fbr.om.core.impl.units.*;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
