@@ -8,7 +8,7 @@ import org.openrdf.model.impl.ValueFactoryImpl;
  * This class defines static URIs used in the OM vocabulary. These URIs are all part of the OM model, not of
  * individual units, scales, or quantities. The namespace is: http://www.wurvoc.org/vocabulary/om-1.8/.
  */
-public class OM {
+public class OMMeta {
 	public static final String NAMESPACE;
 
     // units and prefixes
