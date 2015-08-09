@@ -2,8 +2,6 @@ package nl.wur.fbr.om;
 
 import nl.wur.fbr.om.conversion.DefaultUnitConversionFactory;
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
-import nl.wur.fbr.om.core.set.CoreUnitAndScaleFactory;
-import nl.wur.fbr.om.core.set.CoreUnitSet;
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
