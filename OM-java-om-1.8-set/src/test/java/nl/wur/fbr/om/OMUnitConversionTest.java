@@ -16,7 +16,6 @@ import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.om18.set.OM;
-import nl.wur.fbr.om.om18.OMUnitAndScaleFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
