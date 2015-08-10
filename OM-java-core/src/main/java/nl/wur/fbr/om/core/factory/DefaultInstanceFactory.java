@@ -16,13 +16,12 @@ import nl.wur.fbr.om.factory.UnitAndScaleFactory;
  */
 public class DefaultInstanceFactory extends InstanceFactory {
 
-
     /**
      * Creates the default instance factory, containing the {@link DefaultUnitAndScaleFactory} and
      * {@link DefaultMeasureAndPointFactory} for creating units, scale, measures, and points. No
      * default conversion factory exists in the core library. If you want to add a conversion factory to the
      * <code>DefaultInstanceFactory</code> use {@link #DefaultInstanceFactory(UnitAndScaleConversionFactory)} or
-     *
+     * {@link #DefaultInstanceFactory(UnitAndScaleFactory, MeasureAndPointFactory, UnitAndScaleConversionFactory)}.
      */
     public DefaultInstanceFactory(){
         super(new DefaultUnitAndScaleFactory(),new DefaultMeasureAndPointFactory(),null);
@@ -37,6 +36,17 @@ public class DefaultInstanceFactory extends InstanceFactory {
      */
     public DefaultInstanceFactory(UnitAndScaleConversionFactory conversionFactory){
         super(new DefaultUnitAndScaleFactory(),new DefaultMeasureAndPointFactory(),conversionFactory);
+    }
+
+
+    /**
+     * Creates a default instance factory with the specified factory classes.
+     * @param unitAndScaleFactory The unit and scale factory.
+     * @param measureAndPointFactory The measure and point factory.
+     * @param conversionFactory The unit and scale conversion factory.
+     */
+    public DefaultInstanceFactory(UnitAndScaleFactory unitAndScaleFactory, MeasureAndPointFactory measureAndPointFactory, UnitAndScaleConversionFactory conversionFactory){
+        super(unitAndScaleFactory,measureAndPointFactory,conversionFactory);
     }
 
 }
