@@ -2,7 +2,11 @@ package nl.wur.fbr.om.vocabularytool;
 
 import nl.wur.fbr.om.core.impl.units.PrefixedBaseUnitImpl;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
+import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.points.ScalarPoint;
+import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
@@ -176,6 +180,10 @@ public class OMVocabularyCreationTool {
                     "import nl.wur.fbr.om.model.units.SingularUnit;\n" +
                     "import nl.wur.fbr.om.model.units.Unit;\n" +
                     "import nl.wur.fbr.om.model.UnitAndScaleSet;\n" +
+                    "import nl.wur.fbr.om.model.points.ScalarPoint;\n" +
+                    "import nl.wur.fbr.om.model.points.ScalarRangePoint;\n" +
+                    "import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;\n" +
+                    "import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;\n" +
                     "import java.util.Set;\n" +
                     "import java.util.HashSet;\n" +
                     "import nl.wur.fbr.om.prefixes.*;\n\n";
@@ -241,7 +249,7 @@ public class OMVocabularyCreationTool {
                     }
                 }
                 contents += "\t}\n";
-                contents += "\n" +
+                contents += "\n" +          // Generates method getAllUnits()
                         "    /**\n" +
                         "     * Returns all units in this set.\n" +
                         "     *\n" +
@@ -250,9 +258,14 @@ public class OMVocabularyCreationTool {
                         "    @Override\n" +
                         "    public Set<Unit> getAllUnits() {\n" +
                         "        Set<Unit> units = new HashSet<>();\n";
+                for(String varName : varNames) {
+                    if(!varName.contains("Scale")){
+                        contents += "        units.add("+varName+");\n";
+                    }
+                }
                 contents +="        return units;\n" +
                         " \t}\n";
-                contents += "\n" +
+                contents += "\n" +      // Generates method getAllScales()
                         "    /**\n" +
                         "     * Returns all scales in this set.\n" +
                         "     *\n" +
@@ -261,6 +274,11 @@ public class OMVocabularyCreationTool {
                         "    @Override\n" +
                         "    public Set<Scale> getAllScales() {\n" +
                         "        Set<Scale> scales = new HashSet<>();\n";
+                for(String varName : varNames) {
+                    if(varName.contains("Scale")){
+                        contents += "        scales.add("+varName+");\n";
+                    }
+                }
                 contents +="        return scales;\n" +
                         " \t}\n";
             }
@@ -420,7 +438,43 @@ public class OMVocabularyCreationTool {
             }else{
                 contents+= "\t\t"+varName+" = factory.createScale(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\", "+unitName+");\n";
             }
-            // todo definition points
+            // add definition points
+            List<Point> defpoints = scale.getDefinitionPoints();
+            int cnt = 1;
+            for(Point p : defpoints){
+                if(p instanceof ScalarPoint){
+                    ScalarPoint sp = (ScalarPoint)p;
+                    contents+= "\t\tScalarPoint point"+varName+cnt+" = new ScalarPointImpl("+sp.doubleValue()+", "+varName+");\n";
+                    contents+= "\t\t"+varName+".addDefinitionPoint(point"+varName+cnt+");\n";
+                }else if(p instanceof ScalarRangePoint){
+                    ScalarRangePoint sp = (ScalarRangePoint)p;
+                    contents+= "\t\tScalarRangePoint point"+varName+cnt+" = new ScalarRangePointImpl("+sp.getScalarRange().getMinimum()+", "+sp.getScalarRange().getMaximum()+", "+varName+");\n";
+                    contents+= "\t\t"+varName+".addDefinitionPoint(point"+varName+cnt+");\n";
+                }
+                cnt++;
+            }
+        }
+        if(contents.length()>0){ // Add alternative names to the Unit or Scale
+            if(unitOrScale instanceof NamedObject){
+                List<String> languages = ((NamedObject) unitOrScale).getLanguages();
+                NamedObject namedObject = (NamedObject) unitOrScale;
+                for(String language : languages){
+                    String name = namedObject.getName(language);
+                    List<String> names = namedObject.getAlternativeNames(language);
+                    if(!namedObject.getName().equals(name)){
+                        contents+="\t\t"+varName+".addAlternativeName(\""+name+"\",\""+language+"\");\n";
+                    }
+                    for(String aname : names){
+                        if(!aname.equals(name) && !namedObject.getName().equals(name)){
+                            contents+="\t\t"+varName+".addAlternativeName(\""+aname+"\",\""+language+"\");\n";
+                        }
+                    }
+                }
+                List<String> altSymbols = namedObject.getAlternativeSymbols();
+                for(String symbol : altSymbols){
+                    contents+="\t\t"+varName+".addAlternativeSymbol(\""+symbol+"\");\n";
+                }
+            }
         }
         return contents;
     }

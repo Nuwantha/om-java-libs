@@ -39,6 +39,12 @@ public interface NamedObject {
     public String getName(String language);
 
     /**
+     * Returns the languages of the set of names.
+     * @return The languages.
+     */
+    public List<String> getLanguages();
+
+    /**
      * Returns the alternative names in the specified language if any are known.
      * If no known alternative names are known return an empty list.
      * @param language The language of the requested alternative names.

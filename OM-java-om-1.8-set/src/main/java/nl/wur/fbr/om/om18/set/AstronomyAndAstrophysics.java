@@ -12,6 +12,10 @@ import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
+import nl.wur.fbr.om.model.points.ScalarPoint;
+import nl.wur.fbr.om.model.points.ScalarRangePoint;
+import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;
+import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;
 import java.util.Set;
 import java.util.HashSet;
 import nl.wur.fbr.om.prefixes.*;
@@ -22,7 +26,7 @@ import nl.wur.fbr.om.prefixes.*;
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Mon Aug 10 12:33:25 CEST 2015.
+ * @author OM Vocabulary Creation tool at Mon Aug 10 14:31:13 CEST 2015.
  */
 public class AstronomyAndAstrophysics {
 

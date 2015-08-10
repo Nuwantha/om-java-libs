@@ -97,11 +97,11 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
             set.initialize(this);
             Set<Unit> setUnits = set.getAllUnits();
             for(Unit setUnit : setUnits) {
-                this.addUnit(setUnit);
+                if(setUnit!=null) this.addUnit(setUnit);
             }
             Set<Scale> setScales = set.getAllScales();
             for(Scale setScale : setScales){
-                this.addScale(setScale);
+                if(setScale!=null) this.addScale(setScale);
             }
         } catch (IllegalAccessException e) {
             throw new UnitOrScaleCreationException("Could not add set "+unitAndScaleSetClass+" to factory.",e);
