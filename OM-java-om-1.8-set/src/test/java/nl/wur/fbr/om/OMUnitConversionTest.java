@@ -16,7 +16,6 @@ import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.om18.set.OM;
-import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,6 +33,12 @@ public class OMUnitConversionTest {
     public void testSingularUnitConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = OM.Metre;
@@ -57,6 +62,12 @@ public class OMUnitConversionTest {
     public void testPrefixedUnitConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = OM.Metre;
@@ -70,6 +81,12 @@ public class OMUnitConversionTest {
         }
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = OM.Metre;
@@ -78,7 +95,6 @@ public class OMUnitConversionTest {
             Measure m2 = conversion.convertToUnit(m1,kilogram);
             Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
         } catch (ConversionException e) {
-            e.printStackTrace();
             Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
         }
     }
@@ -90,6 +106,12 @@ public class OMUnitConversionTest {
     public void testKilogramUnitConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit gram = OM.Gram;
@@ -111,6 +133,11 @@ public class OMUnitConversionTest {
     public void testConversionChaining(){
         try {
             UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit cubicmetre = OM.CubicMetre;
@@ -138,6 +165,12 @@ public class OMUnitConversionTest {
     public void testUnitDivisionConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit kmh = OM.KilometrePerHour;
@@ -160,6 +193,12 @@ public class OMUnitConversionTest {
     public void testUnitMultiplicationConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit joule = OM.Joule;
@@ -182,6 +221,12 @@ public class OMUnitConversionTest {
     public void testUnitExponentiationConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit squaremetre = OM.SquareMetre;
@@ -202,6 +247,12 @@ public class OMUnitConversionTest {
     public void testScaleConversion(){
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            try {
+                factory.addUnitAndScaleSet(OM.class);
+            } catch (UnitOrScaleCreationException e) {
+                e.printStackTrace();
+            }
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Scale celsiusscale = OM.CelsiusScale;

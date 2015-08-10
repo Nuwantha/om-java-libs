@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.om18.set;
+package nl.wur.fbr.om.om18;
 
 import javafx.util.Pair;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
@@ -181,6 +181,11 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                 "       <"+uri+"> <"+ OMMeta.HAS_DEFINITION+ "> ?definition.\n" +
                 "       ?definition <"+ OMMeta.HAS_UNIT_OF_MEASURE_OR_MEASUREMENT_SCALE+ "> ?definitionUnit.\n" +
                 "       ?definition <"+ OMMeta.HAS_NUMERICAL_VALUE+ "> ?factor.\n" +
+                "   }\n"+
+                "   OPTIONAL{ \n" +
+                "       <"+uri+"> <"+ OMMeta.HAS_DEFINITION+ "> ?definitionUnit.\n" +
+                "       ?definitionUnit a ?definitionType.\n" +
+                "       ?definitionType <"+ RDFS.SUBCLASSOF+ ">* <"+OMMeta.UNIT_OF_MEASURE+">.\n" +
                 "   }\n"+
                 "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();

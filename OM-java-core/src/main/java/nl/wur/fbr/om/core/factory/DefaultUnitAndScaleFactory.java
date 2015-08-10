@@ -11,6 +11,8 @@ import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -80,22 +82,31 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     /** A map containing all previously created units and scales, identified by their identifier as key in the map. */
     private Map<String,Object> unitsOrScalesByID = new HashMap<>();
 
+
     /**
      * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
      * full set in this factory so that these units and scales are also searched through when searching through
      * the full set in this factory.
      *
-     * @param set The set to be added.
+     * @param unitAndScaleSetClass The class of set to be added that should override {@link UnitAndScaleSet}.
      */
     @Override
-    public void addUnitAndScaleSet(UnitAndScaleSet set) {
-        Set<Unit> setUnits = set.getAllUnits();
-        for(Unit setUnit : setUnits) {
-            this.addUnit(setUnit);
-        }
-        Set<Scale> setScales = set.getAllScales();
-        for(Scale setScale : setScales){
-            this.addScale(setScale);
+    public void addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException{
+        try {
+            UnitAndScaleSet set = (UnitAndScaleSet) unitAndScaleSetClass.newInstance();
+            set.initialize(this);
+            Set<Unit> setUnits = set.getAllUnits();
+            for(Unit setUnit : setUnits) {
+                if(setUnit!=null) this.addUnit(setUnit);
+            }
+            Set<Scale> setScales = set.getAllScales();
+            for(Scale setScale : setScales){
+                if(setScale!=null) this.addScale(setScale);
+            }
+        } catch (IllegalAccessException e) {
+            throw new UnitOrScaleCreationException("Could not add set "+unitAndScaleSetClass+" to factory.",e);
+        } catch (InstantiationException e) {
+            throw new UnitOrScaleCreationException("Could not add set "+unitAndScaleSetClass+" to factory.",e);
         }
     }
 
