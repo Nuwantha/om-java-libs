@@ -2,19 +2,24 @@ package nl.wur.fbr.om.core.factory;
 
 import nl.wur.fbr.om.core.impl.measures.MeasureImpl;
 import nl.wur.fbr.om.core.impl.measures.ScalarMeasureImpl;
+import nl.wur.fbr.om.core.impl.measures.ScalarRangeMeasureImpl;
 import nl.wur.fbr.om.core.impl.measures.VectorMeasureImpl;
 import nl.wur.fbr.om.core.impl.points.PointImpl;
 import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;
+import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;
 import nl.wur.fbr.om.core.impl.points.VectorPointImpl;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.measures.ScalarMeasure;
+import nl.wur.fbr.om.model.measures.ScalarRangeMeasure;
 import nl.wur.fbr.om.model.measures.VectorMeasure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.points.ScalarPoint;
+import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.points.VectorPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
+import org.apache.commons.lang3.Range;
 
 /**
  * This core class implements methods that can be used to create measures and points on a measurement scale.
@@ -63,6 +68,46 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
     @Override
     public ScalarMeasure createScalarMeasure(Number value, Unit unit) {
         return new ScalarMeasureImpl(value,unit);
+    }
+
+    /**
+     * Creates a new scalar measure with a range with the specified minimum and maximum values
+     * expressed in the specified unit.
+     *
+     * @param minimumValue The minimum value of the measure.
+     * @param maximumValue The maximum value of the measure.
+     * @param unit         The unit in which the scalar is expressed.
+     * @return The scalar measure.
+     */
+    @Override
+    public ScalarRangeMeasure createScalarRangeMeasure(double minimumValue, double maximumValue, Unit unit) {
+        return new ScalarRangeMeasureImpl(minimumValue,minimumValue,unit);
+    }
+
+    /**
+     * Creates a new scalar measure with a range with the specified minimum and maximum values
+     * expressed in the specified unit.
+     *
+     * @param minimumValue The minimum value of the measure.
+     * @param maximumValue The maximum value of the measure.
+     * @param unit         The unit in which the scalar is expressed.
+     * @return The scalar measure.
+     */
+    @Override
+    public ScalarRangeMeasure createScalarRangeMeasure(Number minimumValue, Number maximumValue, Unit unit) {
+        return new ScalarRangeMeasureImpl(minimumValue,maximumValue,unit);
+    }
+
+    /**
+     * Creates a new scalar measure with the specified range in the specified unit.
+     *
+     * @param range The scalar range of the measure.
+     * @param unit  The unit in which the scalar is expressed.
+     * @return The scalar measure.
+     */
+    @Override
+    public ScalarRangeMeasure createScalarRangeMeasure(Range range, Unit unit) {
+        return new ScalarRangeMeasureImpl(range,unit);
     }
 
     /**
@@ -115,6 +160,49 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
     @Override
     public ScalarPoint createScalarPoint(double value, Scale scale) {
         return new ScalarPointImpl(value,scale);
+    }
+
+    /**
+     * Creates a new scalar point with a range with the specified minimum and maximum values
+     * expressed on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param minimumValue The minimum value of the point.
+     * @param maximumValue The maximum value of the point.
+     * @param scale        The scale in which this point is defined.
+     * @return The scalar range point.
+     */
+    @Override
+    public ScalarRangePoint createScalarRangePoint(double minimumValue, double maximumValue, Scale scale) {
+        return new ScalarRangePointImpl(minimumValue,maximumValue,scale);
+    }
+
+    /**
+     * Creates a new scalar point with a range with the specified minimum and maximum values
+     * expressed on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param minimumValue The minimum value of the point.
+     * @param maximumValue The maximum value of the point.
+     * @param scale        The scale in which this point is defined.
+     * @return The scalar range point.
+     */
+    @Override
+    public ScalarRangePoint createScalarRangePoint(Number minimumValue, Number maximumValue, Scale scale) {
+        return new ScalarRangePointImpl(minimumValue,maximumValue,scale);
+    }
+
+    /**
+     * Creates a new scalar point with the specified range on the specified measurement
+     * scale and using the unit associated with that scale.
+     *
+     * @param range The scalar range of the point.
+     * @param scale The scale in which this point is defined.
+     * @return The scalar range point.
+     */
+    @Override
+    public ScalarRangePoint createScalarRangePoint(Range range, Scale scale) {
+        return new ScalarRangePointImpl(range,scale);
     }
 
     /**

@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+		<artifactId>om-java</artifactId>
+		<groupId>nl.wur.fbr.om</groupId>
+		<version>0.3.0</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <groupId>nl.wur.fbr.om</groupId>
+    <artifactId>om-java-om-1.8</artifactId>
+    <version>0.3.0</version>
+	<packaging>jar</packaging>
+
+	<name>Factory implementations for OM units and scales</name>
+	<url>http://www.fbresearch.nl/IM</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-model</artifactId>
+			<version>0.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-core</artifactId>
+			<version>0.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-repository-sail</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-sail-memory</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openrdf.sesame</groupId>
+            <artifactId>sesame-rio-rdfxml</artifactId>
+            <version>${sesame.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-conversion</artifactId>
+            <version>0.3.0</version>
+            <scope>test</scope>
+        </dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+		<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <id>bundle-sources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- produce source artifact for main project sources -->
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

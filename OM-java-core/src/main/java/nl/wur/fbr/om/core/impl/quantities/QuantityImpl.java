@@ -202,6 +202,7 @@ public class QuantityImpl implements Quantity {
      * @param name An alternative name of the Quantity.
      * @param language The language of the name.
      */
+    @Override
     public void addAlternativeName(String name,String language){
         if(language==null) language="";
         names.add(new Pair(language,name));
@@ -217,6 +218,15 @@ public class QuantityImpl implements Quantity {
     public String getSymbol() {
         if(symbols.size()<=0) return null;
         return symbols.get(0);
+    }
+
+    /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    @Override
+    public void setSymbol(String symbol){
+        symbols.add(0,symbol);
     }
 
     /**

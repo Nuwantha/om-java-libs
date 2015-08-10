@@ -206,6 +206,7 @@ public class ScaleImpl implements Scale {
      * Celsius scale is defined by points such as the boiling point of water (i.e. 100 degrees Celsius).
      * @param point The point.
      */
+    @Override
     public void addDefinitionPoint(Point point){
         definitionPoints.add(point);
     }
@@ -320,6 +321,15 @@ public class ScaleImpl implements Scale {
     public String getSymbol() {
         if(symbols.size()<=0) return null;
         return symbols.get(0);
+    }
+
+    /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    @Override
+    public void setSymbol(String symbol){
+        symbols.add(0,symbol);
     }
 
     /**

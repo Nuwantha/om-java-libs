@@ -154,6 +154,7 @@ public abstract class UnitImpl implements Unit {
      * @param name An alternative name of the Unit.
      * @param language The language of the name.
      */
+    @Override
     public void addAlternativeName(String name,String language){
         if(language==null) language="";
         names.add(new Pair(language,name));
@@ -175,6 +176,7 @@ public abstract class UnitImpl implements Unit {
      * Sets the preferred symbol to the specified string.
      * @param symbol The preferred symbol.
      */
+    @Override
     public void setSymbol(String symbol){
         symbols.add(0,symbol);
     }
@@ -196,6 +198,7 @@ public abstract class UnitImpl implements Unit {
      * Add an alternative symbol to the Unit.
      * @param symbol The alternative symbol.
      */
+    @Override
     public void addAlternativeSymbol(String symbol){
         symbols.add(symbol);
     }
