@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.factory;
 
 import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.FactoryNotSetException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
@@ -102,6 +103,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      * as when {@link UnitAndScaleSet#initialize(UnitAndScaleFactory)} do not exist.
      */
     public void addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         unitAndScaleFactory.addUnitAndScaleSet(unitAndScaleSetClass);
     }
 
@@ -119,6 +121,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Object getUnitOrScale(String identifier) throws UnitOrScaleCreationException {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.getUnitOrScale(identifier);
     }
 
@@ -133,6 +136,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final BaseUnit createBaseUnit(BaseDimension dimension) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createBaseUnit(dimension);
     }
 
@@ -149,6 +153,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final BaseUnit createBaseUnit(String name, String symbol, BaseDimension dimension) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createBaseUnit(name, symbol, dimension);
     }
 
@@ -165,6 +170,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final BaseUnit createBaseUnit(String identifier, String name, String symbol, BaseDimension dimension) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createBaseUnit(identifier, name, symbol, dimension);
     }
 
@@ -179,6 +185,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final BaseUnit createPrefixedBaseUnit(BaseDimension dimension, SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedBaseUnit(dimension, singularUnit, prefix);
     }
 
@@ -195,6 +202,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final BaseUnit createPrefixedBaseUnit(String name, String symbol, BaseDimension dimension, SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedBaseUnit(name, symbol, dimension, singularUnit, prefix);
     }
 
@@ -212,6 +220,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final BaseUnit createPrefixedBaseUnit(String identifier, String name, String symbol, BaseDimension dimension, SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedBaseUnit(identifier, name, symbol, dimension, singularUnit, prefix);
     }
 
@@ -224,6 +233,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit() {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit();
     }
 
@@ -238,6 +248,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(String name, String symbol) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(name, symbol);
     }
 
@@ -253,6 +264,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(String identifier, String name, String symbol) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(identifier, name, symbol);
     }
 
@@ -268,6 +280,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(Unit definitionUnit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(definitionUnit);
     }
 
@@ -285,6 +298,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(String name, String symbol, Unit definitionUnit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(name, symbol, definitionUnit);
     }
 
@@ -302,6 +316,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(identifier, name, symbol, definitionUnit);
     }
 
@@ -318,6 +333,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(Unit definitionUnit, double definitionFactor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(definitionUnit, definitionFactor);
     }
 
@@ -336,6 +352,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(String name, String symbol, Unit definitionUnit, double definitionFactor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(name, symbol, definitionUnit, definitionFactor);
     }
 
@@ -354,6 +371,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit, double definitionFactor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createSingularUnit(identifier, name, symbol, definitionUnit, definitionFactor);
     }
 
@@ -371,6 +389,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final PrefixedUnit createPrefixedUnit(SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedUnit(singularUnit, prefix);
     }
 
@@ -389,6 +408,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final PrefixedUnit createPrefixedUnit(String name, SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedUnit(name, singularUnit, prefix);
     }
 
@@ -409,6 +429,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final PrefixedUnit createPrefixedUnit(String name, String symbol, SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedUnit(name, symbol, singularUnit, prefix);
     }
 
@@ -428,6 +449,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final PrefixedUnit createPrefixedUnit(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createPrefixedUnit(identifier, name, symbol, singularUnit, prefix);
     }
 
@@ -445,6 +467,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiple createUnitMultiple(Unit unit, double factor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiple(unit, factor);
     }
 
@@ -463,6 +486,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiple createUnitMultiple(String name, Unit unit, double factor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiple(name, unit, factor);
     }
 
@@ -482,6 +506,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiple createUnitMultiple(String name, String symbol, Unit unit, double factor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiple(name, symbol, unit, factor);
     }
 
@@ -500,6 +525,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiple createUnitMultiple(String identifier, String name, String symbol, Unit unit, double factor) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiple(identifier, name, symbol, unit, factor);
     }
 
@@ -514,6 +540,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiplication createUnitMultiplication(Unit term1, Unit term2) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiplication(term1, term2);
     }
 
@@ -530,6 +557,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiplication createUnitMultiplication(String name, String symbol, Unit term1, Unit term2) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiplication(name, symbol, term1, term2);
     }
 
@@ -545,6 +573,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitMultiplication createUnitMultiplication(String identifier, String name, String symbol, Unit term1, Unit term2) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitMultiplication(identifier, name, symbol, term1, term2);
     }
 
@@ -560,6 +589,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitDivision createUnitDivision(Unit numerator, Unit denominator) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitDivision(numerator, denominator);
     }
 
@@ -577,6 +607,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitDivision createUnitDivision(String name, String symbol, Unit numerator, Unit denominator) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitDivision(name, symbol, numerator, denominator);
     }
 
@@ -593,6 +624,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitDivision createUnitDivision(String identifier, String name, String symbol, Unit numerator, Unit denominator) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitDivision(identifier, name, symbol, numerator, denominator);
     }
 
@@ -608,6 +640,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitExponentiation createUnitExponentiation(Unit base, double exponent) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitExponentiation(base, exponent);
     }
 
@@ -624,6 +657,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitExponentiation createUnitExponentiation(String name, String symbol, Unit base, double exponent) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitExponentiation(name, symbol, base, exponent);
     }
 
@@ -640,6 +674,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final UnitExponentiation createUnitExponentiation(String identifier, String name, String symbol, Unit base, double exponent) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createUnitExponentiation(identifier, name, symbol, base, exponent);
     }
 
@@ -652,6 +687,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Scale createScale(Unit unit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createScale(unit);
     }
 
@@ -666,6 +702,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Scale createScale(String name, String symbol, Unit unit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createScale(name, symbol, unit);
     }
 
@@ -680,6 +717,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Scale createScale(String identifier, String name, String symbol, Unit unit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createScale(identifier, name, symbol, unit);
     }
 
@@ -699,6 +737,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Scale createScale(Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createScale(definitionScale, definitionOffset, definitionFactor, unit);
     }
 
@@ -720,6 +759,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createScale(name, symbol, definitionScale, definitionOffset, definitionFactor, unit);
     }
 
@@ -741,6 +781,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
+        if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
         return unitAndScaleFactory.createScale(identifier, name, symbol, definitionScale, definitionOffset, definitionFactor, unit);
     }
 
@@ -756,6 +797,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Measure createMeasure(Object numericalValue, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createMeasure(numericalValue, unit);
     }
 
@@ -769,6 +811,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final ScalarMeasure createScalarMeasure(double value, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarMeasure(value, unit);
     }
 
@@ -782,6 +825,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final ScalarMeasure createScalarMeasure(Number value, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarMeasure(value, unit);
     }
 
@@ -794,6 +838,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final VectorMeasure createVectorMeasure(double[] vector, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createVectorMeasure(vector, unit);
     }
 
@@ -807,6 +852,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final VectorMeasure createVectorMeasure(Number[] vector, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createVectorMeasure(vector, unit);
     }
 
@@ -821,6 +867,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Point createPoint(Object value, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createPoint(value, scale);
     }
 
@@ -834,6 +881,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final ScalarPoint createScalarPoint(double value, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarPoint(value, scale);
     }
 
@@ -849,6 +897,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final ScalarPoint createScalarPoint(Number value, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarPoint(value, scale);
     }
 
@@ -863,6 +912,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final VectorPoint createVectorPoint(double[] vector, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createVectorPoint(vector, scale);
     }
 
@@ -876,6 +926,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final VectorPoint createVectorPoint(Number[] vector, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createVectorPoint(vector, scale);
     }
 
@@ -890,6 +941,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public ScalarRangeMeasure createScalarRangeMeasure(double minimumValue, double maximumValue, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarRangeMeasure(minimumValue,maximumValue,unit);
     }
 
@@ -904,6 +956,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public ScalarRangeMeasure createScalarRangeMeasure(Number minimumValue, Number maximumValue, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarRangeMeasure(minimumValue,maximumValue,unit);
     }
 
@@ -916,6 +969,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public ScalarRangeMeasure createScalarRangeMeasure(Range range, Unit unit) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarRangeMeasure(range,unit);
     }
 
@@ -931,6 +985,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public ScalarRangePoint createScalarRangePoint(double minimumValue, double maximumValue, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarRangePoint(minimumValue,maximumValue,scale);
     }
 
@@ -946,6 +1001,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public ScalarRangePoint createScalarRangePoint(Number minimumValue, Number maximumValue, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarRangePoint(minimumValue,maximumValue,scale);
     }
 
@@ -959,6 +1015,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public ScalarRangePoint createScalarRangePoint(Range range, Scale scale) {
+        if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
         return measureAndPointFactory.createScalarRangePoint(range,scale);
     }
 
@@ -973,6 +1030,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final double convert(double value, Unit unit, Unit targetUnit) throws ConversionException {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.convert(value, unit, targetUnit);
     }
 
@@ -987,6 +1045,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final double convert(double value, Scale scale, Scale targetScale) throws ConversionException {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.convert(value, scale, targetScale);
     }
 
@@ -1001,6 +1060,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Measure convertToUnit(Measure measure, Unit targetUnit) throws ConversionException {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.convertToUnit(measure, targetUnit);
     }
 
@@ -1017,6 +1077,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final Point convertToScale(Point point, Scale targetScale) throws ConversionException {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.convertToScale(point, targetScale);
     }
 
@@ -1033,6 +1094,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final int compare(ScalarMeasure measure1, ScalarMeasure measure2) throws ConversionException {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.compare(measure1,measure2);
     }
 
@@ -1051,6 +1113,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final boolean equals(Measure measure1, Measure measure2, double diff) {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.equals(measure1, measure2, diff);
     }
 
@@ -1068,6 +1131,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final int compare(ScalarPoint point1, ScalarPoint point2) throws ConversionException {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.compare(point1,point2);
     }
 
@@ -1086,6 +1150,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      */
     @Override
     public final boolean equals(Point point1, Point point2, double diff) {
+        if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.equals(point1, point2, diff);
     }
 }

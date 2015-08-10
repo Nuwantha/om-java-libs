@@ -5,10 +5,13 @@ import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.core.impl.units.PrefixedUnitImpl;
 import nl.wur.fbr.om.core.impl.units.SingularUnitImpl;
 import nl.wur.fbr.om.core.impl.units.UnitImpl;
+import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.FactoryNotSetException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
+import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
@@ -264,5 +267,21 @@ public class UnitTest {
         Assert.assertTrue("Test scale creation", kelvinScale.getFactorFromDefinitionScale() == 1.0);
         Assert.assertEquals("Test scale creation", kelvinScale.getName(), "Kelvin scale");
         Assert.assertNull("Test scale creation", kelvinScale.getSymbol());
+    }
+
+    @Test
+    public void testFactoryNotSetException() {
+        InstanceFactory factory = new DefaultInstanceFactory();
+        try{
+            Unit metre = factory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
+            SingularUnit au = factory.createSingularUnit("astronomical unit", "AU", metre, 1.495978707e11);
+            Measure m1 = factory.createScalarMeasure(10, au);
+            Measure m2 = factory.convertToUnit(m1,metre);
+            Assert.fail("FactoryNotSetException was NOT thrown as expected.");
+        } catch (FactoryNotSetException e){
+            Assert.assertTrue("FactoryNotSetException thrown as expected.",true);
+        } catch (ConversionException e) {
+            Assert.fail("FactoryNotSetException was NOT thrown as expected.");
+        }
     }
 }
