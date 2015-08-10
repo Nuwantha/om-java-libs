@@ -9,7 +9,7 @@ import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
-import nl.wur.fbr.om.om18.set.OMUnitAndScaleFactory;
+import nl.wur.fbr.om.om18.OMUnitAndScaleFactory;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;

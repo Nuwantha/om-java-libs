@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.om18.set;
+package nl.wur.fbr.om.om18;
 
 import javafx.util.Pair;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
