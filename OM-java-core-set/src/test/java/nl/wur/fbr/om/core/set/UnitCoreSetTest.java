@@ -1,5 +1,7 @@
 package nl.wur.fbr.om.core.set;
 
+import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.units.UnitDivision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +19,8 @@ public class UnitCoreSetTest {
     @Test
     public void testUnitCoreSet() {
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            factory.addUnitAndScaleSet(CoreSet.class);
             Assert.assertEquals("Test Unit core set creation", CoreSet.METRE.getName(), "metre");
             Assert.assertEquals("Test Unit core set creation", CoreSet.METRE.getSymbol(),"m");
             Assert.assertEquals("Test Unit core set creation", CoreSet.METRE.getName("en"), null);
@@ -24,6 +28,7 @@ public class UnitCoreSetTest {
             Assert.assertTrue("Test Unit core set creation", CoreSet.METRE.getAlternativeNames().size() == 0);
             Assert.assertTrue("Test Unit core set creation", CoreSet.METRE.getAlternativeSymbols().size() == 0);
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a creating coreUnitSet in the core set. " + e);
         }
     }
@@ -35,12 +40,15 @@ public class UnitCoreSetTest {
     @Test
     public void testCoreUnitDivision(){
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            factory.addUnitAndScaleSet(CoreSet.class);
             UnitDivision kilometrePerSecond = (UnitDivision) CoreSet.KILOMETRE_PER_SECOND;
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getName(), "kilometre per second");
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getSymbol(), "km/s");
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getNumerator().getIdentifier(), CoreSet.KILOMETRE.getIdentifier());
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getDenominator().getIdentifier(), CoreSet.SECOND.getIdentifier());
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
         }
     }
@@ -51,6 +59,8 @@ public class UnitCoreSetTest {
     @Test
     public void testScaleCreation(){
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            factory.addUnitAndScaleSet(CoreSet.class);
             Assert.assertEquals("Test scale creation",CoreSet.FAHRENHEIT_SCALE.getDefinitionScale(),CoreSet.KELVIN_SCALE);
             Assert.assertEquals("Test scale creation",CoreSet.FAHRENHEIT_SCALE.getUnit().getIdentifier(), CoreSet.FAHRENHEIT.getIdentifier());
             Assert.assertTrue("Test scale creation", CoreSet.FAHRENHEIT_SCALE.getOffsetFromDefinitionScale() == -459.67);
@@ -65,6 +75,7 @@ public class UnitCoreSetTest {
             Assert.assertTrue("Test scale creation", CoreSet.KELVIN_SCALE.getFactorFromDefinitionScale() == 1.0);
             Assert.assertNull("Test scale creation", CoreSet.KELVIN_SCALE.getSymbol());
         } catch (Exception e) {
+            e.printStackTrace();
             Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
         }
     }

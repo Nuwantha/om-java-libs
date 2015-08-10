@@ -4,6 +4,7 @@ import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.core.set.CoreSet;
 import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
@@ -28,10 +29,12 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testSingularUnitConversion(){
-        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
 
         try {
+            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            factory.addUnitAndScaleSet(CoreSet.class);
+            MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+            UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = CoreSet.METRE;
             Unit inch = CoreSet.INCH;
             Measure m1 = measureFactory.createScalarMeasure(10,metre);
@@ -40,7 +43,7 @@ public class UnitOrScaleConversionTest {
             Assert.assertEquals("Test measure equals after conversion", 393.7007874015748, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
 
 
-        } catch (ConversionException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
         }
@@ -51,6 +54,13 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testPrefixedUnitConversion(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
         UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
 
@@ -81,6 +91,13 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testKilogramUnitConversion(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
         UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
 
@@ -103,6 +120,12 @@ public class UnitOrScaleConversionTest {
     @Test
     public void testConversionChaining(){
         UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
         UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
         try {
@@ -130,6 +153,13 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testUnitDivisionConversion(){
+        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
         UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
 

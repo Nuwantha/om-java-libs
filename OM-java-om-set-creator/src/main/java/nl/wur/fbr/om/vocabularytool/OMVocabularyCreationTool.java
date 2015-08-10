@@ -165,7 +165,8 @@ public class OMVocabularyCreationTool {
             Set<String> varNames = unitsAndScales.keySet();
             String contents = "package "+targetPackage+";\n\n";
             contents+= "" +
-                    "import nl.wur.fbr.om.model.scales.Scale;\n" +
+                    "import nl.wur.fbr.om.model.scales.Scale;\n\n" +
+                    "import nl.wur.fbr.om.factory.UnitAndScaleFactory;\n" +
                     "import nl.wur.fbr.om.model.units.*;\n" +
                     "import nl.wur.fbr.om.core.impl.scales.ScaleImpl;\n" +
                     "import nl.wur.fbr.om.core.impl.units.*;\n" +
@@ -174,7 +175,10 @@ public class OMVocabularyCreationTool {
                     "import nl.wur.fbr.om.model.scales.Scale;\n" +
                     "import nl.wur.fbr.om.model.units.SingularUnit;\n" +
                     "import nl.wur.fbr.om.model.units.Unit;\n" +
-                    "import nl.wur.fbr.om.prefixes.DecimalPrefix;\n\n";
+                    "import nl.wur.fbr.om.model.UnitAndScaleSet;\n" +
+                    "import java.util.Set;\n" +
+                    "import java.util.HashSet;\n" +
+                    "import nl.wur.fbr.om.prefixes.*;\n\n";
             if(apparea!=null) {
                 contents += "/**\n" +
                         " * This class contains the identifiers for the units and scales defined for the\n" +
@@ -193,7 +197,11 @@ public class OMVocabularyCreationTool {
                         " * @author OM Vocabulary Creation tool at "+(new Date())+".\n" +
                         " */\n";
             }
-            contents+= "public class "+className+" {\n\n";
+            if(className.equals("OM")){
+                contents+= "public class "+className+" extends UnitAndScaleSet {\n\n";
+            }else {
+                contents+= "public class "+className+" {\n\n";
+            }
             for(String varName : varNames) {
                 String description = comments.get(varName);
                 if(description!=null){
@@ -205,14 +213,20 @@ public class OMVocabularyCreationTool {
                     type = "Scale";
                 }
                 if(className.equals("OM")){
-                    contents += "\tpublic final static "+type+" "+varName+";\n\n";
+                    contents += "\tpublic static "+type+" "+varName+";\n\n";
                 }else {
-                    contents += "\tpublic final static "+type+" "+varName+" = OM."+varName+";\n\n";
+                    contents += "\tpublic static "+type+" "+varName+" = OM."+varName+";\n\n";
                 }
             }
             if(className.equals("OM")) {
                 contents += "\n\n" +
-                        "\tstatic {\n";
+                        "    /**\n" +
+                        "     * Initializes the set by creating all units and scales in the set using the specified factory.\n" +
+                        "     * @param factory The factory to create units and scales.\n" +
+                        "     */\n" +
+                        "    @Override\n" +
+                        "    public void initialize(UnitAndScaleFactory factory) {\n" +
+                        "        if(Metre!=null) return; // has already been initialised! \n";
 
                 // Add constructors
                 ValueFactory vf = connection.getValueFactory();
@@ -227,6 +241,28 @@ public class OMVocabularyCreationTool {
                     }
                 }
                 contents += "\t}\n";
+                contents += "\n" +
+                        "    /**\n" +
+                        "     * Returns all units in this set.\n" +
+                        "     *\n" +
+                        "     * @return All units.\n" +
+                        "     */\n" +
+                        "    @Override\n" +
+                        "    public Set<Unit> getAllUnits() {\n" +
+                        "        Set<Unit> units = new HashSet<>();\n";
+                contents +="        return units;\n" +
+                        " \t}\n";
+                contents += "\n" +
+                        "    /**\n" +
+                        "     * Returns all scales in this set.\n" +
+                        "     *\n" +
+                        "     * @return All scales.\n" +
+                        "     */\n" +
+                        "    @Override\n" +
+                        "    public Set<Scale> getAllScales() {\n" +
+                        "        Set<Scale> scales = new HashSet<>();\n";
+                contents +="        return scales;\n" +
+                        " \t}\n";
             }
             contents += "}";
 
@@ -283,7 +319,7 @@ public class OMVocabularyCreationTool {
             if(baseUnit.getDefinitionDimension()!=null) {
                 dim = ""+baseUnit.getDefinitionDimension().getClass().getTypeName()+"."+baseUnit.getDefinitionDimension().toString();
             }
-            contents+= "\t\t"+varName+" = new PrefixedBaseUnitImpl(\""+prefixedUnit.getIdentifier()+"\",\""+prefixedUnit.getName()+"\",\""+prefixedUnit.getSymbol()+"\",(SingularUnit)"+newVarName+", "+prefix+", "+dim+");\n";
+            contents+= "\t\t"+varName+" = factory.createPrefixedBaseUnit(\""+prefixedUnit.getIdentifier()+"\",\""+prefixedUnit.getName()+"\",\""+prefixedUnit.getSymbol()+"\", "+dim+",(SingularUnit)"+newVarName+", "+prefix+");\n";
         }else if(unitOrScale instanceof SingularUnit && unitOrScale instanceof BaseUnit){
             urisDone.add(uri);
             BaseUnit unit = (BaseUnit)unitOrScale;
@@ -291,12 +327,12 @@ public class OMVocabularyCreationTool {
             if(unit.getDefinitionDimension()!=null) {
                 dim = ""+unit.getDefinitionDimension().getClass().getTypeName()+"."+unit.getDefinitionDimension().toString();
             }
-            contents += "\t\t"+varName+" = new BaseUnitImpl(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+dim+");\n";
+            contents += "\t\t"+varName+" = factory.createBaseUnit(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+dim+");\n";
         }else if(unitOrScale instanceof SingularUnit){
             urisDone.add(uri);
             SingularUnit unit = (SingularUnit)unitOrScale;
             if(varName.equals("Gram")){
-                contents += "\t\t"+varName+" =  new SingularUnitImpl(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\" );\n";
+                contents += "\t\t"+varName+" = factory.createSingularUnit(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\" );\n";
             }else{
                 Unit defunit = unit.getDefinitionUnit();
                 String defVarName = OMVocabularyCreationTool.getVariableNameForURI(defunit.getIdentifier(), varNames);
@@ -304,7 +340,7 @@ public class OMVocabularyCreationTool {
                 if(defunit!=null && !urisDone.contains(defunit.getIdentifier())){
                     contents +=OMVocabularyCreationTool.createConstructor(defVarName,varNames,defunit.getIdentifier(),vf,urisDone);
                 }
-                contents += "\t\t"+varName+" =  new SingularUnitImpl(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+defVarName+", "+factor+" );\n";
+                contents += "\t\t"+varName+" = factory.createSingularUnit(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+defVarName+", "+factor+" );\n";
             }
         }else if(unitOrScale instanceof PrefixedUnit){
             urisDone.add(uri);
@@ -315,7 +351,7 @@ public class OMVocabularyCreationTool {
                 contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
             }
             String prefix = ""+unit.getPrefix().getClass().getTypeName()+"."+unit.getPrefix().toString();
-            contents+= "\t\t"+varName+" = new PrefixedUnitImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+prefix+");\n";
+            contents+= "\t\t"+varName+" = factory.createPrefixedUnit(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+prefix+");\n";
         }else if(unitOrScale instanceof UnitMultiple){
             urisDone.add(uri);
             UnitMultiple unit = (UnitMultiple)unitOrScale;
@@ -325,7 +361,7 @@ public class OMVocabularyCreationTool {
             if(!urisDone.contains(bunit.getIdentifier())){
                 contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
             }
-            contents+= "\t\t"+varName+" = new UnitMultipleImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+factor+");\n";
+            contents+= "\t\t"+varName+" = factory.createUnitMultiple(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+factor+");\n";
         }else if(unitOrScale instanceof UnitMultiplication) {
             urisDone.add(uri);
             UnitMultiplication unit = (UnitMultiplication)unitOrScale;
@@ -339,7 +375,7 @@ public class OMVocabularyCreationTool {
             if(!urisDone.contains(term2.getIdentifier())){
                 contents +=OMVocabularyCreationTool.createConstructor(term2Name,varNames,term2.getIdentifier(),vf,urisDone);
             }
-            contents+= "\t\t"+varName+" = new UnitMultiplicationImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+term1Name+", "+term2Name+");\n";
+            contents+= "\t\t"+varName+" = factory.createUnitMultiplication(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+term1Name+", "+term2Name+");\n";
         }else if(unitOrScale instanceof UnitDivision) {
             urisDone.add(uri);
             UnitDivision unit = (UnitDivision)unitOrScale;
@@ -353,7 +389,7 @@ public class OMVocabularyCreationTool {
             if(!urisDone.contains(denominator.getIdentifier())){
                 contents +=OMVocabularyCreationTool.createConstructor(denominatorName,varNames,denominator.getIdentifier(),vf,urisDone);
             }
-            contents+= "\t\t"+varName+" = new UnitDivisionImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+numeratorName+", "+denominatorName+");\n";
+            contents+= "\t\t"+varName+" = factory.createUnitDivision(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+numeratorName+", "+denominatorName+");\n";
         }else if(unitOrScale instanceof UnitExponentiation) {
             urisDone.add(uri);
             UnitExponentiation unit = (UnitExponentiation)unitOrScale;
@@ -363,7 +399,7 @@ public class OMVocabularyCreationTool {
             if(!urisDone.contains(base.getIdentifier())){
                 contents +=OMVocabularyCreationTool.createConstructor(baseName,varNames,base.getIdentifier(),vf,urisDone);
             }
-            contents+= "\t\t"+varName+" = new UnitExponentiationImpl(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+baseName+", "+exponent+");\n";
+            contents+= "\t\t"+varName+" = factory.createUnitExponentiation(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+baseName+", "+exponent+");\n";
         }else if(unitOrScale instanceof Scale) {
             urisDone.add(uri);
             Scale scale = (Scale)unitOrScale;
@@ -380,9 +416,9 @@ public class OMVocabularyCreationTool {
                 }
                 double offset = scale.getOffsetFromDefinitionScale();
                 double factor = scale.getFactorFromDefinitionScale();
-                contents+= "\t\t"+varName+" = new ScaleImpl(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\","+defscaleName+", "+offset+", "+factor+", "+unitName+");\n";
+                contents+= "\t\t"+varName+" = factory.createScale(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\","+defscaleName+", "+offset+", "+factor+", "+unitName+");\n";
             }else{
-                contents+= "\t\t"+varName+" = new ScaleImpl(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\", "+unitName+");\n";
+                contents+= "\t\t"+varName+" = factory.createScale(\""+scale.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(scale.getSymbol())+"\", "+unitName+");\n";
             }
             // todo definition points
         }
