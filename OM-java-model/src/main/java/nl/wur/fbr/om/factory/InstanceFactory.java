@@ -26,14 +26,6 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     private UnitAndScaleConversionFactory unitAndScaleConversionFactory = null;
 
     /**
-     * Creates a new instance factory. This constructor calls {@link #instantiateDefaultFactoryInstances()} to create
-     * the default factory instances.
-     */
-    protected InstanceFactory(){
-        this.instantiateDefaultFactoryInstances();
-    }
-
-    /**
      * Creates a new InstanceFactory with the specified factory classes.
      * @param unitAndScaleFactory The unit and scale factory.
      * @param measureAndPointFactory The measure and point factory.
@@ -46,37 +38,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     }
 
     /**
-     * Sets the default factories.
-     */
-    private void instantiateDefaultFactoryInstances() {
-        this.unitAndScaleFactory = this.getDefaultUnitAndScaleFactory();
-        this.measureAndPointFactory = this.getDefaultMeasureAndPointFactory();
-        this.unitAndScaleConversionFactory = this.getDefaultUnitAndScaleConversionFactory();
-    }
-
-    /**
-     * This method returns the default unit and scale factory, and SHOULD BE OVERRIDDEN BY SUBCLASSES.
-     * @return The default unit and scale factory.
-     */
-    protected abstract UnitAndScaleFactory getDefaultUnitAndScaleFactory();
-
-    /**
-     * This method returns the default measure and point factory, and SHOULD BE OVERRIDDEN BY SUBCLASSES.
-     * @return The default measure and point factory.
-     */
-    protected abstract MeasureAndPointFactory getDefaultMeasureAndPointFactory();
-
-    /**
-     * This method returns the default unit and scale conversion factory, and SHOULD BE OVERRIDDEN BY SUBCLASSES.
-     * @return The default unit and scale conversion factory.
-     */
-    protected abstract UnitAndScaleConversionFactory getDefaultUnitAndScaleConversionFactory();
-
-
-
-    /**
-     * Implementations should return a unit or scale identified by the specified
-     * identifier. If the Unit or Scale with the same identifier has been created previously, this method should return the
+     * If the Unit or Scale with the same identifier has been created previously, this method should return the
      * same instance. If the Unit or Scale has not been created previously, this method should create the
      * unit or scale and set the identifier of the unit or scale to the specified identifier. The data needed to
      * create the unit (such as multiplication factors, prefixes, or base units) or scale may be available from other sources

@@ -1,6 +1,8 @@
 package nl.wur.fbr.om.core.set;
 
+import nl.wur.fbr.om.core.factory.DefaultInstanceFactory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
@@ -20,7 +22,7 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testUnitCoreSet() {
-        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        InstanceFactory factory = new DefaultInstanceFactory();
         try {
             Assert.assertEquals("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getName(), "metre");
             Assert.assertEquals("Test Unit core set creation", ((Unit)factory.getUnitOrScale(CoreUnitSet.METRE)).getSymbol(),"m");
@@ -39,7 +41,7 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testCoreUnitDivision(){
-        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        InstanceFactory factory = new DefaultInstanceFactory();
         try {
             UnitDivision kilometrePerSecond = (UnitDivision) factory.getUnitOrScale(CoreUnitSet.KILOMETRE_PER_SECOND);
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getName(), "kilometre per second");
@@ -56,7 +58,7 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testScaleCreation(){
-        UnitAndScaleFactory factory = new CoreUnitAndScaleFactory();
+        InstanceFactory factory = new DefaultInstanceFactory();
         try {
             Scale kelvinScale = (Scale) factory.getUnitOrScale(CoreScaleSet.KELVIN_SCALE);
             Scale celsiusScale = (Scale) factory.getUnitOrScale(CoreScaleSet.CELSIUS_SCALE);
