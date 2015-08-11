@@ -39,12 +39,26 @@ public interface NamedObject {
     public String getName(String language);
 
     /**
+     * Returns the languages of the set of names.
+     * @return The languages.
+     */
+    public List<String> getLanguages();
+
+    /**
      * Returns the alternative names in the specified language if any are known.
      * If no known alternative names are known return an empty list.
      * @param language The language of the requested alternative names.
      * @return A list of alternative names.
      */
     public List<String> getAlternativeNames(String language);
+
+    /**
+     * Adds a name with the specified language. If the name is not specific to a language
+     * use null for language.
+     * @param name An alternative name of the Unit.
+     * @param language The language of the name.
+     */
+    public void addAlternativeName(String name,String language);
 
     /**
      * Returns the preferred symbol used for this object.
@@ -54,9 +68,21 @@ public interface NamedObject {
     public String getSymbol();
 
     /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    public void setSymbol(String symbol);
+
+    /**
      * Returns a list of alternative symbols for this object.
      * When no known alternative symbols are known return an empty list.
      * @return A list of alternative symbols.
      */
     public List<String> getAlternativeSymbols();
+
+    /**
+     * Add an alternative symbol to the Unit.
+     * @param symbol The alternative symbol.
+     */
+    public void addAlternativeSymbol(String symbol);
 }
