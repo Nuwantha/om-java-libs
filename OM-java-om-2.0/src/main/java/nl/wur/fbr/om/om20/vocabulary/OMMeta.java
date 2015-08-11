@@ -98,6 +98,7 @@ public class OMMeta {
     public final static URI HAS_SYMBOL;
     public final static URI HAS_ALTERNATIVE_SYMBOL;
     public final static URI HAS_ALTERNATIVE_LABEL;
+    public final static URI USES_UNIT;
 
     // properties for quantities
     public final static URI COMMONLY_HAS_UNIT;
@@ -121,7 +122,7 @@ public class OMMeta {
 	public final static URI HAS_VALUE;
 
 	static {
-		NAMESPACE = "http://www.wurvoc.org/vocabularies/om-1.8/";
+		NAMESPACE = "http://www.ontology-of-units-of-measure.org/vocabularies/om-2/";
 
 		ValueFactory factory = new ValueFactoryImpl();
 
@@ -212,6 +213,7 @@ public class OMMeta {
         HAS_SYMBOL = factory.createURI(NAMESPACE, "symbol");
         HAS_ALTERNATIVE_SYMBOL = factory.createURI(NAMESPACE, "alternativeSymbol");
         HAS_ALTERNATIVE_LABEL = factory.createURI(NAMESPACE, "alternativeLabel");
+        USES_UNIT = factory.createURI(NAMESPACE, "usesUnit");
 
         // properties for quantities
         COMMONLY_HAS_UNIT = factory.createURI(NAMESPACE, "commonlyHasUnit");
