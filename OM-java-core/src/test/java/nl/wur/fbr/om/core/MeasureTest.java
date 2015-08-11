@@ -1,7 +1,9 @@
 package nl.wur.fbr.om.core;
 
+import nl.wur.fbr.om.core.factory.DefaultInstanceFactory;
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -26,17 +28,16 @@ public class MeasureTest {
 
     @Test
     public void testScalarMeasureCreation(){
-        MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit metre = unitfactory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
-        Unit second = unitfactory.createBaseUnit("second", "s",SIBaseDimension.TIME);
+        InstanceFactory factory = new DefaultInstanceFactory();
+        Unit metre = factory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
+        Unit second = factory.createBaseUnit("second", "s",SIBaseDimension.TIME);
         ScalarMeasure m1 = factory.createScalarMeasure(15.3, metre);
         Assert.assertTrue("Test measure creation",m1.getScalarValue().doubleValue()==15.3);
         Assert.assertTrue("Test measure creation",m1.getNumericalValue() instanceof Number);
         Assert.assertTrue("Test measure creation", ((Number) m1.getNumericalValue()).doubleValue() == 15.3);
         Assert.assertEquals("Test measure creation", metre, m1.getUnit());
 
-        Unit metrePerSecond = unitfactory.createUnitDivision("metre per second", "m/s", metre, second);
+        Unit metrePerSecond = factory.createUnitDivision("metre per second", "m/s", metre, second);
         ScalarMeasure ms1 = factory.createScalarMeasure(2.4e2, metrePerSecond);
         Assert.assertTrue("Test measure creation",ms1.getScalarValue().doubleValue()==2.4e2);
         Assert.assertTrue("Test measure creation",ms1.getNumericalValue() instanceof Number);
@@ -53,9 +54,8 @@ public class MeasureTest {
 
     @Test
     public void testVectorMeasureCreation(){
-        MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit metre = unitfactory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
+        InstanceFactory factory = new DefaultInstanceFactory();
+        Unit metre = factory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
         Double[] vector = {4.0,3.0};
         VectorMeasure m1 = factory.createVectorMeasure(vector, metre);
         Assert.assertTrue("Test measure creation", ((Number) m1.getVectorValue()[0]).doubleValue() == 4.0);
@@ -82,12 +82,11 @@ public class MeasureTest {
 
     @Test
     public void testPointCreation(){
-        MeasureAndPointFactory factory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleFactory unitfactory = new DefaultUnitAndScaleFactory();
-        Unit kelvin = unitfactory.createBaseUnit("Kelvin", "K", SIBaseDimension.THERMODYNAMIC_TEMPERATURE);
-        Unit celsius = unitfactory.createSingularUnit("Celsius", "°C", kelvin, 1.0);
-        Scale kelvinScale = unitfactory.createScale("kelvin scale", null, kelvin);
-        Scale celsiusScale = unitfactory.createScale("celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
+        InstanceFactory factory = new DefaultInstanceFactory();
+        Unit kelvin = factory.createBaseUnit("Kelvin", "K", SIBaseDimension.THERMODYNAMIC_TEMPERATURE);
+        Unit celsius = factory.createSingularUnit("Celsius", "°C", kelvin, 1.0);
+        Scale kelvinScale = factory.createScale("kelvin scale", null, kelvin);
+        Scale celsiusScale = factory.createScale("celsius scale", null, kelvinScale, -273.15, 1.0, celsius);
         ScalarPoint boilingpoint = factory.createScalarPoint(100.0, celsiusScale);
         Assert.assertTrue("Test measure creation", boilingpoint.doubleValue() == 100.0);
         Assert.assertEquals("Test measure creation", celsiusScale, boilingpoint.getScale());

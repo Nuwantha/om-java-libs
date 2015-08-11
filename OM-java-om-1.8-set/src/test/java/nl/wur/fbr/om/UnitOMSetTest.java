@@ -1,6 +1,8 @@
 package nl.wur.fbr.om;
 
+import nl.wur.fbr.om.conversion.CoreInstanceFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
@@ -22,7 +24,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMBaseUnits(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit metre = OM.Metre;
             Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());
@@ -46,7 +48,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMSingularUnits(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit au = OM.AstronomicalUnit;
             Assert.assertEquals("Testing OM Singular Unit creation", "astronomical unit", au.getName());
@@ -64,7 +66,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitMultiples(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit kilometre = OM.Kilometre;
             Assert.assertEquals("Testing OM Unit Multiple creation", "kilometre", kilometre.getName());
@@ -87,7 +89,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitMultiplication(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit newtonMetre = OM.NewtonMetre;
             Assert.assertEquals("Testing OM Unit Multiplication creation", "newton metre", newtonMetre.getName());
@@ -109,7 +111,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitDivision(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit metre_per_second = OM.MetrePerSecondTime;
             Assert.assertEquals("Testing OM Unit Division creation", "metre per second", metre_per_second.getName());
@@ -131,7 +133,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMUnitExponentiation(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit cubicMetre = OM.CubicMetre;
             Assert.assertEquals("Testing OM Unit Exponentiation creation", "cubic metre", cubicMetre.getName());
@@ -152,7 +154,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMScaleCreation(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Scale celsius_scale = OM.CelsiusScale;
             Assert.assertEquals("Testing OM Scale creation", "Celsius scale", celsius_scale.getName());
@@ -173,7 +175,7 @@ public class UnitOMSetTest {
     @Test
     public void testOMVocabulary(){
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+            InstanceFactory factory = new CoreInstanceFactory();
             factory.addUnitAndScaleSet(OM.class);
             Unit metre = OM.Metre;
             Assert.assertEquals("Testing OM Base Unit creation", SIBaseDimension.LENGTH,((BaseUnit)metre).getDefinitionDimension());

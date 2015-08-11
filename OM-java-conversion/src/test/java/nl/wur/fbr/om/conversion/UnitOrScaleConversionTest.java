@@ -1,10 +1,12 @@
 package nl.wur.fbr.om.conversion;
 
+import nl.wur.fbr.om.core.factory.DefaultInstanceFactory;
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.core.set.CoreSet;
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
@@ -30,9 +32,13 @@ public class UnitOrScaleConversionTest {
     @Test
     public void testSingularUnitConversion(){
 
+        InstanceFactory factory = new CoreInstanceFactory();
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            Assert.fail("Could not add unit and scale set to the factory. " + e);
+        }
+        try {
             MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
             UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
             Unit metre = CoreSet.METRE;
@@ -54,22 +60,18 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testPrefixedUnitConversion(){
-        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        InstanceFactory factory = new CoreInstanceFactory();
         try {
             factory.addUnitAndScaleSet(CoreSet.class);
         } catch (UnitOrScaleCreationException e) {
-            e.printStackTrace();
-            Assert.fail("Could not add core set to factory. " + e);
+            Assert.fail("Could not add unit and scale set to the factory. " + e);
         }
-        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
-
         try {
             Unit metre = CoreSet.METRE;
             Unit kilometre = CoreSet.KILOMETRE;
-            Measure m1 = measureFactory.createScalarMeasure(1204,metre);
-            Measure m2 = conversion.convertToUnit(m1,kilometre);
-            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
+            Measure m1 = factory.createScalarMeasure(1204,metre);
+            Measure m2 = factory.convertToUnit(m1,kilometre);
+            Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
         } catch (ConversionException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
@@ -78,8 +80,8 @@ public class UnitOrScaleConversionTest {
         try {
             Unit metre = CoreSet.METRE;
             Unit kilogram = CoreSet.KILOGRAM;
-            Measure m1 = measureFactory.createScalarMeasure(1204,metre);
-            Measure m2 = conversion.convertToUnit(m1,kilogram);
+            Measure m1 = factory.createScalarMeasure(1204,metre);
+            Measure m2 = factory.convertToUnit(m1,kilogram);
             Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
         } catch (ConversionException e) {
             Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
@@ -91,23 +93,40 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testKilogramUnitConversion(){
-        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        InstanceFactory factory = new CoreInstanceFactory();
         try {
             factory.addUnitAndScaleSet(CoreSet.class);
-        } catch (UnitOrScaleCreationException e) {
-            e.printStackTrace();
-            Assert.fail("Could not add core set to factory. " + e);
-        }
-        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
-
-        try {
             Unit gram = CoreSet.GRAM;
             Unit kilogram = CoreSet.KILOGRAM;
-            Measure m1 = measureFactory.createScalarMeasure(1204, gram);
-            Measure m2 = conversion.convertToUnit(m1, kilogram);
-            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
+            Measure m1 = factory.createScalarMeasure(1204, gram);
+            Measure m2 = factory.convertToUnit(m1, kilogram);
+            Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
             Assert.assertEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add unit and scale set to the factory. " + e);
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+    }
+
+    /**
+     * Tests the special unit kilogram as a base unit without measures but with doubles.
+     */
+    @Test
+    public void testKilogramUnitConversionWithDoubles(){
+        InstanceFactory factory = new CoreInstanceFactory();
+
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+            Unit gram = CoreSet.GRAM;
+            Unit kilogram = CoreSet.KILOGRAM;
+            double convValue = factory.convert(1024, gram, kilogram);
+            Assert.assertEquals("Test value equals after conversion", 1.024, convValue, 0.00001);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add unit and scale set to the factory. " + e);
         } catch (ConversionException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
@@ -153,7 +172,7 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testUnitDivisionConversion(){
-        UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        InstanceFactory factory = new CoreInstanceFactory();
         try {
             factory.addUnitAndScaleSet(CoreSet.class);
         } catch (UnitOrScaleCreationException e) {
@@ -182,15 +201,19 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testUnitMultiplicationConversion(){
-        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
-
+        InstanceFactory factory = new CoreInstanceFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         try {
             Unit joule = CoreSet.JOULE;
             Unit kcal = CoreSet.KILOCALORIE;
-            Measure m1 = measureFactory.createScalarMeasure(120,joule);
-            Measure m2 = conversion.convertToUnit(m1,kcal);
-            Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
+            Measure m1 = factory.createScalarMeasure(120,joule);
+            Measure m2 = factory.convertToUnit(m1,kcal);
+            Assert.assertTrue("Test measure equals after conversion",factory.equals(m1,m2,1e-12));
             Assert.assertEquals("Test measure equals after conversion", 0.0286806883, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
 
         } catch (ConversionException e) {
@@ -204,15 +227,19 @@ public class UnitOrScaleConversionTest {
      */
     @Test
     public void testUnitExponentiationConversion(){
-        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
-
+        InstanceFactory factory = new CoreInstanceFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         try {
             Unit squaremetre = CoreSet.SQUARE_METRE;
             Unit squarekilometre = CoreSet.SQUARE_KILOMETRE;
-            Measure m1 = measureFactory.createScalarMeasure(1000000,squaremetre);
-            Measure m2 = conversion.convertToUnit(m1,squarekilometre);
-            Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
+            Measure m1 = factory.createScalarMeasure(1000000,squaremetre);
+            Measure m2 = factory.convertToUnit(m1,squarekilometre);
+            Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
             Assert.assertEquals("Test measure equals after conversion",1.0, ((ScalarMeasure)m2).doubleValue(),0.0000001);
 
         } catch (ConversionException e) {
@@ -224,17 +251,21 @@ public class UnitOrScaleConversionTest {
     /** Tests conversion between scales. */
     @Test
     public void testScaleConversion(){
-        MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
-        UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
-
+        InstanceFactory factory = new CoreInstanceFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            e.printStackTrace();
+            Assert.fail("Could not add core set to factory. " + e);
+        }
         try {
             Scale celsiusscale = CoreSet.CELSIUS_SCALE;
             Scale fahrenheitscale = CoreSet.FAHRENHEIT_SCALE;
 
-            Point p1 = measureFactory.createScalarPoint(0.0,celsiusscale);
-            Point p2 = conversion.convertToScale(p1,fahrenheitscale);
+            Point p1 = factory.createScalarPoint(0.0,celsiusscale);
+            Point p2 = factory.convertToScale(p1,fahrenheitscale);
             Assert.assertEquals("Test measure equals after conversion", 32.0, ((ScalarPoint) p2).doubleValue(), 0.0000001);
-            Assert.assertTrue("Test measure equals after conversion", conversion.equals(p1, p2,1e-12));
+            Assert.assertTrue("Test measure equals after conversion", factory.equals(p1, p2,1e-12));
         } catch (ConversionException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a scale. " + e);

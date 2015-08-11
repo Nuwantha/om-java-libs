@@ -1,7 +1,11 @@
 package nl.wur.fbr.om.core.set;
 
-import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.core.factory.DefaultInstanceFactory;
+import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitDivision;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,8 +22,8 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testUnitCoreSet() {
+        InstanceFactory factory = new DefaultInstanceFactory();
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             factory.addUnitAndScaleSet(CoreSet.class);
             Assert.assertEquals("Test Unit core set creation", CoreSet.METRE.getName(), "metre");
             Assert.assertEquals("Test Unit core set creation", CoreSet.METRE.getSymbol(),"m");
@@ -27,9 +31,9 @@ public class UnitCoreSetTest {
             Assert.assertEquals("Test Unit core set creation", CoreSet.METRE.getName(null), "metre");
             Assert.assertTrue("Test Unit core set creation", CoreSet.METRE.getAlternativeNames().size() == 0);
             Assert.assertTrue("Test Unit core set creation", CoreSet.METRE.getAlternativeSymbols().size() == 0);
-        } catch (Exception e) {
+        } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
-            Assert.fail("Exception thrown when getting a creating coreUnitSet in the core set. " + e);
+            Assert.fail("Could not add core set to factory. "+e);
         }
     }
 
@@ -39,17 +43,17 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testCoreUnitDivision(){
+        InstanceFactory factory = new DefaultInstanceFactory();
         try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
             factory.addUnitAndScaleSet(CoreSet.class);
             UnitDivision kilometrePerSecond = (UnitDivision) CoreSet.KILOMETRE_PER_SECOND;
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getName(), "kilometre per second");
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getSymbol(), "km/s");
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getNumerator().getIdentifier(), CoreSet.KILOMETRE.getIdentifier());
             Assert.assertEquals("Test unit division creation.", kilometrePerSecond.getDenominator().getIdentifier(), CoreSet.SECOND.getIdentifier());
-        } catch (Exception e) {
+        } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
-            Assert.fail("Exception thrown when getting a unit from its identifier. " + e);
+            Assert.fail("Could not add core set to factory. "+e);
         }
     }
 
@@ -58,25 +62,28 @@ public class UnitCoreSetTest {
      */
     @Test
     public void testScaleCreation(){
-        try {
-            UnitAndScaleFactory factory = new DefaultUnitAndScaleFactory();
+        InstanceFactory factory = new DefaultInstanceFactory();
+        try{
             factory.addUnitAndScaleSet(CoreSet.class);
-            Assert.assertEquals("Test scale creation",CoreSet.FAHRENHEIT_SCALE.getDefinitionScale(),CoreSet.KELVIN_SCALE);
-            Assert.assertEquals("Test scale creation",CoreSet.FAHRENHEIT_SCALE.getUnit().getIdentifier(), CoreSet.FAHRENHEIT.getIdentifier());
-            Assert.assertTrue("Test scale creation", CoreSet.FAHRENHEIT_SCALE.getOffsetFromDefinitionScale() == -459.67);
-            Assert.assertTrue("Test scale creation", CoreSet.FAHRENHEIT_SCALE.getFactorFromDefinitionScale() == 1.8);
-            Assert.assertEquals("Test scale creation", CoreSet.CELSIUS_SCALE.getDefinitionScale(), CoreSet.KELVIN_SCALE);
-            Assert.assertEquals("Test scale creation", CoreSet.CELSIUS_SCALE.getUnit().getIdentifier(), CoreSet.CELSIUS.getIdentifier());
-            Assert.assertTrue("Test scale creation", CoreSet.CELSIUS_SCALE.getOffsetFromDefinitionScale() == -273.15);
-            Assert.assertTrue("Test scale creation", CoreSet.CELSIUS_SCALE.getFactorFromDefinitionScale() == 1.0);
-            Assert.assertNull("Test scale creation", CoreSet.KELVIN_SCALE.getDefinitionScale());
-            Assert.assertEquals("Test scale creation", CoreSet.KELVIN_SCALE.getUnit().getIdentifier(), CoreSet.KELVIN.getIdentifier());
-            Assert.assertTrue("Test scale creation", CoreSet.KELVIN_SCALE.getOffsetFromDefinitionScale() == 0);
-            Assert.assertTrue("Test scale creation", CoreSet.KELVIN_SCALE.getFactorFromDefinitionScale() == 1.0);
-            Assert.assertNull("Test scale creation", CoreSet.KELVIN_SCALE.getSymbol());
-        } catch (Exception e) {
+            Scale kelvinScale = CoreSet.KELVIN_SCALE;
+            Scale celsiusScale = CoreSet.CELSIUS_SCALE;
+            Scale fahrenheitScale = CoreSet.FAHRENHEIT_SCALE;
+            Assert.assertEquals("Test scale creation",fahrenheitScale.getDefinitionScale(),kelvinScale);
+            Assert.assertEquals("Test scale creation",fahrenheitScale.getUnit().getIdentifier(),CoreSet.FAHRENHEIT.getIdentifier());
+            Assert.assertTrue("Test scale creation", fahrenheitScale.getOffsetFromDefinitionScale() == -459.67);
+            Assert.assertTrue("Test scale creation", fahrenheitScale.getFactorFromDefinitionScale() == 1.8);
+            Assert.assertEquals("Test scale creation", celsiusScale.getDefinitionScale(), kelvinScale);
+            Assert.assertEquals("Test scale creation", celsiusScale.getUnit().getIdentifier(), CoreSet.CELSIUS.getIdentifier());
+            Assert.assertTrue("Test scale creation", celsiusScale.getOffsetFromDefinitionScale() == -273.15);
+            Assert.assertTrue("Test scale creation", celsiusScale.getFactorFromDefinitionScale() == 1.0);
+            Assert.assertNull("Test scale creation", kelvinScale.getDefinitionScale());
+            Assert.assertEquals("Test scale creation", kelvinScale.getUnit().getIdentifier(), CoreSet.KELVIN.getIdentifier());
+            Assert.assertTrue("Test scale creation", kelvinScale.getOffsetFromDefinitionScale() == 0);
+            Assert.assertTrue("Test scale creation", kelvinScale.getFactorFromDefinitionScale() == 1.0);
+            Assert.assertNull("Test scale creation", kelvinScale.getSymbol());
+        } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
-            Assert.fail("Exception thrown when getting a scale from its identifier. " + e);
+            Assert.fail("Could not add core set to factory. "+e);
         }
     }
 }

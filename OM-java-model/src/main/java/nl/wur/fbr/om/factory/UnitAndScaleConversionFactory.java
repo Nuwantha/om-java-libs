@@ -18,6 +18,26 @@ import nl.wur.fbr.om.model.units.Unit;
 public interface UnitAndScaleConversionFactory {
 
     /**
+     * Converts a double value expressed in the specified unit to the target unit.
+     * @param value The double value.
+     * @param unit The unit in which the double is expressed.
+     * @param targetUnit The target unit into which the double should be converted.
+     * @return The converted value expressed in the target unit.
+     * @throws ConversionException When the double could not be converted to the specified target unit.
+     */
+    public double convert(double value, Unit unit, Unit targetUnit) throws ConversionException;
+
+    /**
+     * Converts a double value on the specified measurement scalte to the target measurement scale.
+     * @param value The double value.
+     * @param scale The unit in which the double is expressed.
+     * @param targetScale The target unit into which the double should be converted.
+     * @return The converted value expressed in the target unit.
+     * @throws ConversionException When the double could not be converted to the specified target unit.
+     */
+    public double convert(double value, Scale scale, Scale targetScale) throws ConversionException;
+
+    /**
      * Converts a measure (a numerical value expressed in a specific unit) to a target unit.
      * @param measure The measure to be converted to the target unit.
      * @param targetUnit The target unit to which the measurement is to be converted.

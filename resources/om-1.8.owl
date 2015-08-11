@@ -11194,8 +11194,7 @@
   <om:Singular_unit rdf:about="&om;astronomical_unit">
     <rdfs:label xml:lang="en">astronomical unit</rdfs:label>
     <rdfs:comment xml:lang="en">The atronomical unit is a unit of length defined as 149 597 870 700 metre (IAU 2012 Resolution).</rdfs:comment>
-    <om:symbol>au</om:symbol>
-    <om:alternative_symbol>AU</om:alternative_symbol>
+    <om:symbol>AU</om:symbol>
     <om:definition rdf:resource="&om;_1.495978707e11_metre"/>
     <ombibo:reference rdf:resource="&ombibo;IAU_2012_Resolution_B2"/>
     <om:dimension rdf:resource="&om;length-dimension"/>
