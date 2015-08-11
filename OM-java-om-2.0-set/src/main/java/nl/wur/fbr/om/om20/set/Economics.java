@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.om18.set;
+package nl.wur.fbr.om.om20.set;
 
 import nl.wur.fbr.om.model.scales.Scale;
 
@@ -22,21 +22,16 @@ import nl.wur.fbr.om.prefixes.*;
 
 /**
  * This class contains the identifiers for the units and scales defined for the
- * <code>om:shipping</code> application area in the OM ontology.
+ * <code>om:economics</code> application area in the OM ontology.
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Tue Aug 11 09:36:51 CEST 2015.
+ * @author OM Vocabulary Creation tool at Tue Aug 11 12:27:59 CEST 2015.
  */
-public class Shipping {
+public class Economics {
 
-	/** The nautical mile is a unit of length defined as 1852 metre. */
-	public static Unit NauticalMile = OM.NauticalMile;
+	public static Unit Megaeuro = OM.Megaeuro;
 
-	/** The knot is a unit of speed defined as nautical mile per hour. */
-	public static Unit Knot = OM.Knot;
-
-	/** Nautical mile per hour is a unit of speed defined as nautical mile divided by hour. */
-	public static Unit NauticalMilePerHour = OM.NauticalMilePerHour;
+	public static Unit Euro = OM.Euro;
 
 }

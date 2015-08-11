@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.om18.set;
+package nl.wur.fbr.om.om20.set;
 
 import nl.wur.fbr.om.model.scales.Scale;
 
@@ -22,11 +22,11 @@ import nl.wur.fbr.om.prefixes.*;
 
 /**
  * This class contains the identifiers for the units and scales defined for the
- * <code>om:common_application_area</code> application area in the OM ontology.
+ * <code>om:commonApplicationArea</code> application area in the OM ontology.
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Tue Aug 11 09:36:51 CEST 2015.
+ * @author OM Vocabulary Creation tool at Tue Aug 11 12:27:59 CEST 2015.
  */
 public class CommonApplicationArea {
 
@@ -135,7 +135,7 @@ public class CommonApplicationArea {
 
 	public static Unit SquareKilometre = OM.SquareKilometre;
 
-	/** The Imperial gallon is a unit of volume defined as 4.54609e-3 cubic metre. */
+	/** The imperial gallon is a unit of volume defined as 4.54609e-3 cubic metre. */
 	public static Unit GallonImperial = OM.GallonImperial;
 
 	/** The watt is a unit of power defined as joule divided by second = newton times metre divided by second = volt times ampere = kilogram times square metre divided by second to the power 3. */

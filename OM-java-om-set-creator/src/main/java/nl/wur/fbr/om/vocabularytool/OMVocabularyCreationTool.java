@@ -1,16 +1,13 @@
 package nl.wur.fbr.om.vocabularytool;
 
-import nl.wur.fbr.om.core.impl.units.PrefixedBaseUnitImpl;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.NamedObject;
-import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
-import nl.wur.fbr.om.om18.OMUnitAndScaleFactory;
-import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -34,7 +31,9 @@ import java.util.*;
  */
 public class OMVocabularyCreationTool {
 
-    private static OMUnitAndScaleFactory factory;
+    private static UnitAndScaleFactory factory;
+    private static String omversion="1.8";
+    private static List<String> problemURIs = new ArrayList<>();
 
 
     /**
@@ -74,12 +73,15 @@ public class OMVocabularyCreationTool {
      * @param outputDir The output directory to which the files are written.
      * @throws Exception When the vocabulary could not be created.
      */
-    private static void createVocabulary(String inputOM, String targetPackage, String outputDir) throws Exception {
+    private static void createVocabulary(String version, String inputOM, String targetPackage, String outputDir) throws Exception {
         System.out.println("\nCreating vocabulary:");
+        System.out.println("    OM version: "+version);
         System.out.println("    OM file: "+inputOM);
         System.out.println("    target Java package: "+targetPackage);
         System.out.println("    output directory: "+outputDir);
 
+        problemURIs.clear();
+        omversion = version;
         File omfile = new File(inputOM);
         if(!omfile.exists()) {
             throw new Exception("OM file at: "+inputOM+" does not exist!");
@@ -97,7 +99,11 @@ public class OMVocabularyCreationTool {
 
         // Create in memory triple store for querying
         Repository repository = new SailRepository(new MemoryStore());
-        factory = new OMUnitAndScaleFactory(repository);
+        if(omversion.equals("1.8")) {
+            factory = new nl.wur.fbr.om.om18.OMUnitAndScaleFactory(repository);
+        }else if(omversion.equals("2.0")) {
+            factory = new nl.wur.fbr.om.om20.OMUnitAndScaleFactory(repository);
+        }
         try {
             repository.initialize();
         } catch (RepositoryException e) {
@@ -127,41 +133,66 @@ public class OMVocabularyCreationTool {
         System.out.println("Creating class file: "+targetPackage+"."+className);
         Map<String,String> unitsAndScales = new HashMap<>();
         Map<String,String> comments = new HashMap<>();
-        String sparql = "" +
-                "PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/> \n" +
-                "\n" +
-                "SELECT ?unitOrScale ?description WHERE {\n" +
-                "   ?unitOrScale rdf:type ?type.\n" +
-                "   OPTIONAL {?unitOrScale rdfs:comment ?description.}\n" +
-                "   {\n" +
-                "       ?type rdfs:subClassOf* om:Unit_of_measure.\n";
-        if(apparea!=null) {
-            sparql += "" +
-                    "       <"+apparea.stringValue()+"> om:unit_of_measure ?unitOrScale.\n";
-        }else {
-            sparql += "" +
-                    "   } UNION {\n" +
-                    "       ?type rdfs:subClassOf* om:Measurement_scale.\n";
+        String sparql = "";
+        if(omversion.equals("1.8")) {
+            sparql = "PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/> \n" +
+                    "\n" +
+                    "SELECT ?unitOrScale ?description ?type WHERE {\n" +
+                    "   ?unitOrScale rdf:type ?type.\n" +
+                    "   OPTIONAL {?unitOrScale rdfs:comment ?description.}\n" +
+                    "   {\n" +
+                    "       ?type rdfs:subClassOf* om:Unit_of_measure.\n";
+            if(apparea!=null) {
+                sparql += "" +
+                        "       <"+apparea.stringValue()+"> om:unit_of_measure ?unitOrScale.\n";
+            }else {
+                sparql += "" +
+                        "   } UNION {\n" +
+                        "       ?type rdfs:subClassOf* om:Measurement_scale.\n";
+            }
+            sparql+= ""+
+                    "   }\n" +
+                    "}";
+        }else if(omversion.equals("2.0")) {
+            sparql = "PREFIX om: <http://www.ontology-of-units-of-measure.org/vocabularies/om-2/> \n" +
+                    "\n" +
+                    "SELECT ?unitOrScale ?description ?type WHERE {\n" +
+                    "   ?unitOrScale rdf:type ?type.\n" +
+                    "   OPTIONAL {?unitOrScale rdfs:comment ?description.}\n" +
+                    "   {\n" +
+                    "       ?type rdfs:subClassOf* om:Unit.\n";
+            if(apparea!=null) {
+                sparql += "" +
+                        "       <"+apparea.stringValue()+"> om:usesUnit ?unitOrScale.\n";
+            }else {
+                sparql += "" +
+                        "   } UNION {\n" +
+                        "       ?type rdfs:subClassOf* om:Scale.\n";
+            }
+            sparql+= ""+
+                    "   }\n" +
+                    "}";
         }
-        sparql+= ""+
-                "   }\n" +
-                "}";
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         while(result.hasNext()){
             BindingSet bs = result.next();
-            URI unitOrScale = (URI) bs.getValue("unitOrScale");
-            String ccn = OMVocabularyCreationTool.getCamelCase(unitOrScale.getLocalName());
-            String run = ccn;
-            int count = 0;
-            while(unitsAndScales.containsKey(run)){
-                System.err.println("Double identifier for " + run);
-                count++;
-                run = ccn+"_"+count;
-            }
-            unitsAndScales.put(run, unitOrScale.stringValue());
-            if(bs.hasBinding("description")){
-                String description = ((Literal)bs.getValue("description")).stringValue();
-                comments.put(run,description);
+            if(!bs.hasBinding("type") ||
+                    (!bs.getValue("type").equals(connection.getValueFactory().createURI("http://www.wurvoc.org/vocabularies/om-1.8/Unit_of_measure")) &&
+                     !bs.getValue("type").equals(connection.getValueFactory().createURI("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/Unit")))) {
+                URI unitOrScale = (URI) bs.getValue("unitOrScale");
+                String ccn = OMVocabularyCreationTool.getCamelCase(unitOrScale.getLocalName());
+                String run = ccn;
+                int count = 0;
+                while (unitsAndScales.containsKey(run)) {
+                    System.err.println("Double identifier for " + run);
+                    count++;
+                    run = ccn + "_" + count;
+                }
+                unitsAndScales.put(run, unitOrScale.stringValue());
+                if (bs.hasBinding("description")) {
+                    String description = ((Literal) bs.getValue("description")).stringValue();
+                    comments.put(run, description);
+                }
             }
         }
 
@@ -243,6 +274,7 @@ public class OMVocabularyCreationTool {
                     try {
                         contents += OMVocabularyCreationTool.createConstructor(varName, unitsAndScales, unitsAndScales.get(varName), vf, urisDone);
                     } catch (UnitOrScaleCreationException e) {
+                        problemURIs.add(unitsAndScales.get(varName));
                         System.err.println("Could not create variable " + varName);
                         e.printStackTrace();
                         contents += "\t\t" + varName + " = null;\n";
@@ -379,7 +411,7 @@ public class OMVocabularyCreationTool {
             if(!urisDone.contains(bunit.getIdentifier())){
                 contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
             }
-            contents+= "\t\t"+varName+" = factory.createUnitMultiple(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+factor+");\n";
+            contents+= "\t\t"+varName+" = factory.createUnitMultiple(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+newVarName+", "+factor+");\n";
         }else if(unitOrScale instanceof UnitMultiplication) {
             urisDone.add(uri);
             UnitMultiplication unit = (UnitMultiplication)unitOrScale;
@@ -538,12 +570,20 @@ public class OMVocabularyCreationTool {
      */
     private static List<URI> getApplicationAreas(RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
         List<URI> appareas = new ArrayList<>();
-        String sparql = "" +
-                "PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/> \n" +
-                "\n" +
-                "SELECT ?applicationArea WHERE {\n" +
-                "   ?applicationArea a om:Application_area.\n" +
-                "}";
+        String sparql = "";
+        if(omversion.equals("1.8")) {
+            sparql = "PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/> \n" +
+                    "\n" +
+                    "SELECT ?applicationArea WHERE {\n" +
+                    "   ?applicationArea a om:Application_area.\n" +
+                    "}";
+        }else if(omversion.equals("2.0")) {
+            sparql = "PREFIX om: <http://www.ontology-of-units-of-measure.org/vocabularies/om-2/> \n" +
+                    "\n" +
+                    "SELECT ?applicationArea WHERE {\n" +
+                    "   ?applicationArea a om:ApplicationArea.\n" +
+                    "}";
+        }
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         while(result.hasNext()){
             BindingSet bs = result.next();
@@ -563,18 +603,24 @@ public class OMVocabularyCreationTool {
     public static void main(String[] args){
         System.out.println("The OM vocabulary creation tool.");
         try {
-            if(args.length!=3 && args.length!=0){
-                System.out.println("Usage: java OMVocabularyCreationTool [path to OM ontology] [target package] [output directory]");
+            if(args.length!=4 && args.length!=0){
+                System.out.println("Usage: java OMVocabularyCreationTool [OM version] [path to OM ontology] [target package] [output directory]");
             }else if(args.length==0){
+                String version = OMVocabularyCreationTool.getInput("Use OM version (e.g. 1.8 or 2.0)");
                 String inputOM = OMVocabularyCreationTool.getInput("Path to OM vocabulary (RDF or OWL file)");
                 String targetPackage = OMVocabularyCreationTool.getInput("Java target package");
                 String outputDir = OMVocabularyCreationTool.getInput("Output directory");
-                OMVocabularyCreationTool.createVocabulary(inputOM,targetPackage,outputDir);
+                OMVocabularyCreationTool.createVocabulary(version,inputOM,targetPackage,outputDir);
             }else {
-                OMVocabularyCreationTool.createVocabulary(args[0],args[1],args[2]);
+                OMVocabularyCreationTool.createVocabulary(args[0],args[1],args[2],args[3]);
             }
         }catch (Throwable e){
             e.printStackTrace();
+        }
+
+        if(problemURIs.size()>0) System.err.println("PROBLEMs WITH URIs: ");
+        for(String problemURI : problemURIs){
+            System.err.println(problemURI);
         }
     }
 }

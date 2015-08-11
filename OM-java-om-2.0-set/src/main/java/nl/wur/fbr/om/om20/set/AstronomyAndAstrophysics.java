@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.om18.set;
+package nl.wur.fbr.om.om20.set;
 
 import nl.wur.fbr.om.model.scales.Scale;
 
@@ -22,11 +22,11 @@ import nl.wur.fbr.om.prefixes.*;
 
 /**
  * This class contains the identifiers for the units and scales defined for the
- * <code>om:astronomy_and_astrophysics</code> application area in the OM ontology.
+ * <code>om:astronomyAndAstrophysics</code> application area in the OM ontology.
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Tue Aug 11 09:36:51 CEST 2015.
+ * @author OM Vocabulary Creation tool at Tue Aug 11 12:27:59 CEST 2015.
  */
 public class AstronomyAndAstrophysics {
 
@@ -44,10 +44,11 @@ public class AstronomyAndAstrophysics {
 
 	public static Unit ReciprocalCubicParsec = OM.ReciprocalCubicParsec;
 
-	public static Unit SecondPlaneAngleSquared = OM.SecondPlaneAngleSquared;
+	/** The second (angle) is a unit of angle defined as 4.848137e-6 radian. */
+	public static Unit SecondAngle = OM.SecondAngle;
 
 	/** The brightness (in magnitudes) of an area on the celestial sphere of 1 arcsecond by 1 arcsecond. */
-	public static Unit MagnitudePerSecondPlaneAngleSquared = OM.MagnitudePerSecondPlaneAngleSquared;
+	public static Unit MagnitudePerSecondAngleSquared = OM.MagnitudePerSecondAngleSquared;
 
 	/** The kelvin is a unit of temperature defined as 1/273.16 of the thermodynamic temperature of the triple point of water. */
 	public static Unit Kelvin = OM.Kelvin;
@@ -59,9 +60,6 @@ public class AstronomyAndAstrophysics {
 
 	/** The gigaparsec is a unit of length defined as 1.0e9 parsec. Gebruikt voor de afstand op de schaal van het heelal. */
 	public static Unit Gigaparsec = OM.Gigaparsec;
-
-	/** The millisecond (plane angle) is a unit of length defined as 1.0e-3 second (plane angle). Gebruikt in de astronomie (metingen van posities van sterren/sterrenstelsels etc.) om de fout weer te geven. */
-	public static Unit MillisecondPlaneAngle = OM.MillisecondPlaneAngle;
 
 	public static Unit MetrePerSecondTimePerMetre = OM.MetrePerSecondTimePerMetre;
 
@@ -77,13 +75,18 @@ public class AstronomyAndAstrophysics {
 	/** Wordt gebruikt als hoek (360°=864000) voor o.a. rechte klimming. De s wordt meestal als superscript achter de waarde gezet. Zoals in 5h34m12s09. Vaak wordt de fractie in seconden zonder punt geschreven, de s wordt als afscheiding gebruikt (http://en.wikipedia.org/wiki/Right_ascension). */
 	public static Unit SecondHourAngle = OM.SecondHourAngle;
 
-	/** The radian is a unit of plane angle defined as the plane angle subtended at the center of a circle by an arc that is equal in length to the radius of the circle. */
+	/** The microsecond (angle) is a unit of length defined as 1.0e-6 second (angle). Used in astronomy (measurements of positions of stars, galaxies, etc.) to represent the error. */
+	public static Unit MicrosecondAngle = OM.MicrosecondAngle;
+
+	/** The radian is a unit of angle defined as the angle subtended at the center of a circle by an arc that is equal in length to the radius of the circle. */
 	public static Unit Radian = OM.Radian;
+
+	public static Unit WattPerCubicmetre = OM.WattPerCubicmetre;
 
 	/** The megaparsec is a unit of length defined as 1.0e6 parsec. Gebruikt voor afstanden op de schaal van clusters. */
 	public static Unit Megaparsec = OM.Megaparsec;
 
-	/** Solar radius is a unit used in astronomy to denote stellar or stellar system radii (http://en.wikipedia.org/wiki/Solar_radius). */
+	/** Solar radius is a unit used in astronomy to denote stellar or stellar system radii (http://en.wikipedia.org/wiki/solarRadius). */
 	public static Unit SolarRadius = OM.SolarRadius;
 
 	/** The ångström is a unit of length defined as 1.0e-10 metre. The unit is often used for wavelengths of electromagnetic radiation or to express the sizes of atoms and molecules. */
@@ -95,21 +98,14 @@ public class AstronomyAndAstrophysics {
 	/** The kiloparsec is a unit of length defined as 1.0e3 parsec. Gebruikt voor afstanden op de schaal van het melkwegstelsel. */
 	public static Unit Kiloparsec = OM.Kiloparsec;
 
-	/** Wordt gebruikt om de waargenomen verandering van de positie van sterren uit te drukken (de proper motion). */
-	public static Unit MillisecondPlaneAnglePerYear = OM.MillisecondPlaneAnglePerYear;
-
 	/** The watt is a unit of power defined as joule divided by second = newton times metre divided by second = volt times ampere = kilogram times square metre divided by second to the power 3. */
 	public static Unit Watt = OM.Watt;
 
 	public static Unit WattPerSquareMetreHertz = OM.WattPerSquareMetreHertz;
 
-	/** The second (plane angle) is a unit of plane angle defined as 4.848137e-6 radian. */
-	public static Unit SecondPlaneAngle = OM.SecondPlaneAngle;
-
 	/** Unit one is a unit of dimension one. */
 	public static Unit One = OM.One;
 
-	/** Ampere per watt is a unit of responsivity. */
 	public static Unit AmperePerWatt = OM.AmperePerWatt;
 
 	public static Unit CubicParsec = OM.CubicParsec;
@@ -117,46 +113,48 @@ public class AstronomyAndAstrophysics {
 	/** The millimagnitude is a unit of magnitude defined as 1.0e-3 magnitude. */
 	public static Unit Millimagnitude = OM.Millimagnitude;
 
+	/** The millisecond (angle) is a unit of length defined as 1.0e-3 second (angle). Used in astronomy (measurements of positions of stars, galaxies, etc.) to represent the error. */
+	public static Unit MillisecondAngle = OM.MillisecondAngle;
+
 	public static Unit WattPerSteradianSquareMetreHertz = OM.WattPerSteradianSquareMetreHertz;
 
 	/** Candela per square metre is a unit of luminance defined as candela divided by square metre. */
 	public static Unit CandelaPerSquareMetre = OM.CandelaPerSquareMetre;
 
-	/** Eenheid waarmee de helderheid van sterren wordt aangegeven. Meestal wordt het symbool niet aangeduid (http://en.wikipedia.org/wiki/Magnitude_(astronomy)). */
-	public static Unit Magnitude = OM.Magnitude;
-
 	/** The micromagnitude is a unit of magnitude defined as 1.0e-6 magnitude. */
 	public static Unit Micromagnitude = OM.Micromagnitude;
 
-	/** The radiative intensity (in watts) of an area on the celestial sphere of 1 arcsecond by 1 arcsecond. */
-	public static Unit WattPerSecondPlaneAngleSquared = OM.WattPerSecondPlaneAngleSquared;
+	/** Eenheid waarmee de helderheid van sterren wordt aangegeven. Meestal wordt het symbool niet aangeduid (http://en.wikipedia.org/wiki/Magnitude_(astronomy)). */
+	public static Unit Magnitude = OM.Magnitude;
 
-	public static Unit WattPerCubicMetre = OM.WattPerCubicMetre;
+	/** Wordt gebruikt om de waargenomen verandering van de positie van sterren uit te drukken (de proper motion). */
+	public static Unit MillisecondAnglePerYear = OM.MillisecondAnglePerYear;
 
-	/** Solar mass is a unit used in astronomy to denote stellar or galactic masses (http://en.wikipedia.org/wiki/Solar_mass). */
+	/** The minute (angle) is a unit of angle defined as 2.908882e-4 radian. */
+	public static Unit MinuteAngle = OM.MinuteAngle;
+
+	/** Solar mass is a unit used in astronomy to denote stellar or galactic masses (http://en.wikipedia.org/wiki/SolarMass). */
 	public static Unit SolarMass = OM.SolarMass;
 
 	public static Unit DegreeSquared = OM.DegreeSquared;
 
-	/** The minute (plane angle) is a unit of plane angle defined as 2.908882e-4 radian. */
-	public static Unit MinutePlaneAngle = OM.MinutePlaneAngle;
-
-	/** The microsecond (plane angle) is a unit of length defined as 1.0e-6 second (plane angle). Gebruikt in de astronomie (metingen van posities van sterren/sterrenstelsels etc.) om de fout weer te geven. De nieuwe satellieten zijn zo nauwkeurig dat deze fout mogelijk is geworden (GAIA-satelliet). */
-	public static Unit MicrosecondPlaneAngle = OM.MicrosecondPlaneAngle;
+	public static Unit SecondAngleSquared = OM.SecondAngleSquared;
 
 	/** The percent is a unit of dimension one defined as 1/100. */
 	public static Unit Percent = OM.Percent;
 
-	/** Solar luminosity is a unit used in astronomy to denote stellar or galactic radiant fluxes (http://en.wikipedia.org/wiki/Solar_luminosity). */
-	public static Unit SolarLuminosity = OM.SolarLuminosity;
-
 	/** The megaelectronvolt is a unit of energy defined as 1.0e6 electronvolt. */
 	public static Unit Megaelectronvolt = OM.Megaelectronvolt;
 
-	/** Volt per watt is a unit of responsivity. */
+	/** Solar luminosity is a unit used in astronomy to denote stellar or galactic radiant fluxes (http://en.wikipedia.org/wiki/SolarLuminosity). */
+	public static Unit SolarLuminosity = OM.SolarLuminosity;
+
 	public static Unit VoltPerWatt = OM.VoltPerWatt;
 
 	public static Unit WattPerNanometre = OM.WattPerNanometre;
+
+	/** The radiative intensity (in watts) of an area on the celestial sphere of 1 arcsecond by 1 arcsecond. */
+	public static Unit WattPerSecondAngleSquared = OM.WattPerSecondAngleSquared;
 
 	/** The year is a unit of time defined as 3.1536e7 second. */
 	public static Unit Year = OM.Year;

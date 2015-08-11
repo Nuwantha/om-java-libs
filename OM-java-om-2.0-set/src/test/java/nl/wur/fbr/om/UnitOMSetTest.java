@@ -1,13 +1,11 @@
 package nl.wur.fbr.om;
 
 import nl.wur.fbr.om.conversion.CoreInstanceFactory;
-import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
 import nl.wur.fbr.om.factory.InstanceFactory;
-import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
-import nl.wur.fbr.om.om18.set.OM;
+import nl.wur.fbr.om.om20.set.OM;
 import org.junit.Assert;
 import org.junit.Test;
 

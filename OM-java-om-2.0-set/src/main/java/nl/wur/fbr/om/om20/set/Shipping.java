@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.om18.set;
+package nl.wur.fbr.om.om20.set;
 
 import nl.wur.fbr.om.model.scales.Scale;
 
@@ -26,7 +26,7 @@ import nl.wur.fbr.om.prefixes.*;
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Tue Aug 11 09:36:51 CEST 2015.
+ * @author OM Vocabulary Creation tool at Tue Aug 11 12:27:59 CEST 2015.
  */
 public class Shipping {
 

@@ -55,6 +55,11 @@
             <artifactId>om-java-om-1.8</artifactId>
             <version>0.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-om-2.0</artifactId>
+            <version>0.3.0</version>
+        </dependency>
 
 	</dependencies>
 
