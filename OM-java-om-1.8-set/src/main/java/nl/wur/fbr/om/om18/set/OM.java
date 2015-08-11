@@ -25,7 +25,7 @@ import nl.wur.fbr.om.prefixes.*;
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Mon Aug 10 15:06:20 CEST 2015.
+ * @author OM Vocabulary Creation tool at Tue Aug 11 09:36:46 CEST 2015.
  */
 public class OM extends UnitAndScaleSet {
 
@@ -3814,8 +3814,7 @@ public class OM extends UnitAndScaleSet {
 		MolePerExalitre.addAlternativeName("mole per exaliter","nl");
 		MolePerExalitre.addAlternativeSymbol("mol El-1");
 		MolePerExalitre.addAlternativeSymbol("mol·El-1");
-		AstronomicalUnit = factory.createSingularUnit("http://www.wurvoc.org/vocabularies/om-1.8/astronomical_unit", "astronomical unit", "au", Metre, 1.495978707E11 );
-		AstronomicalUnit.addAlternativeSymbol("AU");
+		AstronomicalUnit = factory.createSingularUnit("http://www.wurvoc.org/vocabularies/om-1.8/astronomical_unit", "astronomical unit", "AU", Metre, 1.495978707E11 );
 		KelvinKilogram = factory.createUnitMultiplication("http://www.wurvoc.org/vocabularies/om-1.8/kelvin_kilogram","kelvin kilogram","K kg",Kelvin, Kilogram);
 		KelvinKilogram.addAlternativeSymbol("K·kg");
 		DegreeRankine = factory.createSingularUnit("http://www.wurvoc.org/vocabularies/om-1.8/degree_Rankine", "degree Rankine", "°R", Kelvin, 0.5555556 );

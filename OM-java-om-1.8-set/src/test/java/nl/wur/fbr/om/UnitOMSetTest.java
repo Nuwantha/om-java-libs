@@ -52,7 +52,7 @@ public class UnitOMSetTest {
             factory.addUnitAndScaleSet(OM.class);
             Unit au = OM.AstronomicalUnit;
             Assert.assertEquals("Testing OM Singular Unit creation", "astronomical unit", au.getName());
-            Assert.assertEquals("Testing OM Singular Unit creation", "au", au.getSymbol());
+            Assert.assertEquals("Testing OM Singular Unit creation", "AU", au.getSymbol());
             Assert.assertEquals("Testing OM Singular Unit creation", 1.495978707e11, ((SingularUnit) au).getDefinitionNumericalValue(), 100);
         } catch (Exception e) {
             e.printStackTrace();
