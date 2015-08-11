@@ -1,6 +1,9 @@
 package nl.wur.fbr.om.conversion;
 
 import javafx.util.Pair;
+import nl.wur.fbr.om.core.impl.units.UnitDivisionImpl;
+import nl.wur.fbr.om.core.impl.units.UnitExponentiationImpl;
+import nl.wur.fbr.om.core.impl.units.UnitMultiplicationImpl;
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.ScaleConversionException;
 import nl.wur.fbr.om.exceptions.UnitConversionException;
@@ -111,7 +114,12 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             UnitOrScaleConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
             UnitOrScaleConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
 
-            conversion = new UnitOrScaleConversion(tobase1.factor/tobase2.factor,0);
+            if(!(tobase1.toUnit.equals(tobase2.toUnit))){
+                throw new UnitConversionException("Could not convert from measure with Unit or MeasurementScale '"+
+                        sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit);
+            }
+
+            conversion = new UnitOrScaleConversion(tobase1.factor/tobase2.factor,0,targetUnit);
             conversions.put(key,conversion);
 
             return conversion;
@@ -154,7 +162,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
             double factor = tobase2.factor/tobase1.factor;
             double offset = tobase2.offset-tobase1.offset*factor;
-            conversion = new UnitOrScaleConversion(factor,offset);
+            conversion = new UnitOrScaleConversion(factor,offset,targetScale);
 
             return conversion;
         } catch (Throwable e) {
@@ -172,11 +180,11 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @return The conversion to its base unit.
      */
     private UnitOrScaleConversion getUnitConversionToBaseUnit(Unit unit, double factor){
-        if(unit instanceof BaseUnit) return new UnitOrScaleConversion(factor,0);
+        if(unit instanceof BaseUnit) return new UnitOrScaleConversion(factor,0,unit);
         if(unit instanceof SingularUnit){
             SingularUnit singularUnit = (SingularUnit)unit;
             if(singularUnit.getDefinitionUnit() == null){
-                return new UnitOrScaleConversion(factor,0);
+                return new UnitOrScaleConversion(factor,0,singularUnit);
             }else{
                 return this.getUnitConversionToBaseUnit(singularUnit.getDefinitionUnit(),factor*singularUnit.getDefinitionNumericalValue());
             }
@@ -187,28 +195,33 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         }
         if(unit instanceof UnitDivision){
             UnitDivision unitDivision = (UnitDivision)unit;
-            double numfac = this.getUnitConversionToBaseUnit(unitDivision.getNumerator(),1.0).factor;
-            double denfac = this.getUnitConversionToBaseUnit(unitDivision.getDenominator(), 1.0).factor;
-            return new UnitOrScaleConversion(factor*numfac/denfac,0.0);
+            UnitOrScaleConversion numConv = this.getUnitConversionToBaseUnit(unitDivision.getNumerator(),1.0);
+            UnitOrScaleConversion denConv = this.getUnitConversionToBaseUnit(unitDivision.getDenominator(), 1.0);
+            double numfac = numConv.factor;
+            double denfac = denConv.factor;
+            return new UnitOrScaleConversion(factor*numfac/denfac,0.0, new UnitDivisionImpl(numConv.toUnit,denConv.toUnit));
         }
         if(unit instanceof UnitMultiplication){
             UnitMultiplication unitMultiplication = (UnitMultiplication)unit;
-            double term1fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm1(), 1.0).factor;
-            double term2fac = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm2(), 1.0).factor;
-            return new UnitOrScaleConversion(factor*term1fac*term2fac,0.0);
+            UnitOrScaleConversion term1Conv = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm1(),1.0);
+            UnitOrScaleConversion term2Conv = this.getUnitConversionToBaseUnit(unitMultiplication.getTerm2(), 1.0);
+            double term1fac = term1Conv.factor;
+            double term2fac = term2Conv.factor;
+            return new UnitOrScaleConversion(factor*term1fac*term2fac,0.0, new UnitMultiplicationImpl(term1Conv.toUnit,term2Conv.toUnit));
 
         }
         if(unit instanceof UnitExponentiation) {
             UnitExponentiation unitExponentiation = (UnitExponentiation)unit;
-            double efac = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(), 1.0).factor;
-            return new UnitOrScaleConversion(factor*Math.pow(efac,unitExponentiation.getExponent()),1.0);
+            UnitOrScaleConversion baseConv = this.getUnitConversionToBaseUnit(unitExponentiation.getBase(),1.0);
+            double efac = baseConv.factor;
+            return new UnitOrScaleConversion(factor*Math.pow(efac,unitExponentiation.getExponent()),1.0,new UnitExponentiationImpl(baseConv.toUnit,unitExponentiation.getExponent()));
         }
         return null;
     }
 
     private UnitOrScaleConversion getScaleConversionToBaseScale(Scale scale,double factor, double offset){
         if(scale.getDefinitionScale() == null){
-            return new UnitOrScaleConversion(factor,offset);
+            return new UnitOrScaleConversion(factor,offset,scale);
         }else{
             return this.getScaleConversionToBaseScale(scale.getDefinitionScale(), factor * scale.getFactorFromDefinitionScale(),offset+scale.getOffsetFromDefinitionScale());
         }
@@ -227,14 +240,34 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         /** The offset for the unit (scale) conversion */
         private double offset=0;
 
+        /** The resulting unit of the conversion. */
+        private Unit toUnit;
+
+        /** The resulting scale of the conversion. */
+        private Scale toScale;
+
         /**
          * Creates a Unit conversion with the specified factor
          * @param factor The multiplication factor of the unit conversion.
          * @param offset The offset for the unit (scale) conversion.
+         * @param toUnit The unit to which is converted.
          */
-        public UnitOrScaleConversion(double factor, double offset){
+        public UnitOrScaleConversion(double factor, double offset, Unit toUnit){
             this.factor = factor;
             this.offset = offset;
+            this.toUnit = toUnit;
+        }
+
+        /**
+         * Creates a Unit conversion with the specified factor
+         * @param factor The multiplication factor of the unit conversion.
+         * @param offset The offset for the unit (scale) conversion.
+         * @param toScale The scale to which is converted.
+         */
+        public UnitOrScaleConversion(double factor, double offset, Scale toScale){
+            this.factor = factor;
+            this.offset = offset;
+            this.toScale = toScale;
         }
 
         /**
@@ -244,7 +277,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
          */
         public UnitOrScaleConversion invert(){
             System.out.println("inverting");
-            return new UnitOrScaleConversion(1/factor,-offset/factor);
+            return new UnitOrScaleConversion(1/factor,-offset/factor,(Unit)null);
         }
 
         /**

@@ -118,4 +118,23 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         }
         return map;
     }
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal. If not and if the object is also a {@link UnitDivision}, the numerator and denominator
+     * units are tested if they are equal and if both are equal, the method returns true. This check is needed for dimensionless
+     * units.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(super.equals(object)) return true;
+        if(object instanceof UnitDivision){
+            UnitDivision umult = (UnitDivision)object;
+            return getNumerator().equals(umult.getNumerator()) && getDenominator().equals(umult.getDenominator());
+        }
+        return false;
+    }
 }
