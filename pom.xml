@@ -30,6 +30,9 @@
 		<module>om-java-om-1.8-set</module>
 		<module>om-java-om-2.0</module>
 		<module>om-java-om-2.0-set</module>
+		<module>om-java-math</module>
+		<module>om-java-math-impl</module>
+		
     </modules>
 
 	<build>
