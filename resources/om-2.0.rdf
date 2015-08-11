@@ -15846,7 +15846,7 @@
     <rdfs:label xml:lang="nl">100 kilometer</rdfs:label>
     <om:symbol>100 km</om:symbol>
     <om:hasFactor rdf:datatype="&xsd;float">100</om:hasFactor>
-    <om:hasUnit rdf:resource="&om;kilometer"/>
+    <om:hasUnit rdf:resource="&om;kilometre"/>
     <om:hasDimension rdf:resource="&om;length-Dimension"/>
   </om:UnitMultiple>
 
@@ -23461,7 +23461,7 @@
     <owl:equivalentClass>
       <owl:Class>
         <owl:oneOf rdf:parseType="Collection">
-          <om:UnitMultiplication rdf:about="&om;siemensPerMetre"/>
+          <om:UnitDivision rdf:about="&om;siemensPerMetre"/>
         </owl:oneOf>
       </owl:Class>
     </owl:equivalentClass>
