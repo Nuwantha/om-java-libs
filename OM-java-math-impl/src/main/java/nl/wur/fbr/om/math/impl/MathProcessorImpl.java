@@ -1,35 +1,43 @@
-package nl.wur.fbr.om.math;
+package nl.wur.fbr.om.math.impl;
 
+import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.factory.InstanceFactory;
+import nl.wur.fbr.om.math.MathException;
+import nl.wur.fbr.om.math.MathProcessor;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.units.UnitDivision;
+import nl.wur.fbr.om.model.units.UnitMultiplication;
+
+import java.util.Vector;
 
 /**
- * This class provides static access to mathematical operators which can handle measures and points on a measurement
- * scale. The actual mathematical processing should be done in implementations of {@link MathProcessor}. An instance of
- * a {@link MathProcessor} needs to be provided with {@link #setMathProcessor(MathProcessor)}.
+ * This class implements the default {@link MathProcessor} with implementations for a set of mathematical
+ * operations on measures and points.
+ *
  * @author Don Willems on 11/08/15.
  */
-public class Math {
+public class MathProcessorImpl implements MathProcessor {
 
-    /** The math processor used in the calculations. */
-    private static MathProcessor processor;
+    private InstanceFactory factory;
 
     /**
-     * Returns the math processor currently used when performing mathematical operations on measures or points on a
-     * measurement scale.
-     * @return The math processor.
+     * Creates the default implementation of a {@link MathProcessor}.
+     * @param factory The instance factory used for creating and converting measures and points.
      */
-    public static MathProcessor getMathProcessor(){
-        return processor;
+    public MathProcessorImpl(InstanceFactory factory){
+        this.factory = factory;
     }
 
     /**
-     * Sets the math processor to be used when performing mathematical operations on measures or points on a
-     * measurement scale.
-     * @param mathProcessor The math processor.
+     * Returns the instance factory that is used to create new measures and points and is used for conversion
+     * between units and scales.
+     *
+     * @return The instance factory.
      */
-    public static void setMathProcessor(MathProcessor mathProcessor){
-        Math.processor = mathProcessor;
+    @Override
+    public InstanceFactory getInstanceFactory() {
+        return factory;
     }
 
     /**
@@ -41,11 +49,30 @@ public class Math {
      * @param addend The measure that is added to the augend measure.
      * @return The sum as a measure expressed in the unit of the augend measure.
      * @throws MathException When the two measures could not be added, for instance when the units could not be
-     * converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is added to a vector
-     * measure.
+     *                       converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is added to a vector
+     *                       measure.
      */
-    public static Measure add(Measure augend,Measure addend){
-        return processor.add(augend,addend);
+    @Override
+    public Measure add(Measure augend, Measure addend) {
+        double[] v1 = augend.getVectorValue();
+        double[] v2 = null;
+        if(augend.getUnit().equals(addend.getUnit())){
+            v2 = addend.getVectorValue();
+        }else{
+            try {
+                v2 = factory.convertToUnit(addend,augend.getUnit()).getVectorValue();
+            } catch (ConversionException e) {
+                throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
+            }
+        }
+        if(v1.length == v2.length){
+            double[] a = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                a[i] = v1[i]+v2[i];
+            }
+            return factory.createVectorMeasure(a,augend.getUnit());
+        }
+        throw new MathException("The measures could not be added because their types ("+augend.getNumericalValue().getClass()+" and "+addend.getNumericalValue().getClass()+") cannot be added together.");
     }
 
     /**
@@ -62,10 +89,29 @@ public class Math {
      * @param addend The measure that is added to the augend point.
      * @return The sum as a point on the same measurement scale as the augend point.
      * @throws MathException When the point and the measure could not be added, for instance when the units could not be
-     * converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is added to a vector point.
+     *                       converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is added to a vector point.
      */
-    public static Point add(Point augend,Measure addend){
-        return processor.add(augend,addend);
+    @Override
+    public Point add(Point augend, Measure addend) {
+        double[] v1 = augend.getVectorValue();
+        double[] v2 = null;
+        if(augend.getScale().getUnit().equals(addend.getUnit())){
+            v2 = addend.getVectorValue();
+        }else{
+            try {
+                v2 = factory.convertToUnit(addend,augend.getScale().getUnit()).getVectorValue();
+            } catch (ConversionException e) {
+                throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
+            }
+        }
+        if(v1.length == v2.length){
+            double[] a = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                a[i] = v1[i]+v2[i];
+            }
+            return factory.createVectorPoint(a,augend.getScale());
+        }
+        throw new MathException("The measures could not be added because their types ("+augend.getNumericalValue().getClass()+" and "+addend.getNumericalValue().getClass()+") cannot be added together.");
     }
 
     /**
@@ -73,15 +119,16 @@ public class Math {
      * can only be subtracted when their units have the same dimension. If their dimensions are dissimilar an
      * exception is thrown.
      *
-     * @param minuend The measure from which the subtrahend measure is to be subtracted.
+     * @param minuend    The measure from which the subtrahend measure is to be subtracted.
      * @param subtrahend The measure that is to be subtracted from the minuend measure.
      * @return The difference as a measure expressed in the same unit as the minuend measure.
      * @throws MathException When the two measures could not be subtracted, for instance when the units could not be
-     * converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is subtracted from a vector
-     * measure.
+     *                       converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is subtracted from a vector
+     *                       measure.
      */
-    public static Measure subtract(Measure minuend, Measure subtrahend){
-        return processor.subtract(minuend, subtrahend);
+    @Override
+    public Measure subtract(Measure minuend, Measure subtrahend) {
+        return null;
     }
 
     /**
@@ -89,15 +136,16 @@ public class Math {
      * The point and the measure can only be subtracted when their units have the same dimension.
      * If their dimensions are dissimilar an exception is thrown.
      *
-     * @param minuend The point from which the subtrahend measure is to be subtracted.
+     * @param minuend    The point from which the subtrahend measure is to be subtracted.
      * @param subtrahend The measure that is to be subtracted from the minuend point.
      * @return The difference as a measure expressed in the same unit as the minuend point.
      * @throws MathException When the measure could not be subtracted from the point, for instance when the units could not be
-     * converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is subtracted from a vector
-     * point.
+     *                       converted to each other, i.e. have dissimilar dimensions, or when a scalar measure is subtracted from a vector
+     *                       point.
      */
-    public static Point subtract(Point minuend, Measure subtrahend){
-        return processor.subtract(minuend, subtrahend);
+    @Override
+    public Point subtract(Point minuend, Measure subtrahend) {
+        return null;
     }
 
     /**
@@ -106,20 +154,21 @@ public class Math {
      * The point and the measure can only be subtracted when their units have the same dimension.
      * If their dimensions are dissimilar an exception is thrown.
      *
-     * @param minuend The point from which the subtrahend point is to be subtracted.
+     * @param minuend    The point from which the subtrahend point is to be subtracted.
      * @param subtrahend The point that is to be subtracted from the minuend point.
      * @return The difference as a measure expressed in the same unit as the minuend point.
      * @throws MathException When the two point could not be subtracted, for instance when the units could not be
-     * converted to each other, i.e. have dissimilar dimensions, or when a scalar point is subtracted from a vector
-     * point.
+     *                       converted to each other, i.e. have dissimilar dimensions, or when a scalar point is subtracted from a vector
+     *                       point.
      */
-    public static Measure subtract(Point minuend, Point subtrahend){
-        return processor.subtract(minuend,subtrahend);
+    @Override
+    public Measure subtract(Point minuend, Point subtrahend) {
+        return null;
     }
 
     /**
      * Returns the product of the two measures as a measure expressed in a unit multiplication
-     * {@link nl.wur.fbr.om.model.units.UnitMultiplication}. If the unit multiplication is not a known unit, the
+     * {@link UnitMultiplication}. If the unit multiplication is not a known unit, the
      * processor will try to find a known unit with the same dimension as the unit multiplication. For instance,
      * when multiplying 2 N  with 12 AU, we get a measure 24 N.AU = 3.6e12 N.m.
      * <br>
@@ -129,19 +178,20 @@ public class Math {
      * as a measure.
      *
      * @param multiplicand The measure that is to be multiplied by the multiplier measure.
-     * @param multiplier The measure with which the multiplicand measure is to be multiplied.
+     * @param multiplier   The measure with which the multiplicand measure is to be multiplied.
      * @return The product of the two measures expressed in a unit that is a
-     * {@link nl.wur.fbr.om.model.units.UnitMultiplication} of the units of the two measures.
+     * {@link UnitMultiplication} of the units of the two measures.
      * @throws MathException When the two point could not be multiplied, for instance when both measures are vector
-     * measure.
+     *                       measure.
      */
-    public static Measure multiply(Measure multiplicand, Measure multiplier){
-        return processor.multiply(multiplicand,multiplier);
+    @Override
+    public Measure multiply(Measure multiplicand, Measure multiplier) {
+        return null;
     }
 
     /**
      * Returns the quotient of the two measures as a measure expressed in a unit division
-     * {@link nl.wur.fbr.om.model.units.UnitDivision}. If the unit division is not a known unit, the
+     * {@link UnitDivision}. If the unit division is not a known unit, the
      * processor will try to find a known unit with the same dimension as the unit division. For instance,
      * when dividing 20 AU by 5 s , we get a measure 4 AU/s = 3.6e12 m/s.
      * <br>
@@ -150,14 +200,15 @@ public class Math {
      * between the point on the temperature scale and absolute zero. You can use {@link Point#getDifferenceFromZero()}
      * as a measure.
      *
-     * @param numerator The measure to be divided by the denominator measure.
+     * @param numerator   The measure to be divided by the denominator measure.
      * @param denominator The measure used to divide the numerator measure.
      * @return The quotient of the two measures expressed in a unit that is a
-     * {@link nl.wur.fbr.om.model.units.UnitDivision} of the units of the two measures.
+     * {@link UnitDivision} of the units of the two measures.
      * @throws MathException When the two point could not be divided, for instance when both measures are vector
-     * measure.
+     *                       measure.
      */
-    public static Measure divide(Measure numerator, Measure denominator){
-        return processor.divide(numerator, denominator);
+    @Override
+    public Measure divide(Measure numerator, Measure denominator) {
+        return null;
     }
 }

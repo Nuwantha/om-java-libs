@@ -27,6 +27,19 @@
             <artifactId>om-java-math</artifactId>
 			<version>0.3.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-conversion</artifactId>
+            <version>0.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.wur.fbr.om</groupId>
+            <artifactId>om-java-core-set</artifactId>
+            <version>0.3.0</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<build>
