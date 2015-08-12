@@ -4,6 +4,7 @@ package nl.wur.fbr.om.core.impl.measures;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.units.Unit;
+import org.apache.commons.lang3.Range;
 
 /**
  * This class implements the {@link Measure Measure} interface that represents a value expressed in a unit.
@@ -22,12 +23,35 @@ public class MeasureImpl implements Measure {
     private Object numericalValue;
 
     /**
-     * Creates a new {@link Measure} with the specified numerical value expressed in the specified Unit.
+     * Creates a new {@link Measure} with the specified scalar value expressed in the specified Unit.
      *
-     * @param numericalValue The numerical value.
+     * @param numericalValue The scalar value.
      * @param unit The unit.
      */
-    public MeasureImpl(Object numericalValue, Unit unit){
+    public MeasureImpl(double numericalValue, Unit unit){
+        this.unit = unit;
+        this.numericalValue = numericalValue;
+    }
+
+    /**
+     * Creates a new {@link Measure} with the specified vector value expressed in the specified Unit.
+     *
+     * @param numericalValue The vector value.
+     * @param unit The unit.
+     */
+    public MeasureImpl(double[] numericalValue, Unit unit){
+        this.unit = unit;
+        if(numericalValue.length==1) this.numericalValue = numericalValue[0];
+        else this.numericalValue = numericalValue;
+    }
+
+    /**
+     * Creates a new {@link Measure} with the specified scalar range value expressed in the specified Unit.
+     *
+     * @param numericalValue The scalar range value.
+     * @param unit The unit.
+     */
+    public MeasureImpl(Range numericalValue, Unit unit){
         this.unit = unit;
         this.numericalValue = numericalValue;
     }
@@ -51,6 +75,77 @@ public class MeasureImpl implements Measure {
     @Override
     public Object getNumericalValue() {
         return numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a scalar) of this measure.
+     *
+     * @return The double value.
+     */
+    @Override
+    public double getScalarValue() {
+        if(!(numericalValue instanceof Number)) throw new NumberFormatException("The numerical value of "+this+" is not a scalar.");
+        return (double) numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a scalar range) of this measure.
+     *
+     * @return The range value.
+     */
+    @Override
+    public Range getScalarRange() {
+        if(!(numericalValue instanceof Range)) throw new NumberFormatException("The numerical value of "+this+" is not a scalar range.");
+        return (Range)numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a vector of doubles) of this measure.
+     *
+     * @return The vector value.
+     */
+    @Override
+    public double[] getVectorValue() {
+        if(numericalValue instanceof Number){
+            double[] vec = {(double) numericalValue};
+            return vec;
+        }
+        if(!(numericalValue instanceof double[])) throw new NumberFormatException("The numerical value of "+this+" is not a vector.");
+        return (double[]) numericalValue;
+    }
+
+    /**
+     * Returns the magnitude of the vector value as a measure that contains a scalar as
+     * the numerical value of the magnitude and the same units in which this measure is expressed.
+     *
+     * @return The magnitude of the vector.
+     */
+    @Override
+    public Measure getMagnitude() {
+        double[] val = this.getVectorValue();
+        double magn = 0;
+        for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
+        magn = Math.sqrt(magn);
+        Measure magnitude = new MeasureImpl(magn,this.getUnit());
+        return magnitude;
+    }
+
+    /**
+     * Returns the unit vector of this vector measure. The unit vector is the normalised vector, i.e.
+     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
+     * the unit vector.
+     *
+     * @return The unit vector.
+     */
+    @Override
+    public double[] getUnitVector() {
+        double[] val = this.getVectorValue();
+        double magn = 0;
+        for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
+        magn = Math.sqrt(magn);
+        double[] uvec = new double[val.length];
+        for(int i=0;i<val.length;i++) uvec[i] = val[i]/magn;
+        return uvec;
     }
 
     /**

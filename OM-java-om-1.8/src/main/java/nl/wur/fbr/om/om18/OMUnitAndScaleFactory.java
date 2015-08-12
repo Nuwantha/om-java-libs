@@ -2,22 +2,21 @@ package nl.wur.fbr.om.om18;
 
 import javafx.util.Pair;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
-import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;
-import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;
+import nl.wur.fbr.om.core.impl.points.PointImpl;
 import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
-import nl.wur.fbr.om.model.points.ScalarPoint;
-import nl.wur.fbr.om.model.points.ScalarRangePoint;
+import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.om18.vocabulary.OMMeta;
 import nl.wur.fbr.om.prefixes.BinaryPrefix;
 import nl.wur.fbr.om.prefixes.DecimalPrefix;
 import nl.wur.fbr.om.prefixes.Prefix;
+import org.apache.commons.lang3.Range;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -459,11 +458,11 @@ public class OMUnitAndScaleFactory extends DefaultUnitAndScaleFactory{
                     int pos = nvalue.indexOf(" to ");
                     double minv = new Double(nvalue.substring(0, pos));
                     double maxv = new Double(nvalue.substring(pos + 4));
-                    ScalarRangePoint point = new ScalarRangePointImpl(minv, maxv, scale);
+                    Point point = new PointImpl(Range.between(minv,maxv), scale);
                     scale.addDefinitionPoint(point);
                 } else {
                     double value = new Double(nvalue);
-                    ScalarPoint point = new ScalarPointImpl(value, scale);
+                    Point point = new PointImpl(value, scale);
                     scale.addDefinitionPoint(point);
                 }
             }catch (NumberFormatException e){

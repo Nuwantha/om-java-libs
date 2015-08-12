@@ -4,9 +4,7 @@ package nl.wur.fbr.om.factory;
 
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.model.measures.Measure;
-import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
-import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 
@@ -67,12 +65,12 @@ public interface UnitAndScaleConversionFactory {
      * are equal, and a positive integer if the first measure is larger.
      * @throws ConversionException When the units of the measures are in a different dimension.
      */
-    public int compare(ScalarMeasure measure1, ScalarMeasure measure2) throws ConversionException;
+    public int compare(Measure measure1, Measure measure2) throws ConversionException;
 
     /**
      * Compares the two measures and returns true when they are equal. This includes the conversion of units,
-     * e.g. 1 km is equal to 1000000 mm. If the compared measures are {@link nl.wur.fbr.om.model.measures.VectorMeasure VectorMeasures}
-     * each of the components of the vector should be equals to the same component of the other vector (including
+     * e.g. 1 km is equal to 1000000 mm. If the compared measures are vectors
+     * each of the components of the vector should be equal to the same component of the other vector (including
      * unit conversion). When the measures cannot be compared because the units cannot be converted into each other,
      * this method returns false.
      * @param measure1 The first measure to compare.
@@ -94,12 +92,12 @@ public interface UnitAndScaleConversionFactory {
      * @throws ConversionException When the units of the points are in a different dimension, or if the measures
      * have incompatible numerical values, e.g. a scalar and a vector.
      */
-    public int compare(ScalarPoint point1, ScalarPoint point2) throws ConversionException;
+    public int compare(Point point1, Point point2) throws ConversionException;
 
     /**
      * Compares the two points and returns true when they are equal. This includes the conversion of units,
-     * e.g. 1 K is equal to 1.8 F. If the compared points are {@link nl.wur.fbr.om.model.points.VectorPoint VectorPoints}
-     * each of the components of the vector should be equals to the same component of the other vector (including
+     * e.g. 1 K is equal to 1.8 F. If the compared points are vectors
+     * each of the components of the vector should be equal to the same component of the other vector (including
      * unit conversion and scale conversion). When the points cannot be compared because the units cannot be converted into each other,
      * this method returns false.
      * @param point1 The first point to compare.

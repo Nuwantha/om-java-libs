@@ -4,10 +4,9 @@ import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.NamedObject;
 import nl.wur.fbr.om.model.points.Point;
-import nl.wur.fbr.om.model.points.ScalarPoint;
-import nl.wur.fbr.om.model.points.ScalarRangePoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
+import org.apache.commons.lang3.Range;
 import org.openrdf.model.Literal;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -211,11 +210,10 @@ public class OMVocabularyCreationTool {
                     "import nl.wur.fbr.om.model.units.SingularUnit;\n" +
                     "import nl.wur.fbr.om.model.units.Unit;\n" +
                     "import nl.wur.fbr.om.model.UnitAndScaleSet;\n" +
-                    "import nl.wur.fbr.om.model.points.ScalarPoint;\n" +
-                    "import nl.wur.fbr.om.model.points.ScalarRangePoint;\n" +
-                    "import nl.wur.fbr.om.core.impl.points.ScalarPointImpl;\n" +
-                    "import nl.wur.fbr.om.core.impl.points.ScalarRangePointImpl;\n" +
+                    "import nl.wur.fbr.om.model.points.Point;\n" +
+                    "import nl.wur.fbr.om.core.impl.points.PointImpl;\n" +
                     "import java.util.Set;\n" +
+                    "import org.apache.commons.lang3.Range;\n" +
                     "import java.util.HashSet;\n" +
                     "import nl.wur.fbr.om.prefixes.*;\n\n";
             if(apparea!=null) {
@@ -474,13 +472,11 @@ public class OMVocabularyCreationTool {
             List<Point> defpoints = scale.getDefinitionPoints();
             int cnt = 1;
             for(Point p : defpoints){
-                if(p instanceof ScalarPoint){
-                    ScalarPoint sp = (ScalarPoint)p;
-                    contents+= "\t\tScalarPoint point"+varName+cnt+" = new ScalarPointImpl("+sp.doubleValue()+", "+varName+");\n";
+                if(p.getNumericalValue() instanceof Number){
+                    contents+= "\t\tPoint point"+varName+cnt+" = new PointImpl("+p.getScalarValue()+", "+varName+");\n";
                     contents+= "\t\t"+varName+".addDefinitionPoint(point"+varName+cnt+");\n";
-                }else if(p instanceof ScalarRangePoint){
-                    ScalarRangePoint sp = (ScalarRangePoint)p;
-                    contents+= "\t\tScalarRangePoint point"+varName+cnt+" = new ScalarRangePointImpl("+sp.getScalarRange().getMinimum()+", "+sp.getScalarRange().getMaximum()+", "+varName+");\n";
+                }else if(p.getNumericalValue() instanceof Range){
+                    contents+= "\t\tPoint point"+varName+cnt+" = new PointImpl(Range.between("+p.getScalarRange().getMinimum()+", "+p.getScalarRange().getMaximum()+"), "+varName+");\n";
                     contents+= "\t\t"+varName+".addDefinitionPoint(point"+varName+cnt+");\n";
                 }
                 cnt++;

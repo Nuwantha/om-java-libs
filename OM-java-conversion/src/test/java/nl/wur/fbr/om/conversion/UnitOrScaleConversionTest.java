@@ -11,9 +11,7 @@ import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
 import nl.wur.fbr.om.model.measures.Measure;
-import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
-import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
@@ -46,7 +44,7 @@ public class UnitOrScaleConversionTest {
             Measure m1 = measureFactory.createScalarMeasure(10,metre);
             Measure m2 = conversion.convertToUnit(m1, inch);
             Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 393.7007874015748, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 393.7007874015748, m2.getScalarValue(), 0.0000001);
 
 
         } catch (Exception e) {
@@ -82,7 +80,7 @@ public class UnitOrScaleConversionTest {
             Unit kilogram = CoreSet.KILOGRAM;
             Measure m1 = factory.createScalarMeasure(1204,metre);
             Measure m2 = factory.convertToUnit(m1,kilogram);
-            Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertNotEquals("Test measure equals after conversion", 1.204, m2.getScalarValue(), 0.0000001);
         } catch (ConversionException e) {
             Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
         }
@@ -101,7 +99,7 @@ public class UnitOrScaleConversionTest {
             Measure m1 = factory.createScalarMeasure(1204, gram);
             Measure m2 = factory.convertToUnit(m1, kilogram);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 1.204, m2.getScalarValue(), 0.0000001);
         } catch (UnitOrScaleCreationException e) {
             e.printStackTrace();
             Assert.fail("Could not add unit and scale set to the factory. " + e);
@@ -157,9 +155,9 @@ public class UnitOrScaleConversionTest {
             Measure m3 = conversion.convertToUnit(m1,cubicmetre);
             Measure m4 = conversion.convertToUnit(m1,litre);
             Assert.assertTrue("Test measure equals after conversion", conversion.equals(m1, m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 2, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
-            Assert.assertEquals("Test measure equals after conversion", 9.857844e-6, ((ScalarMeasure) m3).doubleValue(), 0.0000001);
-            Assert.assertEquals("Test measure equals after conversion", 0.009857844, ((ScalarMeasure) m4).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 2, m2.getScalarValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 9.857844e-6, m3.getScalarValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 0.009857844, m4.getScalarValue(), 0.0000001);
         } catch (ConversionException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
@@ -188,7 +186,7 @@ public class UnitOrScaleConversionTest {
             Measure m1 = measureFactory.createScalarMeasure(120,kmh);
             Measure m2 = conversion.convertToUnit(m1,ms);
             Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 33.33333333333333, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 33.33333333333333, m2.getScalarValue(), 0.0000001);
 
         } catch (ConversionException e) {
             e.printStackTrace();
@@ -214,7 +212,7 @@ public class UnitOrScaleConversionTest {
             Measure m1 = factory.createScalarMeasure(120,joule);
             Measure m2 = factory.convertToUnit(m1,kcal);
             Assert.assertTrue("Test measure equals after conversion",factory.equals(m1,m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 0.0286806883, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 0.0286806883, m2.getScalarValue(), 0.0000001);
 
         } catch (ConversionException e) {
             e.printStackTrace();
@@ -240,7 +238,7 @@ public class UnitOrScaleConversionTest {
             Measure m1 = factory.createScalarMeasure(1000000,squaremetre);
             Measure m2 = factory.convertToUnit(m1,squarekilometre);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion",1.0, ((ScalarMeasure)m2).doubleValue(),0.0000001);
+            Assert.assertEquals("Test measure equals after conversion",1.0, m2.getScalarValue(),0.0000001);
 
         } catch (ConversionException e) {
             e.printStackTrace();
@@ -264,7 +262,7 @@ public class UnitOrScaleConversionTest {
 
             Point p1 = factory.createScalarPoint(0.0,celsiusscale);
             Point p2 = factory.convertToScale(p1,fahrenheitscale);
-            Assert.assertEquals("Test measure equals after conversion", 32.0, ((ScalarPoint) p2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 32.0, p2.getScalarValue(), 0.0000001);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(p1, p2,1e-12));
         } catch (ConversionException e) {
             e.printStackTrace();

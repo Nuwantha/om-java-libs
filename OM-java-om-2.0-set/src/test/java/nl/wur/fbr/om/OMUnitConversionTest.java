@@ -5,9 +5,7 @@ import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.model.measures.Measure;
-import nl.wur.fbr.om.model.measures.ScalarMeasure;
 import nl.wur.fbr.om.model.points.Point;
-import nl.wur.fbr.om.model.points.ScalarPoint;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
@@ -40,7 +38,7 @@ public class OMUnitConversionTest {
             Measure m1 = factory.createScalarMeasure(10,metre);
             Measure m2 = factory.convertToUnit(m1, inch);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2, 1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 393.7007874015748, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 393.7007874015748, m2.getScalarValue(), 0.0000001);
 
 
         } catch (Exception e) {
@@ -83,7 +81,7 @@ public class OMUnitConversionTest {
             Unit kilogram = OM.Kilogram;
             Measure m1 = factory.createScalarMeasure(1204,metre);
             Measure m2 = factory.convertToUnit(m1,kilogram);
-            Assert.assertNotEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertNotEquals("Test measure equals after conversion", 1.204, m2.getScalarValue(), 0.0000001);
         } catch (ConversionException e) {
             Assert.assertTrue("Expected exception thrown when converting a unit. " + e, true);
         }
@@ -107,7 +105,7 @@ public class OMUnitConversionTest {
             Measure m1 = factory.createScalarMeasure(1204, gram);
             Measure m2 = factory.convertToUnit(m1, kilogram);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 1.204, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 1.204, m2.getScalarValue(), 0.0000001);
         } catch (ConversionException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
@@ -135,9 +133,9 @@ public class OMUnitConversionTest {
             Measure m3 = factory.convertToUnit(m1,cubicmetre);
             Measure m4 = factory.convertToUnit(m1,litre);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 2, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
-            Assert.assertEquals("Test measure equals after conversion", 9.857844e-6, ((ScalarMeasure) m3).doubleValue(), 0.0000001);
-            Assert.assertEquals("Test measure equals after conversion", 0.009857844, ((ScalarMeasure) m4).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 2, m2.getScalarValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 9.857844e-6, m3.getScalarValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 0.009857844, m4.getScalarValue(), 0.0000001);
         } catch (ConversionException e) {
             e.printStackTrace();
             Assert.fail("Exception thrown when converting a unit. " + e);
@@ -162,7 +160,7 @@ public class OMUnitConversionTest {
             Measure m1 = factory.createScalarMeasure(120,kmh);
             Measure m2 = factory.convertToUnit(m1,ms);
             Assert.assertTrue("Test measure equals after conversion",factory.equals(m1,m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 33.33333333333333, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 33.33333333333333, m2.getScalarValue(), 0.0000001);
 
         } catch (ConversionException e) {
             e.printStackTrace();
@@ -188,7 +186,7 @@ public class OMUnitConversionTest {
             Measure m1 = factory.createScalarMeasure(120,joule);
             Measure m2 = factory.convertToUnit(m1,kcal);
             Assert.assertTrue("Test measure equals after conversion",factory.equals(m1,m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion", 120/4.19002/1000, ((ScalarMeasure) m2).doubleValue(), 0.0000001);
+            Assert.assertEquals("Test measure equals after conversion", 120/4.19002/1000, m2.getScalarValue(), 0.0000001);
 
         } catch (ConversionException e) {
             e.printStackTrace();
@@ -214,7 +212,7 @@ public class OMUnitConversionTest {
             Measure m1 = factory.createScalarMeasure(1000000,squaremetre);
             Measure m2 = factory.convertToUnit(m1,squarekilometre);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(m1, m2,1e-12));
-            Assert.assertEquals("Test measure equals after conversion",1.0, ((ScalarMeasure)m2).doubleValue(),0.0000001);
+            Assert.assertEquals("Test measure equals after conversion",1.0, m2.getScalarValue(),0.0000001);
 
         } catch (ConversionException e) {
             e.printStackTrace();
@@ -238,9 +236,9 @@ public class OMUnitConversionTest {
 
             Point p1 = factory.createScalarPoint(0.0,celsiusscale);
             Point p2 = factory.convertToScale(p1,fahrenheitscale);
-            System.out.println("p1: "+((ScalarPoint)p1).doubleValue() + p1.getScale().getUnit().getSymbol()+" "+p1.getClass());
-            System.out.println("p2: "+((ScalarPoint)p2).doubleValue() + p2.getScale().getUnit().getSymbol()+" "+p2.getClass());
-            Assert.assertEquals("Test measure equals after conversion", 32.0, ((ScalarPoint) p2).doubleValue(), 0.0000001);
+            System.out.println("p1: "+p1.getScalarValue() + p1.getScale().getUnit().getSymbol()+" "+p1.getClass());
+            System.out.println("p2: "+p2.getScalarValue() + p2.getScale().getUnit().getSymbol()+" "+p2.getClass());
+            Assert.assertEquals("Test measure equals after conversion", 32.0, p2.getScalarValue(), 0.0000001);
             Assert.assertTrue("Test measure equals after conversion", factory.equals(p1, p2,1e-12));
         } catch (ConversionException e) {
             e.printStackTrace();

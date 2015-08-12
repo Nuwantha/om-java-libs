@@ -2,6 +2,7 @@ package nl.wur.fbr.om.model.points;
 
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.scales.Scale;
+import org.apache.commons.lang3.Range;
 
 /**
  * This interface represents a point (value and unit) on a measurement scale.
@@ -28,4 +29,43 @@ public interface Point {
      * @return The numerical value.
      */
     public Object getNumericalValue();
+
+    /**
+     * Returns the difference of the point with the zero point on the scale.
+     * @return The difference from zero point.
+     */
+    public Measure getDifferenceFromZero();
+
+    /**
+     * Returns the numerical value (as a scalar) of this point.
+     * @return The double value.
+     */
+    public double getScalarValue();
+
+    /**
+     * Returns the numerical value (as a scalar range) of this point.
+     * @return The range value.
+     */
+    public Range getScalarRange();
+
+    /**
+     * Returns the numerical value (as a vector of doubles) of this point.
+     * @return The vector value.
+     */
+    public double[] getVectorValue();
+
+    /**
+     * Returns the magnitude of the vector value as a measure that contains a scalar as
+     * the numerical value of the magnitude and the same units in which this point is expressed.
+     * @return The magnitude of the vector.
+     */
+    public Measure getMagnitude();
+
+    /**
+     * Returns the unit vector of this vector point. The unit vector is the normalised vector, i.e.
+     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
+     * the unit vector.
+     * @return The unit vector.
+     */
+    public double[] getUnitVector();
 }
