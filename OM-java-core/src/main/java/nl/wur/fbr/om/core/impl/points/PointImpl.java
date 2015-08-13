@@ -198,7 +198,7 @@ public class PointImpl implements Point{
         if(this.getScale().getUnit()!=null && this.getScale().getUnit().getSymbol()!=null){
             str+= " " + this.getScale().getUnit().getSymbol();
         }
-        str+= "(scale)";
+        str+= " (scale)";
         return str;
     }
 }
