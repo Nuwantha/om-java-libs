@@ -159,4 +159,114 @@ public interface MathProcessor {
      * @return The quotient of the measure and the double expressed in the same unit as the <code>numerator</code>.
      */
     public Measure divide(Measure numerator, double denominator);
+
+    /**
+     * Returns the sine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose sine is to be determined.
+     * @return The sine of the measure.
+     */
+    public Measure sin(Measure measure);
+
+    /**
+     * Returns the cosine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose cosine is to be determined.
+     * @return The cosine of the measure.
+     */
+    public Measure cos(Measure measure);
+
+    /**
+     * Returns the tangent of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose tangent is to be determined.
+     * @return The tangent of the measure.
+     */
+    public Measure tan(Measure measure);
+
+    /**
+     * Returns the arc sine of the measure. The unit of the parameter should be dimensionless (for instance a unit
+     * division of metre over metre). The resulting measure will have radians as a unit.
+     *
+     * @param measure The measure whose arc sine is to be determined.
+     * @return The arc sine of the measure.
+     */
+    public Measure asin(Measure measure);
+
+    /**
+     * Returns the arc cosine of the measure. The unit of the parameter should be dimensionless (for instance a unit
+     * division of metre over metre). The resulting measure will have radians as a unit.
+     *
+     * @param measure The measure whose arc cosine is to be determined.
+     * @return The arc cosine of the measure.
+     */
+    public Measure acos(Measure measure);
+
+    /**
+     * Returns the arc tangent of the measure. The unit of the parameter should be dimensionless (for instance a unit
+     * division of metre over metre). The resulting measure will have radians as a unit.
+     *
+     * @param measure The measure whose arc tangent is to be determined.
+     * @return The arc tangent of the measure.
+     */
+    public Measure atan(Measure measure);
+
+    /**
+     * Returns Euler's number raised to the power of the parameter. The unit of the parameter should be dimensionless.
+     * The resulting measure will also be dimensionless.
+     *
+     * @param measure The measure to raise e to.
+     * @return The value of e<sup>measure</sup>.
+     */
+    public Measure exp(Measure measure);
+
+    /**
+     * Returns the natural logarithm of the parameter. The unit of the parameter should be dimensionless.
+     * The resulting measure will also be dimensionless.
+     *
+     * @param measure The measure for which the logarithm needs to be determined.
+     * @return The natural logarithm of the parameter.
+     */
+    public Measure log(Measure measure);
+
+    /**
+     * Returns the base 10 logarithm of the parameter. The unit of the parameter should be dimensionless.
+     * The resulting measure will also be dimensionless.
+     *
+     * @param measure The measure for which the logarithm needs to be determined.
+     * @return The base 10 logarithm of the parameter.
+     */
+    public Measure log10(Measure measure);
+
+    /**
+     * Returns the square root of the parameter. The unit of the resulting measure will be the square root of
+     * the unit of the parameter. For instance, the square root of 16 m^2 will be 4 m.
+     *
+     * @param measure The measure for which the square root needs to be determined.
+     * @return The square root of the parameter.
+     */
+    public Measure sqrt(Measure measure);
+
+    /**
+     * Returns the cubic root of the parameter. The unit of the resulting measure will be the cubic root of
+     * the unit of the parameter. For instance, the cubic root of 64 m^3 will be 4 m.
+     *
+     * @param measure The measure for which the cubic root needs to be determined.
+     * @return The cubic root of the parameter.
+     */
+    public Measure cbrt(Measure measure);
+
+    /**
+     * Returns the absolute value of the specified measure expressed in the same unit as the parameter.
+     *
+     * @param measure The measurement whose absolute value is to be determined.
+     * @return The absolute value.
+     */
+    public Measure abs(Measure measure);
 }
