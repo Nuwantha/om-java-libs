@@ -37,7 +37,14 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         String symbol1 = base.getSymbol();
         if(symbol1!=null && symbol1.length()>0){
             String exp = ""+(int)exponent;
-            if(exponent<1) exp = "1/"+(1/exponent);
+            if(exponent<1) {
+                int rec = (int)(1/exponent);
+                if(Math.abs(1/exponent-(double)rec)<0.00001){
+                    exp = "1/" + rec;
+                }else {
+                    exp = "1/" + (1 / exponent);
+                }
+            }
             symbol = symbol1+""+exp;
         }
         if(symbol!=null) this.addAlternativeSymbol(symbol);
@@ -58,7 +65,14 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
             String symbol1 = base.getSymbol();
             if(symbol1!=null && symbol1.length()>0){
                 String exp = ""+(int)exponent;
-                if(exponent<1) exp = "1/"+(1/exponent);
+                if(exponent<1) {
+                    int rec = (int)(1/exponent);
+                    if(Math.abs(1/exponent-(double)rec)<0.00001){
+                        exp = "1/" + rec;
+                    }else {
+                        exp = "1/" + (1 / exponent);
+                    }
+                }
                 symbol = symbol1+""+exp;
             }
             if(symbol!=null) this.addAlternativeSymbol(symbol);
@@ -81,7 +95,14 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
             String symbol1 = base.getSymbol();
             if(symbol1!=null && symbol1.length()>0){
                 String exp = ""+(int)exponent;
-                if(exponent<1) exp = "1/"+(1/exponent);
+                if(exponent<1) {
+                    int rec = (int)(1/exponent);
+                    if(Math.abs(1/exponent-(double)rec)<0.00001){
+                        exp = "1/" + rec;
+                    }else {
+                        exp = "1/" + (1 / exponent);
+                    }
+                }
                 symbol = symbol1+""+exp;
             }
             if(symbol!=null) this.addAlternativeSymbol(symbol);
