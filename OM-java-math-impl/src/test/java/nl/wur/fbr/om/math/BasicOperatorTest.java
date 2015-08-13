@@ -9,6 +9,7 @@ import nl.wur.fbr.om.math.impl.MathProcessorImpl;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.units.UnitDivision;
+import nl.wur.fbr.om.model.units.UnitExponentiation;
 import nl.wur.fbr.om.model.units.UnitMultiplication;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,6 +36,29 @@ public class BasicOperatorTest {
         try {
             Measure m5 = Math.add(m3, m4);
             Assert.fail("Expected MathException when adding 84 m and 12 kg.");
+        }catch (MathException e){
+            Assert.assertTrue("MathException thrown as expected",true);
+        }
+    }
+
+    @Test
+    public void testAdditionOfTwoVectorMeasures() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] v1 = {14,22};
+        double[] v2 = {700,-200};
+        Measure m1 = factory.createVectorMeasure(v1, CoreSet.METRE);
+        Measure m2 = factory.createVectorMeasure(v2, CoreSet.DECIMETRE);
+        Measure m3 = Math.add(m1,m2);
+        System.out.println("Addition " + m1 + " + " + m2 + " = " + m3);
+        Assert.assertEquals("Test addition", 84, m3.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test addition",2,m3.getVectorValue()[1],0.00000001);
+        Assert.assertEquals("Test addition",CoreSet.METRE,m3.getUnit());
+        Measure m4 = factory.createScalarMeasure(12, CoreSet.METRE);
+        try {
+            Measure m5 = Math.add(m3, m4);
+            Assert.fail("Expected MathException when adding [84,20] m and 12 m.");
         }catch (MathException e){
             Assert.assertTrue("MathException thrown as expected",true);
         }
@@ -76,6 +100,29 @@ public class BasicOperatorTest {
         try {
             Measure m5 = Math.add(m3, m4);
             Assert.fail("Expected MathException when subtraction 7 m and 12 kg.");
+        }catch (MathException e){
+            Assert.assertTrue("MathException thrown as expected",true);
+        }
+    }
+
+    @Test
+    public void testSubtractionOfTwoCVectorMeasures() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] v1 = {14,22};
+        double[] v2 = {700,-200};
+        Measure m1 = factory.createVectorMeasure(v1, CoreSet.METRE);
+        Measure m2 = factory.createVectorMeasure(v2, CoreSet.DECIMETRE);
+        Measure m3 = Math.subtract(m1, m2);
+        System.out.println("Subtraction " + m1 + " - " + m2 + " = " + m3);
+        Assert.assertEquals("Test subtraction", -56, m3.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test subtraction",42,m3.getVectorValue()[1],0.00000001);
+        Assert.assertEquals("Test subtraction",CoreSet.METRE,m3.getUnit());
+        Measure m4 = factory.createScalarMeasure(12, CoreSet.METRE);
+        try {
+            Measure m5 = Math.add(m3, m4);
+            Assert.fail("Expected MathException when subtraction [-56,42] m and 12 m.");
         }catch (MathException e){
             Assert.assertTrue("MathException thrown as expected",true);
         }
@@ -130,6 +177,37 @@ public class BasicOperatorTest {
     }
 
     @Test
+    public void testMultiplicationOfAVectorAndAScalarMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] v1 = {10,-5};
+        Measure m1 = factory.createVectorMeasure(v1, CoreSet.NEWTON);
+        Measure m2 = factory.createScalarMeasure(4, CoreSet.KILOMETRE);
+        Measure m3 = Math.multiply(m1, m2);
+        System.out.println("Multiplication " + m1 + " * " + m2 + " = " + m3);
+        Assert.assertEquals("Test multiplication", 40, m3.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test multiplication", -20, m3.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test multiplication", CoreSet.NEWTON, ((UnitMultiplication) m3.getUnit()).getTerm1());
+        Assert.assertEquals("Test multiplication", CoreSet.KILOMETRE, ((UnitMultiplication) m3.getUnit()).getTerm2());
+        double[] v2 = {10,-5};
+        Measure m4 = factory.createScalarMeasure(7, CoreSet.NEWTON);
+        Measure m5 = factory.createVectorMeasure(v2, CoreSet.KILOMETRE);
+        Measure m6 = Math.multiply(m4, m5);
+        System.out.println("Multiplication " + m4 + " * " + m5 + " = " + m6);
+        Assert.assertEquals("Test multiplication", 70, m6.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test multiplication", -35, m6.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test multiplication",CoreSet.NEWTON,((UnitMultiplication) m6.getUnit()).getTerm1());
+        Assert.assertEquals("Test multiplication",CoreSet.KILOMETRE,((UnitMultiplication) m6.getUnit()).getTerm2());
+        try{
+            Measure m7 = Math.multiply(m1, m5);
+            Assert.fail("Expected MathException when multiplying two vectors.");
+        }catch (MathException e){
+            Assert.assertTrue("MathException thrown as expected",true);
+        }
+    }
+
+    @Test
     public void testMultiplicationOfAMeasureAndADouble() throws UnitOrScaleCreationException {
         InstanceFactory factory = new CoreInstanceFactory();
         factory.addUnitAndScaleSet(CoreSet.class);
@@ -156,6 +234,36 @@ public class BasicOperatorTest {
     }
 
     @Test
+    public void testDivisionOfAVectorAndScalarMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] v1 = {10,-16};
+        Measure m1 = factory.createVectorMeasure(v1, CoreSet.INCH);
+        Measure m2 = factory.createScalarMeasure(4, CoreSet.MINUTE);
+        Measure m3 = Math.divide(m1, m2);
+        System.out.println("Division " + m1 + " / " + m2 + " = " + m3);
+        Assert.assertEquals("Test division", 2.5, m3.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test division", -4, m3.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test division", CoreSet.INCH, ((UnitDivision) m3.getUnit()).getNumerator());
+        Assert.assertEquals("Test division",CoreSet.MINUTE,((UnitDivision) m3.getUnit()).getDenominator());
+        try{
+            Measure m4 = Math.divide(m2, m1);
+            Assert.fail("Expected MathException when dividing a scalar by a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("MathException thrown as expected",true);
+        }
+        try{
+            double[] v2 = {10,-16};
+            Measure m5 = factory.createVectorMeasure(v2, CoreSet.NEWTON);
+            Measure m6 = Math.divide(m1, m5);
+            Assert.fail("Expected MathException when dividing a vector by a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("MathException thrown as expected",true);
+        }
+    }
+
+    @Test
     public void testDivisionOfAMeasureAndADouble() throws UnitOrScaleCreationException {
         InstanceFactory factory = new CoreInstanceFactory();
         factory.addUnitAndScaleSet(CoreSet.class);
@@ -165,6 +273,57 @@ public class BasicOperatorTest {
         System.out.println("Division " + m1 + " / " + 2 + " = " + m3);
         Assert.assertEquals("Test division", 10, m3.getScalarValue(), 0.00000001);
         Assert.assertEquals("Test division",CoreSet.KILOGRAM,m3.getUnit());
+    }
+
+    @Test
+    public void testSqrtOfAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(25, CoreSet.KILOGRAM);
+        Measure m2 = Math.sqrt(m1);
+        System.out.println("Square root: sqrt(" + m1 + ") = " + m2);
+        Assert.assertEquals("Test sqrt", 5, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test sqrt", CoreSet.KILOGRAM, ((UnitExponentiation) m2.getUnit()).getBase());
+        Assert.assertEquals("Test sqrt", 1. / 2., ((UnitExponentiation) m2.getUnit()).getExponent(), 0.000001);
+        Measure m3 = factory.createScalarMeasure(100, CoreSet.SQUARE_FEET);
+        Measure m4 = Math.sqrt(m3);
+        System.out.println("Square root: sqrt(" + m3 + ") = " + m4);
+        Assert.assertEquals("Test sqrt", 10, m4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test sqrt", CoreSet.FEET, m4.getUnit());
+    }
+
+    @Test
+    public void testCbrtOfAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(125, CoreSet.KILOGRAM);
+        Measure m2 = Math.cbrt(m1);
+        System.out.println("Cubic root: cbrt(" + m1 + ") = " + m2);
+        Assert.assertEquals("Test cbrt", 5, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test cbrt", CoreSet.KILOGRAM, ((UnitExponentiation)m2.getUnit()).getBase());
+        Assert.assertEquals("Test cbrt", 1./3., ((UnitExponentiation) m2.getUnit()).getExponent(),0.000001);
+        Measure m3 = factory.createScalarMeasure(1000, CoreSet.CUBIC_METRE);
+        Measure m4 = Math.cbrt(m3);
+        System.out.println("Cubic root: cbrt(" + m3 + ") = " + m4);
+        Assert.assertEquals("Test cbrt", 10, m4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test cbrt", CoreSet.METRE, m4.getUnit());
+    }
+
+    @Test
+    public void testAbsOfAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(20, CoreSet.KILOGRAM);
+        Measure m2 = Math.abs(m1);
+        Assert.assertEquals("Test abs", 20, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test abs", CoreSet.KILOGRAM, m2.getUnit());
+        Measure m3 = factory.createScalarMeasure(-20, CoreSet.KILOGRAM);
+        Measure m4 = Math.abs(m3);
+        Assert.assertEquals("Test abs", 20, m4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test abs",CoreSet.KILOGRAM,m4.getUnit());
     }
 
 }

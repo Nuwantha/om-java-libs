@@ -8,6 +8,7 @@ import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitDivision;
+import nl.wur.fbr.om.model.units.UnitExponentiation;
 import nl.wur.fbr.om.model.units.UnitMultiplication;
 
 
@@ -449,7 +450,22 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure sqrt(Measure measure) {
-        return null;
+        double[] m = measure.getVectorValue();
+        double[] sqrt = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            sqrt[i] = Math.sqrt(m[i]);
+        }
+        Unit newUnit = null;
+        if(measure.getUnit() instanceof UnitExponentiation){
+            UnitExponentiation ue = (UnitExponentiation)measure.getUnit();
+            if(Math.abs(ue.getExponent()-2.0)<0.0000001) newUnit = ue.getBase();
+            else{
+                newUnit = factory.createUnitExponentiation(ue.getBase(),ue.getExponent()/2.); // todo find existing unit
+            }
+        }else{
+            newUnit = factory.createUnitExponentiation(measure.getUnit(),0.5); // todo find existing unit
+        }
+        return factory.createVectorMeasure(sqrt,newUnit);
     }
 
     /**
@@ -461,7 +477,22 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure cbrt(Measure measure) {
-        return null;
+        double[] m = measure.getVectorValue();
+        double[] cbrt = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            cbrt[i] = Math.cbrt(m[i]);
+        }
+        Unit newUnit = null;
+        if(measure.getUnit() instanceof UnitExponentiation){
+            UnitExponentiation ue = (UnitExponentiation)measure.getUnit();
+            if(Math.abs(ue.getExponent()-3.0)<0.0000001) newUnit = ue.getBase();
+            else{
+                newUnit = factory.createUnitExponentiation(ue.getBase(),ue.getExponent()/3.); // todo find existing unit
+            }
+        }else{
+            newUnit = factory.createUnitExponentiation(measure.getUnit(),1./3.); // todo find existing unit
+        }
+        return factory.createVectorMeasure(cbrt,newUnit);
     }
 
     /**
@@ -472,6 +503,11 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure abs(Measure measure) {
-        return null;
+        double[] m = measure.getVectorValue();
+        double[] abs = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            abs[i] = Math.abs(m[i]);
+        }
+        return factory.createVectorMeasure(abs,measure.getUnit());
     }
 }
