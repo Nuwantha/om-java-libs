@@ -31,6 +31,19 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
         super();
         this.term1 = term1;
         this.term2 = term2;
+        String symbol = null;
+        String symbol1 = term1.getSymbol();
+        String symbol2 = term2.getSymbol();
+        if(symbol1!=null && symbol1.length()>0){
+            symbol = symbol1;
+        }
+        if(symbol2!=null && symbol2.length()>0){
+            if(symbol!=null){
+                symbol+=".";
+            }
+            symbol += symbol2;
+        }
+        if(symbol!=null) this.addAlternativeSymbol(symbol);
     }
 
     /**
@@ -44,6 +57,20 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
         super(name,symbol);
         this.term1 = term1;
         this.term2 = term2;
+        if(symbol==null){
+            String symbol1 = term1.getSymbol();
+            String symbol2 = term2.getSymbol();
+            if(symbol1!=null && symbol1.length()>0){
+                symbol = symbol1;
+            }
+            if(symbol2!=null && symbol2.length()>0){
+                if(symbol!=null){
+                    symbol+=".";
+                }
+                symbol += symbol2;
+            }
+            if(symbol!=null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -58,6 +85,20 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
         super(identifier,name,symbol);
         this.term1 = term1;
         this.term2 = term2;
+        if(symbol==null){
+            String symbol1 = term1.getSymbol();
+            String symbol2 = term2.getSymbol();
+            if(symbol1!=null && symbol1.length()>0){
+                symbol = symbol1;
+            }
+            if(symbol2!=null && symbol2.length()>0){
+                if(symbol!=null){
+                    symbol+=".";
+                }
+                symbol += symbol2;
+            }
+            if(symbol!=null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**

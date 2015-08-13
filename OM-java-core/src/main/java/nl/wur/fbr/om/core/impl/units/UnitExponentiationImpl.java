@@ -33,6 +33,14 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         super();
         this.base = base;
         this.exponent = exponent;
+        String symbol = null;
+        String symbol1 = base.getSymbol();
+        if(symbol1!=null && symbol1.length()>0){
+            String exp = ""+(int)exponent;
+            if(exponent<1) exp = "1/"+(1/exponent);
+            symbol = symbol1+""+exp;
+        }
+        if(symbol!=null) this.addAlternativeSymbol(symbol);
     }
 
     /**
@@ -46,6 +54,15 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         super(name,symbol);
         this.base = base;
         this.exponent = exponent;
+        if(symbol==null){
+            String symbol1 = base.getSymbol();
+            if(symbol1!=null && symbol1.length()>0){
+                String exp = ""+(int)exponent;
+                if(exponent<1) exp = "1/"+(1/exponent);
+                symbol = symbol1+""+exp;
+            }
+            if(symbol!=null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -60,6 +77,15 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         super(identifier,name,symbol);
         this.base = base;
         this.exponent = exponent;
+        if(symbol==null){
+            String symbol1 = base.getSymbol();
+            if(symbol1!=null && symbol1.length()>0){
+                String exp = ""+(int)exponent;
+                if(exponent<1) exp = "1/"+(1/exponent);
+                symbol = symbol1+""+exp;
+            }
+            if(symbol!=null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**

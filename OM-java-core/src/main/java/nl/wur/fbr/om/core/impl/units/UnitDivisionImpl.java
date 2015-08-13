@@ -32,6 +32,20 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         super();
         this.numerator = numerator;
         this.denominator = denominator;
+        String symbol = null;
+        String symbol1 = numerator.getSymbol();
+        String symbol2 = denominator.getSymbol();
+        if(symbol1!=null && symbol1.length()>0){
+            symbol = symbol1;
+        }
+        if(symbol2!=null && symbol2.length()>0){
+            if(symbol==null){
+                symbol="1";
+            }
+            symbol += "/";
+            symbol += symbol2;
+        }
+        if(symbol!=null) this.addAlternativeSymbol(symbol);
     }
 
     /**
@@ -45,6 +59,21 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         super(name,symbol);
         this.numerator = numerator;
         this.denominator = denominator;
+        if(symbol==null) {
+            String symbol1 = numerator.getSymbol();
+            String symbol2 = denominator.getSymbol();
+            if (symbol1 != null && symbol1.length() > 0) {
+                symbol = symbol1;
+            }
+            if (symbol2 != null && symbol2.length() > 0) {
+                if (symbol == null) {
+                    symbol = "1";
+                }
+                symbol += "/";
+                symbol += symbol2;
+            }
+            if (symbol != null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -59,6 +88,21 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         super(identifier,name,symbol);
         this.numerator = numerator;
         this.denominator = denominator;
+        if(symbol==null) {
+            String symbol1 = numerator.getSymbol();
+            String symbol2 = denominator.getSymbol();
+            if (symbol1 != null && symbol1.length() > 0) {
+                symbol = symbol1;
+            }
+            if (symbol2 != null && symbol2.length() > 0) {
+                if (symbol == null) {
+                    symbol = "1";
+                }
+                symbol += "/";
+                symbol += symbol2;
+            }
+            if (symbol != null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
