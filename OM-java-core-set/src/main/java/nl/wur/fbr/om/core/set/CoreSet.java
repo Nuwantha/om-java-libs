@@ -359,7 +359,7 @@ public class CoreSet extends UnitAndScaleSet {
 
         KELVIN = factory.createBaseUnit(NAMESPACE+"kelvin", "kelvin", "K", SIBaseDimension.THERMODYNAMIC_TEMPERATURE);
         CELSIUS = factory.createSingularUnit(NAMESPACE+"celsius", "celsius","°C",KELVIN);
-        FAHRENHEIT = factory.createSingularUnit(NAMESPACE+"fahrenheit", "fahrenheit","°F",KELVIN,1.8);
+        FAHRENHEIT = factory.createSingularUnit(NAMESPACE+"fahrenheit", "fahrenheit","°F",KELVIN,1/1.8);
 
         MOLE = factory.createBaseUnit(NAMESPACE+"mole", "mole", "mol", SIBaseDimension.AMOUNT_OF_SUBSTANCE);
 
