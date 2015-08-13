@@ -130,8 +130,8 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         Dimension bmap = base.getUnitDimension();
         Set<BaseDimension> dims = bmap.getDimensions();
         for(BaseDimension dim : dims){
-            int exp = bmap.getDimensionalExponent(dim);
-            map.setDimensionalExponent(dim,exp*(int)getExponent());
+            double exp = bmap.getDimensionalExponent(dim);
+            map.setDimensionalExponent(dim,exp*(double)getExponent());
         }
         return map;
     }

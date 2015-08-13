@@ -33,10 +33,10 @@ public class Dimension extends HashMap {
      * @param baseDimension The base dimension.
      * @return The dimensional exponent.
      */
-    public int getDimensionalExponent(BaseDimension baseDimension){
+    public double getDimensionalExponent(BaseDimension baseDimension){
         Number exp = (Number)super.get(baseDimension);
         if(exp==null) return 0;
-        return exp.intValue();
+        return exp.doubleValue();
     }
 
     /**
@@ -44,7 +44,7 @@ public class Dimension extends HashMap {
      * @param baseDimension The base dimension.
      * @param dimensionalExponent The dimensional exponent.
      */
-    public void setDimensionalExponent(BaseDimension baseDimension, int dimensionalExponent){
+    public void setDimensionalExponent(BaseDimension baseDimension, double dimensionalExponent){
         if(dimensionalExponent==0){
             super.remove(baseDimension);
         }
@@ -65,9 +65,9 @@ public class Dimension extends HashMap {
             Set<BaseDimension> odims = map.getDimensions();
             if (dims.size() != odims.size()) return false;
             for (BaseDimension dim : dims) {
-                int exp = this.getDimensionalExponent(dim);
-                int oexp = map.getDimensionalExponent(dim);
-                if (exp != oexp) return false;
+                double exp = this.getDimensionalExponent(dim);
+                double oexp = map.getDimensionalExponent(dim);
+                if (Math.abs(exp-oexp)>0.0000001) return false;
             }
             return true;
         }
@@ -89,17 +89,24 @@ public class Dimension extends HashMap {
         boolean first = true;
         for(BaseDimension dim : dims){
             String symb = dim.getSymbol();
-            int exp = this.getDimensionalExponent(dim);
-            if(exp!=0){
-                String es = "";
-                if(exp>0) {
-                    es = "+"+exp;
+            double exponent = this.getDimensionalExponent(dim);
+            if(exponent!=0) {
+                String exp="";
+                double abs = Math.abs(exponent);
+                if (abs >= 1) {
+                    exp = ""+(int)(abs+0.5);
                 }else{
-                    es = ""+exp;
+                    exp = "1/"+(int)(1/abs+0.5);
                 }
-                if(!first) str+=", ";
-                str+= symb+es;
-                first= false;
+                String es = "";
+                if (exponent > 0) {
+                    es = "+" + exp;
+                } else {
+                    es = "-" + exp;
+                }
+                if (!first) str += ", ";
+                str += symb + es;
+                first = false;
             }
         }
         str+="]";

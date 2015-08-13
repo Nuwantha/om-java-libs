@@ -151,13 +151,13 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         Dimension map2 = getDenominator().getUnitDimension();
         Set<BaseDimension> dims1 = map1.getDimensions();
         for(BaseDimension dim : dims1){
-            int exp = map1.getDimensionalExponent(dim);
+            double exp = map1.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,exp);
         }
         Set<BaseDimension> dims2 = map2.getDimensions();
         for(BaseDimension dim : dims2){
-            int exp = map2.getDimensionalExponent(dim);
-            int eee = map.getDimensionalExponent(dim);
+            double exp = map2.getDimensionalExponent(dim);
+            double eee = map.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,eee-exp);
         }
         return map;

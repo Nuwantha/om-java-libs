@@ -22,6 +22,9 @@ public class CoreSet extends UnitAndScaleSet {
     /** The namespace of the core unit set.*/
     public static String NAMESPACE;
 
+    /** The dimensionless unit ONE.*/
+    public static Unit ONE;
+
     /** The identifier in the core unit set for the SI base unit of length Metre.*/
     public static Unit METRE;
 
@@ -325,6 +328,8 @@ public class CoreSet extends UnitAndScaleSet {
     public void initialize(UnitAndScaleFactory factory) {
         if(METRE!=null) return; // has already been initialised!
         NAMESPACE = "nl.wur.fbr.om.core.set.unit.";
+
+        ONE = factory.createBaseUnit(NAMESPACE+"one", "one", null, null);
         
         METRE = factory.createBaseUnit(NAMESPACE+"metre", "metre", "m", SIBaseDimension.LENGTH);
         KILOMETRE = factory.createPrefixedUnit(NAMESPACE+"kilometre","kilometre", "km", (SingularUnit)METRE, DecimalPrefix.KILO);

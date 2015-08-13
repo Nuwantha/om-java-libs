@@ -1,10 +1,13 @@
 package nl.wur.fbr.om.core.impl.units;
 
 import javafx.util.Pair;
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.units.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -214,6 +217,23 @@ public abstract class UnitImpl implements Unit {
     @Override
     public void addAlternativeSymbol(String symbol){
         if(!symbols.contains(symbol)) symbols.add(symbol);
+    }
+
+    /**
+     * This method returns true when the unit is dimensionless. Dimensionless units are for instance unit divisions such
+     * as m/m or s^2/s^2.
+     *
+     * @return True when the unit is dimensionless, false otherwise.
+     */
+    @Override
+    public boolean isDimensionless() {
+        Dimension dim = this.getUnitDimension();
+        Set<BaseDimension> bdims = dim.getDimensions();
+        for(BaseDimension bdim : bdims){
+            double exponent = dim.getDimensionalExponent(bdim);
+            if(Math.abs(exponent)>0.0000001) return false;
+        }
+        return true;
     }
 
     /**
