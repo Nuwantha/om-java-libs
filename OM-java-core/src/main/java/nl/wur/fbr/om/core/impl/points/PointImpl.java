@@ -181,10 +181,24 @@ public class PointImpl implements Point{
      */
     @Override
     public String toString(){
-        String str = ""+numericalValue;
-        if(getScale().getUnit()!=null && getScale().getUnit().getSymbol()!=null){
-            str+= " " + getScale().getUnit().getSymbol();
+        String str = "";
+        if(this.getNumericalValue() instanceof Number){
+            str += ""+this.getScalarValue();
+        }else if(this.getNumericalValue() instanceof double[]){
+            double[] vec = this.getVectorValue();
+            str += "[";
+            for(int i=0;i<vec.length;i++){
+                if(i>0) str+=",";
+                str+=""+vec[i];
+            }
+            str+="]";
+        }else{
+            str+= ""+numericalValue;
         }
+        if(this.getScale().getUnit()!=null && this.getScale().getUnit().getSymbol()!=null){
+            str+= " " + this.getScale().getUnit().getSymbol();
+        }
+        str+= "(scale)";
         return str;
     }
 }

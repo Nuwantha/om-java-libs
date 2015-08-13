@@ -156,7 +156,20 @@ public class MeasureImpl implements Measure {
      */
     @Override
     public String toString(){
-        String str = ""+numericalValue;
+        String str = "";
+        if(this.getNumericalValue() instanceof Number){
+            str += ""+this.getScalarValue();
+        }else if(this.getNumericalValue() instanceof double[]){
+            double[] vec = this.getVectorValue();
+            str += "[";
+            for(int i=0;i<vec.length;i++){
+                if(i>0) str+=",";
+                str+=""+vec[i];
+            }
+            str+="]";
+        }else{
+            str+= ""+numericalValue;
+        }
         if(getUnit()!=null && getUnit().getSymbol()!=null){
             str+= " " + getUnit().getSymbol();
         }
