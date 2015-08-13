@@ -6,10 +6,10 @@ import nl.wur.fbr.om.math.MathException;
 import nl.wur.fbr.om.math.MathProcessor;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitDivision;
 import nl.wur.fbr.om.model.units.UnitMultiplication;
 
-import java.util.Vector;
 
 /**
  * This class implements the default {@link MathProcessor} with implementations for a set of mathematical
@@ -55,24 +55,20 @@ public class MathProcessorImpl implements MathProcessor {
     @Override
     public Measure add(Measure augend, Measure addend) {
         double[] v1 = augend.getVectorValue();
-        double[] v2 = null;
-        if(augend.getUnit().equals(addend.getUnit())){
-            v2 = addend.getVectorValue();
-        }else{
+        double[] v2 = addend.getVectorValue();
+        if(v1.length == v2.length){
             try {
-                v2 = factory.convertToUnit(addend,augend.getUnit()).getVectorValue();
+                v2 = factory.convertToUnit(addend, augend.getUnit()).getVectorValue();
             } catch (ConversionException e) {
                 throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
             }
-        }
-        if(v1.length == v2.length){
             double[] a = new double[v1.length];
             for(int i=0;i<v1.length;i++){
                 a[i] = v1[i]+v2[i];
             }
-            return factory.createVectorMeasure(a,augend.getUnit());
+            return factory.createVectorMeasure(a, augend.getUnit());
         }
-        throw new MathException("The measures could not be added because their types ("+augend.getNumericalValue().getClass()+" and "+addend.getNumericalValue().getClass()+") cannot be added together.");
+        throw new MathException("The measure could not be added to the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -94,24 +90,21 @@ public class MathProcessorImpl implements MathProcessor {
     @Override
     public Point add(Point augend, Measure addend) {
         double[] v1 = augend.getVectorValue();
-        double[] v2 = null;
-        if(augend.getScale().getUnit().equals(addend.getUnit())){
-            v2 = addend.getVectorValue();
-        }else{
+        double[] v2 = addend.getVectorValue();
+        if(v1.length == v2.length){
             try {
-                v2 = factory.convertToUnit(addend,augend.getScale().getUnit()).getVectorValue();
+                System.out.println("Converting: "+addend+ " to "+augend.getScale().getUnit()+" = "+ factory.convertToUnit(addend, augend.getScale().getUnit()));
+                v2 = factory.convertToUnit(addend, augend.getScale().getUnit()).getVectorValue();
             } catch (ConversionException e) {
                 throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
             }
-        }
-        if(v1.length == v2.length){
             double[] a = new double[v1.length];
             for(int i=0;i<v1.length;i++){
                 a[i] = v1[i]+v2[i];
             }
-            return factory.createVectorPoint(a,augend.getScale());
+            return factory.createVectorPoint(a, augend.getScale());
         }
-        throw new MathException("The measures could not be added because their types ("+augend.getNumericalValue().getClass()+" and "+addend.getNumericalValue().getClass()+") cannot be added together.");
+        throw new MathException("The measure could not be added to the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -128,7 +121,21 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure subtract(Measure minuend, Measure subtrahend) {
-        return null;
+        double[] v1 = minuend.getVectorValue();
+        double[] v2 = subtrahend.getVectorValue();
+        if(v1.length == v2.length){
+            try {
+                v2 = factory.convertToUnit(subtrahend, minuend.getUnit()).getVectorValue();
+            } catch (ConversionException e) {
+                throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+            }
+            double[] a = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                a[i] = v1[i]-v2[i];
+            }
+            return factory.createVectorMeasure(a, minuend.getUnit());
+        }
+        throw new MathException("The measures could not be subtracted because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -145,7 +152,21 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Point subtract(Point minuend, Measure subtrahend) {
-        return null;
+        double[] v1 = minuend.getVectorValue();
+        double[] v2 = subtrahend.getVectorValue();
+        if(v1.length == v2.length){
+            try {
+                v2 = factory.convertToUnit(subtrahend, minuend.getScale().getUnit()).getVectorValue();
+            } catch (ConversionException e) {
+                throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+            }
+            double[] a = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                a[i] = v1[i]-v2[i];
+            }
+            return factory.createVectorPoint(a, minuend.getScale());
+        }
+        throw new MathException("The measure could not be subtracted from the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -153,6 +174,9 @@ public class MathProcessorImpl implements MathProcessor {
      * For instance the difference between 15C and 280.15K is 8C.
      * The point and the measure can only be subtracted when their units have the same dimension.
      * If their dimensions are dissimilar an exception is thrown.
+     * <br>
+     * For the difference between two measures or a point and a measure, use {@link #subtract(Measure, Measure)} or
+     * {@link #subtract(Point, Measure)}.
      *
      * @param minuend    The point from which the subtrahend point is to be subtracted.
      * @param subtrahend The point that is to be subtracted from the minuend point.
@@ -162,8 +186,22 @@ public class MathProcessorImpl implements MathProcessor {
      *                       point.
      */
     @Override
-    public Measure subtract(Point minuend, Point subtrahend) {
-        return null;
+    public Measure difference(Point minuend, Point subtrahend) {
+        double[] v1 = minuend.getVectorValue();
+        double[] v2 = subtrahend.getVectorValue();
+        if(v1.length == v2.length){
+            try {
+                v2 = factory.convertToScale(subtrahend, minuend.getScale()).getVectorValue();
+            } catch (ConversionException e) {
+                throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+            }
+            double[] a = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                a[i] = v1[i]-v2[i];
+            }
+            return factory.createVectorMeasure(a, minuend.getScale().getUnit());
+        }
+        throw new MathException("The points could not be subtracted because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -182,11 +220,54 @@ public class MathProcessorImpl implements MathProcessor {
      * @return The product of the two measures expressed in a unit that is a
      * {@link UnitMultiplication} of the units of the two measures.
      * @throws MathException When the two point could not be multiplied, for instance when both measures are vector
-     *                       measure.
+     *                       measures.
      */
     @Override
     public Measure multiply(Measure multiplicand, Measure multiplier) {
-        return null;
+        double[] v1 = multiplicand.getVectorValue();
+        double[] v2 = multiplier.getVectorValue();
+        if(v1.length==1 || v2.length==1){
+            Unit newUnit = factory.createUnitMultiplication(multiplicand.getUnit(),multiplier.getUnit()); //todo Find existing units
+            if(v1.length==1 && v2.length>1){ //multiplication of scalar with vector
+                double v[] = new double[v2.length];
+                for(int i=0;i<v2.length;i++){
+                    v[i] = v1[0]*v2[i];
+                }
+                return factory.createVectorMeasure(v,newUnit);
+            }else if(v1.length>1 && v2.length==1){ //multiplication of vector with scalar.
+                double v[] = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    v[i] = v1[i]*v2[0];
+                }
+                return factory.createVectorMeasure(v,newUnit);
+            }else if(v1.length==1 && v2.length==1){ //multiplication of two scalars.
+                return factory.createScalarMeasure(v1[0]*v2[0],newUnit);
+            }
+        }
+        if(v1.length!=v2.length) throw new MathException("Cannot multiply two vectors of different size.");
+        throw new MathException("Cannot multiply two vectors using multiply, use dotProduct or crossProduct for vector multiplication.");
+    }
+
+    /**
+     * Returns the product of the a double and a measure as a measure expressed in the unit of the specified
+     * parameter measure.
+     *
+     * @param multiplicand The measure that is to be multiplied by the multiplier measure.
+     * @param multiplier   The double with which the multiplicand measure is to be multiplied.
+     * @return The product of the double and the measure expressed in the same unit as the unit of the
+     * <code>multiplicand</code>.
+     */
+    @Override
+    public Measure multiply(Measure multiplicand, double multiplier) {
+        double[] v1 = multiplicand.getVectorValue();
+        if(v1.length>1){ //multiplication of vector with scalar.
+            double v[] = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                v[i] = v1[i]*multiplier;
+            }
+            return factory.createVectorMeasure(v,multiplicand.getUnit());
+        }
+        return factory.createScalarMeasure(v1[0] * multiplier, multiplicand.getUnit()); //multiplication of two scalars.
     }
 
     /**
@@ -205,10 +286,46 @@ public class MathProcessorImpl implements MathProcessor {
      * @return The quotient of the two measures expressed in a unit that is a
      * {@link UnitDivision} of the units of the two measures.
      * @throws MathException When the two point could not be divided, for instance when both measures are vector
-     *                       measure.
+     *                       measures.
      */
     @Override
     public Measure divide(Measure numerator, Measure denominator) {
-        return null;
+        double[] v1 = numerator.getVectorValue();
+        double[] v2 = denominator.getVectorValue();
+        if(v2.length==1){
+            Unit newUnit = factory.createUnitDivision(numerator.getUnit(), denominator.getUnit()); //todo Find existing units
+            if(v1.length>1 && v2.length==1){ //division of a vector with scalar.
+                double v[] = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    v[i] = v1[i]/v2[0];
+                }
+                return factory.createVectorMeasure(v,newUnit);
+            }else if(v1.length==1 && v2.length==1){ //division of two scalars.
+                return factory.createScalarMeasure(v1[0]/v2[0],newUnit);
+            }
+        }
+        if(v1.length!=v2.length) throw new MathException("Cannot multiply two vectors of different size.");
+        throw new MathException("Cannot multiply two vectors using multiply, use dotProduct or crossProduct for vector multiplication.");
+    }
+
+    /**
+     * Returns the quotient of the two measure and the double as a measure expressed in the same unit as the specified
+     * parameter measure <code>numerator</code>.
+     *
+     * @param numerator   The measure to be divided by the denominator measure.
+     * @param denominator The double used to divide the numerator measure.
+     * @return The quotient of the measure and the double expressed in the same unit as the <code>numerator</code>.
+     */
+    @Override
+    public Measure divide(Measure numerator, double denominator) {
+        double[] v1 = numerator.getVectorValue();
+        if(v1.length>1){ //division of a vector with scalar.
+            double v[] = new double[v1.length];
+            for(int i=0;i<v1.length;i++){
+                v[i] = v1[i]/denominator;
+            }
+            return factory.createVectorMeasure(v,numerator.getUnit());
+        }
+        return factory.createScalarMeasure(v1[0]/denominator,numerator.getUnit()); //division of two scalars.
     }
 }

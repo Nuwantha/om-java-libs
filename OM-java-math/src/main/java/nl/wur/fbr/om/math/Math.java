@@ -72,6 +72,8 @@ public class Math {
      * Returns the difference between the two measures expressed in the unit of the minuend measure. The measures
      * can only be subtracted when their units have the same dimension. If their dimensions are dissimilar an
      * exception is thrown.
+     * <br>
+     * To subtract two points on a measurement scale (i.e. find the difference) use {@link #difference(Point, Point)}.
      *
      * @param minuend The measure from which the subtrahend measure is to be subtracted.
      * @param subtrahend The measure that is to be subtracted from the minuend measure.
@@ -88,6 +90,8 @@ public class Math {
      * Returns a new point on the same measurement scale as the minuend point with the subtrahend measure subtracted.
      * The point and the measure can only be subtracted when their units have the same dimension.
      * If their dimensions are dissimilar an exception is thrown.
+     * <br>
+     * To subtract two points on a measurement scale (i.e. find the difference) use {@link #difference(Point, Point)}.
      *
      * @param minuend The point from which the subtrahend measure is to be subtracted.
      * @param subtrahend The measure that is to be subtracted from the minuend point.
@@ -105,6 +109,9 @@ public class Math {
      * For instance the difference between 15C and 280.15K is 8C.
      * The point and the measure can only be subtracted when their units have the same dimension.
      * If their dimensions are dissimilar an exception is thrown.
+     * <br>
+     * For the difference between two measures or a point and a measure, use {@link #subtract(Measure, Measure)} or
+     * {@link #subtract(Point, Measure)}.
      *
      * @param minuend The point from which the subtrahend point is to be subtracted.
      * @param subtrahend The point that is to be subtracted from the minuend point.
@@ -113,8 +120,8 @@ public class Math {
      * converted to each other, i.e. have dissimilar dimensions, or when a scalar point is subtracted from a vector
      * point.
      */
-    public static Measure subtract(Point minuend, Point subtrahend){
-        return processor.subtract(minuend,subtrahend);
+    public static Measure difference(Point minuend, Point subtrahend){
+        return processor.difference(minuend, subtrahend);
     }
 
     /**
@@ -136,6 +143,19 @@ public class Math {
      * measure.
      */
     public static Measure multiply(Measure multiplicand, Measure multiplier){
+        return processor.multiply(multiplicand, multiplier);
+    }
+
+    /**
+     * Returns the product of the a double and a measure as a measure expressed in the unit of the specified
+     * parameter measure.
+     *
+     * @param multiplicand The measure that is to be multiplied by the multiplier measure.
+     * @param multiplier The double with which the multiplicand measure is to be multiplied.
+     * @return The product of the double and the measure expressed in the same unit as the unit of the
+     * <code>multiplicand</code>.
+     */
+    public static Measure multiply(Measure multiplicand, double multiplier){
         return processor.multiply(multiplicand,multiplier);
     }
 
@@ -158,6 +178,18 @@ public class Math {
      * measure.
      */
     public static Measure divide(Measure numerator, Measure denominator){
+        return processor.divide(numerator, denominator);
+    }
+
+    /**
+     * Returns the quotient of the two measure and the double as a measure expressed in the same unit as the specified
+     * parameter measure <code>numerator</code>.
+     *
+     * @param numerator The measure to be divided by the denominator measure.
+     * @param denominator The double used to divide the numerator measure.
+     * @return The quotient of the measure and the double expressed in the same unit as the <code>numerator</code>.
+     */
+    public static Measure divide(Measure numerator, double denominator){
         return processor.divide(numerator, denominator);
     }
 }
