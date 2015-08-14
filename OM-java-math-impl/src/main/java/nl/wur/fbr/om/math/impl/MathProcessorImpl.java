@@ -843,6 +843,102 @@ public class MathProcessorImpl implements MathProcessor {
     }
 
     /**
+     * Returns the magnitude of the vector value as a measure that contains a scalar as
+     * the numerical value of the magnitude and in the same unit in which this measure is expressed.
+     *
+     * @param vector The vector measure whose magnitude is to be determined.
+     * @return The magnitude of the vector.
+     * @throws MathException When the parameter measure is not a vector.
+     */
+    @Override
+    public Measure magnitude(Measure vector) {
+        try{
+            double[] v = vector.getVectorValue();
+            double magn = 0;
+            for(int i=0;i<v.length;i++){
+                magn += v[i]*v[i];
+            }
+            magn = Math.sqrt(magn);
+            Measure magnitude = factory.createMeasure(magn, vector.getUnit());
+            return magnitude;
+        }catch (ClassCastException e){
+            throw new MathException("The measure "+vector+" whose magnitude is to be determined is not a vector.",e);
+        }
+    }
+
+    /**
+     * Returns the unit vector of the vector measure. The unit vector is the normalised vector, i.e.
+     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
+     * the unit vector.
+     *
+     * @param vector The vector measure whose unit vector is to be determined.
+     * @return The unit vector.
+     * @throws MathException When the parameter measure is not a vector.
+     */
+    @Override
+    public double[] unitVector(Measure vector) {
+        try{
+            double[] val = vector.getVectorValue();
+            double magn = 0;
+            for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
+            magn = Math.sqrt(magn);
+            double[] uvec = new double[val.length];
+            for(int i=0;i<val.length;i++) uvec[i] = val[i]/magn;
+            return uvec;
+        }catch (ClassCastException e){
+            throw new MathException("The measure "+vector+" whose unit vector is to be determined is not a vector.",e);
+        }
+    }
+
+    /**
+     * Returns the magnitude of the vector point as a measure that contains a scalar as
+     * the numerical value of the magnitude and in the same unit in which the point is expressed.
+     *
+     * @param vector The vector point whose magnitude is to be determined.
+     * @return The magnitude of the vector.
+     * @throws MathException When the parameter point is not a vector.
+     */
+    @Override
+    public Measure magnitude(Point vector) {
+        try{
+            double[] v = vector.getVectorValue();
+            double magn = 0;
+            for(int i=0;i<v.length;i++){
+                magn += v[i]*v[i];
+            }
+            magn = Math.sqrt(magn);
+            Measure magnitude = factory.createMeasure(magn, vector.getScale().getUnit());
+            return magnitude;
+        }catch (ClassCastException e){
+            throw new MathException("The measure "+vector+" whose magnitude is to be determined is not a vector.",e);
+        }
+    }
+
+    /**
+     * Returns the unit vector of the vector point. The unit vector is the normalised vector, i.e.
+     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
+     * the unit vector.
+     *
+     * @param vector The vector point whose unit vector is to be determined.
+     * @return The unit vector.
+     * @throws MathException When the parameter point is not a vector.
+     */
+    @Override
+    public double[] unitVector(Point vector) {
+        try{
+            double[] val = vector.getVectorValue();
+            double magn = 0;
+            for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
+            magn = Math.sqrt(magn);
+            double[] uvec = new double[val.length];
+            for(int i=0;i<val.length;i++) uvec[i] = val[i]/magn;
+            return uvec;
+        }catch (ClassCastException e){
+            throw new MathException("The point "+vector+" whose unit vector is to be determined is not a vector.",e);
+        }
+    }
+
+    /**
      * Returns the dot product of two vector measures. This method throws a {@link MathException} when one of the
      * measures is not a vector or when the number of components is not equal. <br>
      * Both vectors should have the same dimension. The unit of the dot product is the unit of the first vector

@@ -115,40 +115,6 @@ public class MeasureImpl implements Measure {
     }
 
     /**
-     * Returns the magnitude of the vector value as a measure that contains a scalar as
-     * the numerical value of the magnitude and the same units in which this measure is expressed.
-     *
-     * @return The magnitude of the vector.
-     */
-    @Override
-    public Measure getMagnitude() {
-        double[] val = this.getVectorValue();
-        double magn = 0;
-        for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
-        magn = Math.sqrt(magn);
-        Measure magnitude = new MeasureImpl(magn,this.getUnit());
-        return magnitude;
-    }
-
-    /**
-     * Returns the unit vector of this vector measure. The unit vector is the normalised vector, i.e.
-     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
-     * the unit vector.
-     *
-     * @return The unit vector.
-     */
-    @Override
-    public double[] getUnitVector() {
-        double[] val = this.getVectorValue();
-        double magn = 0;
-        for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
-        magn = Math.sqrt(magn);
-        double[] uvec = new double[val.length];
-        for(int i=0;i<val.length;i++) uvec[i] = val[i]/magn;
-        return uvec;
-    }
-
-    /**
      * A string representation of this measure, the string representation of the numerical value followed by the
      * symbol of the unit if not null. For instance, a measure with value 15 and unit metre,
      * will be represented as 15 m.

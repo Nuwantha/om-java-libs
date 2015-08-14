@@ -140,40 +140,6 @@ public class PointImpl implements Point{
     }
 
     /**
-     * Returns the magnitude of the vector value as a measure that contains a scalar as
-     * the numerical value of the magnitude and in the same units in which this point is expressed.
-     *
-     * @return The magnitude of the vector.
-     */
-    @Override
-    public Measure getMagnitude() {
-        double[] val = this.getVectorValue();
-        double magn = 0;
-        for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
-        magn = Math.sqrt(magn);
-        Measure magnitude = new MeasureImpl(magn,this.getScale().getUnit());
-        return magnitude;
-    }
-
-    /**
-     * Returns the unit vector of this vector point. The unit vector is the normalised vector, i.e.
-     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
-     * the unit vector.
-     *
-     * @return The unit vector.
-     */
-    @Override
-    public double[] getUnitVector() {
-        double[] val = this.getVectorValue();
-        double magn = 0;
-        for(int i=0;i<val.length;i++) magn+=Math.pow(val[i],2);
-        magn = Math.sqrt(magn);
-        double[] uvec = new double[val.length];
-        for(int i=0;i<val.length;i++) uvec[i] = val[i]/magn;
-        return uvec;
-    }
-
-    /**
      * A string representation of this point, the string representation of the numerical value followed by the
      * symbol of the unit defined in the scale if not null. For instance, a point with value 15 in the kelvin scale,
      * will be represented as 15 K.

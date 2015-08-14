@@ -432,6 +432,52 @@ public class Math {
     }
 
     /**
+     * Returns the magnitude of the vector value as a measure that contains a scalar as
+     * the numerical value of the magnitude and in the same unit in which this measure is expressed.
+     * @param vector The vector measure whose magnitude is to be determined.
+     * @return The magnitude of the vector.
+     * @throws MathException When the parameter measure is not a vector.
+     */
+    public static Measure magnitude(Measure vector){
+        return processor.magnitude(vector);
+    }
+
+    /**
+     * Returns the unit vector of the vector measure. The unit vector is the normalised vector, i.e.
+     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
+     * the unit vector.
+     * @param vector The vector measure whose unit vector is to be determined.
+     * @return The unit vector.
+     * @throws MathException When the parameter measure is not a vector.
+     */
+    public static double[] unitVector(Measure vector){
+        return processor.unitVector(vector);
+    }
+
+    /**
+     * Returns the magnitude of the vector point as a measure that contains a scalar as
+     * the numerical value of the magnitude and in the same unit in which the point is expressed.
+     * @param vector The vector point whose magnitude is to be determined.
+     * @return The magnitude of the vector.
+     * @throws MathException When the parameter point is not a vector.
+     */
+    public static Measure magnitude(Point vector){
+        return processor.magnitude(vector);
+    }
+
+    /**
+     * Returns the unit vector of the vector point. The unit vector is the normalised vector, i.e.
+     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
+     * the unit vector.
+     * @param vector The vector point whose unit vector is to be determined.
+     * @return The unit vector.
+     * @throws MathException When the parameter point is not a vector.
+     */
+    public static double[] unitVector(Point vector){
+        return processor.unitVector(vector);
+    }
+
+    /**
      * Returns the dot product of two vector measures. This method throws a {@link MathException} when one of the
      * measures is not a vector or when the number of components is not equal. <br>
      * Both vectors should have the same dimension. The unit of the dot product is the unit of the first vector

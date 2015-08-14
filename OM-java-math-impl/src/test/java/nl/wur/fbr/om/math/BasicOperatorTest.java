@@ -888,6 +888,37 @@ public class BasicOperatorTest {
     }
 
     @Test
+    public void testVectorMagnitude() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] vecx = {4, -3};
+        Measure v1 = factory.createVectorMeasure(vecx, CoreSet.METRE);
+        Measure v2 = Math.magnitude(v1);
+        Assert.assertEquals("Test vector magnitude", 5, v2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test vector magnitude", CoreSet.METRE, v2.getUnit());
+        Measure v3 = factory.createScalarMeasure(-12, CoreSet.METRE);
+        Measure v4 = Math.magnitude(v3);
+        Assert.assertEquals("Test vector magnitude", 12, v4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test vector magnitude", CoreSet.METRE, v4.getUnit());
+    }
+
+    @Test
+    public void testUnitVector() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] vecx = {4, -3};
+        Measure v1 = factory.createVectorMeasure(vecx, CoreSet.METRE);
+        double[] v2 = Math.unitVector(v1);
+        Assert.assertEquals("Test vector magnitude", 0.8, v2[0], 0.00000001);
+        Assert.assertEquals("Test vector magnitude", -0.6, v2[1], 0.00000001);
+        Measure v3 = factory.createScalarMeasure(-12, CoreSet.METRE);
+        double v4[] = Math.unitVector(v3);
+        Assert.assertEquals("Test vector magnitude", -1, v4[0], 0.00000001);
+    }
+
+    @Test
     public void testDotProduct() throws UnitOrScaleCreationException {
         InstanceFactory factory = new CoreInstanceFactory();
         factory.addUnitAndScaleSet(CoreSet.class);

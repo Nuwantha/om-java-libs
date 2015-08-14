@@ -46,18 +46,4 @@ public interface Measure {
      */
     public double[] getVectorValue();
 
-    /**
-     * Returns the magnitude of the vector value as a measure that contains a scalar as
-     * the numerical value of the magnitude and the same units in which this measure is expressed.
-     * @return The magnitude of the vector.
-     */
-    public Measure getMagnitude();
-
-    /**
-     * Returns the unit vector of this vector measure. The unit vector is the normalised vector, i.e.
-     * all values in the vector are divided by the magnitude of the vector. No unit is associated with
-     * the unit vector.
-     * @return The unit vector.
-     */
-    public double[] getUnitVector();
 }

@@ -55,8 +55,6 @@ public class MeasureTest {
         Assert.assertEquals("Test measure creation", metre, m1.getUnit());
         Assert.assertTrue("Test measure creation", ((double) m1.getVectorValue()[1]) == 3.0);
         Assert.assertTrue("Test measure creation", ((double[]) m1.getNumericalValue())[1] == 3.0);
-        Assert.assertTrue("Test measure creation", m1.getMagnitude().getScalarValue() == 5.0);
-        Assert.assertEquals("Test measure creation", metre, m1.getMagnitude().getUnit());
 
         Measure m2 = factory.createMeasure(vector, metre);
         Assert.assertTrue("Test measure creation", m2.getVectorValue()[0] == 4.0);
@@ -65,8 +63,6 @@ public class MeasureTest {
         Assert.assertEquals("Test measure creation", metre, m2.getUnit());
         Assert.assertTrue("Test measure creation", ((double) m2.getVectorValue()[1]) == 3.0);
         Assert.assertTrue("Test measure creation", ((double[]) m2.getNumericalValue())[1] == 3.0);
-        Assert.assertTrue("Test measure creation", m2.getMagnitude().getScalarValue() == 5.0);
-        Assert.assertEquals("Test measure creation", metre, m2.getMagnitude().getUnit());
     }
 
     @Test
@@ -89,8 +85,6 @@ public class MeasureTest {
         Assert.assertEquals("Test measure creation", celsius, m2.getScale().getUnit());
         Assert.assertTrue("Test measure creation", ((double) m2.getVectorValue()[1]) == 3.0);
         Assert.assertTrue("Test measure creation", ((double[]) m2.getNumericalValue())[1] == 3.0);
-        Assert.assertTrue("Test measure creation", m2.getMagnitude().getScalarValue() == 5.0);
-        Assert.assertEquals("Test measure creation", celsius, m2.getMagnitude().getUnit());
 
     }
 }
