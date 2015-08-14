@@ -24,7 +24,7 @@ import nl.wur.fbr.om.prefixes.*;
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Wed Aug 12 01:57:40 CEST 2015.
+ * @author OM Vocabulary Creation tool at Thu Aug 13 21:23:54 CEST 2015.
  */
 public class OM extends UnitAndScaleSet {
 
@@ -3492,8 +3492,9 @@ public class OM extends UnitAndScaleSet {
 		Gram = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gram", "gram", "g" );
 		Kilogram = factory.createPrefixedBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogram","kilogram","kg", nl.wur.fbr.om.model.dimensions.SIBaseDimension.MASS,(SingularUnit)Gram, nl.wur.fbr.om.prefixes.DecimalPrefix.KILO);
 		Kilogram.addAlternativeName("千克","zh");
-		MetreKilogram = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKilogram","metre kilogram","m kg",Metre, Kilogram);
+		MetreKilogram = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKilogram","metre kilogram","m.kg",Metre, Kilogram);
 		MetreKilogram.addAlternativeName("meter kilogram","nl");
+		MetreKilogram.addAlternativeSymbol("m kg");
 		MetreKilogram.addAlternativeSymbol("m·kg");
 		SecondTime = factory.createBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-Time", "second", "s", nl.wur.fbr.om.model.dimensions.SIBaseDimension.TIME);
 		SecondTime.addAlternativeName("seconde","nl");
@@ -3501,14 +3502,16 @@ public class OM extends UnitAndScaleSet {
 		SecondTime.addAlternativeName("sec","");
 		SecondTimeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-TimeSquared","second squared","s2",SecondTime, 2.0);
 		SecondTimeSquared.addAlternativeName("seconde kwadraat","nl");
-		MetreKilogramPerSecondTimeSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKilogramPerSecond-TimeSquared","metre kilogram per second squared","m kg/s2",MetreKilogram, SecondTimeSquared);
+		MetreKilogramPerSecondTimeSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKilogramPerSecond-TimeSquared","metre kilogram per second squared","m.kg/s2",MetreKilogram, SecondTimeSquared);
 		MetreKilogramPerSecondTimeSquared.addAlternativeName("meter kilogram per seconde kwadraat","nl");
+		MetreKilogramPerSecondTimeSquared.addAlternativeSymbol("m kg/s2");
 		MetreKilogramPerSecondTimeSquared.addAlternativeSymbol("m kg s-2");
 		MetreKilogramPerSecondTimeSquared.addAlternativeSymbol("m·kg/s2");
 		MetreKilogramPerSecondTimeSquared.addAlternativeSymbol("m·kg·s-2");
 		Newton = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/newton", "newton", "N", MetreKilogramPerSecondTimeSquared, 1.0 );
-		NewtonMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/newtonMetre","newton metre","N m",Newton, Metre);
+		NewtonMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/newtonMetre","newton metre","N.m",Newton, Metre);
 		NewtonMetre.addAlternativeName("newton meter","nl");
+		NewtonMetre.addAlternativeSymbol("N m");
 		NewtonMetre.addAlternativeSymbol("N·m");
 		Joule = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joule", "joule", "J", NewtonMetre, 1.0 );
 		JoulePerKilogram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerKilogram","joule per kilogram","J/kg",Joule, Kilogram);
@@ -3535,8 +3538,9 @@ public class OM extends UnitAndScaleSet {
 		MegametrePerSecondTime.addAlternativeName("megameter per seconde","nl");
 		MegametrePerSecondTime.addAlternativeSymbol("Mm s-1");
 		MegametrePerSecondTime.addAlternativeSymbol("Mm·s-1");
-		ReciprocalSecondTime = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalSecond-Time","reciprocal second","s-1",SecondTime, -1.0);
+		ReciprocalSecondTime = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalSecond-Time","reciprocal second","s1/-1",SecondTime, -1.0);
 		ReciprocalSecondTime.addAlternativeName("omgekeerde seconde","nl");
+		ReciprocalSecondTime.addAlternativeSymbol("s-1");
 		Hertz = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hertz", "hertz", "Hz", ReciprocalSecondTime, 1.0 );
 		Attohertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/attohertz","attohertz","aHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.ATTO);
 		Gray = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gray", "gray", "Gy", JoulePerKilogram, 1.0 );
@@ -3574,8 +3578,9 @@ public class OM extends UnitAndScaleSet {
 		Jansky = factory.createBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/jansky", "jansky", "Jy", null);
 		OunceApothecaries = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/ounceApothecaries", "ounce (apothecaries')", "oz (ap.)", Kilogram, 0.03110348 );
 		OunceApothecaries.addAlternativeSymbol("oz (apoth)");
-		VoltSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/voltSecond-Time","volt second","V s",Volt, SecondTime);
+		VoltSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/voltSecond-Time","volt second","V.s",Volt, SecondTime);
 		VoltSecondTime.addAlternativeName("volt seconde","nl");
+		VoltSecondTime.addAlternativeSymbol("V s");
 		VoltSecondTime.addAlternativeSymbol("V·s");
 		Weber = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/weber", "weber", "Wb", VoltSecondTime, 1.0 );
 		WeberPerAmpere = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/weberPerAmpere","weber per ampere","Wb/A",Weber, Ampere);
@@ -3597,8 +3602,9 @@ public class OM extends UnitAndScaleSet {
 		Litre = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/litre", "litre", "l", CubicMetre, 0.001 );
 		Litre.addAlternativeName("liter","nl");
 		Litre.addAlternativeSymbol("L");
-		ZettagramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettagramPerLitre","zettagram per litre","Zg/l",Zettagram, Litre);
+		ZettagramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettagramPerLitre","zettagram per litre","ZG/l",Zettagram, Litre);
 		ZettagramPerLitre.addAlternativeName("zettagram per liter","nl");
+		ZettagramPerLitre.addAlternativeSymbol("Zg/l");
 		ZettagramPerLitre.addAlternativeSymbol("Zg l-1");
 		ZettagramPerLitre.addAlternativeSymbol("Zg·l-1");
 		Microhertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microhertz","microhertz","μHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.MICRO);
@@ -3642,8 +3648,9 @@ public class OM extends UnitAndScaleSet {
 		Steradian = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/steradian", "steradian", "sr", SquareMetrePerSquareMetre, 1.0 );
 		Steradian.addAlternativeName("steradiaal","nl");
 		Steradian.addAlternativeName("球面度","zh");
-		CandelaSteradian = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/candelaSteradian","candela steradian","cd sr",Candela, Steradian);
+		CandelaSteradian = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/candelaSteradian","candela steradian","cd.sr",Candela, Steradian);
 		CandelaSteradian.addAlternativeName("candela steradiaal","nl");
+		CandelaSteradian.addAlternativeSymbol("cd sr");
 		CandelaSteradian.addAlternativeSymbol("cd·sr");
 		Lumen = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/lumen", "lumen", "lm", CandelaSteradian, 1.0 );
 		LumenPerSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/lumenPerSquareMetre","lumen per square metre","lm/m2",Lumen, SquareMetre);
@@ -3723,7 +3730,8 @@ public class OM extends UnitAndScaleSet {
 		PicosecondTime.addAlternativeName("picoseconde","nl");
 		Day = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/day", "day", "d", SecondTime, 86400.0 );
 		Day.addAlternativeName("dag","nl");
-		SquareMetrePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetrePerSquareMetreDay","square metre per square metre day","m2/(m2 d)",SquareMetrePerSquareMetre, Day);
+		SquareMetrePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetrePerSquareMetreDay","square metre per square metre day","m2/m2/d",SquareMetrePerSquareMetre, Day);
+		SquareMetrePerSquareMetreDay.addAlternativeSymbol("m2/(m2 d)");
 		SquareMetrePerSquareMetreDay.addAlternativeSymbol("m2 m-2 d-1");
 		SquareMetrePerSquareMetreDay.addAlternativeSymbol("m2·m-2·d-1");
 		Nanopascal = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanopascal","nanopascal","nPa",(SingularUnit)Pascal, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
@@ -3789,11 +3797,13 @@ public class OM extends UnitAndScaleSet {
 		Petamole.addAlternativeName("petamol","nl");
 		Exasiemens = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/exasiemens","exasiemens","ES",(SingularUnit)Siemens, nl.wur.fbr.om.prefixes.DecimalPrefix.EXA);
 		Centihenry = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/centihenry","centihenry","cH",(SingularUnit)Henry, nl.wur.fbr.om.prefixes.DecimalPrefix.CENTI);
-		LumenSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/lumenSecond-Time","lumen second","lm s",Lumen, SecondTime);
+		LumenSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/lumenSecond-Time","lumen second","lm.s",Lumen, SecondTime);
 		LumenSecondTime.addAlternativeName("lumen seconde","nl");
+		LumenSecondTime.addAlternativeSymbol("lm s");
 		LumenSecondTime.addAlternativeSymbol("lm·s");
-		SecondTimeAmpere = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-TimeAmpere","second ampere","s A",SecondTime, Ampere);
+		SecondTimeAmpere = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-TimeAmpere","second ampere","s.A",SecondTime, Ampere);
 		SecondTimeAmpere.addAlternativeName("seconde ampère","nl");
+		SecondTimeAmpere.addAlternativeSymbol("s A");
 		SecondTimeAmpere.addAlternativeSymbol("s·A");
 		Coulomb = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/coulomb", "coulomb", "C", SecondTimeAmpere, 1.0 );
 		CoulombPerVolt = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/coulombPerVolt","coulomb per volt","C/V",Coulomb, Volt);
@@ -3802,8 +3812,9 @@ public class OM extends UnitAndScaleSet {
 		Farad = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/farad", "farad", "F", CoulombPerVolt, 1.0 );
 		Megafarad = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/megafarad","megafarad","MF",(SingularUnit)Farad, nl.wur.fbr.om.prefixes.DecimalPrefix.MEGA);
 		Rem = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/rem", "rem", "rem", Sievert, 0.01 );
-		ReciprocalHenry = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalHenry","reciprocal henry","H-1",Henry, -1.0);
+		ReciprocalHenry = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalHenry","reciprocal henry","H1/-1",Henry, -1.0);
 		ReciprocalHenry.addAlternativeName("omgekeerde henry","nl");
+		ReciprocalHenry.addAlternativeSymbol("H-1");
 		Femtocandela = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtocandela","femtocandela","fcd",(SingularUnit)Candela, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		Teratesla = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/teratesla","teratesla","TT",(SingularUnit)Tesla, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
 		Zeptolitre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zeptolitre","zeptolitre","zl",(SingularUnit)Litre, nl.wur.fbr.om.prefixes.DecimalPrefix.ZEPTO);
@@ -3822,7 +3833,8 @@ public class OM extends UnitAndScaleSet {
 		MolePerExalitre.addAlternativeSymbol("mol El-1");
 		MolePerExalitre.addAlternativeSymbol("mol·El-1");
 		AstronomicalUnit = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/astronomicalUnit", "astronomical unit", "AU", Metre, 1.495978707E11 );
-		KelvinKilogram = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kelvinKilogram","kelvin kilogram","K kg",Kelvin, Kilogram);
+		KelvinKilogram = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kelvinKilogram","kelvin kilogram","K.kg",Kelvin, Kilogram);
+		KelvinKilogram.addAlternativeSymbol("K kg");
 		KelvinKilogram.addAlternativeSymbol("K·kg");
 		DegreeRankine = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/degreeRankine", "degree Rankine", "°R", Kelvin, 0.5555556 );
 		DegreeRankine.addAlternativeName("graad Rankine","nl");
@@ -3882,11 +3894,13 @@ public class OM extends UnitAndScaleSet {
 		Yottatesla = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottatesla","yottatesla","YT",(SingularUnit)Tesla, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
 		Terajoule = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terajoule","terajoule","TJ",(SingularUnit)Joule, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
 		Milliwatt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/milliwatt","milliwatt","mW",(SingularUnit)Watt, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
-		DegreeCelsiusDay = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/degreeCelsiusDay","degree Celsius day","°C d",DegreeCelsius, Day);
+		DegreeCelsiusDay = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/degreeCelsiusDay","degree Celsius day","°C.d",DegreeCelsius, Day);
 		DegreeCelsiusDay.addAlternativeName("graad Celsius dag","nl");
+		DegreeCelsiusDay.addAlternativeSymbol("°C d");
 		DegreeCelsiusDay.addAlternativeSymbol("°C·d");
-		ReciprocalDegreeCelsiusDay = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalDegreeCelsiusDay","reciprocal degree Celsius day","(°C d)-1",DegreeCelsiusDay, -1.0);
+		ReciprocalDegreeCelsiusDay = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalDegreeCelsiusDay","reciprocal degree Celsius day","°C.d1/-1",DegreeCelsiusDay, -1.0);
 		ReciprocalDegreeCelsiusDay.addAlternativeName("omgekeerde graad Celsius dag","nl");
+		ReciprocalDegreeCelsiusDay.addAlternativeSymbol("(°C d)-1");
 		Year = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/year", "year", "a", SecondTime, 3.1536E7 );
 		Year.addAlternativeName("jaar","nl");
 		Year.addAlternativeSymbol("y");
@@ -3908,8 +3922,9 @@ public class OM extends UnitAndScaleSet {
 		MicrosecondAngle.addAlternativeName("microboogseconde","nl");
 		MicrosecondAngle.addAlternativeName("microseconde (hoek)","nl");
 		MicrosecondAngle.addAlternativeName("microboogseconde","nl");
-		ReciprocalYear = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalYear","reciprocal year","a-1",Year, -1.0);
+		ReciprocalYear = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalYear","reciprocal year","a1/-1",Year, -1.0);
 		ReciprocalYear.addAlternativeName("omgekeerd jaar","nl");
+		ReciprocalYear.addAlternativeSymbol("a-1");
 		Statfarad = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/statfarad", "statfarad", "statF", Farad, 1.11265E-12 );
 		Femtometre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtometre","femtometre","fm",(SingularUnit)Metre, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		Femtometre.addAlternativeName("femtometer","nl");
@@ -3940,8 +3955,9 @@ public class OM extends UnitAndScaleSet {
 		MicromolePerMole.addAlternativeSymbol("μmol mol-1");
 		MicromolePerMole.addAlternativeSymbol("μmol·mol-1");
 		Erg = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/erg", "erg", "erg", Joule, 1.0E-7 );
-		ErgSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/ergSecond-Time","erg second","erg s",Erg, SecondTime);
+		ErgSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/ergSecond-Time","erg second","erg.s",Erg, SecondTime);
 		ErgSecondTime.addAlternativeName("erg seconde","nl");
+		ErgSecondTime.addAlternativeSymbol("erg s");
 		ErgSecondTime.addAlternativeSymbol("erg·s");
 		Millilitre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millilitre","millilitre","ml",(SingularUnit)Litre, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
 		Millilitre.addAlternativeName("milliliter","nl");
@@ -3949,8 +3965,9 @@ public class OM extends UnitAndScaleSet {
 		MolePerMillilitre.addAlternativeName("mole per milliliter","nl");
 		MolePerMillilitre.addAlternativeSymbol("mol ml-1");
 		MolePerMillilitre.addAlternativeSymbol("mol·ml-1");
-		SecondTimeToThePower2 = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-TimeToThePower-2","second to the power -2","s-2",SecondTime, -2.0);
+		SecondTimeToThePower2 = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-TimeToThePower-2","second to the power -2","s1/-0.5",SecondTime, -2.0);
 		SecondTimeToThePower2.addAlternativeName("seconde tot de macht -2","nl");
+		SecondTimeToThePower2.addAlternativeSymbol("s-2");
 		NanosecondTime = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanosecond-Time","nanosecond","ns",(SingularUnit)SecondTime, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
 		NanosecondTime.addAlternativeName("nanoseconde","nl");
 		NanosecondTimeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanosecond-TimeSquared","nanosecond squared","ns2",NanosecondTime, 2.0);
@@ -3965,11 +3982,13 @@ public class OM extends UnitAndScaleSet {
 		CubicMillimetre.addAlternativeName("kubieke millimeter","nl");
 		Hectomolair = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hectomolair","hectomolair","hM",(SingularUnit)Molair, nl.wur.fbr.om.prefixes.DecimalPrefix.HECTO);
 		Yottakelvin = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottakelvin","yottakelvin","YK",(SingularUnit)Kelvin, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
-		PascalSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pascalSecond-Time","pascal second","Pa s",Pascal, SecondTime);
+		PascalSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pascalSecond-Time","pascal second","Pa.s",Pascal, SecondTime);
 		PascalSecondTime.addAlternativeName("pascal seconde","nl");
+		PascalSecondTime.addAlternativeSymbol("Pa s");
 		PascalSecondTime.addAlternativeSymbol("Pa·s");
-		ReciprocalPascalSecondTime = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalPascalSecond-Time","reciprocal pascal second","Pa-1 s-1",PascalSecondTime, -1.0);
+		ReciprocalPascalSecondTime = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalPascalSecond-Time","reciprocal pascal second","Pa.s1/-1",PascalSecondTime, -1.0);
 		ReciprocalPascalSecondTime.addAlternativeName("omgekeerde pascal seconde","nl");
+		ReciprocalPascalSecondTime.addAlternativeSymbol("Pa-1 s-1");
 		ReciprocalPascalSecondTime.addAlternativeSymbol("(Pa s)-1");
 		ReciprocalPascalSecondTime.addAlternativeSymbol("(Pa·s)-1");
 		ReciprocalPascalSecondTime.addAlternativeSymbol("Pa-1·s-1");
@@ -4058,8 +4077,9 @@ public class OM extends UnitAndScaleSet {
 		KilometrePerSecondTime.addAlternativeSymbol("km·s-1");
 		Parsec = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/parsec", "parsec", "pc", Metre, 3.08567802E16 );
 		Megaparsec = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/megaparsec","megaparsec","Mpc",(SingularUnit)Parsec, nl.wur.fbr.om.prefixes.DecimalPrefix.MEGA);
-		KilometrePerSecondTimePerMegaparsec = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilometrePerSecond-TimePerMegaparsec","kilometre per second per megaparsec","km s-1 Mpc-1",KilometrePerSecondTime, Megaparsec);
+		KilometrePerSecondTimePerMegaparsec = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilometrePerSecond-TimePerMegaparsec","kilometre per second per megaparsec","km/s/Mpc",KilometrePerSecondTime, Megaparsec);
 		KilometrePerSecondTimePerMegaparsec.addAlternativeName("kilometer per seconde per megaparsec","nl");
+		KilometrePerSecondTimePerMegaparsec.addAlternativeSymbol("km s-1 Mpc-1");
 		MegaeuroPerMegawatt = null;
 		CubicKilometre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicKilometre","cubic kilometre","km3",Kilometre, 3.0);
 		CubicKilometre.addAlternativeName("kubieke kilometer","nl");
@@ -4082,10 +4102,12 @@ public class OM extends UnitAndScaleSet {
 		SolarMass.addAlternativeName("zonsmassa","nl");
 		CubicParsec = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicParsec","cubic parsec","pc3",Parsec, 3.0);
 		CubicParsec.addAlternativeName("kubieke parsec","nl");
-		GigayearCubicParsec = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigayearCubicParsec","gigayear cubic parsec","Gyr pc3",Gigayear, CubicParsec);
+		GigayearCubicParsec = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigayearCubicParsec","gigayear cubic parsec","Gyr.pc3",Gigayear, CubicParsec);
 		GigayearCubicParsec.addAlternativeName("gigajaar kubieke parsec","nl");
+		GigayearCubicParsec.addAlternativeSymbol("Gyr pc3");
 		GigayearCubicParsec.addAlternativeSymbol("Gyr·pc3");
-		SolarMassPerGigayearCubicParsec = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/solarMassPerGigayearCubicParsec","solar mass per gigayear cubic parsec","M_☉/(Gyr pc3)",SolarMass, GigayearCubicParsec);
+		SolarMassPerGigayearCubicParsec = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/solarMassPerGigayearCubicParsec","solar mass per gigayear cubic parsec","M_☉/Gyr.pc3",SolarMass, GigayearCubicParsec);
+		SolarMassPerGigayearCubicParsec.addAlternativeSymbol("M_☉/(Gyr pc3)");
 		SolarMassPerGigayearCubicParsec.addAlternativeSymbol("M_☉ Gyr-1 pc-3");
 		SolarMassPerGigayearCubicParsec.addAlternativeSymbol("M_☉·Gyr-1·pc-3");
 		Exagray = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/exagray","exagray","EGy",(SingularUnit)Gray, nl.wur.fbr.om.prefixes.DecimalPrefix.EXA);
@@ -4124,8 +4146,9 @@ public class OM extends UnitAndScaleSet {
 		ExamolePerMetre.addAlternativeSymbol("Emol m-1");
 		ExamolePerMetre.addAlternativeSymbol("Emol·m-1");
 		Terasievert = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terasievert","terasievert","TSv",(SingularUnit)Sievert, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
-		SquareMetreKelvin = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreKelvin","square metre kelvin","m2 K",SquareMetre, Kelvin);
+		SquareMetreKelvin = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreKelvin","square metre kelvin","m2.K",SquareMetre, Kelvin);
 		SquareMetreKelvin.addAlternativeName("vierkante meter kelvin","nl");
+		SquareMetreKelvin.addAlternativeSymbol("m2 K");
 		SquareMetreKelvin.addAlternativeSymbol("m2·K");
 		Petaweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/petaweber","petaweber","PWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.PETA);
 		CubicCentimetrePerCubicCentimetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicCentimetrePerCubicCentimetre","cubic centimetre per cubic centimetre","cm3/cm3",CubicCentimetre, CubicCentimetre);
@@ -4147,8 +4170,9 @@ public class OM extends UnitAndScaleSet {
 		MetrePerPetasecondTime.addAlternativeSymbol("m Ps-1");
 		MetrePerPetasecondTime.addAlternativeSymbol("m·Ps-1");
 		Hectopascal = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hectopascal","hectopascal","hPa",(SingularUnit)Pascal, nl.wur.fbr.om.prefixes.DecimalPrefix.HECTO);
-		CandelaPerSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/candelaPerSquareMetre","candela per square metre","cd/m",Candela, SquareMetre);
+		CandelaPerSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/candelaPerSquareMetre","candela per square metre","cd/m2",Candela, SquareMetre);
 		CandelaPerSquareMetre.addAlternativeName("candela per vierkante meter","nl");
+		CandelaPerSquareMetre.addAlternativeSymbol("cd/m");
 		CandelaPerSquareMetre.addAlternativeSymbol("cd m-1");
 		CandelaPerSquareMetre.addAlternativeSymbol("cd·m-1");
 		Yoctometre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yoctometre","yoctometre","ym",(SingularUnit)Metre, nl.wur.fbr.om.prefixes.DecimalPrefix.YOCTO);
@@ -4166,11 +4190,13 @@ public class OM extends UnitAndScaleSet {
 		TerametrePerSecondTime.addAlternativeName("terameter per seconde","nl");
 		TerametrePerSecondTime.addAlternativeSymbol("Tm s-1");
 		TerametrePerSecondTime.addAlternativeSymbol("Tm·s-1");
-		SquareMetreSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreSecond-Time","square metre second","m2 s",SquareMetre, SecondTime);
+		SquareMetreSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreSecond-Time","square metre second","m2.s",SquareMetre, SecondTime);
 		SquareMetreSecondTime.addAlternativeName("vierkante meter seconde","nl");
+		SquareMetreSecondTime.addAlternativeSymbol("m2 s");
 		SquareMetreSecondTime.addAlternativeSymbol("m2·s");
-		GramPerSquareMetreSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreSecond-Time","gram per square metre second","g/(m2 s)",Gram, SquareMetreSecondTime);
+		GramPerSquareMetreSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreSecond-Time","gram per square metre second","g/m2.s",Gram, SquareMetreSecondTime);
 		GramPerSquareMetreSecondTime.addAlternativeName("gram per vierkante meter seconde","nl");
+		GramPerSquareMetreSecondTime.addAlternativeSymbol("g/(m2 s)");
 		GramPerSquareMetreSecondTime.addAlternativeSymbol("g m-2 s-1");
 		GramPerSquareMetreSecondTime.addAlternativeSymbol("g·m-2·s-1");
 		UnifiedAtomicMassUnit = factory.createBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/unifiedAtomicMassUnit", "unified atomic mass unit", "u", nl.wur.fbr.om.model.dimensions.SIBaseDimension.MASS);
@@ -4188,11 +4214,13 @@ public class OM extends UnitAndScaleSet {
 		HectomolePerMetre.addAlternativeSymbol("hmol m-1");
 		HectomolePerMetre.addAlternativeSymbol("hmol·m-1");
 		Zettaweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettaweber","zettaweber","ZWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
-		SquareMetreDay = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreDay","square metre day","m2 d",SquareMetre, Day);
+		SquareMetreDay = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreDay","square metre day","m2.d",SquareMetre, Day);
 		SquareMetreDay.addAlternativeName("vierkante meter dag","nl");
+		SquareMetreDay.addAlternativeSymbol("m2 d");
 		SquareMetreDay.addAlternativeSymbol("m2·d");
-		JoulePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerSquareMetreDay","joule per square metre day","J/(m2 d)",Joule, SquareMetreDay);
+		JoulePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerSquareMetreDay","joule per square metre day","J/m2.d",Joule, SquareMetreDay);
 		JoulePerSquareMetreDay.addAlternativeName("joule per vierkante meter dag","nl");
+		JoulePerSquareMetreDay.addAlternativeSymbol("J/(m2 d)");
 		JoulePerSquareMetreDay.addAlternativeSymbol("J m-2 d-1");
 		JoulePerSquareMetreDay.addAlternativeSymbol("J·m-2·d-1");
 		MetrePerDecasecondTimeSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metrePerDecasecond-TimeSquared","metre per decasecond squared","m/das2",Metre, DecasecondTimeSquared);
@@ -4205,8 +4233,9 @@ public class OM extends UnitAndScaleSet {
 		Microgram.addAlternativeName("ug","");
 		Microgram.addAlternativeName("mcg","");
 		Microgram.addAlternativeName("ug","");
-		MicrogramPerSquareMetreSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microgramPerSquareMetreSecond-Time","microgram per square metre second","mg/(m2 s)",Microgram, SquareMetreSecondTime);
+		MicrogramPerSquareMetreSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microgramPerSquareMetreSecond-Time","microgram per square metre second","μg/m2.s",Microgram, SquareMetreSecondTime);
 		MicrogramPerSquareMetreSecondTime.addAlternativeName("microgram per vierkante meter seconde","nl");
+		MicrogramPerSquareMetreSecondTime.addAlternativeSymbol("mg/(m2 s)");
 		MicrogramPerSquareMetreSecondTime.addAlternativeSymbol("mg m-2 s-1");
 		MicrogramPerSquareMetreSecondTime.addAlternativeSymbol("mg·m-2·s-1");
 		Nanohertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanohertz","nanohertz","nHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
@@ -4214,8 +4243,9 @@ public class OM extends UnitAndScaleSet {
 		Hectoampere.addAlternativeName("hectoampère","nl");
 		AcreFoot = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/acreFoot", "acre foot", "null", CubicMetre, 1233.489 );
 		CalorieThermochemical = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/calorie-Thermochemical", "calorie (thermochemical)", "cal_th", Joule, 4.184 );
-		MetreKilogramPerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKilogramPerSecond-Time","metre kilogram per second","m kg/s",MetreKilogram, SecondTime);
+		MetreKilogramPerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKilogramPerSecond-Time","metre kilogram per second","m.kg/s",MetreKilogram, SecondTime);
 		MetreKilogramPerSecondTime.addAlternativeName("meter kilogram per seconde","nl");
+		MetreKilogramPerSecondTime.addAlternativeSymbol("m kg/s");
 		MetreKilogramPerSecondTime.addAlternativeSymbol("m kg s-1");
 		MetreKilogramPerSecondTime.addAlternativeSymbol("m·kg/s");
 		MetreKilogramPerSecondTime.addAlternativeSymbol("m·kg·s-1");
@@ -4268,11 +4298,13 @@ public class OM extends UnitAndScaleSet {
 		MolePerDecilitre.addAlternativeName("mole per deciliter","nl");
 		MolePerDecilitre.addAlternativeSymbol("mol dl-1");
 		MolePerDecilitre.addAlternativeSymbol("mol·dl-1");
-		MetreKelvin = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKelvin","metre kelvin","m K",Metre, Kelvin);
+		MetreKelvin = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreKelvin","metre kelvin","m.K",Metre, Kelvin);
 		MetreKelvin.addAlternativeName("meter kelvin","nl");
+		MetreKelvin.addAlternativeSymbol("m K");
 		MetreKelvin.addAlternativeSymbol("m·K");
-		WattPerMetreKelvin = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerMetreKelvin","watt per metre kelvin","W/(m K)",Watt, MetreKelvin);
+		WattPerMetreKelvin = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerMetreKelvin","watt per metre kelvin","W/m.K",Watt, MetreKelvin);
 		WattPerMetreKelvin.addAlternativeName("watt per meter kelvin","nl");
+		WattPerMetreKelvin.addAlternativeSymbol("W/(m K)");
 		WattPerMetreKelvin.addAlternativeSymbol("W m-1 K-1");
 		WattPerMetreKelvin.addAlternativeSymbol("W/(m·K)");
 		WattPerMetreKelvin.addAlternativeSymbol("W·m-1·K-1");
@@ -4295,8 +4327,9 @@ public class OM extends UnitAndScaleSet {
 		Nanohenry = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanohenry","nanohenry","nH",(SingularUnit)Henry, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
 		PicodegreeCelsius = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/picodegreeCelsius","picodegree Celsius","p°C",(SingularUnit)DegreeCelsius, nl.wur.fbr.om.prefixes.DecimalPrefix.PICO);
 		PicodegreeCelsius.addAlternativeName("picograad Celsius","nl");
-		OhmMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/ohmMetre","ohm metre","Ω m",Ohm, Metre);
+		OhmMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/ohmMetre","ohm metre","Ω.m",Ohm, Metre);
 		OhmMetre.addAlternativeName("ohm meter","nl");
+		OhmMetre.addAlternativeSymbol("Ω m");
 		OhmMetre.addAlternativeSymbol("Ω·m");
 		Zettagray = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettagray","zettagray","ZGy",(SingularUnit)Gray, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
 		SquareMetrePerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetrePerSecond-Time","square metre per second","m2/s",SquareMetre, SecondTime);
@@ -4364,8 +4397,9 @@ public class OM extends UnitAndScaleSet {
 		Femtosievert = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtosievert","femtosievert","fSv",(SingularUnit)Sievert, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		CubicYoctometre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicYoctometre","cubic yoctometre","ym3",Yoctometre, 3.0);
 		CubicYoctometre.addAlternativeName("kubieke yoctometer","nl");
-		KelvinMole = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kelvinMole","kelvin mole","K mol",Kelvin, Mole);
+		KelvinMole = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kelvinMole","kelvin mole","K.mol",Kelvin, Mole);
 		KelvinMole.addAlternativeName("kelvin mol","nl");
+		KelvinMole.addAlternativeSymbol("K mol");
 		KelvinMole.addAlternativeSymbol("K·mol");
 		Teramole = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/teramole","teramole","Tmol",(SingularUnit)Mole, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
 		Teramole.addAlternativeName("teramol","nl");
@@ -4377,7 +4411,8 @@ public class OM extends UnitAndScaleSet {
 		MicromolePerSecondTime.addAlternativeName("micromol per seconde","nl");
 		MicromolePerSecondTime.addAlternativeSymbol("μmol s-1");
 		MicromolePerSecondTime.addAlternativeSymbol("μmol·s-1");
-		MicromolePerSecondTimeGram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/micromolePerSecond-TimeGram","micromole per second gram","μmol/(s g)",MicromolePerSecondTime, Gram);
+		MicromolePerSecondTimeGram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/micromolePerSecond-TimeGram","micromole per second gram","μmol/s/g",MicromolePerSecondTime, Gram);
+		MicromolePerSecondTimeGram.addAlternativeSymbol("μmol/(s g)");
 		MicromolePerSecondTimeGram.addAlternativeSymbol("μmol s-1 g-1");
 		MicromolePerSecondTimeGram.addAlternativeSymbol("μmol·s-1·g-1");
 		NanometrePerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanometrePerSecond-Time","nanometre per second","nm/s",Nanometre, SecondTime);
@@ -4393,8 +4428,9 @@ public class OM extends UnitAndScaleSet {
 		Barye = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/barye", "barye", "ba", Pascal, 0.1 );
 		Yoctonewton = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yoctonewton","yoctonewton","yN",(SingularUnit)Newton, nl.wur.fbr.om.prefixes.DecimalPrefix.YOCTO);
 		Micronewton = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/micronewton","micronewton","μN",(SingularUnit)Newton, nl.wur.fbr.om.prefixes.DecimalPrefix.MICRO);
-		MicronewtonMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/micronewtonMetre","micronewton metre","μN m",Micronewton, Metre);
+		MicronewtonMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/micronewtonMetre","micronewton metre","μN.m",Micronewton, Metre);
 		MicronewtonMetre.addAlternativeName("micronewton meter","nl");
+		MicronewtonMetre.addAlternativeSymbol("μN m");
 		MicronewtonMetre.addAlternativeSymbol("μN·m");
 		ExametrePerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/exametrePerSecond-Time","exametre per second","Em/s",Exametre, SecondTime);
 		ExametrePerSecondTime.addAlternativeName("exameter per seconde","nl");
@@ -4427,7 +4463,8 @@ public class OM extends UnitAndScaleSet {
 		GramPerSquareMetre.addAlternativeName("gram per vierkante meter","nl");
 		GramPerSquareMetre.addAlternativeSymbol("g m-2");
 		GramPerSquareMetre.addAlternativeSymbol("g·m-2");
-		GramPerSquareMetreMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreMetre","gram per square metre metre","g/(m2 m)",GramPerSquareMetre, Metre);
+		GramPerSquareMetreMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreMetre","gram per square metre metre","g/m2/m",GramPerSquareMetre, Metre);
+		GramPerSquareMetreMetre.addAlternativeSymbol("g/(m2 m)");
 		GramPerSquareMetreMetre.addAlternativeSymbol("g m-2 m-1");
 		GramPerSquareMetreMetre.addAlternativeSymbol("g·m-2·m-1");
 		GigasecondTime = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigasecond-Time","gigasecond","Gs",(SingularUnit)SecondTime, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
@@ -4437,8 +4474,9 @@ public class OM extends UnitAndScaleSet {
 		Femtohertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtohertz","femtohertz","fHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		CubicMicrometre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicMicrometre","cubic micrometre","μm3",Micrometre, 3.0);
 		CubicMicrometre.addAlternativeName("kubieke micrometer","nl");
-		ReciprocalCubicCentimetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalCubicCentimetre","reciprocal cubic centimetre","cm-3",Centimetre, -3.0);
+		ReciprocalCubicCentimetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalCubicCentimetre","reciprocal cubic centimetre","cm1/-0.3333333333333333",Centimetre, -3.0);
 		ReciprocalCubicCentimetre.addAlternativeName("omgekeerde kubieke centimeter","nl");
+		ReciprocalCubicCentimetre.addAlternativeSymbol("cm-3");
 		Exaweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/exaweber","exaweber","EWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.EXA);
 		Femtotesla = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtotesla","femtotesla","fT",(SingularUnit)Tesla, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		Centilumen = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/centilumen","centilumen","clm",(SingularUnit)Lumen, nl.wur.fbr.om.prefixes.DecimalPrefix.CENTI);
@@ -4461,8 +4499,9 @@ public class OM extends UnitAndScaleSet {
 		Zettabit = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettabit","zettabit","Zbit",(SingularUnit)Bit, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
 		Gigahertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigahertz","gigahertz","GHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
 		Megajoule = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/megajoule","megajoule","MJ",(SingularUnit)Joule, nl.wur.fbr.om.prefixes.DecimalPrefix.MEGA);
-		MegajoulePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/megajoulePerSquareMetreDay","megajoule per square metre day","MJ/(m2 d)",Megajoule, SquareMetreDay);
+		MegajoulePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/megajoulePerSquareMetreDay","megajoule per square metre day","MJ/m2.d",Megajoule, SquareMetreDay);
 		MegajoulePerSquareMetreDay.addAlternativeName("megajoule per vierkante meter dag","nl");
+		MegajoulePerSquareMetreDay.addAlternativeSymbol("MJ/(m2 d)");
 		MegajoulePerSquareMetreDay.addAlternativeSymbol("MJ m-2 d-1");
 		MegajoulePerSquareMetreDay.addAlternativeSymbol("MJ·m-2·d-1");
 		GramPerExalitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerExalitre","gram per exalitre","g/El",Gram, Exalitre);
@@ -4500,20 +4539,26 @@ public class OM extends UnitAndScaleSet {
 		MetrePerHectosecondTime.addAlternativeSymbol("m hs-1");
 		MetrePerHectosecondTime.addAlternativeSymbol("m·hs-1");
 		Microweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microweber","microweber","μWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.MICRO);
-		MetreToThePower2 = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreToThePower-2","metre to the power -2","m-2",Metre, -2.0);
+		MetreToThePower2 = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreToThePower-2","metre to the power -2","m1/-0.5",Metre, -2.0);
 		MetreToThePower2.addAlternativeName("meter tot de macht -2","nl");
-		ReciprocalMetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalMetre","reciprocal metre","m-1",Metre, -1.0);
+		MetreToThePower2.addAlternativeSymbol("m-2");
+		ReciprocalMetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalMetre","reciprocal metre","m1/-1",Metre, -1.0);
 		ReciprocalMetre.addAlternativeName("omgekeerder meter","nl");
-		MetreToThePower2ReciprocalMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreToThePower-2ReciprocalMetre","metre to the power -2 reciprocal metre","m-2 m-1",MetreToThePower2, ReciprocalMetre);
+		ReciprocalMetre.addAlternativeSymbol("m-1");
+		MetreToThePower2ReciprocalMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreToThePower-2ReciprocalMetre","metre to the power -2 reciprocal metre","m1/-0.5.m1/-1",MetreToThePower2, ReciprocalMetre);
 		MetreToThePower2ReciprocalMetre.addAlternativeName("meter tot de macht -2 omgekeerde meter","nl");
+		MetreToThePower2ReciprocalMetre.addAlternativeSymbol("m-2 m-1");
 		MetreToThePower2ReciprocalMetre.addAlternativeSymbol("m-2·m-1");
-		MoleMicrometre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/moleMicrometre","mole micrometre","mol μm",Mole, Micrometre);
+		MoleMicrometre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/moleMicrometre","mole micrometre","mol.μm",Mole, Micrometre);
 		MoleMicrometre.addAlternativeName("mol micrometer","nl");
+		MoleMicrometre.addAlternativeSymbol("mol μm");
 		MoleMicrometre.addAlternativeSymbol("mol·μm");
-		ReciprocalSquareCentimetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalSquareCentimetre","reciprocal square centimetre","cm-2",Centimetre, -2.0);
+		ReciprocalSquareCentimetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalSquareCentimetre","reciprocal square centimetre","cm1/-0.5",Centimetre, -2.0);
 		ReciprocalSquareCentimetre.addAlternativeName("omgekeerde vierkante centimeter","nl");
-		MoleMicrometreReciprocalSquareCentimetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/moleMicrometreReciprocalSquareCentimetre","mole micrometre reciprocal square centimetre","mol μm cm-2",MoleMicrometre, ReciprocalSquareCentimetre);
+		ReciprocalSquareCentimetre.addAlternativeSymbol("cm-2");
+		MoleMicrometreReciprocalSquareCentimetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/moleMicrometreReciprocalSquareCentimetre","mole micrometre reciprocal square centimetre","mol.μm.cm1/-0.5",MoleMicrometre, ReciprocalSquareCentimetre);
 		MoleMicrometreReciprocalSquareCentimetre.addAlternativeName("mol micrometer omgekeerde vierkante centimeter","nl");
+		MoleMicrometreReciprocalSquareCentimetre.addAlternativeSymbol("mol μm cm-2");
 		MoleMicrometreReciprocalSquareCentimetre.addAlternativeSymbol("mol·μm·cm-2");
 		Yottamole = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottamole","yottamole","Ymol",(SingularUnit)Mole, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
 		Yottamole.addAlternativeName("yottamol","nl");
@@ -4546,7 +4591,8 @@ public class OM extends UnitAndScaleSet {
 		MolePerGigalitre.addAlternativeName("mole per gigaliter","nl");
 		MolePerGigalitre.addAlternativeSymbol("mol Gl-1");
 		MolePerGigalitre.addAlternativeSymbol("mol·Gl-1");
-		SecondAngleSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-AngleSquared","second (angle) squared","arcsec2",SecondAngle, 2.0);
+		SecondAngleSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/second-AngleSquared","second (angle) squared","\"2",SecondAngle, 2.0);
+		SecondAngleSquared.addAlternativeSymbol("arcsec2");
 		Kibibyte = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kibibyte","kibibyte","KiB",(SingularUnit)Byte, nl.wur.fbr.om.prefixes.BinaryPrefix.KIBI);
 		Microkatal = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microkatal","microkatal","μkat",(SingularUnit)Katal, nl.wur.fbr.om.prefixes.DecimalPrefix.MICRO);
 		Petajoule = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/petajoule","petajoule","PJ",(SingularUnit)Joule, nl.wur.fbr.om.prefixes.DecimalPrefix.PETA);
@@ -4562,8 +4608,9 @@ public class OM extends UnitAndScaleSet {
 		MillimolePerLitre.addAlternativeSymbol("mmol·l-1");
 		PointATA = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/point-ATA", "point (ATA)", "pt", Metre, 3.514598E-4 );
 		PicaATA = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pica-ATA", "pica (ATA)", "null", PointATA, 12.0 );
-		JoulePerKelvinMole = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerKelvinMole","joule per kelvin mole","J/(K mol)",Joule, KelvinMole);
+		JoulePerKelvinMole = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerKelvinMole","joule per kelvin mole","J/K.mol",Joule, KelvinMole);
 		JoulePerKelvinMole.addAlternativeName("joule per kelvin mol","nl");
+		JoulePerKelvinMole.addAlternativeSymbol("J/(K mol)");
 		JoulePerKelvinMole.addAlternativeSymbol("J K-1 mol-1");
 		JoulePerKelvinMole.addAlternativeSymbol("J/(K·mol)");
 		JoulePerKelvinMole.addAlternativeSymbol("J·K-1·mol-1");
@@ -4591,8 +4638,9 @@ public class OM extends UnitAndScaleSet {
 		GramPerHectolitre.addAlternativeSymbol("g hl-1");
 		GramPerHectolitre.addAlternativeSymbol("g·hl-1");
 		Attocandela = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/attocandela","attocandela","acd",(SingularUnit)Candela, nl.wur.fbr.om.prefixes.DecimalPrefix.ATTO);
-		MoleMicrometreReciprocalSquareCentimetreReciprocalSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/moleMicrometreReciprocalSquareCentimetreReciprocalSecond-Time","mole micrometre reciprocal square centimetre reciprocal second","mol μm cm-2 s-1",MoleMicrometreReciprocalSquareCentimetre, ReciprocalSecondTime);
+		MoleMicrometreReciprocalSquareCentimetreReciprocalSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/moleMicrometreReciprocalSquareCentimetreReciprocalSecond-Time","mole micrometre reciprocal square centimetre reciprocal second","mol.μm.cm1/-0.5.s1/-1",MoleMicrometreReciprocalSquareCentimetre, ReciprocalSecondTime);
 		MoleMicrometreReciprocalSquareCentimetreReciprocalSecondTime.addAlternativeName("mol micrometer omgekeerde vierkante centimeter omgekeerde seconde","nl");
+		MoleMicrometreReciprocalSquareCentimetreReciprocalSecondTime.addAlternativeSymbol("mol μm cm-2 s-1");
 		MoleMicrometreReciprocalSquareCentimetreReciprocalSecondTime.addAlternativeSymbol("mol·μm·cm-2·s-1");
 		Yottawatt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottawatt","yottawatt","YW",(SingularUnit)Watt, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
 		Decabecquerel = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/decabecquerel","decabecquerel","daBq",(SingularUnit)Becquerel, nl.wur.fbr.om.prefixes.DecimalPrefix.DECA);
@@ -4641,8 +4689,9 @@ public class OM extends UnitAndScaleSet {
 		NauticalMilePerHour.addAlternativeSymbol("nm·h-1");
 		Knot = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/knot", "knot", "null", NauticalMilePerHour, 1.0 );
 		Knot.addAlternativeName("knoop","nl");
-		SquareMetreNanometre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreNanometre","square metre nanometre","m2 nm",SquareMetre, Nanometre);
+		SquareMetreNanometre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreNanometre","square metre nanometre","m2.nm",SquareMetre, Nanometre);
 		SquareMetreNanometre.addAlternativeName("vierkante meter nanometer","nl");
+		SquareMetreNanometre.addAlternativeSymbol("m2 nm");
 		SquareMetreNanometre.addAlternativeSymbol("m2·nm");
 		WattPerSteradian = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSteradian","watt per steradian","W/sr",Watt, Steradian);
 		WattPerSteradian.addAlternativeName("watt per steradiaal","nl");
@@ -4683,10 +4732,12 @@ public class OM extends UnitAndScaleSet {
 		ZettasecondTimeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettasecond-TimeSquared","zettasecond squared","Zs2",ZettasecondTime, 2.0);
 		ZettasecondTimeSquared.addAlternativeName("zettaseconde kwadraat","nl");
 		Yoctolumen = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yoctolumen","yoctolumen","ylm",(SingularUnit)Lumen, nl.wur.fbr.om.prefixes.DecimalPrefix.YOCTO);
-		ReciprocalGram = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalGram","reciprocal gram","g-1",Gram, -1.0);
+		ReciprocalGram = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalGram","reciprocal gram","g1/-1",Gram, -1.0);
 		ReciprocalGram.addAlternativeName("omgekeerde gram","nl");
+		ReciprocalGram.addAlternativeSymbol("g-1");
 		Microfarad = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microfarad","microfarad","μF",(SingularUnit)Farad, nl.wur.fbr.om.prefixes.DecimalPrefix.MICRO);
-		KilowattHour = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilowattHour","kilowatt hour","kW h",Kilowatt, Hour);
+		KilowattHour = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilowattHour","kilowatt hour","kW.h",Kilowatt, Hour);
+		KilowattHour.addAlternativeSymbol("kW h");
 		KilowattHour.addAlternativeSymbol("kWh");
 		KilowattHour.addAlternativeSymbol("kW·h");
 		Petatesla = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/petatesla","petatesla","PT",(SingularUnit)Tesla, nl.wur.fbr.om.prefixes.DecimalPrefix.PETA);
@@ -4716,11 +4767,13 @@ public class OM extends UnitAndScaleSet {
 		AttometrePerSecondTime.addAlternativeSymbol("am s-1");
 		AttometrePerSecondTime.addAlternativeSymbol("am·s-1");
 		Barn = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/barn", "barn", "b", SquareMetre, 1.0E-28 );
-		HectareDay = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hectareDay","hectare day","ha d",Hectare, Day);
+		HectareDay = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hectareDay","hectare day","ha.d",Hectare, Day);
 		HectareDay.addAlternativeName("hectare dag","nl");
+		HectareDay.addAlternativeSymbol("ha d");
 		HectareDay.addAlternativeSymbol("ha·d");
-		KilogramPerHectareDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramPerHectareDay","kilogram per hectare day","kg/(ha d)",Kilogram, HectareDay);
+		KilogramPerHectareDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramPerHectareDay","kilogram per hectare day","kg/ha.d",Kilogram, HectareDay);
 		KilogramPerHectareDay.addAlternativeName("kilogram per hectare dag","nl");
+		KilogramPerHectareDay.addAlternativeSymbol("kg/(ha d)");
 		KilogramPerHectareDay.addAlternativeSymbol("kg ha-1 d-1");
 		KilogramPerHectareDay.addAlternativeSymbol("kg·ha-1·d-1");
 		MolePerKilolitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/molePerKilolitre","mole per kilolitre","mol/kl",Mole, Kilolitre);
@@ -4730,8 +4783,9 @@ public class OM extends UnitAndScaleSet {
 		Millihenry = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millihenry","millihenry","mH",(SingularUnit)Henry, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
 		Terabit = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terabit","terabit","Tbit",(SingularUnit)Bit, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
 		Nanotesla = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanotesla","nanotesla","nT",(SingularUnit)Tesla, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
-		JoulePerSquareMetreSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerSquareMetreSecond-Time","joule per square metre second","J/(m2 s)",Joule, SquareMetreSecondTime);
+		JoulePerSquareMetreSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerSquareMetreSecond-Time","joule per square metre second","J/m2.s",Joule, SquareMetreSecondTime);
 		JoulePerSquareMetreSecondTime.addAlternativeName("joule per vierkante meter seconde","nl");
+		JoulePerSquareMetreSecondTime.addAlternativeSymbol("J/(m2 s)");
 		JoulePerSquareMetreSecondTime.addAlternativeSymbol("J m-2 s-1");
 		JoulePerSquareMetreSecondTime.addAlternativeSymbol("J·m-2·s-1");
 		KilogramPerCubicmetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramPerCubicmetre","kilogram per cubic metre","kg/m3",Kilogram, CubicMetre);
@@ -4798,8 +4852,9 @@ public class OM extends UnitAndScaleSet {
 		HorsepowerElectric = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/horsepower-Electric", "horsepower (electric)", "null", Watt, 746.0 );
 		MegaeuroPerPetajoule = null;
 		Millicandela = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millicandela","millicandela","mcd",(SingularUnit)Candela, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
-		ReciprocalWatt = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalWatt","reciprocal watt","W-1",Watt, -1.0);
+		ReciprocalWatt = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalWatt","reciprocal watt","W1/-1",Watt, -1.0);
 		ReciprocalWatt.addAlternativeName("omgekeerde watt","nl");
+		ReciprocalWatt.addAlternativeSymbol("W-1");
 		Zettabyte = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettabyte","zettabyte","ZB",(SingularUnit)Byte, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
 		Gigametre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigametre","gigametre","Gm",(SingularUnit)Metre, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
 		Gigametre.addAlternativeName("gigameter","nl");
@@ -4808,8 +4863,9 @@ public class OM extends UnitAndScaleSet {
 		GigametrePerSecondTime.addAlternativeSymbol("Gm s-1");
 		GigametrePerSecondTime.addAlternativeSymbol("Gm·s-1");
 		Millinewton = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millinewton","millinewton","mN",(SingularUnit)Newton, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
-		MetreToThePower2ReciprocalGram = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreToThePower-2ReciprocalGram","metre to the power -2 reciprocal gram","m-2 g-1",MetreToThePower2, ReciprocalGram);
+		MetreToThePower2ReciprocalGram = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metreToThePower-2ReciprocalGram","metre to the power -2 reciprocal gram","m1/-0.5.g1/-1",MetreToThePower2, ReciprocalGram);
 		MetreToThePower2ReciprocalGram.addAlternativeName("meter tot de macht -2 omgekeerde gram","nl");
+		MetreToThePower2ReciprocalGram.addAlternativeSymbol("m-2 g-1");
 		MetreToThePower2ReciprocalGram.addAlternativeSymbol("m-2·g-1");
 		WattPerSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetre","watt per square metre","W/m2",Watt, SquareMetre);
 		WattPerSquareMetre.addAlternativeName("watt per vierkante meter","nl");
@@ -4821,20 +4877,22 @@ public class OM extends UnitAndScaleSet {
 		Decaampere = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/decaampere","decaampere","daA",(SingularUnit)Ampere, nl.wur.fbr.om.prefixes.DecimalPrefix.DECA);
 		Decaampere.addAlternativeName("decaampère","nl");
 		DeltaA450 = factory.createBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/deltaA450", "delta A450", "null", null);
-		DeltaA450PerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/deltaA450PerSecond-Time","delta A450 per second","null",DeltaA450, SecondTime);
+		DeltaA450PerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/deltaA450PerSecond-Time","delta A450 per second","1/s",DeltaA450, SecondTime);
 		DeltaA450PerSecondTime.addAlternativeName("delta A450 per seconde","nl");
 		MetrePerDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metrePerDay","metre per day","m/d",Metre, Day);
 		MetrePerDay.addAlternativeName("meter per dag","nl");
 		MetrePerDay.addAlternativeSymbol("m d-1");
 		MetrePerDay.addAlternativeSymbol("m·d-1");
-		CoulombMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/coulombMetre","coulomb metre","C m",Coulomb, Metre);
+		CoulombMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/coulombMetre","coulomb metre","C.m",Coulomb, Metre);
 		CoulombMetre.addAlternativeName("coulomb meter","nl");
+		CoulombMetre.addAlternativeSymbol("C m");
 		CoulombMetre.addAlternativeSymbol("C·m");
 		MillimetrePerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millimetrePerSecond-Time","millimetre per second","mm/s",Millimetre, SecondTime);
 		MillimetrePerSecondTime.addAlternativeName("millimeter per seconde","nl");
 		MillimetrePerSecondTime.addAlternativeSymbol("mm s-1");
 		MillimetrePerSecondTime.addAlternativeSymbol("mm·s-1");
-		GramPerSquareMetreCentimetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreCentimetre","gram per square metre centimetre","g/(m2 cm)",GramPerSquareMetre, Centimetre);
+		GramPerSquareMetreCentimetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreCentimetre","gram per square metre centimetre","g/m2/cm",GramPerSquareMetre, Centimetre);
+		GramPerSquareMetreCentimetre.addAlternativeSymbol("g/(m2 cm)");
 		GramPerSquareMetreCentimetre.addAlternativeSymbol("g m-2 cm-1");
 		GramPerSquareMetreCentimetre.addAlternativeSymbol("g·m-2·cm-1");
 		DecimetrePerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/decimetrePerSecond-Time","decimetre per second","dm/s",Decimetre, SecondTime);
@@ -4891,8 +4949,9 @@ public class OM extends UnitAndScaleSet {
 		DecimolePerLitre.addAlternativeName("decimole per liter","nl");
 		DecimolePerLitre.addAlternativeSymbol("dmol l-1");
 		DecimolePerLitre.addAlternativeSymbol("dmol·l-1");
-		WattPerSquareMetreKelvin = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreKelvin","watt per square metre kelvin","W/m2 K",Watt, SquareMetreKelvin);
+		WattPerSquareMetreKelvin = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreKelvin","watt per square metre kelvin","W/m2.K",Watt, SquareMetreKelvin);
 		WattPerSquareMetreKelvin.addAlternativeName("watt per vierkante meter kelvin","nl");
+		WattPerSquareMetreKelvin.addAlternativeSymbol("W/m2 K");
 		WattPerSquareMetreKelvin.addAlternativeSymbol("W-1 m2 K");
 		WattPerSquareMetreKelvin.addAlternativeSymbol("W-1·m2·K");
 		WattPerSquareMetreKelvin.addAlternativeSymbol("W/(m2·K)");
@@ -4989,7 +5048,8 @@ public class OM extends UnitAndScaleSet {
 		Pebibit = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pebibit","pebibit","Pibit",(SingularUnit)Bit, nl.wur.fbr.om.prefixes.BinaryPrefix.PEBI);
 		Femtolitre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtolitre","femtolitre","fl",(SingularUnit)Litre, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		Femtolitre.addAlternativeName("femtoliter","nl");
-		ColonyFormingUnitPer25Millilitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/colonyFormingUnitPer25Millilitre","colony forming unit per 25 millilitre","CFU/ml",ColonyFormingUnit, N25Millilitre);
+		ColonyFormingUnitPer25Millilitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/colonyFormingUnitPer25Millilitre","colony forming unit per 25 millilitre","CFU/25 ml",ColonyFormingUnit, N25Millilitre);
+		ColonyFormingUnitPer25Millilitre.addAlternativeSymbol("CFU/ml");
 		MetrePerMicrosecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metrePerMicrosecond-Time","metre per microsecond","m/μs",Metre, MicrosecondTime);
 		MetrePerMicrosecondTime.addAlternativeName("meter per microseconde","nl");
 		MetrePerMicrosecondTime.addAlternativeSymbol("m μs-1");
@@ -5007,8 +5067,9 @@ public class OM extends UnitAndScaleSet {
 		YottametrePerSecondTimeSquared.addAlternativeSymbol("Ym s-2");
 		YottametrePerSecondTimeSquared.addAlternativeSymbol("Ym·s-2");
 		Terahertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terahertz","terahertz","THz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
-		KilogramSecondTimeToThePower2 = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramSecond-TimeToThePower-2","reciprocal metre kilogram","m-1 kg",Kilogram, SecondTimeToThePower2);
+		KilogramSecondTimeToThePower2 = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramSecond-TimeToThePower-2","reciprocal metre kilogram","kg.s1/-0.5",Kilogram, SecondTimeToThePower2);
 		KilogramSecondTimeToThePower2.addAlternativeName("omgekeerde meter kilogram","nl");
+		KilogramSecondTimeToThePower2.addAlternativeSymbol("m-1 kg");
 		KilogramSecondTimeToThePower2.addAlternativeSymbol("m-1·kg");
 		DecigramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/decigramPerLitre","decigram per litre","dg/l",Decigram, Litre);
 		DecigramPerLitre.addAlternativeName("decigram per liter","nl");
@@ -5047,8 +5108,9 @@ public class OM extends UnitAndScaleSet {
 		DecagramPerLitre.addAlternativeSymbol("dag·l-1");
 		Millilumen = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millilumen","millilumen","mlm",(SingularUnit)Lumen, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
 		Zettaohm = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettaohm","zettaohm","ZΩ",(SingularUnit)Ohm, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
-		ReciprocalKelvin = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalKelvin","reciprocal kelvin","K-1",Kelvin, -1.0);
+		ReciprocalKelvin = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalKelvin","reciprocal kelvin","K1/-1",Kelvin, -1.0);
 		ReciprocalKelvin.addAlternativeName("omgekeerde kelvin","nl");
+		ReciprocalKelvin.addAlternativeSymbol("K-1");
 		KilogramPerSecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramPerSecond-Time","kilogram per second","kg/s",Kilogram, SecondTime);
 		KilogramPerSecondTime.addAlternativeName("kilogram per seconde","nl");
 		KilogramPerSecondTime.addAlternativeSymbol("kg s-1");
@@ -5056,28 +5118,34 @@ public class OM extends UnitAndScaleSet {
 		Centiradian = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/centiradian","centiradian","crad",(SingularUnit)Radian, nl.wur.fbr.om.prefixes.DecimalPrefix.CENTI);
 		Centiradian.addAlternativeName("centiradiaal","nl");
 		Picovolt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/picovolt","picovolt","pV",(SingularUnit)Volt, nl.wur.fbr.om.prefixes.DecimalPrefix.PICO);
-		SteradianSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/steradianSquareMetre","steradian square metre","sr m2",Steradian, SquareMetre);
+		SteradianSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/steradianSquareMetre","steradian square metre","sr.m2",Steradian, SquareMetre);
 		SteradianSquareMetre.addAlternativeName("steradiaal vierkante meter","nl");
+		SteradianSquareMetre.addAlternativeSymbol("sr m2");
 		SteradianSquareMetre.addAlternativeSymbol("sr·m2");
-		SteradianSquareMetreHertz = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/steradianSquareMetreHertz","steradian square metre hertz","sr m2 Hz",SteradianSquareMetre, Hertz);
+		SteradianSquareMetreHertz = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/steradianSquareMetreHertz","steradian square metre hertz","sr.m2.Hz",SteradianSquareMetre, Hertz);
 		SteradianSquareMetreHertz.addAlternativeName("steradiaal vierkante meter hertz","nl");
+		SteradianSquareMetreHertz.addAlternativeSymbol("sr m2 Hz");
 		SteradianSquareMetreHertz.addAlternativeSymbol("sr·m2·Hz");
-		WattPerSteradianSquareMetreHertz = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSteradianSquareMetreHertz","watt per steradian square metre hertz","W/(sr m2 Hz)",Watt, SteradianSquareMetreHertz);
+		WattPerSteradianSquareMetreHertz = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSteradianSquareMetreHertz","watt per steradian square metre hertz","W/sr.m2.Hz",Watt, SteradianSquareMetreHertz);
 		WattPerSteradianSquareMetreHertz.addAlternativeName("watt per steradiaal vierkante meter hertz","nl");
+		WattPerSteradianSquareMetreHertz.addAlternativeSymbol("W/(sr m2 Hz)");
 		WattPerSteradianSquareMetreHertz.addAlternativeSymbol("W sr-1 m-2 Hz-1");
 		WattPerSteradianSquareMetreHertz.addAlternativeSymbol("W·sr-1·m-2·Hz-1");
-		DegreeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/degreeSquared","degree squared","null",Degree, 2.0);
-		GramPerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreDay","gram per square metre day","g/(m2 d)",Gram, SquareMetreDay);
+		DegreeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/degreeSquared","degree squared","°2",Degree, 2.0);
+		GramPerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerSquareMetreDay","gram per square metre day","g/m2.d",Gram, SquareMetreDay);
 		GramPerSquareMetreDay.addAlternativeName("gram per vierkante meter dag","nl");
+		GramPerSquareMetreDay.addAlternativeSymbol("g/(m2 d)");
 		GramPerSquareMetreDay.addAlternativeSymbol("g m-2 d-1");
 		GramPerSquareMetreDay.addAlternativeSymbol("g·m-2·d-1");
 		MilligramRAE = factory.createBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/milligramRAE", "milligram RAE", "null", nl.wur.fbr.om.model.dimensions.SIBaseDimension.MASS);
 		PointTeX = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/point-TeX", "point (TeX)", "pt", Inch, 0.013837000138370002 );
-		PascalSecondTimeSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pascalSecond-TimeSquareMetre","pascal second square metre","Pa s m2",PascalSecondTime, SquareMetre);
+		PascalSecondTimeSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pascalSecond-TimeSquareMetre","pascal second square metre","Pa.s.m2",PascalSecondTime, SquareMetre);
 		PascalSecondTimeSquareMetre.addAlternativeName("pascal seconde vierkante meter","nl");
+		PascalSecondTimeSquareMetre.addAlternativeSymbol("Pa s m2");
 		PascalSecondTimeSquareMetre.addAlternativeSymbol("Pa·s·m2");
-		KilogramPerPascalSecondTimeSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramPerPascalSecond-TimeSquareMetre","kilogram per pascal second square metre","kg Pa-1 s-1 m-2",Kilogram, PascalSecondTimeSquareMetre);
+		KilogramPerPascalSecondTimeSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramPerPascalSecond-TimeSquareMetre","kilogram per pascal second square metre","kg/Pa.s.m2",Kilogram, PascalSecondTimeSquareMetre);
 		KilogramPerPascalSecondTimeSquareMetre.addAlternativeName("kilogram per pascal seconde vierkante meter","nl");
+		KilogramPerPascalSecondTimeSquareMetre.addAlternativeSymbol("kg Pa-1 s-1 m-2");
 		KilogramPerPascalSecondTimeSquareMetre.addAlternativeSymbol("kg/(Pa s m2)");
 		KilogramPerPascalSecondTimeSquareMetre.addAlternativeSymbol("kg/(Pa·s·m2)");
 		KilogramPerPascalSecondTimeSquareMetre.addAlternativeSymbol("kg·Pa-1·s-1·m-2");
@@ -5092,7 +5160,8 @@ public class OM extends UnitAndScaleSet {
 		SquareHectometre.addAlternativeName("vierkante hectometer","nl");
 		Milliampere = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/milliampere","milliampere","mA",(SingularUnit)Ampere, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
 		Milliampere.addAlternativeName("milliampère","nl");
-		WattPerSecondAngleSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSecond-AngleSquared","watt per second (angle) squared","W/arcsec2",Watt, SecondAngleSquared);
+		WattPerSecondAngleSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSecond-AngleSquared","watt per second (angle) squared","W/\"2",Watt, SecondAngleSquared);
+		WattPerSecondAngleSquared.addAlternativeSymbol("W/arcsec2");
 		WattPerSecondAngleSquared.addAlternativeSymbol("W arcsec-2");
 		WattPerSecondAngleSquared.addAlternativeSymbol("W·arcsec-2");
 		Hectoweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hectoweber","hectoweber","hWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.HECTO);
@@ -5124,11 +5193,13 @@ public class OM extends UnitAndScaleSet {
 		CubicNanometre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicNanometre","cubic nanometre","nm3",Nanometre, 3.0);
 		CubicNanometre.addAlternativeName("kubieke nanometer","nl");
 		Electronvolt = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/electronvolt", "electronvolt", "eV", Joule, 1.602177E-19 );
-		SquareMetreSteradian = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreSteradian","square metre steradian","m2 sr",SquareMetre, Steradian);
+		SquareMetreSteradian = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreSteradian","square metre steradian","m2.sr",SquareMetre, Steradian);
 		SquareMetreSteradian.addAlternativeName("vierkante meter steradian","nl");
+		SquareMetreSteradian.addAlternativeSymbol("m2 sr");
 		SquareMetreSteradian.addAlternativeSymbol("m2·sr");
-		WattPerSquareMetreSteradian = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreSteradian","watt per square metre steradian","W/(m2 sr)",Watt, SquareMetreSteradian);
+		WattPerSquareMetreSteradian = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreSteradian","watt per square metre steradian","W/m2.sr",Watt, SquareMetreSteradian);
 		WattPerSquareMetreSteradian.addAlternativeName("watt per vierkante meter steradiaal","nl");
+		WattPerSquareMetreSteradian.addAlternativeSymbol("W/(m2 sr)");
 		WattPerSquareMetreSteradian.addAlternativeSymbol("W m-2 sr-1");
 		WattPerSquareMetreSteradian.addAlternativeSymbol("W/(m2·sr)");
 		WattPerSquareMetreSteradian.addAlternativeSymbol("W·m-2·sr-1");
@@ -5148,8 +5219,9 @@ public class OM extends UnitAndScaleSet {
 		Picogray = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/picogray","picogray","pGy",(SingularUnit)Gray, nl.wur.fbr.om.prefixes.DecimalPrefix.PICO);
 		Exahertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/exahertz","exahertz","EHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.EXA);
 		ColonyFormingUnitPerMillilitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/colonyFormingUnitPerMillilitre","colony forming unit per millilitre","CFU/ml",ColonyFormingUnit, Millilitre);
-		ReciprocalDay = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalDay","reciprocal day","d-1",Day, -1.0);
+		ReciprocalDay = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalDay","reciprocal day","d1/-1",Day, -1.0);
 		ReciprocalDay.addAlternativeName("omgekeerde dag","nl");
+		ReciprocalDay.addAlternativeSymbol("d-1");
 		NanomolePerMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanomolePerMetre","nanomole per metre","nmol/m",Nanomole, Metre);
 		NanomolePerMetre.addAlternativeName("nanomole per meter","nl");
 		NanomolePerMetre.addAlternativeSymbol("nmol m-1");
@@ -5277,8 +5349,9 @@ public class OM extends UnitAndScaleSet {
 		AttogramPerLitre.addAlternativeSymbol("ag·l-1");
 		Picoradian = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/picoradian","picoradian","prad",(SingularUnit)Radian, nl.wur.fbr.om.prefixes.DecimalPrefix.PICO);
 		Picoradian.addAlternativeName("picoradiaal","nl");
-		KilogramSecondTimeToThePower2ReciprocalMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramSecond-TimeToThePower-2ReciprocalMetre","reciprocal metre kilogram second to the power -2","m-1 kg s-2",KilogramSecondTimeToThePower2, ReciprocalMetre);
+		KilogramSecondTimeToThePower2ReciprocalMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramSecond-TimeToThePower-2ReciprocalMetre","reciprocal metre kilogram second to the power -2","kg.s1/-0.5.m1/-1",KilogramSecondTimeToThePower2, ReciprocalMetre);
 		KilogramSecondTimeToThePower2ReciprocalMetre.addAlternativeName("omgekeerde meter kilogram seconde tot de macht -2","nl");
+		KilogramSecondTimeToThePower2ReciprocalMetre.addAlternativeSymbol("m-1 kg s-2");
 		KilogramSecondTimeToThePower2ReciprocalMetre.addAlternativeSymbol("m-1·kg·s-2");
 		BritishThermalUnitThermochemical = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/BritishThermalUnit-Thermochemical", "British thermal unit (thermochemical)", "Btu_th", Joule, 1054.35 );
 		DecisecondTimeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/decisecond-TimeSquared","decisecond squared","ds2",DecisecondTime, 2.0);
@@ -5289,8 +5362,9 @@ public class OM extends UnitAndScaleSet {
 		PicomolePerLitre.addAlternativeSymbol("pmol·l-1");
 		Nanofarad = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanofarad","nanofarad","nF",(SingularUnit)Farad, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
 		Femtowatt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtowatt","femtowatt","fW",(SingularUnit)Watt, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
-		KilojoulePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilojoulePerSquareMetreDay","kilojoule per square metre day","kJ/(m2 d)",Kilojoule, SquareMetreDay);
+		KilojoulePerSquareMetreDay = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilojoulePerSquareMetreDay","kilojoule per square metre day","kJ/m2.d",Kilojoule, SquareMetreDay);
 		KilojoulePerSquareMetreDay.addAlternativeName("kilojoule per vierkante meter dag","nl");
+		KilojoulePerSquareMetreDay.addAlternativeSymbol("kJ/(m2 d)");
 		KilojoulePerSquareMetreDay.addAlternativeSymbol("kJ m-2 d-1");
 		KilojoulePerSquareMetreDay.addAlternativeSymbol("kJ·m-2·d-1");
 		MetrePerDecasecondTime = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/metrePerDecasecond-Time","metre per decasecond","m/das",Metre, DecasecondTime);
@@ -5313,8 +5387,9 @@ public class OM extends UnitAndScaleSet {
 		MolePerGigametre.addAlternativeName("mole per gigameter","nl");
 		MolePerGigametre.addAlternativeSymbol("mol Gm-1");
 		MolePerGigametre.addAlternativeSymbol("mol·Gm-1");
-		ReciprocalCubicMetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalCubicMetre","reciprocal cubic metre","m-3",Metre, -3.0);
+		ReciprocalCubicMetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalCubicMetre","reciprocal cubic metre","m1/-0.3333333333333333",Metre, -3.0);
 		ReciprocalCubicMetre.addAlternativeName("omgekeerde kubieke meter","nl");
+		ReciprocalCubicMetre.addAlternativeSymbol("m-3");
 		GramPerMegalitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerMegalitre","gram per megalitre","g/Ml",Gram, Megalitre);
 		GramPerMegalitre.addAlternativeName("gram per megaliter","nl");
 		GramPerMegalitre.addAlternativeSymbol("g Ml-1");
@@ -5340,24 +5415,27 @@ public class OM extends UnitAndScaleSet {
 		KilometrePerSecondTimeSquared.addAlternativeSymbol("km·s-2");
 		AmylaseUnit = factory.createBaseUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/amylaseUnit", "amylase unit", "AU", null);
 		AmylaseUnit.addAlternativeSymbol("U");
-		CubicMetrePerYear = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicMetrePerYear","cubic metre per year","null",CubicMetre, Year);
+		CubicMetrePerYear = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicMetrePerYear","cubic metre per year","m3/a",CubicMetre, Year);
 		CubicMetrePerYear.addAlternativeName("kubieke meter per jaar","nl");
 		Kiloweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kiloweber","kiloweber","kWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.KILO);
 		Zeptoweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zeptoweber","zeptoweber","zWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.ZEPTO);
 		Petalumen = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/petalumen","petalumen","Plm",(SingularUnit)Lumen, nl.wur.fbr.om.prefixes.DecimalPrefix.PETA);
-		ReciprocalDegreeCelsius = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalDegreeCelsius","reciprocal degree Celsius","°C-1",DegreeCelsius, -1.0);
+		ReciprocalDegreeCelsius = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalDegreeCelsius","reciprocal degree Celsius","°C1/-1",DegreeCelsius, -1.0);
 		ReciprocalDegreeCelsius.addAlternativeName("omgekeerde graad Celsius","nl");
+		ReciprocalDegreeCelsius.addAlternativeSymbol("°C-1");
 		CubicHectometre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicHectometre","cubic hectometre","hm3",Hectometre, 3.0);
 		CubicHectometre.addAlternativeName("kubieke hectometer","nl");
 		Femtogram = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtogram","femtogram","fg",(SingularUnit)Gram, nl.wur.fbr.om.prefixes.DecimalPrefix.FEMTO);
 		AtmosphereStandard = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/atmosphere-Standard", "atmosphere (standard)", "atm", Pascal, 101325.0 );
 		AtmosphereStandard.addAlternativeName("atmosfeer (standaard)","nl");
-		ReciprocalAtmosphereStandard = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalAtmosphere-Standard","reciprocal atmosphere (standard)","atm-1",AtmosphereStandard, -1.0);
+		ReciprocalAtmosphereStandard = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalAtmosphere-Standard","reciprocal atmosphere (standard)","atm1/-1",AtmosphereStandard, -1.0);
 		ReciprocalAtmosphereStandard.addAlternativeName("omgekeerde atmosfeer (standaard)","nl");
+		ReciprocalAtmosphereStandard.addAlternativeSymbol("atm-1");
 		Petacandela = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/petacandela","petacandela","Pcd",(SingularUnit)Candela, nl.wur.fbr.om.prefixes.DecimalPrefix.PETA);
 		TonOfRefridgeration = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/tonOfRefridgeration", "ton of refridgeration", "null", Watt, 3516.853 );
-		ReciprocalSquareMetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalSquareMetre","reciprocal square metre","m-2",Metre, -2.0);
+		ReciprocalSquareMetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalSquareMetre","reciprocal square metre","m1/-0.5",Metre, -2.0);
 		ReciprocalSquareMetre.addAlternativeName("omgekeerde vierkante meter","nl");
+		ReciprocalSquareMetre.addAlternativeSymbol("m-2");
 		CubicGigametre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicGigametre","cubic gigametre","Gm3",Gigametre, 3.0);
 		CubicGigametre.addAlternativeName("kubieke gigameter","nl");
 		FemtometrePerSecondTimeSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtometrePerSecond-TimeSquared","femtometre per second squared","fm/s2",Femtometre, SecondTimeSquared);
@@ -5421,7 +5499,8 @@ public class OM extends UnitAndScaleSet {
 		SquareYottametre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareYottametre","square yottametre","Ym2",Yottametre, 2.0);
 		SquareYottametre.addAlternativeName("vierkante yottameter","nl");
 		Terawatt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terawatt","terawatt","TW",(SingularUnit)Watt, nl.wur.fbr.om.prefixes.DecimalPrefix.TERA);
-		TerawattHour = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terawattHour","terawatt hour","TW h",Terawatt, Hour);
+		TerawattHour = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/terawattHour","terawatt hour","TW.h",Terawatt, Hour);
+		TerawattHour.addAlternativeSymbol("TW h");
 		TerawattHour.addAlternativeSymbol("TWh");
 		TerawattHour.addAlternativeSymbol("TW·h");
 		FemtosecondTimeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/femtosecond-TimeSquared","femtosecond squared","fs2",FemtosecondTime, 2.0);
@@ -5432,10 +5511,12 @@ public class OM extends UnitAndScaleSet {
 		MetrePerFemtosecondTimeSquared.addAlternativeSymbol("m·fs-2");
 		Centijoule = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/centijoule","centijoule","cJ",(SingularUnit)Joule, nl.wur.fbr.om.prefixes.DecimalPrefix.CENTI);
 		Giganewton = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/giganewton","giganewton","GN",(SingularUnit)Newton, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
-		MillisecondAnglePerYear = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millisecond-AnglePerYear","millisecond (angle) per year","mas/yr",MillisecondAngle, Year);
+		MillisecondAnglePerYear = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millisecond-AnglePerYear","millisecond (angle) per year","mas/a",MillisecondAngle, Year);
 		MillisecondAnglePerYear.addAlternativeName("milliseconde (hoek) per jaar","nl");
-		JouleSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/jouleSecond-Time","joule second","J s",Joule, SecondTime);
+		MillisecondAnglePerYear.addAlternativeSymbol("mas/yr");
+		JouleSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/jouleSecond-Time","joule second","J.s",Joule, SecondTime);
 		JouleSecondTime.addAlternativeName("joule seconde","nl");
+		JouleSecondTime.addAlternativeSymbol("J s");
 		JouleSecondTime.addAlternativeSymbol("J·s");
 		YearSidereal = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/year-Sidereal", "year (sidereal)", "null", SecondTime, 3.155815E7 );
 		Zettametre = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettametre","zettametre","Zm",(SingularUnit)Metre, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
@@ -5470,7 +5551,8 @@ public class OM extends UnitAndScaleSet {
 		MetrePerDecisecondTimeSquared.addAlternativeSymbol("m ds-2");
 		MetrePerDecisecondTimeSquared.addAlternativeSymbol("m·ds-2");
 		QuartImperial = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/quart-Imperial", "quart (imperial)", "null", Litre, 1.1365 );
-		MicrogramPerJoule = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microgramPerJoule","microgram per joule","mg/J",Microgram, Joule);
+		MicrogramPerJoule = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microgramPerJoule","microgram per joule","μg/J",Microgram, Joule);
+		MicrogramPerJoule.addAlternativeSymbol("mg/J");
 		MicrogramPerJoule.addAlternativeSymbol("mg J-1");
 		MicrogramPerJoule.addAlternativeSymbol("mg·J-1");
 		Statohm = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/statohm", "statohm", "statΩ", Ohm, 8.987552E11 );
@@ -5485,8 +5567,9 @@ public class OM extends UnitAndScaleSet {
 		ZeptomolePerMetre.addAlternativeSymbol("zmol m-1");
 		ZeptomolePerMetre.addAlternativeSymbol("zmol·m-1");
 		PicaTeX = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/pica-TeX", "pica (TeX)", "null", PointTeX, 12.0 );
-		LuxSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/luxSecond-Time","lux second","lx s",Lux, SecondTime);
+		LuxSecondTime = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/luxSecond-Time","lux second","lx.s",Lux, SecondTime);
 		LuxSecondTime.addAlternativeName("lux seconde","nl");
+		LuxSecondTime.addAlternativeSymbol("lx s");
 		LuxSecondTime.addAlternativeSymbol("lx·s");
 		Nanosteradian = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanosteradian","nanosteradian","nsr",(SingularUnit)Steradian, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
 		Nanosteradian.addAlternativeName("nanosteradiaal","nl");
@@ -5587,11 +5670,13 @@ public class OM extends UnitAndScaleSet {
 		Debye = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/debye", "debye", "D", CoulombMetre, 3.33564E-30 );
 		Chain = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/chain", "chain", "ch", Metre, 20.11684 );
 		Quad = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/quad", "quad", "null", BritishThermalUnitInternationalTable, 1.0E15 );
-		SquareMetreHertz = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreHertz","square metre hertz","m2 Hz",SquareMetre, Hertz);
+		SquareMetreHertz = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreHertz","square metre hertz","m2.Hz",SquareMetre, Hertz);
 		SquareMetreHertz.addAlternativeName("vierkante meter hertz","nl");
+		SquareMetreHertz.addAlternativeSymbol("m2 Hz");
 		SquareMetreHertz.addAlternativeSymbol("m2·Hz");
-		WattPerSquareMetreHertz = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreHertz","watt per square metre hertz","W/(m2 Hz)",Watt, SquareMetreHertz);
+		WattPerSquareMetreHertz = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreHertz","watt per square metre hertz","W/m2.Hz",Watt, SquareMetreHertz);
 		WattPerSquareMetreHertz.addAlternativeName("watt per vierkante meter hertz","nl");
+		WattPerSquareMetreHertz.addAlternativeSymbol("W/(m2 Hz)");
 		WattPerSquareMetreHertz.addAlternativeSymbol("W m-2 Hz-1");
 		WattPerSquareMetreHertz.addAlternativeSymbol("W·m-2·Hz-1");
 		Abvolt = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/abvolt", "abvolt", "abV", Volt, 1.0E-8 );
@@ -5640,7 +5725,8 @@ public class OM extends UnitAndScaleSet {
 		BritishThermalUnitMean = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/BritishThermalUnit-Mean", "British thermal unit (mean)", "Btu", Joule, 1055.87 );
 		Centibecquerel = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/centibecquerel","centibecquerel","cBq",(SingularUnit)Becquerel, nl.wur.fbr.om.prefixes.DecimalPrefix.CENTI);
 		Milliohm = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/milliohm","milliohm","mΩ",(SingularUnit)Ohm, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
-		JoulePerKelvinKilogram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerKelvinKilogram","joule per kelvin kilogram","J/(K kg)",Joule, KelvinKilogram);
+		JoulePerKelvinKilogram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerKelvinKilogram","joule per kelvin kilogram","J/K.kg",Joule, KelvinKilogram);
+		JoulePerKelvinKilogram.addAlternativeSymbol("J/(K kg)");
 		JoulePerKelvinKilogram.addAlternativeSymbol("J K-1 kg-1");
 		JoulePerKelvinKilogram.addAlternativeSymbol("J/(K·kg)");
 		JoulePerKelvinKilogram.addAlternativeSymbol("J·K-1·kg-1");
@@ -5670,8 +5756,9 @@ public class OM extends UnitAndScaleSet {
 		ZettametrePerSecondTimeSquared.addAlternativeSymbol("Zm·s-2");
 		Hectocandela = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/hectocandela","hectocandela","hcd",(SingularUnit)Candela, nl.wur.fbr.om.prefixes.DecimalPrefix.HECTO);
 		Yottagram = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottagram","yottagram","YG",(SingularUnit)Gram, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
-		YottagramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottagramPerLitre","yottagram per litre","Yg/l",Yottagram, Litre);
+		YottagramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottagramPerLitre","yottagram per litre","YG/l",Yottagram, Litre);
 		YottagramPerLitre.addAlternativeName("yottagram per liter","nl");
+		YottagramPerLitre.addAlternativeSymbol("Yg/l");
 		YottagramPerLitre.addAlternativeSymbol("Yg l-1");
 		YottagramPerLitre.addAlternativeSymbol("Yg·l-1");
 		Megakatal = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/megakatal","megakatal","Mkat",(SingularUnit)Katal, nl.wur.fbr.om.prefixes.DecimalPrefix.MEGA);
@@ -5783,12 +5870,14 @@ public class OM extends UnitAndScaleSet {
 		Yottagray = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottagray","yottagray","YGy",(SingularUnit)Gray, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
 		Zettahertz = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zettahertz","zettahertz","ZHz",(SingularUnit)Hertz, nl.wur.fbr.om.prefixes.DecimalPrefix.ZETTA);
 		Zeptolux = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/zeptolux","zeptolux","zlx",(SingularUnit)Lux, nl.wur.fbr.om.prefixes.DecimalPrefix.ZEPTO);
-		WattPerSquareMetreNanometre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreNanometre","watt per square metre nanometre","W/(m2 nm)",Watt, SquareMetreNanometre);
+		WattPerSquareMetreNanometre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSquareMetreNanometre","watt per square metre nanometre","W/m2.nm",Watt, SquareMetreNanometre);
 		WattPerSquareMetreNanometre.addAlternativeName("watt per vierkante meter nanometer","nl");
+		WattPerSquareMetreNanometre.addAlternativeSymbol("W/(m2 nm)");
 		WattPerSquareMetreNanometre.addAlternativeSymbol("W m-2 nm-1");
 		WattPerSquareMetreNanometre.addAlternativeSymbol("W·m-2·nm-1");
-		WattPerSteradianSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSteradianSquareMetre","watt per steradian square metre","W/(sr m2)",Watt, SteradianSquareMetre);
+		WattPerSteradianSquareMetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattPerSteradianSquareMetre","watt per steradian square metre","W/sr.m2",Watt, SteradianSquareMetre);
 		WattPerSteradianSquareMetre.addAlternativeName("watt per steradiaal vierkante meter","nl");
+		WattPerSteradianSquareMetre.addAlternativeSymbol("W/(sr m2)");
 		WattPerSteradianSquareMetre.addAlternativeSymbol("W sr-1 m-2");
 		WattPerSteradianSquareMetre.addAlternativeSymbol("W·sr-1·m-2");
 		LightYear = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/lightYear", "light year", "ly", Metre, 9.46073E15 );
@@ -5826,8 +5915,9 @@ public class OM extends UnitAndScaleSet {
 		ZeptomolePerLitre.addAlternativeName("zeptomole per liter","nl");
 		ZeptomolePerLitre.addAlternativeSymbol("zmol l-1");
 		ZeptomolePerLitre.addAlternativeSymbol("zmol·l-1");
-		ReciprocalHour = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalHour","reciprocal hour","h-1",Hour, -1.0);
+		ReciprocalHour = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalHour","reciprocal hour","h1/-1",Hour, -1.0);
 		ReciprocalHour.addAlternativeName("omgekeerd uur","nl");
+		ReciprocalHour.addAlternativeSymbol("h-1");
 		CubicDecametre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicDecametre","cubic decametre","dam3",Decametre, 3.0);
 		CubicDecametre.addAlternativeName("kubieke decameter","nl");
 		HorsepowerMetric = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/horsepower-Metric", "horsepower (metric)", "PS", Watt, 735.4988 );
@@ -5880,8 +5970,9 @@ public class OM extends UnitAndScaleSet {
 		FemtogramPerLitre.addAlternativeSymbol("fm s-1");
 		FemtogramPerLitre.addAlternativeSymbol("fm·s-1");
 		CalorieInternationalTable = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/calorie-InternationalTable", "calorie (International Table)", "cal_IT", Joule, 4.1868 );
-		SquareMetreKelvinPerWatt = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreKelvinPerWatt","square metre kelvin per watt","m2 K/W",SquareMetreKelvin, Watt);
+		SquareMetreKelvinPerWatt = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareMetreKelvinPerWatt","square metre kelvin per watt","m2.K/W",SquareMetreKelvin, Watt);
 		SquareMetreKelvinPerWatt.addAlternativeName("vierkante meter kelvin per watt","nl");
+		SquareMetreKelvinPerWatt.addAlternativeSymbol("m2 K/W");
 		SquareMetreKelvinPerWatt.addAlternativeSymbol("m2 K W-1");
 		SquareMetreKelvinPerWatt.addAlternativeSymbol("m2·K/W");
 		SquareMetreKelvinPerWatt.addAlternativeSymbol("m2·K·W-1");
@@ -5919,10 +6010,12 @@ public class OM extends UnitAndScaleSet {
 		Kiloparsec = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kiloparsec","kiloparsec","kpc",(SingularUnit)Parsec, nl.wur.fbr.om.prefixes.DecimalPrefix.KILO);
 		CubicKiloparsec = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicKiloparsec","cubic kiloparsec","kpc3",Kiloparsec, 3.0);
 		CubicKiloparsec.addAlternativeName("kubieke kiloparsec","nl");
-		GigayearCubicKiloparsec = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigayearCubicKiloparsec","gigayear cubic kiloparsec","Gyr kpc3",Gigayear, CubicKiloparsec);
+		GigayearCubicKiloparsec = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigayearCubicKiloparsec","gigayear cubic kiloparsec","Gyr.kpc3",Gigayear, CubicKiloparsec);
 		GigayearCubicKiloparsec.addAlternativeName("gigajaar kubieke kiloparsec","nl");
+		GigayearCubicKiloparsec.addAlternativeSymbol("Gyr kpc3");
 		GigayearCubicKiloparsec.addAlternativeSymbol("Gyr·kpc3");
-		SolarMassPerGigayearCubicKiloparsec = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/solarMassPerGigayearCubicKiloparsec","solar mass per gigayear cubic kiloparsec","M_☉/(Gyr kpc3)",SolarMass, GigayearCubicKiloparsec);
+		SolarMassPerGigayearCubicKiloparsec = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/solarMassPerGigayearCubicKiloparsec","solar mass per gigayear cubic kiloparsec","M_☉/Gyr.kpc3",SolarMass, GigayearCubicKiloparsec);
+		SolarMassPerGigayearCubicKiloparsec.addAlternativeSymbol("M_☉/(Gyr kpc3)");
 		SolarMassPerGigayearCubicKiloparsec.addAlternativeSymbol("M_☉ Gyr-1 kpc-3");
 		SolarMassPerGigayearCubicKiloparsec.addAlternativeSymbol("M_☉·Gyr-1·kpc-3");
 		MolePerExametre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/molePerExametre","mole per exametre","mol/Em",Mole, Exametre);
@@ -5932,7 +6025,8 @@ public class OM extends UnitAndScaleSet {
 		KilojoulePerHectogram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilojoulePerHectogram","kilojoule per hectogram","kJ/hg",Kilojoule, Hectogram);
 		KilojoulePerHectogram.addAlternativeSymbol("kJ hg-1");
 		KilojoulePerHectogram.addAlternativeSymbol("kJ·hg-1");
-		CubicMetreKelvin = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicMetreKelvin","cubic metre kelvin","m3 K",CubicMetre, Kelvin);
+		CubicMetreKelvin = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/cubicMetreKelvin","cubic metre kelvin","m3.K",CubicMetre, Kelvin);
+		CubicMetreKelvin.addAlternativeSymbol("m3 K");
 		CubicMetreKelvin.addAlternativeSymbol("m3·K");
 		MillisecondTimeSquared = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millisecond-TimeSquared","millisecond squared","ms2",MillisecondTime, 2.0);
 		MillisecondTimeSquared.addAlternativeName("milliseconde kwadraat","nl");
@@ -5950,15 +6044,17 @@ public class OM extends UnitAndScaleSet {
 		YoctomolePerLitre.addAlternativeSymbol("ymol·l-1");
 		SquareCentimetre = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/squareCentimetre","square centimetre","cm2",Centimetre, 2.0);
 		SquareCentimetre.addAlternativeName("vierkante centimeter","nl");
-		CandelaPerSquareCentimetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/candelaPerSquareCentimetre","candela per square centimetre","cd/cm",Candela, SquareCentimetre);
+		CandelaPerSquareCentimetre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/candelaPerSquareCentimetre","candela per square centimetre","cd/cm2",Candela, SquareCentimetre);
 		CandelaPerSquareCentimetre.addAlternativeName("candela per vierkante centimeter","nl");
+		CandelaPerSquareCentimetre.addAlternativeSymbol("cd/cm");
 		CandelaPerSquareCentimetre.addAlternativeSymbol("cd cm-1");
 		CandelaPerSquareCentimetre.addAlternativeSymbol("cd·cm-1");
 		Yoctovolt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yoctovolt","yoctovolt","yV",(SingularUnit)Volt, nl.wur.fbr.om.prefixes.DecimalPrefix.YOCTO);
 		Gigagray = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigagray","gigagray","GGy",(SingularUnit)Gray, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
 		GallonUS = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gallon-US", "gallon (US)", "gal", CubicMetre, 0.003785412 );
 		Kilogray = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogray","kilogray","kGy",(SingularUnit)Gray, nl.wur.fbr.om.prefixes.DecimalPrefix.KILO);
-		ReciprocalPartsPerMillionPerYear = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalPartsPerMillionPerYear","reciprocal parts per million","ppm-1",PartsPerMillion, -1.0);
+		ReciprocalPartsPerMillionPerYear = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalPartsPerMillionPerYear","reciprocal parts per million","ppm1/-1",PartsPerMillion, -1.0);
+		ReciprocalPartsPerMillionPerYear.addAlternativeSymbol("ppm-1");
 		Gigagram = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigagram","gigagram","Gg",(SingularUnit)Gram, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
 		HorsepowerBritish = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/horsepower-British", "horsepower (British)", "null", Watt, 745.7 );
 		Exafarad = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/exafarad","exafarad","EF",(SingularUnit)Farad, nl.wur.fbr.om.prefixes.DecimalPrefix.EXA);
@@ -6026,8 +6122,9 @@ public class OM extends UnitAndScaleSet {
 		YottamolePerLitre.addAlternativeSymbol("Ymol·l-1");
 		Gigabit = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gigabit","gigabit","Gbit",(SingularUnit)Bit, nl.wur.fbr.om.prefixes.DecimalPrefix.GIGA);
 		Millibar = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millibar","millibar","mbar",(SingularUnit)Bar, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
-		MillinewtonMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millinewtonMetre","millinewton metre","mN m",Millinewton, Metre);
+		MillinewtonMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millinewtonMetre","millinewton metre","mN.m",Millinewton, Metre);
 		MillinewtonMetre.addAlternativeName("millinewton meter","nl");
+		MillinewtonMetre.addAlternativeSymbol("mN m");
 		MillinewtonMetre.addAlternativeSymbol("mN·m");
 		Millilux = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/millilux","millilux","mlx",(SingularUnit)Lux, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
 		DaySidereal = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/day-Sidereal", "day (sidereal)", "null", SecondTime, 86164.09 );
@@ -6079,10 +6176,12 @@ public class OM extends UnitAndScaleSet {
 		GillUS = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gill-US", "gill (US)", "gi", CubicMetre, 1.182941E-4 );
 		Nanoradian = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanoradian","nanoradian","nrad",(SingularUnit)Radian, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
 		Nanoradian.addAlternativeName("nanoradiaal","nl");
-		ReciprocalCubicParsec = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalCubicParsec","reciprocal cubic parsec","pc-3",Parsec, -3.0);
+		ReciprocalCubicParsec = factory.createUnitExponentiation("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/reciprocalCubicParsec","reciprocal cubic parsec","pc1/-0.3333333333333333",Parsec, -3.0);
 		ReciprocalCubicParsec.addAlternativeName("omgekeerde kubieke parsec","nl");
-		KilogramSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramSquareMetre","kilogram square metre","kg m2",Kilogram, SquareMetre);
+		ReciprocalCubicParsec.addAlternativeSymbol("pc-3");
+		KilogramSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/kilogramSquareMetre","kilogram square metre","kg.m2",Kilogram, SquareMetre);
 		KilogramSquareMetre.addAlternativeName("kilogram vierkante meter","nl");
+		KilogramSquareMetre.addAlternativeSymbol("kg m2");
 		KilogramSquareMetre.addAlternativeSymbol("kg·m2");
 		PetagramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/petagramPerLitre","petagram per litre","Pg/l",Petagram, Litre);
 		PetagramPerLitre.addAlternativeName("petagram per liter","nl");
@@ -6119,10 +6218,11 @@ public class OM extends UnitAndScaleSet {
 		Angstrom = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/angstrom", "ångström", "Å", Metre, 1.0E-10 );
 		Yottanewton = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottanewton","yottanewton","YN",(SingularUnit)Newton, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
 		Milliweber = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/milliweber","milliweber","mWb",(SingularUnit)Weber, nl.wur.fbr.om.prefixes.DecimalPrefix.MILLI);
-		DeltaA450PerSecondTimePerMilligram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/deltaA450PerSecond-TimePerMilligram","delta A450 per second per milligram","null",DeltaA450PerSecondTime, Milligram);
+		DeltaA450PerSecondTimePerMilligram = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/deltaA450PerSecond-TimePerMilligram","delta A450 per second per milligram","1/s/mg",DeltaA450PerSecondTime, Milligram);
 		DeltaA450PerSecondTimePerMilligram.addAlternativeName("delta A450 per seconde per milligram","nl");
-		WattSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattSquareMetre","watt square metre","W m2",Watt, SquareMetre);
+		WattSquareMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/wattSquareMetre","watt square metre","W.m2",Watt, SquareMetre);
 		WattSquareMetre.addAlternativeName("watt vierkante meter","nl");
+		WattSquareMetre.addAlternativeSymbol("W m2");
 		WattSquareMetre.addAlternativeSymbol("W·m2");
 		Yottabecquerel = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/yottabecquerel","yottabecquerel","YBq",(SingularUnit)Becquerel, nl.wur.fbr.om.prefixes.DecimalPrefix.YOTTA);
 		Furlong = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/furlong", "furlong", "null", Metre, 201.168 );
@@ -6158,16 +6258,18 @@ public class OM extends UnitAndScaleSet {
 		MetrePerZettasecondTime.addAlternativeSymbol("m Zs-1");
 		MetrePerZettasecondTime.addAlternativeSymbol("m·Zs-1");
 		FootUSSurvey = factory.createSingularUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/foot-USSurvey", "foot (US survey)", "ft", Metre, 0.3048006 );
-		GramMetreToThePower2ReciprocalMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramMetreToThePower-2ReciprocalMetre","gram metre to the power -2 reciprocal metre","g m-2 m-1",Gram, MetreToThePower2);
+		GramMetreToThePower2ReciprocalMetre = factory.createUnitMultiplication("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramMetreToThePower-2ReciprocalMetre","gram metre to the power -2 reciprocal metre","g.m1/-0.5",Gram, MetreToThePower2);
 		GramMetreToThePower2ReciprocalMetre.addAlternativeName("gram meter tot de macht -2 omgekeerde meter","nl");
+		GramMetreToThePower2ReciprocalMetre.addAlternativeSymbol("g m-2 m-1");
 		GramMetreToThePower2ReciprocalMetre.addAlternativeSymbol("g·m-2·m-1");
 		CentigramPerLitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/centigramPerLitre","centigram per litre","cg/l",Centigram, Litre);
 		CentigramPerLitre.addAlternativeName("centigram per liter","nl");
 		CentigramPerLitre.addAlternativeSymbol("cg l-1");
 		CentigramPerLitre.addAlternativeSymbol("cg·l-1");
 		Microvolt = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/microvolt","microvolt","μV",(SingularUnit)Volt, nl.wur.fbr.om.prefixes.DecimalPrefix.MICRO);
-		JoulePerCubicMetreKelvin = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerCubicMetreKelvin","joule per cubic metre kelvin","J/m3 K",Joule, CubicMetreKelvin);
+		JoulePerCubicMetreKelvin = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/joulePerCubicMetreKelvin","joule per cubic metre kelvin","J/m3.K",Joule, CubicMetreKelvin);
 		JoulePerCubicMetreKelvin.addAlternativeName("joule per kubieke meter kelvin","nl");
+		JoulePerCubicMetreKelvin.addAlternativeSymbol("J/m3 K");
 		JoulePerCubicMetreKelvin.addAlternativeSymbol("J-1 m3 K");
 		JoulePerCubicMetreKelvin.addAlternativeSymbol("J-1·m3·K");
 		JoulePerCubicMetreKelvin.addAlternativeSymbol("J/(m3·K)");
@@ -6192,7 +6294,8 @@ public class OM extends UnitAndScaleSet {
 		Picobecquerel = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/picobecquerel","picobecquerel","pBq",(SingularUnit)Becquerel, nl.wur.fbr.om.prefixes.DecimalPrefix.PICO);
 		Decakatal = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/decakatal","decakatal","dakat",(SingularUnit)Katal, nl.wur.fbr.om.prefixes.DecimalPrefix.DECA);
 		Nanoohm = factory.createPrefixedUnit("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/nanoohm","nanoohm","nΩ",(SingularUnit)Ohm, nl.wur.fbr.om.prefixes.DecimalPrefix.NANO);
-		MagnitudePerSecondAngleSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/magnitudePerSecond-AngleSquared","magnitude per second (angle) squared","mag/arcsec2",Magnitude, SecondAngleSquared);
+		MagnitudePerSecondAngleSquared = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/magnitudePerSecond-AngleSquared","magnitude per second (angle) squared","mag/\"2",Magnitude, SecondAngleSquared);
+		MagnitudePerSecondAngleSquared.addAlternativeSymbol("mag/arcsec2");
 		MagnitudePerSecondAngleSquared.addAlternativeSymbol("mag arcsec-2");
 		MagnitudePerSecondAngleSquared.addAlternativeSymbol("mag·arcsec-2");
 		GramPerCentilitre = factory.createUnitDivision("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/gramPerCentilitre","gram per centilitre","g/cl",Gram, Centilitre);
@@ -7700,4 +7803,24 @@ public class OM extends UnitAndScaleSet {
         scales.add(KelvinScale);
         return scales;
  	}
+
+
+    /**
+     * Returns the unit in this set that is equal to the unit one.
+     * @return The unit that is one.
+     */
+    @Override
+    public Unit getOne(){
+       return One;
+    }
+
+    /**
+     * Returns the unit that defines the radian unit in this set.
+     * The radian unit is needed to implement trigonometric functions.
+     * @return The radian unit.
+     */
+    @Override
+    public Unit getRadianUnit(){
+       return Radian;
+    }
 }

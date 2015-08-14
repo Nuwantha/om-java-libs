@@ -311,6 +311,26 @@ public class OMVocabularyCreationTool {
                 }
                 contents +="        return scales;\n" +
                         " \t}\n";
+                contents += "\n" +
+                        "\n" +
+                        "    /**\n" +
+                        "     * Returns the unit in this set that is equal to the unit one.\n" +
+                        "     * @return The unit that is one.\n" +
+                        "     */\n" +
+                        "    @Override\n" +
+                        "    public Unit getOne(){\n" +
+                        "       return One;\n" +
+                        "    }\n" +
+                        "\n" +
+                        "    /**\n" +
+                        "     * Returns the unit that defines the radian unit in this set.\n" +
+                        "     * The radian unit is needed to implement trigonometric functions.\n" +
+                        "     * @return The radian unit.\n" +
+                        "     */\n" +
+                        "    @Override\n" +
+                        "    public Unit getRadianUnit(){\n" +
+                        "       return Radian;\n" +
+                        "    }\n";
             }
             contents += "}";
 

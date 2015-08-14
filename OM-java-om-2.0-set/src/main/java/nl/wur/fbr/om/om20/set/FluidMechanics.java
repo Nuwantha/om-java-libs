@@ -25,7 +25,7 @@ import nl.wur.fbr.om.prefixes.*;
  * The identifiers are all defined as <code>final static String</code> and contain the
  * URIs of the concepts as strings.
  * <br>NB. This code has been automatically generated.
- * @author OM Vocabulary Creation tool at Wed Aug 12 01:57:46 CEST 2015.
+ * @author OM Vocabulary Creation tool at Thu Aug 13 21:23:59 CEST 2015.
  */
 public class FluidMechanics {
 

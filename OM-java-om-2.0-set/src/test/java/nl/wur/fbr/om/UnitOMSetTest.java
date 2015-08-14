@@ -91,7 +91,7 @@ public class UnitOMSetTest {
             factory.addUnitAndScaleSet(OM.class);
             Unit newtonMetre = OM.NewtonMetre;
             Assert.assertEquals("Testing OM Unit Multiplication creation", "newton metre", newtonMetre.getName());
-            Assert.assertEquals("Testing OM Unit Multiplication creation", "N m", newtonMetre.getSymbol());
+            Assert.assertEquals("Testing OM Unit Multiplication creation", "N.m", newtonMetre.getSymbol());
             Unit newton = OM.Newton;
             Unit metre = OM.Metre;
             Assert.assertEquals("Testing OM Unit Multiplication creation", newton, ((UnitMultiplication) newtonMetre).getTerm1());

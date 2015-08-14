@@ -545,4 +545,25 @@ public class CoreSet extends UnitAndScaleSet {
         scales.add(FAHRENHEIT_SCALE);
         return scales;
     }
+
+    /**
+     * Returns the unit in this set that is equal to the unit one.
+     *
+     * @return The unit that is one.
+     */
+    @Override
+    public Unit getOne() {
+        return ONE;
+    }
+
+    /**
+     * Returns the unit that defines the radian unit in this set.
+     * The radian unit is needed to implement trigonometric functions.
+     *
+     * @return The radian unit.
+     */
+    @Override
+    public Unit getRadianUnit() {
+        return RADIAN;
+    }
 }

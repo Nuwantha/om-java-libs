@@ -33,4 +33,17 @@ public abstract class UnitAndScaleSet {
      * @return All scales.
      */
     public abstract Set<Scale> getAllScales();
+
+    /**
+     * Returns the unit in this set that is equal to the unit one.
+     * @return The unit that is one.
+     */
+    public abstract Unit getOne();
+
+    /**
+     * Returns the unit that defines the radian unit in this set.
+     * The radian unit is needed to implement trigonometric functions.
+     * @return The radian unit.
+     */
+    public abstract Unit getRadianUnit();
 }
