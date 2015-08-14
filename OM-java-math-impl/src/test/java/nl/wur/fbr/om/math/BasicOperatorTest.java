@@ -409,6 +409,264 @@ public class BasicOperatorTest {
     }
 
     @Test
+    public void testArcSine() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.KILOMETRE);
+        Measure m1 = factory.createScalarMeasure(1, metrePerMetre);
+        Measure m2 = Math.asin(m1);
+        System.out.println("Arcsine: asin("+m1+") = "+m2);
+        Assert.assertEquals("Test arcsine", 1.5707963268, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arcsine", CoreSet.RADIAN, m2.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,metrePerMetre);
+        try {
+            Math.asin(m5);
+            Assert.fail("Exception should have been thrown after taking the arcsine of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arcsine of a vector.",true);
+        }
+        Measure m6 = factory.createVectorMeasure(vec,metrePerKiloMetre);
+        try {
+            Math.asin(m6);
+            Assert.fail("Exception should have been thrown after taking the arcsine of a measure with a non dimensionless unit.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arcsine of a measure with a dimensionless unit.",true);
+        }
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(0.9322,kilometrePerKiloMetre);
+        Measure m8 = Math.asin(m7);
+        System.out.println("Arcsine: asin(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test arcsine", 1.200444329, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arcsine",CoreSet.RADIAN,m8.getUnit());
+        Measure m9 = factory.createScalarMeasure(0.9322,metrePerKiloMetre);
+        Measure m10 = Math.asin(m9);
+        System.out.println("Arcsine: asin(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test arcsine", 9.3220013501E-4, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arcsine",CoreSet.RADIAN,m10.getUnit());
+    }
+
+    @Test
+    public void testArcCosine() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m1 = factory.createScalarMeasure(1, metrePerMetre);
+        Measure m2 = Math.acos(m1);
+        System.out.println("Arccosine: acos("+m1+") = "+m2);
+        Assert.assertEquals("Test arccosine", 0, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arccosine", CoreSet.RADIAN, m2.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,metrePerMetre);
+        try {
+            Math.acos(m5);
+            Assert.fail("Exception should have been thrown after taking the arccosine of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arccosine of a vector.",true);
+        }
+        Measure m6 = factory.createVectorMeasure(vec,metrePerKiloMetre);
+        try {
+            Math.acos(m6);
+            Assert.fail("Exception should have been thrown after taking the arccosine of a measure with a non dimensionless unit.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arccosine of a measure with a dimensionless unit.",true);
+        }
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(0.9322,kilometrePerKiloMetre);
+        Measure m8 = Math.acos(m7);
+        System.out.println("Arccosine: acos(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test arccosine", 0.3703519978, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arccosine",CoreSet.RADIAN,m8.getUnit());
+        Measure m9 = factory.createScalarMeasure(0.9322,metrePerKiloMetre);
+        Measure m10 = Math.acos(m9);
+        System.out.println("Arccosine: acos(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test arccosine", 1.5698641267, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arccosine",CoreSet.RADIAN,m10.getUnit());
+    }
+
+    @Test
+    public void testArcTan() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m1 = factory.createScalarMeasure(1, metrePerMetre);
+        Measure m2 = Math.atan(m1);
+        System.out.println("Arctangent: atan("+m1+") = "+m2);
+        Assert.assertEquals("Test arctangent", 0.7853981634, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arctangent", CoreSet.RADIAN, m2.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,metrePerMetre);
+        try {
+            Math.atan(m5);
+            Assert.fail("Exception should have been thrown after taking the arctangent of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arctangent of a vector.",true);
+        }
+        Measure m6 = factory.createVectorMeasure(vec,metrePerKiloMetre);
+        try {
+            Math.atan(m6);
+            Assert.fail("Exception should have been thrown after taking the arctangent of a measure with a non dimensionless unit.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arctangent of a measure with a dimensionless unit.",true);
+        }
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(2.832,kilometrePerKiloMetre);
+        Measure m8 = Math.atan(m7);
+        System.out.println("Arctangent: atan(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test arctangent", 1.2313559582, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arctangent",CoreSet.RADIAN,m8.getUnit());
+        Measure m9 = factory.createScalarMeasure(1003.432,metrePerKiloMetre);
+        Measure m10 = Math.atan(m9);
+        System.out.println("Arctangent: atan(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test arctangent", 0.7871112221, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arctangent",CoreSet.RADIAN,m10.getUnit());
+    }
+
+    @Test
+    public void testExponent() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m1 = factory.createScalarMeasure(0.4, metrePerMetre);
+        Measure m2 = Math.exp(m1);
+        System.out.println("Natural exponent: exp("+m1+") = "+m2);
+        Assert.assertEquals("Test natural exponent", 1.4918246976, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test natural exponent", CoreSet.ONE, m2.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,metrePerMetre);
+        Measure m5a = Math.exp(m5);
+        System.out.println("Natural exponent: exp(" + m5 + ") = " + m5a);
+        Assert.assertEquals("Test natural exponent", 1.4918246976, m5a.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test natural exponent", 9.9741824548, m5a.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test natural exponent", CoreSet.ONE, m5a.getUnit());
+        Measure m6 = factory.createVectorMeasure(vec,metrePerKiloMetre);
+        Measure m6a = Math.exp(m6);
+        System.out.println("Natural exponent: exp("+m6+") = "+m6a);
+        Assert.assertEquals("Test natural exponent", 1.00040008, m6a.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test natural exponent", 1.002302647, m6a.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test natural exponent", CoreSet.ONE, m6a.getUnit());
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(2.832,kilometrePerKiloMetre);
+        Measure m8 = Math.exp(m7);
+        System.out.println("Natural exponent: exp(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test natural exponent", 16.9793856597, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test natural exponent",CoreSet.ONE,m8.getUnit());
+        Measure m9 = factory.createScalarMeasure(-356.25,metrePerKiloMetre);
+        Measure m10 = Math.exp(m9);
+        System.out.println("Natural exponent: exp(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test natural exponent", 0.700297524, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test natural exponent",CoreSet.ONE,m10.getUnit());
+        Unit gramPerMetre = factory.createUnitDivision(CoreSet.GRAM,CoreSet.METRE);
+        Measure m11 = factory.createVectorMeasure(vec,gramPerMetre);
+        try {
+            Math.exp(m11);
+            Assert.fail("Exception should have been thrown after taking the exponent of a non dimensionless measure.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the exponent of a non dimensionless measure.",true);
+        }
+    }
+
+    @Test
+    public void testNaturalLogarithm() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m1 = factory.createScalarMeasure(1.4918246976, metrePerMetre);
+        Measure m2 = Math.log(m1);
+        System.out.println("Natural logarithm: log("+m1+") = "+m2);
+        Assert.assertEquals("Test natural logarithm", 0.4, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test natural logarithm", CoreSet.ONE, m2.getUnit());
+        double[] vec = {1.4918246976,9.9741824548};
+        Measure m5 = factory.createVectorMeasure(vec,metrePerMetre);
+        Measure m5a = Math.log(m5);
+        System.out.println("Natural logarithm: log(" + m5 + ") = " + m5a);
+        Assert.assertEquals("Test natural logarithm", 0.4, m5a.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test natural logarithm", 2.3, m5a.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test natural logarithm", CoreSet.ONE, m5a.getUnit());
+        Measure m6 = factory.createVectorMeasure(vec,metrePerKiloMetre);
+        Measure m6a = Math.log(m6);
+        System.out.println("Natural logarithm: log("+m6+") = "+m6a);
+        Assert.assertEquals("Test natural logarithm", -6.507755279, m6a.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test natural logarithm", -4.607755279, m6a.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test natural logarithm", CoreSet.ONE, m6a.getUnit());
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(16.9793856597,kilometrePerKiloMetre);
+        Measure m8 = Math.log(m7);
+        System.out.println("Natural logarithm: log(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test natural logarithm", 2.832, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test natural logarithm",CoreSet.ONE,m8.getUnit());
+        Measure m9 = factory.createScalarMeasure(700.297524,metrePerKiloMetre);
+        Measure m10 = Math.log(m9);
+        System.out.println("Natural logarithm: log(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test natural logarithm",-0.35625, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test natural logarithm",CoreSet.ONE,m10.getUnit());
+        Unit gramPerMetre = factory.createUnitDivision(CoreSet.GRAM,CoreSet.METRE);
+        Measure m11 = factory.createVectorMeasure(vec,gramPerMetre);
+        try {
+            Math.log(m11);
+            Assert.fail("Exception should have been thrown after taking the logonent of a non dimensionless measure.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the logonent of a non dimensionless measure.",true);
+        }
+    }
+
+    @Test
+    public void testBase10Logarithm() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m1 = factory.createScalarMeasure(100, metrePerMetre);
+        Measure m2 = Math.log10(m1);
+        System.out.println("Base 10 logarithm: log10("+m1+") = "+m2);
+        Assert.assertEquals("Test base 10 logarithm", 2, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm", CoreSet.ONE, m2.getUnit());
+        double[] vec = {10000,0.001};
+        Measure m5 = factory.createVectorMeasure(vec,metrePerMetre);
+        Measure m5a = Math.log10(m5);
+        System.out.println("Base 10 logarithm: log10(" + m5 + ") = " + m5a);
+        Assert.assertEquals("Test base 10 logarithm", 4, m5a.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm", -3, m5a.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm", CoreSet.ONE, m5a.getUnit());
+        Measure m6 = factory.createVectorMeasure(vec,metrePerKiloMetre);
+        Measure m6a = Math.log10(m6);
+        System.out.println("Base 10 logarithm: log10("+m6+") = "+m6a);
+        Assert.assertEquals("Test base 10 logarithm", 1, m6a.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm", -6, m6a.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm", CoreSet.ONE, m6a.getUnit());
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(1e-7,kilometrePerKiloMetre);
+        Measure m8 = Math.log10(m7);
+        System.out.println("Base 10 logarithm: log10(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test base 10 logarithm", -7, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm",CoreSet.ONE,m8.getUnit());
+        Measure m9 = factory.createScalarMeasure(1e12,metrePerKiloMetre);
+        Measure m10 = Math.log10(m9);
+        System.out.println("Base 10 logarithm: log10(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test base 10 logarithm",9, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test base 10 logarithm",CoreSet.ONE,m10.getUnit());
+        Unit gramPerMetre = factory.createUnitDivision(CoreSet.GRAM,CoreSet.METRE);
+        Measure m11 = factory.createVectorMeasure(vec,gramPerMetre);
+        try {
+            Math.log10(m11);
+            Assert.fail("Exception should have been thrown after taking the logonent of a non dimensionless measure.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the logonent of a non dimensionless measure.",true);
+        }
+    }
+    
+    @Test
     public void testSqrtOfAMeasure() throws UnitOrScaleCreationException {
         InstanceFactory factory = new CoreInstanceFactory();
         factory.addUnitAndScaleSet(CoreSet.class);
@@ -445,6 +703,113 @@ public class BasicOperatorTest {
     }
 
     @Test
+    public void testAtan2OfAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure x = factory.createScalarMeasure(3.4, CoreSet.METRE);
+        Measure y = factory.createScalarMeasure(-3.4, CoreSet.METRE);
+        Measure theta = Math.atan2(y,x);
+        System.out.println("Arctangent: atan2("+y+","+x+") = "+theta);
+        Assert.assertEquals("Test arctangent", -0.7853981634, theta.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arctangent", CoreSet.RADIAN, theta.getUnit());
+        Measure x2 = factory.createScalarMeasure(-3.4, CoreSet.METRE);
+        Measure y2 = factory.createScalarMeasure(-3.4, CoreSet.DECIMETRE);
+        Measure theta2 = Math.atan2(y2,x2);
+        System.out.println("Arctangent: atan2("+y2+","+x2+") = "+theta2);
+        Assert.assertEquals("Test arctangent", -3.0419240011, theta2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arctangent", CoreSet.RADIAN, theta2.getUnit());
+        Measure x3 = factory.createScalarMeasure(-3.4, CoreSet.GRAM);
+        Measure y3 = factory.createScalarMeasure(-3.4, CoreSet.GRAM);
+        Measure theta3 = Math.atan2(y3, x3);
+        System.out.println("Arctangent: atan2("+y3+","+x3+") = "+theta2);
+        Assert.assertEquals("Test arctangent", -2.3561944902, theta3.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test arctangent", CoreSet.RADIAN, theta3.getUnit());
+        Measure x4 = factory.createScalarMeasure(-3.4, CoreSet.METRE);
+        Measure y4 = factory.createScalarMeasure(-3.4, CoreSet.GRAM);
+        try {
+            Math.atan2(y4, x4);
+            Assert.fail("Exception should have been thrown after taking the arctan2 of a non dimensionless measure.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the arctan2 of a non dimensionless measure.",true);
+        }
+        double[] vecx = {0.4,2.3};
+        double[] vecy = {0.4,2.3};
+        Measure x5 = factory.createVectorMeasure(vecx, CoreSet.METRE);
+        Measure y5 = factory.createVectorMeasure(vecy, CoreSet.METRE);
+        try {
+            Math.atan2(y5, x5);
+            Assert.fail("Exception should have been thrown after taking the hypotenuse of two vectors.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the hypotenuse of two vectors.",true);
+        }
+    }
+
+    @Test
+    public void testPowerOfAMeasureWithAConstant() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure x = factory.createScalarMeasure(12.4, CoreSet.METRE);
+        Measure sqx = Math.pow(x, 2);
+        System.out.println("Power: pow("+x+",2) = "+sqx);
+        Assert.assertEquals("Test power", 153.76, sqx.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test power", CoreSet.SQUARE_METRE, sqx.getUnit());
+        Measure x1 = factory.createScalarMeasure(-6.5, CoreSet.METRE);
+        Measure cb1 = Math.pow(x1, 3);
+        System.out.println("Power: pow("+x1+",3) = "+cb1);
+        Assert.assertEquals("Test power", -274.625, cb1.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test power", CoreSet.CUBIC_METRE, cb1.getUnit());
+        Measure x2 = factory.createScalarMeasure(12.4, CoreSet.KILOMETRE);
+        Measure sqx2 = Math.pow(x2, 2);
+        System.out.println("Power: pow("+x2+",2) = "+sqx2);
+        Assert.assertEquals("Test power", 153.76, sqx2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test power", CoreSet.SQUARE_KILOMETRE, sqx2.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure x3 = factory.createVectorMeasure(vec, CoreSet.METRE);
+        try {
+            Math.pow(x3, 5);
+            Assert.fail("Exception should have been thrown after taking the fourth power of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the fourth power of a vector.",true);
+        }
+    }
+
+
+    @Test
+    public void testPowerOfAConstantWithAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.METRE);
+        Unit metrePerKilometre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure x = factory.createScalarMeasure(12.4, metrePerMetre);
+        Measure sqx = Math.pow(2,x);
+        System.out.println("Power: pow(2,"+x+") = "+sqx);
+        Assert.assertEquals("Test power", 5404.7044025258, sqx.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test power", CoreSet.ONE, sqx.getUnit());
+        Measure x1 = factory.createScalarMeasure(-6.5, CoreSet.METRE);
+        try {
+            Measure cb1 = Math.pow(3, x1);
+            Assert.fail("Exception should have been thrown after raising 3 to the power of "+x1+".");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when raising 3 to the power of "+x1+".",true);
+        }
+        Measure x2 = factory.createScalarMeasure(12.4, metrePerKilometre);
+        Measure sqx2 = Math.pow(2,x2);
+        System.out.println("Power: pow(2,"+x2+") = "+sqx2);
+        Assert.assertEquals("Test power", 1.0086320683, sqx2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test power", CoreSet.ONE, sqx2.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure x3 = factory.createVectorMeasure(vec, metrePerMetre);
+        Measure sq5 = Math.pow(5,x3);
+        System.out.println("Power: pow(5," + x3 + ") = " + sq5);
+        Assert.assertEquals("Test power", 1.9036539387, sq5.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test power", 40.5164149173, sq5.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test power", CoreSet.ONE, sqx.getUnit());
+    }
+
+    @Test
     public void testAbsOfAMeasure() throws UnitOrScaleCreationException {
         InstanceFactory factory = new CoreInstanceFactory();
         factory.addUnitAndScaleSet(CoreSet.class);
@@ -457,6 +822,49 @@ public class BasicOperatorTest {
         Measure m4 = Math.abs(m3);
         Assert.assertEquals("Test abs", 20, m4.getScalarValue(), 0.00000001);
         Assert.assertEquals("Test abs",CoreSet.KILOGRAM,m4.getUnit());
+    }
+
+    @Test
+    public void testHypotenuseOfAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure x = factory.createScalarMeasure(3.4, CoreSet.METRE);
+        Measure y = factory.createScalarMeasure(-3.4, CoreSet.METRE);
+        Measure theta = Math.hypot(x, y);
+        System.out.println("Hypotenuse: hypot("+x+","+y+") = "+theta);
+        Assert.assertEquals("Test hypotenuse", 4.8083261121, theta.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test hypotenuse", CoreSet.METRE, theta.getUnit());
+        Measure x2 = factory.createScalarMeasure(-3.4, CoreSet.METRE);
+        Measure y2 = factory.createScalarMeasure(-3.4, CoreSet.KILOMETRE);
+        Measure theta2 = Math.hypot(x2, y2);
+        System.out.println("Hypotenuse: hypot("+x2+","+y2+") = "+theta2);
+        Assert.assertEquals("Test hypotenuse", 3400.0016999996, theta2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test hypotenuse", CoreSet.METRE, theta2.getUnit());
+        Measure x3 = factory.createScalarMeasure(-3.4, CoreSet.GRAM);
+        Measure y3 = factory.createScalarMeasure(-3.4, CoreSet.GRAM);
+        Measure theta3 = Math.hypot(x3, y3);
+        System.out.println("Hypotenuse: hypot("+x3+","+y3+") = "+theta3);
+        Assert.assertEquals("Test hypotenuse", 4.8083261121, theta3.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test hypotenuse", CoreSet.GRAM, theta3.getUnit());
+        Measure x4 = factory.createScalarMeasure(-3.4, CoreSet.METRE);
+        Measure y4 = factory.createScalarMeasure(-3.4, CoreSet.GRAM);
+        try {
+            Math.hypot(x4, y4);
+            Assert.fail("Exception should have been thrown after taking the hypotenuse of a non dimensionless measure.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the hypotenuse of a non dimensionless measure.",true);
+        }
+        double[] vecx = {0.4,2.3};
+        double[] vecy = {0.4,2.3};
+        Measure x5 = factory.createVectorMeasure(vecx, CoreSet.METRE);
+        Measure y5 = factory.createVectorMeasure(vecy, CoreSet.METRE);
+        try {
+            Math.hypot(x5, y5);
+            Assert.fail("Exception should have been thrown after taking the hypotenuse of two vectors.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the hypotenuse of two vectors.",true);
+        }
     }
 
 }

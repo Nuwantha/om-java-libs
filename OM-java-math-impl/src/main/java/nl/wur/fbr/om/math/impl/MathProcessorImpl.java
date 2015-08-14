@@ -343,7 +343,7 @@ public class MathProcessorImpl implements MathProcessor {
      * @throws FactoryException When the measure contains a vector, which cannot be converted to an angle or
      * when the unit of the measure is not dimensionless.
      */
-    private double getAngle(Measure measure) throws FactoryException {
+    private double getAngle(Measure measure){
         double[] vector = measure.getVectorValue();
         if(vector.length>1) throw new MathException("Cannot use a vector: "+measure+" as an angle.");
         double angle = 0;
@@ -356,8 +356,14 @@ public class MathProcessorImpl implements MathProcessor {
             }
             try {
                 angle = factory.convertToUnit(measure, factory.getRadianUnit()).getScalarValue();
-            }catch (UnitConversionException e){
-                angle = factory.convertToUnit(measure, factory.getOne()).getScalarValue();
+            }catch (FactoryException e){
+                try {
+                    angle = factory.convertToUnit(measure, factory.getOne()).getScalarValue();
+                }catch (UnitConversionException e2) {
+                    throw new MathException("Could not convert "+measure+" to either radians or unit One.",e2);
+                }catch (FactoryException e2){
+                    throw new MathException("Could not convert "+measure+" to either radians or unit One because One is not defined.",e2);
+                }
             }
         }
         return angle;
@@ -421,75 +427,173 @@ public class MathProcessorImpl implements MathProcessor {
     }
 
     /**
+     * Returns a scalar value that is equal to the provided measure, but expressed in unit One. If the unit is not
+     * dimensionless it can not be expressed in unit One and a {@link MathException} will be thrown.
+     * @param measure The measure to be expressed in unit One.
+     * @return The scalar value as expressed in unit One.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless.
+     */
+    private double getScalarValueExpressedInUnitOne(Measure measure){
+        if(!measure.getUnit().isDimensionless()) throw new MathException("The argument to arc sine '"+measure+"' is not dimensionless.");
+        try {
+            Measure nunit = factory.convertToUnit(measure, factory.getOne());
+            return nunit.getScalarValue();
+        } catch (FactoryException e) {
+            throw new MathException("Could not convert "+measure+" to unit One because the unit One was not defined.",e);
+        } catch (NumberFormatException e) {
+            throw new MathException("Could not convert "+measure+" to a scalar value in unit One because "+measure+" does not have a scalar value.",e);
+        }
+    }
+
+    /**
      * Returns the arc sine of the measure. The unit of the parameter should be dimensionless (for instance a unit
-     * division of metre over metre). The resulting measure will have radians as a unit.
+     * division of metre over metre) and should be expressed in unit One. For instance, if the measure is expressed
+     * in m/km, the measure will first be converted to m/m.
+     * The resulting measure will have radians as a unit.
      *
      * @param measure The measure whose arc sine is to be determined.
      * @return The arc sine of the measure.
      */
     @Override
     public Measure asin(Measure measure) {
-        return null;
+        double sval = getScalarValueExpressedInUnitOne(measure);
+        try{
+            Measure result = factory.createScalarMeasure(Math.asin(sval),factory.getRadianUnit());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+        }
     }
 
     /**
      * Returns the arc cosine of the measure. The unit of the parameter should be dimensionless (for instance a unit
-     * division of metre over metre). The resulting measure will have radians as a unit.
+     * division of metre over metre) and should be expressed in unit One. For instance, if the measure is expressed
+     * in m/km, the measure will first be converted to m/m.
+     * The resulting measure will have radians as a unit.
      *
      * @param measure The measure whose arc cosine is to be determined.
      * @return The arc cosine of the measure.
      */
     @Override
     public Measure acos(Measure measure) {
-        return null;
+        double sval = getScalarValueExpressedInUnitOne(measure);
+        try{
+            Measure result = factory.createScalarMeasure(Math.acos(sval),factory.getRadianUnit());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+        }
     }
 
     /**
      * Returns the arc tangent of the measure. The unit of the parameter should be dimensionless (for instance a unit
-     * division of metre over metre). The resulting measure will have radians as a unit.
+     * division of metre over metre) and should be expressed in unit One. For instance, if the measure is expressed
+     * in m/km, the measure will first be converted to m/m.
+     * The resulting measure will have radians as a unit.
      *
      * @param measure The measure whose arc tangent is to be determined.
      * @return The arc tangent of the measure.
      */
     @Override
     public Measure atan(Measure measure) {
-        return null;
+        double sval = getScalarValueExpressedInUnitOne(measure);
+        try{
+            Measure result = factory.createScalarMeasure(Math.atan(sval),factory.getRadianUnit());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+        }
     }
 
     /**
-     * Returns Euler's number raised to the power of the parameter. The unit of the parameter should be dimensionless.
-     * The resulting measure will also be dimensionless.
+     * Returns a vector value that is equal to the provided measure, but expressed in unit One. If the unit is not
+     * dimensionless it can not be expressed in unit One and a {@link MathException} will be thrown.
+     * @param measure The measure to be expressed in unit One.
+     * @return The vector value as expressed in unit One.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless.
+     */
+    private double[] getVectorValueExpressedInUnitOne(Measure measure){
+        if(!measure.getUnit().isDimensionless()) throw new MathException("The argument to arc sine '"+measure+"' is not dimensionless.");
+        try {
+            Measure nunit = factory.convertToUnit(measure, factory.getOne());
+            return nunit.getVectorValue();
+        } catch (FactoryException e) {
+            throw new MathException("Could not convert "+measure+" to unit One because the unit One was not defined.",e);
+        } catch (NumberFormatException e) {
+            throw new MathException("Could not convert "+measure+" to a scalar value in unit One because "+measure+" does not have a scalar value.",e);
+        }
+    }
+
+    /**
+     * Returns Euler's number raised to the power of the parameter.
+     * The unit of the parameter should be dimensionless (for instance a unit
+     * division of metre over metre) and should be expressed in unit One. For instance, if the measure is expressed
+     * in m/km, the measure will first be converted to m/m.
      *
      * @param measure The measure to raise e to.
      * @return The value of e<sup>measure</sup>.
      */
     @Override
     public Measure exp(Measure measure) {
-        return null;
+        double[] m = getVectorValueExpressedInUnitOne(measure);
+        double[] exp = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            exp[i] = Math.exp(m[i]);
+        }
+        try{
+            Measure result = factory.createVectorMeasure(exp,factory.getOne());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
     }
 
     /**
-     * Returns the natural logarithm of the parameter. The unit of the parameter should be dimensionless.
-     * The resulting measure will also be dimensionless.
+     * Returns the natural logarithm of the parameter.
+     * The unit of the parameter should be dimensionless (for instance a unit
+     * division of metre over metre) and should be expressed in unit One. For instance, if the measure is expressed
+     * in m/km, the measure will first be converted to m/m.
      *
      * @param measure The measure for which the logarithm needs to be determined.
      * @return The natural logarithm of the parameter.
      */
     @Override
     public Measure log(Measure measure) {
-        return null;
+        double[] m = getVectorValueExpressedInUnitOne(measure);
+        double[] log = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            log[i] = Math.log(m[i]);
+        }
+        try{
+            Measure result = factory.createVectorMeasure(log,factory.getOne());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+        }
     }
 
     /**
-     * Returns the base 10 logarithm of the parameter. The unit of the parameter should be dimensionless.
-     * The resulting measure will also be dimensionless.
+     * Returns the base 10 logarithm of the parameter.
+     * The unit of the parameter should be dimensionless (for instance a unit
+     * division of metre over metre) and should be expressed in unit One. For instance, if the measure is expressed
+     * in m/km, the measure will first be converted to m/m.
      *
      * @param measure The measure for which the logarithm needs to be determined.
      * @return The base 10 logarithm of the parameter.
      */
     @Override
     public Measure log10(Measure measure) {
-        return null;
+        double[] m = getVectorValueExpressedInUnitOne(measure);
+        double[] log = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            log[i] = Math.log10(m[i]);
+        }
+        try{
+            Measure result = factory.createVectorMeasure(log, factory.getOne());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+        }
     }
 
     /**
@@ -547,6 +651,79 @@ public class MathProcessorImpl implements MathProcessor {
     }
 
     /**
+     * Returns the angle from the conversion of rectangular coordinates (x,y) to polar coordinates (r,angle).
+     * Both coordinates should have the same dimension and be convertable into each other. The zero angle
+     * points in the same direction as the x-axis and the angle is counter-clockwise.
+     *
+     * @param y The abscissa coordinate.
+     * @param x The ordinate coordinate.
+     * @return The angle component of the polar coordinates.
+     */
+    @Override
+    public Measure atan2(Measure y, Measure x) {
+        try {
+            double xv = factory.convert(x.getScalarValue(),x.getUnit(),y.getUnit());
+            double yv = y.getScalarValue();
+            double atan = Math.atan2(yv,xv);
+            return factory.createScalarMeasure(atan,factory.getRadianUnit());
+        } catch (ConversionException e) {
+            throw new MathException("The two coordinate measures x="+x+" and y="+y+" should have the same dimension and " +
+                    "convertible into each other to determine the polar angle using atan2().",e);
+        } catch (FactoryException e) {
+            throw new MathException("Could not create the result measure because the radian unit was not defined.",e);
+        } catch (NumberFormatException e){
+            throw new MathException("One of the parameters of the hypot("+x+","+y+") function was not a scalar value.");
+        }
+    }
+
+    /**
+     * Returns the exponentiation of the base to the power of the exponent, i.e. base<sup>exponent</sup>.
+     * This method takes a double value (i.e. a dimensionless constant) for the exponent.
+     * The unit of the result is equal to the unit of the base raised to the power of the exponent, for instance
+     * 2 m raised the power of 3 (pow(2 m, 3)) is equal to 8 m^3.
+     *
+     * @param base     The base measure which is raised to the power of the exponent.
+     * @param exponent The exponent value.
+     * @return The base raised to the power of the exponent.
+     */
+    @Override
+    public Measure pow(Measure base, double exponent) {
+        try {
+            double bv = base.getScalarValue();
+            double pow = Math.pow(bv, exponent);
+            return factory.createScalarMeasure(pow,factory.createUnitExponentiation(base.getUnit(),exponent));  // todo find existing unit
+        } catch (NumberFormatException e){
+            throw new MathException("The base measure in the pow("+base+","+exponent+") function was not a scalar value.");
+        }
+    }
+
+    /**
+     * Returns the exponentiation of the base to the power of the exponent, i.e. base<sup>exponent</sup>.
+     * This method takes a double value (i.e. a dimensionless constant) as the base and a measure as the exponent.
+     * The exponent measure should have a dimensionless unit and be convertible to the unit One.
+     * THe exponent measure can be a vector.
+     * The result is expressed in unit One.
+     *
+     * @param base     The base value which is raised to the power of the exponent.
+     * @param exponent The exponent measure.
+     * @return The base raised to the power of the exponent.
+     */
+    @Override
+    public Measure pow(double base, Measure exponent) {
+        double[] m = getVectorValueExpressedInUnitOne(exponent);
+        double[] pow = new double[m.length];
+        for(int i=0;i<m.length;i++){
+            pow[i] = Math.pow(base, m[i]);
+        }
+        try{
+            Measure result = factory.createVectorMeasure(pow,factory.getOne());
+            return result;
+        }catch(FactoryException e){
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
+    }
+
+    /**
      * Returns the absolute value of the specified measure expressed in the same unit as the parameter.
      *
      * @param measure The measurement whose absolute value is to be determined.
@@ -560,5 +737,88 @@ public class MathProcessorImpl implements MathProcessor {
             abs[i] = Math.abs(m[i]);
         }
         return factory.createVectorMeasure(abs,measure.getUnit());
+    }
+
+    /**
+     * Returns the hyperbolic sine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose hyperbolic sine is to be determined.
+     * @return The hyperbolic sine of the measure.
+     */
+    @Override
+    public Measure sinh(Measure measure) {
+        try {
+            double angle = this.getAngle(measure);
+            Measure result = factory.createScalarMeasure(Math.sinh(angle),factory.getOne());
+            return result;
+        } catch (FactoryException e) {
+            throw new MathException("Could not create result measure because the unit One was not defined.", e);
+        }
+    }
+
+    /**
+     * Returns the hyperbolic cosine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose hyperbolic cosine is to be determined.
+     * @return The hyperbolic cosine of the measure.
+     */
+    @Override
+    public Measure cosh(Measure measure) {
+        try {
+            double angle = this.getAngle(measure);
+            Measure result = factory.createScalarMeasure(Math.cosh(angle),factory.getOne());
+            return result;
+        } catch (FactoryException e) {
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
+    }
+
+    /**
+     * Returns the hyperbolic tangent of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose hyperbolic tangent is to be determined.
+     * @return The hyperbolic tangent of the measure.
+     */
+    @Override
+    public Measure tanh(Measure measure) {
+        try {
+            double angle = this.getAngle(measure);
+            Measure result = factory.createScalarMeasure(Math.tanh(angle),factory.getOne());
+            return result;
+        } catch (FactoryException e) {
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
+    }
+
+    /**
+     * Returns the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle, which is the
+     * side opposite to the right angle. The length of the hypotenuse (h) can be calculated by using the Pythagorean
+     * theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>). <br>
+     * The units of the parameters <code>x</code> and <code>y</code> should have the same dimension.
+     * The unit of the result is equal to the unit of <code>x</code>.
+     *
+     * @param x The first side of the right-angles rectangle, not opposite to the right angle.
+     * @param y The second side of the right-angles rectangle, not opposite to the right angle.
+     * @return The hypotenuse, i.e. longest side of the right-angled rectangle.
+     */
+    @Override
+    public Measure hypot(Measure x, Measure y) {
+        try {
+            double yv = factory.convert(y.getScalarValue(), y.getUnit(), x.getUnit());
+            double xv = x.getScalarValue();
+            double hypot = Math.hypot(xv, yv);
+            return factory.createScalarMeasure(hypot,x.getUnit());
+        } catch (ConversionException e) {
+            throw new MathException("The two coordinate measures x="+x+" and y="+y+" should have the same dimension and " +
+                    "convertible into each other to determine the polar angle using atan2().",e);
+        } catch (NumberFormatException e){
+            throw new MathException("One of the paramters of the hypot("+x+","+y+") function was not a scalar value.");
+        }
     }
 }

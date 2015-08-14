@@ -263,10 +263,87 @@ public interface MathProcessor {
     public Measure cbrt(Measure measure);
 
     /**
+     * Returns the angle from the conversion of rectangular coordinates (x,y) to polar coordinates (r,angle).
+     * Both coordinates should have the same dimension and be convertable into each other.
+     *
+     * @param x The ordinate coordinate.
+     * @param y The abscissa coordinate.
+     * @return The absolute value.
+     */
+    public Measure atan2(Measure y,Measure x);
+
+    /**
+     * Returns the exponentiation of the base to the power of the exponent, i.e. base<sup>exponent</sup>.
+     * This method takes a double value (i.e. a dimensionless constant) for the exponent.
+     * The unit of the result is equal to the unit of the base raised to the power of the exponent, for instance
+     * 2 m raised the power of 3 (pow(2 m, 3)) is equal to 8 m^3.
+     *
+     * @param base The base measure which is raised to the power of the exponent.
+     * @param exponent The exponent value.
+     * @return The base raised to the power of the exponent.
+     */
+    public Measure pow(Measure base, double exponent);
+
+    /**
+     * Returns the exponentiation of the base to the power of the exponent, i.e. base<sup>exponent</sup>.
+     * This method takes a double value (i.e. a dimensionless constant) as the base and a measure as the exponent.
+     * The exponent measure should have a dimensionless unit and be convertible to the unit One.
+     * THe exponent measure can be a vector.
+     * The result is expressed in unit One.
+     *
+     * @param base The base value which is raised to the power of the exponent.
+     * @param exponent The exponent measure.
+     * @return The base raised to the power of the exponent.
+     */
+    public Measure pow(double base, Measure exponent);
+
+    /**
      * Returns the absolute value of the specified measure expressed in the same unit as the parameter.
      *
      * @param measure The measurement whose absolute value is to be determined.
      * @return The absolute value.
      */
     public Measure abs(Measure measure);
+
+    /**
+     * Returns the hyperbolic sine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose hyperbolic sine is to be determined.
+     * @return The hyperbolic sine of the measure.
+     */
+    public Measure sinh(Measure measure);
+
+    /**
+     * Returns the hyperbolic cosine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose hyperbolic cosine is to be determined.
+     * @return The hyperbolic cosine of the measure.
+     */
+    public Measure cosh(Measure measure);
+    /**
+     * Returns the hyperbolic tangent of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
+     * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
+     * be dimensionless.
+     *
+     * @param measure The measure whose hyperbolic tangent is to be determined.
+     * @return The hyperbolic tangent of the measure.
+     */
+    public Measure tanh(Measure measure);
+
+    /**
+     * Returns the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle, which is the
+     * side opposite to the right angle. The length of the hypotenuse (h) can be calculated by using the Pythagorean
+     * theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>). <br>
+     * The units of the parameters <code>x</code> and <code>y</code> should have the same dimension.
+     * The unit of the result is equal to the unit of <code>x</code>.
+     *
+     * @param x The first side of the right-angles rectangle, not opposite to the right angle.
+     * @param y The second side of the right-angles rectangle, not opposite to the right angle.
+     * @return The hypothenus, i.e. longest side of the right-angled rectangle.
+     */
+    public Measure hypot(Measure x,Measure y);
 }
