@@ -1,7 +1,7 @@
 package nl.wur.fbr.om.math;
 
 import nl.wur.fbr.om.conversion.CoreInstanceFactory;
-import nl.wur.fbr.om.core.impl.units.UnitDivisionImpl;
+import nl.wur.fbr.om.core.impl.units.UnitExponentiationImpl;
 import nl.wur.fbr.om.core.set.CoreSet;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.InstanceFactory;
@@ -274,6 +274,26 @@ public class BasicOperatorTest {
         System.out.println("Division " + m1 + " / " + 2 + " = " + m3);
         Assert.assertEquals("Test division", 10, m3.getScalarValue(), 0.00000001);
         Assert.assertEquals("Test division",CoreSet.KILOGRAM,m3.getUnit());
+    }
+
+    @Test
+    public void testDivisionOfADoubleAndAMeasure() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(20, CoreSet.KILOGRAM);
+        Measure m3 = Math.divide(2, m1);
+        System.out.println("Division 2 / " + m1 + " = " + m3);
+        Assert.assertEquals("Test division", 0.1, m3.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test division",CoreSet.KILOGRAM,((UnitExponentiation)m3.getUnit()).getBase());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,CoreSet.CALORIE);
+        try {
+            Math.divide(2, m5);
+            Assert.fail("Exception should have been thrown after division of scalar by vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception after division of scalar by vector.",true);
+        }
     }
 
     @Test

@@ -333,6 +333,26 @@ public class MathProcessorImpl implements MathProcessor {
     }
 
     /**
+     * Returns the quotient of the double and the measure as a measure expressed in the reciprocal unit of the specified
+     * parameter measure <code>denominator</code>.
+     *
+     * @param numerator   The double value to be divided by the denominator measure.
+     * @param denominator The measure used to divide the numerator double value.
+     * @return The quotient of the double value and the measure expressed in the same unit as the <code>numerator</code>.
+     * @throws MathException When the denominator measure is not a scalar value.
+     */
+    @Override
+    public Measure divide(double numerator, Measure denominator) {
+        try {
+            double v1 = denominator.getScalarValue();
+            Unit newUnit = factory.createUnitExponentiation(denominator.getUnit(), -1);
+            return factory.createScalarMeasure(numerator / v1, newUnit); //division of two scalars.
+        }catch (NumberFormatException e){
+            throw new MathException("The denominator "+denominator+" should be a scalar value.",e);
+        }
+    }
+
+    /**
      * Returns an angle value that can be used in the trigonometric functions from the specified measure.
      * The measure is first tested if it is a vector and if it is a {@link MathException} is thrown.
      * The measure is also tested if it is equal to one, and if it is the angle is equal to the numerical value

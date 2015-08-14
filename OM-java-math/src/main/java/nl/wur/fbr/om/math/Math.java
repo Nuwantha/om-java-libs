@@ -182,14 +182,26 @@ public class Math {
     }
 
     /**
-     * Returns the quotient of the two measure and the double as a measure expressed in the same unit as the specified
+     * Returns the quotient of the measure and the double as a measure expressed in the same unit as the specified
      * parameter measure <code>numerator</code>.
      *
-     * @param numerator The measure to be divided by the denominator measure.
-     * @param denominator The double used to divide the numerator measure.
+     * @param numerator The measure to be divided by the denominator double value.
+     * @param denominator The double value used to divide the numerator measure.
      * @return The quotient of the measure and the double expressed in the same unit as the <code>numerator</code>.
      */
     public static Measure divide(Measure numerator, double denominator){
+        return processor.divide(numerator, denominator);
+    }
+
+    /**
+     * Returns the quotient of the double and the measure as a measure expressed in the reciprocal unit of the specified
+     * parameter measure <code>denominator</code>.
+     *
+     * @param numerator The double value to be divided by the denominator measure.
+     * @param denominator The measure used to divide the numerator double value.
+     * @return The quotient of the double value and the measure expressed in the same unit as the <code>numerator</code>.
+     */
+    public static Measure divide(double numerator, Measure denominator){
         return processor.divide(numerator, denominator);
     }
 
