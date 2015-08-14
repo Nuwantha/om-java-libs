@@ -8,6 +8,7 @@ import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.math.impl.MathProcessorImpl;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.units.Unit;
 import nl.wur.fbr.om.model.units.UnitDivision;
 import nl.wur.fbr.om.model.units.UnitExponentiation;
 import nl.wur.fbr.om.model.units.UnitMultiplication;
@@ -273,6 +274,138 @@ public class BasicOperatorTest {
         System.out.println("Division " + m1 + " / " + 2 + " = " + m3);
         Assert.assertEquals("Test division", 10, m3.getScalarValue(), 0.00000001);
         Assert.assertEquals("Test division",CoreSet.KILOGRAM,m3.getUnit());
+    }
+
+    @Test
+    public void testSine() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(1,CoreSet.RADIAN);
+        Measure m2 = Math.sin(m1);
+        System.out.println("Sine: sin("+m1+") = "+m2);
+        Assert.assertEquals("Test sine", 0.8414709848, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test sine", CoreSet.ONE, m2.getUnit());
+        Measure m3 = factory.createScalarMeasure(1,CoreSet.DEGREE);
+        Measure m4 = Math.sin(m3);
+        System.out.println("Sine: sin(" + m3 + ") = " + m4);
+        Assert.assertEquals("Test sine", 0.0174524064, m4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test sine",CoreSet.ONE,m4.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,CoreSet.DEGREE);
+        try {
+            Math.sin(m5);
+            Assert.fail("Exception should have been thrown after taking the sine of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the sine of a vector.",true);
+        }
+        Measure m6 = factory.createVectorMeasure(vec,CoreSet.METRE);
+        try {
+            Math.sin(m6);
+            Assert.fail("Exception should have been thrown after taking the sine of a measure with a non dimensionless unit.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the sine of a measure with a dimensionless unit.",true);
+        }
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(2.03,kilometrePerKiloMetre);
+        Measure m8 = Math.sin(m7);
+        System.out.println("Sine: sin(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test sine", 0.8964057412, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test sine",CoreSet.ONE,m8.getUnit());
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m9 = factory.createScalarMeasure(2.03,metrePerKiloMetre);
+        Measure m10 = Math.sin(m9);
+        System.out.println("Sine: sin(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test sine", 0.0020299986, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test sine",CoreSet.ONE,m10.getUnit());
+    }
+
+    @Test
+    public void testCosine() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(1,CoreSet.RADIAN);
+        Measure m2 = Math.cos(m1);
+        System.out.println("Cosine: cos("+m1+") = "+m2);
+        Assert.assertEquals("Test cosine", 0.5403023059, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test cosine", CoreSet.ONE, m2.getUnit());
+        Measure m3 = factory.createScalarMeasure(1,CoreSet.DEGREE);
+        Measure m4 = Math.cos(m3);
+        System.out.println("Cosine: cos(" + m3 + ") = " + m4);
+        Assert.assertEquals("Test cosine", 0.9998476952, m4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test cosine",CoreSet.ONE,m4.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,CoreSet.DEGREE);
+        try {
+            Math.cos(m5);
+            Assert.fail("Exception should have been thrown after taking the cosine of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the cosine of a vector.",true);
+        }
+        Measure m6 = factory.createVectorMeasure(vec,CoreSet.METRE);
+        try {
+            Math.cos(m6);
+            Assert.fail("Exception should have been thrown after taking the cosine of a measure with a non dimensionless unit.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the cosine of a measure with a dimensionless unit.",true);
+        }
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(2.03,kilometrePerKiloMetre);
+        Measure m8 = Math.cos(m7);
+        System.out.println("Cosine: cos(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test cosine", -0.4432344157, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test cosine",CoreSet.ONE,m8.getUnit());
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m9 = factory.createScalarMeasure(2.03,metrePerKiloMetre);
+        Measure m10 = Math.cos(m9);
+        System.out.println("Cosine: cos(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test cosine", 0.9999979396, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test cosine",CoreSet.ONE,m10.getUnit());
+    }
+
+    @Test
+    public void testTangent() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Measure m1 = factory.createScalarMeasure(1,CoreSet.RADIAN);
+        Measure m2 = Math.tan(m1);
+        System.out.println("Tangent: tan("+m1+") = "+m2);
+        Assert.assertEquals("Test tangent", 1.5574077247, m2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test tangent", CoreSet.ONE, m2.getUnit());
+        Measure m3 = factory.createScalarMeasure(1,CoreSet.DEGREE);
+        Measure m4 = Math.tan(m3);
+        System.out.println("Tangent: tan(" + m3 + ") = " + m4);
+        Assert.assertEquals("Test tangent", 0.0174550649, m4.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test tangent",CoreSet.ONE,m4.getUnit());
+        double[] vec = {0.4,2.3};
+        Measure m5 = factory.createVectorMeasure(vec,CoreSet.DEGREE);
+        try {
+            Math.tan(m5);
+            Assert.fail("Exception should have been thrown after taking the tangent of a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the tangent of a vector.",true);
+        }
+        Measure m6 = factory.createVectorMeasure(vec,CoreSet.METRE);
+        try {
+            Math.tan(m6);
+            Assert.fail("Exception should have been thrown after taking the tangent of a measure with a non dimensionless unit.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception when taking the tangent of a measure with a dimensionless unit.",true);
+        }
+        Unit kilometrePerKiloMetre = factory.createUnitDivision(CoreSet.KILOMETRE,CoreSet.KILOMETRE);
+        Measure m7 = factory.createScalarMeasure(2.03,kilometrePerKiloMetre);
+        Measure m8 = Math.tan(m7);
+        System.out.println("Tangent: tan(" + m7 + ") = " + m8);
+        Assert.assertEquals("Test tangent", -2.0224190845, m8.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test tangent",CoreSet.ONE,m8.getUnit());
+        Unit metrePerKiloMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Measure m9 = factory.createScalarMeasure(2.03,metrePerKiloMetre);
+        Measure m10 = Math.tan(m9);
+        System.out.println("Tangent: tan(" + m9 + ") = " + m10);
+        Assert.assertEquals("Test tangent", 0.0020300028, m10.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test tangent",CoreSet.ONE,m10.getUnit());
     }
 
     @Test

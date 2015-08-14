@@ -1,6 +1,8 @@
 package nl.wur.fbr.om.math.impl;
 
 import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.FactoryException;
+import nl.wur.fbr.om.exceptions.UnitConversionException;
 import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.math.MathException;
 import nl.wur.fbr.om.math.MathProcessor;
@@ -331,6 +333,37 @@ public class MathProcessorImpl implements MathProcessor {
     }
 
     /**
+     * Returns an angle value that can be used in the trigonometric functions from the specified measure.
+     * The measure is first tested if it is a vector and if it is a {@link MathException} is thrown.
+     * The measure is also tested if it is equal to one, and if it is the angle is equal to the numerical value
+     * of the measure. If the measure is not equal to one but is dimensionless, the measure is converted to
+     * One. This value is returned. If the measure is not dimensionless a {@link MathException} will be thrown.
+     * @param measure The measures which needs to be converted to an angle in radians.
+     * @return The angle in radians.
+     * @throws FactoryException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
+     */
+    private double getAngle(Measure measure) throws FactoryException {
+        double[] vector = measure.getVectorValue();
+        if(vector.length>1) throw new MathException("Cannot use a vector: "+measure+" as an angle.");
+        double angle = 0;
+        boolean one = factory.unitIsEqualToOne(measure.getUnit());
+        if(one){
+            angle = measure.getScalarValue();
+        }else{
+            if(!measure.getUnit().isDimensionless()){
+                throw new MathException("The argument to the sine is not dimensionless.");
+            }
+            try {
+                angle = factory.convertToUnit(measure, factory.getRadianUnit()).getScalarValue();
+            }catch (UnitConversionException e){
+                angle = factory.convertToUnit(measure, factory.getOne()).getScalarValue();
+            }
+        }
+        return angle;
+    }
+
+    /**
      * Returns the sine of the measure. The unit of the parameter should be an angle unit (e.g. radian or degree) or
      * should have the same dimension as the angle units, i.e. be dimensionless. The unit of the result will also
      * be dimensionless.
@@ -340,7 +373,13 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure sin(Measure measure) {
-        return null;
+        try {
+            double angle = this.getAngle(measure);
+            Measure result = factory.createScalarMeasure(Math.sin(angle),factory.getOne());
+            return result;
+        } catch (FactoryException e) {
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
     }
 
     /**
@@ -353,7 +392,13 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure cos(Measure measure) {
-        return null;
+        try {
+            double angle = this.getAngle(measure);
+            Measure result = factory.createScalarMeasure(Math.cos(angle),factory.getOne());
+            return result;
+        } catch (FactoryException e) {
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
     }
 
     /**
@@ -366,7 +411,13 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure tan(Measure measure) {
-        return null;
+        try {
+            double angle = this.getAngle(measure);
+            Measure result = factory.createScalarMeasure(Math.tan(angle),factory.getOne());
+            return result;
+        } catch (FactoryException e) {
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
+        }
     }
 
     /**
