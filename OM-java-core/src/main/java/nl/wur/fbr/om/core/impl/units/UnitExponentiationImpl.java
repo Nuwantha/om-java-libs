@@ -152,7 +152,11 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         Set<BaseDimension> dims = bmap.getDimensions();
         for(BaseDimension dim : dims){
             double exp = bmap.getDimensionalExponent(dim);
-            map.setDimensionalExponent(dim,exp*(double)getExponent());
+            if(exp*(double)getExponent()!=0){
+                map.setDimensionalExponent(dim,exp*(double)getExponent());
+            }else{
+                map.remove(dim);
+            }
         }
         return map;
     }

@@ -156,7 +156,11 @@ public class UnitMultiplicationImpl extends UnitImpl implements UnitMultiplicati
         for(BaseDimension dim : dims2){
             double exp = map2.getDimensionalExponent(dim);
             double eee = map.getDimensionalExponent(dim);
-            map.setDimensionalExponent(dim,eee+exp);
+            if(eee+exp!=0){
+                map.setDimensionalExponent(dim,eee+exp);
+            }else{
+                map.remove(dim);
+            }
         }
         return map;
     }
