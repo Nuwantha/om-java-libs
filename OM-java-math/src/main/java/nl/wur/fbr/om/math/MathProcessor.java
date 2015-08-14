@@ -346,4 +346,28 @@ public interface MathProcessor {
      * @return The hypothenus, i.e. longest side of the right-angled rectangle.
      */
     public Measure hypot(Measure x,Measure y);
+
+    /**
+     * Returns the dot product of two vector measures. This method throws a {@link MathException} when one of the
+     * measures is not a vector or when the number of components is not equal. <br>
+     * Both vectors should have the same dimension. The unit of the dot product is the unit of the first vector
+     * squared.
+     *
+     * @param vector1 The first vector in the dot product.
+     * @param vector2 The second vector in the dot product.
+     * @return The dot product (a scalar measure).
+     */
+    public Measure dotProduct(Measure vector1, Measure vector2);
+
+    /**
+     * Returns the cross product of two 3D vector measures. This method throws a {@link MathException} when one of the
+     * measures is not a vector or when the number of components is not equal to three. <br>
+     * Both vectors should have the same dimension. The unit of the dot product is the unit of the first vector
+     * squared.
+     *
+     * @param vector1 The first vector in the dot product.
+     * @param vector2 The second vector in the dot product.
+     * @return The cross product (a vector measure).
+     */
+    public Measure crossProduct(Measure vector1, Measure vector2);
 }

@@ -781,8 +781,8 @@ public class BasicOperatorTest {
         InstanceFactory factory = new CoreInstanceFactory();
         factory.addUnitAndScaleSet(CoreSet.class);
         Math.setMathProcessor(new MathProcessorImpl(factory));
-        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE,CoreSet.METRE);
-        Unit metrePerKilometre = factory.createUnitDivision(CoreSet.METRE,CoreSet.KILOMETRE);
+        Unit metrePerMetre = factory.createUnitDivision(CoreSet.METRE, CoreSet.METRE);
+        Unit metrePerKilometre = factory.createUnitDivision(CoreSet.METRE, CoreSet.KILOMETRE);
         Measure x = factory.createScalarMeasure(12.4, metrePerMetre);
         Measure sqx = Math.pow(2,x);
         System.out.println("Power: pow(2,"+x+") = "+sqx);
@@ -867,4 +867,87 @@ public class BasicOperatorTest {
         }
     }
 
+    @Test
+    public void testDotProduct() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] vecx = {0.4,2.3};
+        double[] vecy = {2.4,-5.3};
+        Measure v1 = factory.createVectorMeasure(vecx, CoreSet.METRE);
+        Measure v2 = factory.createVectorMeasure(vecy, CoreSet.METRE);
+        Measure dotp = Math.dotProduct(v1, v2);
+        System.out.println("Dot product: dotProduct(" + v1 + "," + v2 + ") = " + dotp);
+        Assert.assertEquals("Test dot product", -11.23, dotp.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test dot product", CoreSet.SQUARE_METRE, dotp.getUnit());
+        Measure s1 = factory.createScalarMeasure(4.3,CoreSet.METRE);
+        try {
+            Math.hypot(s1, v1);
+            Assert.fail("Exception should have been thrown while calculating the dot product of a scalar and a vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception while calculating the dot product of a scalar and a vector.",true);
+        }
+        Measure s2 = factory.createScalarMeasure(2,CoreSet.METRE);
+        Measure dotp2 = Math.dotProduct(s1, s2);
+        System.out.println("Dot product: dotProduct(" + s1 + "," + s2 + ") = " + dotp2);
+        Assert.assertEquals("Test dot product", 8.6, dotp2.getScalarValue(), 0.00000001);
+        Assert.assertEquals("Test dot product", CoreSet.SQUARE_METRE, dotp2.getUnit());
+        double[] vec3 = {2.4,-5.3};
+        Measure v3 = factory.createVectorMeasure(vec3,CoreSet.CALORIE);
+        try {
+            Math.hypot(v1, v3);
+            Assert.fail("Exception should have been thrown while calculating the dot product of two vectors in different dimensions.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception while calculating the dot product of two vectors in different dimensions.",true);
+        }
+        double[] vec4 = {2.4,-5.3,7.3};
+        Measure v4 = factory.createVectorMeasure(vec4,CoreSet.METRE);
+        try {
+            Math.hypot(v1, v4);
+            Assert.fail("Exception should have been thrown while calculating the dot product of two vectors with different sizes.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception while calculating the dot product of two vectors with different sizes.",true);
+        }
+    }
+
+    @Test
+    public void testCrossProduct() throws UnitOrScaleCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        double[] vecx = {2,1,3};
+        double[] vecy = {5,-2,-3};
+        Measure v1 = factory.createVectorMeasure(vecx,CoreSet.METRE);
+        Measure v2 = factory.createVectorMeasure(vecy,CoreSet.METRE);
+        Measure crosp = Math.crossProduct(v1, v2);
+        System.out.println("Cross product: crossProduct(" + v1 + "," + v2 + ") = " + crosp);
+        Assert.assertEquals("Test cross product", 3, crosp.getVectorValue()[0], 0.00000001);
+        Assert.assertEquals("Test cross product", 21, crosp.getVectorValue()[1], 0.00000001);
+        Assert.assertEquals("Test cross product", -9, crosp.getVectorValue()[2], 0.00000001);
+        Assert.assertEquals("Test cross product", CoreSet.SQUARE_METRE, crosp.getUnit());
+
+        double[] veca = {5,-3};
+        double[] vecb = {-2,-3};
+        Measure v3 = factory.createVectorMeasure(veca,CoreSet.METRE);
+        Measure v4 = factory.createVectorMeasure(vecb,CoreSet.METRE);
+        try {
+            Math.crossProduct(v3, v4);
+            Assert.fail("Exception should have been thrown while calculating the dot product of two 2D vectors.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception while calculating the dot product of two 2D vectors.",true);
+        }
+        try {
+            Math.crossProduct(v1, v4);
+            Assert.fail("Exception should have been thrown while calculating the dot product of a 3D and a 2D vector.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception while calculating the dot product of a 3D and a 2D vector.",true);
+        }
+        Measure v6 = factory.createVectorMeasure(vecx,CoreSet.CALORIE);
+        try {
+            Math.crossProduct(v6, v2);
+            Assert.fail("Exception should have been thrown while calculating the dot product of two vectors with a different dimension.");
+        }catch (MathException e){
+            Assert.assertTrue("Expected exception while calculating the dot product of vectors with a different dimension.",true);
+        }
+    }
 }

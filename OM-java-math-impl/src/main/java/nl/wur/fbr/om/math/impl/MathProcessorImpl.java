@@ -419,7 +419,7 @@ public class MathProcessorImpl implements MathProcessor {
     public Measure tan(Measure measure) {
         try {
             double angle = this.getAngle(measure);
-            Measure result = factory.createScalarMeasure(Math.tan(angle),factory.getOne());
+            Measure result = factory.createScalarMeasure(Math.tan(angle), factory.getOne());
             return result;
         } catch (FactoryException e) {
             throw new MathException("Could not create result measure because the unit One was not defined.",e);
@@ -664,7 +664,7 @@ public class MathProcessorImpl implements MathProcessor {
         try {
             double xv = factory.convert(x.getScalarValue(),x.getUnit(),y.getUnit());
             double yv = y.getScalarValue();
-            double atan = Math.atan2(yv,xv);
+            double atan = Math.atan2(yv, xv);
             return factory.createScalarMeasure(atan,factory.getRadianUnit());
         } catch (ConversionException e) {
             throw new MathException("The two coordinate measures x="+x+" and y="+y+" should have the same dimension and " +
@@ -691,7 +691,7 @@ public class MathProcessorImpl implements MathProcessor {
         try {
             double bv = base.getScalarValue();
             double pow = Math.pow(bv, exponent);
-            return factory.createScalarMeasure(pow,factory.createUnitExponentiation(base.getUnit(),exponent));  // todo find existing unit
+            return factory.createScalarMeasure(pow,factory.createUnitExponentiation(base.getUnit(), exponent));  // todo find existing unit
         } catch (NumberFormatException e){
             throw new MathException("The base measure in the pow("+base+","+exponent+") function was not a scalar value.");
         }
@@ -716,7 +716,7 @@ public class MathProcessorImpl implements MathProcessor {
             pow[i] = Math.pow(base, m[i]);
         }
         try{
-            Measure result = factory.createVectorMeasure(pow,factory.getOne());
+            Measure result = factory.createVectorMeasure(pow, factory.getOne());
             return result;
         }catch(FactoryException e){
             throw new MathException("Could not create result measure because the unit One was not defined.",e);
@@ -789,7 +789,7 @@ public class MathProcessorImpl implements MathProcessor {
     public Measure tanh(Measure measure) {
         try {
             double angle = this.getAngle(measure);
-            Measure result = factory.createScalarMeasure(Math.tanh(angle),factory.getOne());
+            Measure result = factory.createScalarMeasure(Math.tanh(angle), factory.getOne());
             return result;
         } catch (FactoryException e) {
             throw new MathException("Could not create result measure because the unit One was not defined.",e);
@@ -819,6 +819,75 @@ public class MathProcessorImpl implements MathProcessor {
                     "convertible into each other to determine the polar angle using atan2().",e);
         } catch (NumberFormatException e){
             throw new MathException("One of the paramters of the hypot("+x+","+y+") function was not a scalar value.");
+        }
+    }
+
+    /**
+     * Returns the dot product of two vector measures. This method throws a {@link MathException} when one of the
+     * measures is not a vector or when the number of components is not equal. <br>
+     * Both vectors should have the same dimension. The unit of the dot product is the unit of the first vector
+     * squared.
+     *
+     * @param vector1 The first vector in the dot product.
+     * @param vector2 The second vector in the dot product.
+     * @return The dot product (a scalar measure).
+     */
+    @Override
+    public Measure dotProduct(Measure vector1, Measure vector2) {
+        try {
+            double[] v1 = vector1.getVectorValue();
+            double[] v2 = vector2.getVectorValue();
+            if(v1.length!=v2.length){
+                throw new MathException("The vectors "+vector1+" or "+vector2+" are not of equal length, the dot" +
+                        "product can, therefore not be calculated.");
+            }
+            Measure vector2a = factory.convertToUnit(vector2,vector1.getUnit());
+            v2 = vector2a.getVectorValue();
+            double dotp = 0;
+            for(int i=0;i<v1.length;i++){
+                dotp += v1[i]*v2[i];
+            }
+            Unit newUnit = factory.createUnitExponentiation(vector1.getUnit(),2); //todo find existing unit
+            return factory.createScalarMeasure(dotp,newUnit);
+        }catch (ClassCastException e){
+            throw new MathException("One of the parameters, "+vector1+" or "+vector2+" to the dotProduct() method" +
+                    "is not a vector.",e);
+        } catch (ConversionException e) {
+            throw new MathException("The vectors "+vector1+" and "+vector2+" do not have the same dimension or are" +
+                    "not convertible.");
+        }
+    }
+
+    /**
+     * Returns the cross product of two 3D vector measures. This method throws a {@link MathException} when one of the
+     * measures is not a vector or when the number of components is not equal to three. <br>
+     * Both vectors should have the same dimension. The unit of the dot product is the unit of the first vector
+     * squared.
+     *
+     * @param vector1 The first vector in the dot product.
+     * @param vector2 The second vector in the dot product.
+     * @return The cross product (a vector measure).
+     */
+    @Override
+    public Measure crossProduct(Measure vector1, Measure vector2) {
+        try {
+            double[] v1 = vector1.getVectorValue();
+            double[] v2 = vector2.getVectorValue();
+            if(v1.length!=v2.length || v1.length!=3){
+                throw new MathException("The vectors "+vector1+" or "+vector2+" should both be three dimensional, the cross" +
+                        "product can, therefore not be calculated.");
+            }
+            Measure vector2a = factory.convertToUnit(vector2,vector1.getUnit());
+            v2 = vector2a.getVectorValue();
+            double[] crosp = {v1[1]*v2[2]-v1[2]*v2[1],v1[2]*v2[0]-v1[0]*v2[2],v1[0]*v2[1]-v1[1]*v2[0]};
+            Unit newUnit = factory.createUnitExponentiation(vector1.getUnit(),2); //todo find existing unit
+            return factory.createVectorMeasure(crosp, newUnit);
+        }catch (ClassCastException e){
+            throw new MathException("One of the parameters, "+vector1+" or "+vector2+" to the dotProduct() method" +
+                    "is not a vector.",e);
+        } catch (ConversionException e) {
+            throw new MathException("The vectors "+vector1+" and "+vector2+" do not have the same dimension or are" +
+                    "not convertible.");
         }
     }
 }
