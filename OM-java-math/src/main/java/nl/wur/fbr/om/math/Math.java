@@ -154,6 +154,7 @@ public class Math {
      * @param multiplier The double with which the multiplicand measure is to be multiplied.
      * @return The product of the double and the measure expressed in the same unit as the unit of the
      * <code>multiplicand</code>.
+     * @throws MathException When the multiplicand is not a vector or scalar.
      */
     public static Measure multiply(Measure multiplicand, double multiplier){
         return processor.multiply(multiplicand, multiplier);
@@ -188,6 +189,7 @@ public class Math {
      * @param numerator The measure to be divided by the denominator double value.
      * @param denominator The double value used to divide the numerator measure.
      * @return The quotient of the measure and the double expressed in the same unit as the <code>numerator</code>.
+     * @throws MathException When the numerator is not a vector or scalar.
      */
     public static Measure divide(Measure numerator, double denominator){
         return processor.divide(numerator, denominator);
@@ -200,6 +202,7 @@ public class Math {
      * @param numerator The double value to be divided by the denominator measure.
      * @param denominator The measure used to divide the numerator double value.
      * @return The quotient of the double value and the measure expressed in the same unit as the <code>numerator</code>.
+     * @throws MathException When the denominator is not a scalar.
      */
     public static Measure divide(double numerator, Measure denominator){
         return processor.divide(numerator, denominator);
@@ -212,6 +215,8 @@ public class Math {
      *
      * @param measure The measure whose sine is to be determined.
      * @return The sine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
      */
     public static Measure sin(Measure measure){
         return processor.sin(measure);
@@ -224,6 +229,8 @@ public class Math {
      *
      * @param measure The measure whose cosine is to be determined.
      * @return The cosine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
      */
     public static Measure cos(Measure measure){
         return processor.cos(measure);
@@ -236,6 +243,8 @@ public class Math {
      *
      * @param measure The measure whose tangent is to be determined.
      * @return The tangent of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
      */
     public static Measure tan(Measure measure){
         return processor.tan(measure);
@@ -247,6 +256,8 @@ public class Math {
      *
      * @param measure The measure whose arc sine is to be determined.
      * @return The arc sine of the measure.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the radian unit was not defined.
      */
     public static Measure asin(Measure measure){
         return processor.asin(measure);
@@ -258,6 +269,8 @@ public class Math {
      *
      * @param measure The measure whose arc cosine is to be determined.
      * @return The arc cosine of the measure.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the radian unit was not defined.
      */
     public static Measure acos(Measure measure){
         return processor.acos(measure);
@@ -269,6 +282,8 @@ public class Math {
      *
      * @param measure The measure whose arc tangent is to be determined.
      * @return The arc tangent of the measure.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the radian unit was not defined.
      */
     public static Measure atan(Measure measure){
         return processor.atan(measure);
@@ -280,6 +295,8 @@ public class Math {
      *
      * @param measure The measure to raise e to.
      * @return The value of e<sup>measure</sup>.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined.
      */
     public static Measure exp(Measure measure){
         return processor.exp(measure);
@@ -291,6 +308,8 @@ public class Math {
      *
      * @param measure The measure for which the logarithm needs to be determined.
      * @return The natural logarithm of the parameter.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined.
      */
     public static Measure log(Measure measure){
         return processor.log(measure);
@@ -302,6 +321,8 @@ public class Math {
      *
      * @param measure The measure for which the logarithm needs to be determined.
      * @return The base 10 logarithm of the parameter.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined.
      */
     public static Measure log10(Measure measure){
         return processor.log10(measure);
@@ -313,6 +334,7 @@ public class Math {
      *
      * @param measure The measure for which the square root needs to be determined.
      * @return The square root of the parameter.
+     * @throws MathException When the parameter is not a scalar or vector.
      */
     public static Measure sqrt(Measure measure){
         return processor.sqrt(measure);
@@ -324,6 +346,7 @@ public class Math {
      *
      * @param measure The measure for which the cubic root needs to be determined.
      * @return The cubic root of the parameter.
+     * @throws MathException When the parameter is not a scalar or vector.
      */
     public static Measure cbrt(Measure measure){
         return processor.cbrt(measure);
@@ -336,6 +359,8 @@ public class Math {
      * @param x The ordinate coordinate.
      * @param y The abscissa coordinate.
      * @return The absolute value.
+     * @throws MathException When the parameters do not have the same dimension or are not convertible, or because the
+     * radian unit was not defined, or when one of the parameters was not a scalar.
      */
     public static Measure atan2(Measure y,Measure x){
         return processor.atan2(y, x);
@@ -350,6 +375,7 @@ public class Math {
      * @param base The base measure which is raised to the power of the exponent.
      * @param exponent The exponent value.
      * @return The base raised to the power of the exponent.
+     * @throws MathException When the base parameter is not a scalar.
      */
     public static Measure pow(Measure base, double exponent){
         return processor.pow(base, exponent);
@@ -365,6 +391,8 @@ public class Math {
      * @param base The base value which is raised to the power of the exponent.
      * @param exponent The exponent measure.
      * @return The base raised to the power of the exponent.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined, or when the measure is not a vector (or scalar value).
      */
     public static Measure pow(double base, Measure exponent){
         return processor.pow(base, exponent);
@@ -375,6 +403,7 @@ public class Math {
      *
      * @param measure The measurement whose absolute value is to be determined.
      * @return The absolute value.
+     * @throws MathException When the parameter is not a scalar or vector.
      */
     public static Measure abs(Measure measure) {
         return processor.abs(measure);
@@ -387,6 +416,8 @@ public class Math {
      *
      * @param measure The measure whose hyperbolic sine is to be determined.
      * @return The hyperbolic sine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
      */
     public static Measure sinh(Measure measure){
         return processor.sinh(measure);
@@ -399,6 +430,8 @@ public class Math {
      *
      * @param measure The measure whose hyperbolic cosine is to be determined.
      * @return The hyperbolic cosine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
      */
     public static Measure cosh(Measure measure){
         return processor.cosh(measure);
@@ -411,6 +444,8 @@ public class Math {
      *
      * @param measure The measure whose hyperbolic tangent is to be determined.
      * @return The hyperbolic tangent of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless.
      */
     public static Measure tanh(Measure measure){
         return processor.tanh(measure);
@@ -486,6 +521,8 @@ public class Math {
      * @param vector1 The first vector in the dot product.
      * @param vector2 The second vector in the dot product.
      * @return The dot product (a scalar measure).
+     * @throws MathException When the parameters are not vectors, do not have the same size, or are not convertible
+     * into each other.
      */
     public static Measure dotProduct(Measure vector1, Measure vector2){
         return processor.dotProduct(vector1,vector2);
@@ -500,6 +537,8 @@ public class Math {
      * @param vector1 The first vector in the dot product.
      * @param vector2 The second vector in the dot product.
      * @return The cross product (a vector measure).
+     * @throws MathException When the parameters are not vectors, are not three dimensional, or are not convertible
+     * into each other.
      */
     public static Measure crossProduct(Measure vector1, Measure vector2){
         return processor.crossProduct(vector1,vector2);

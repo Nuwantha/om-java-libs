@@ -57,21 +57,25 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure add(Measure augend, Measure addend) {
-        double[] v1 = augend.getVectorValue();
-        double[] v2 = addend.getVectorValue();
-        if(v1.length == v2.length){
-            try {
-                v2 = factory.convertToUnit(addend, augend.getUnit()).getVectorValue();
-            } catch (ConversionException e) {
-                throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
+        try {
+            double[] v1 = augend.getVectorValue();
+            double[] v2 = addend.getVectorValue();
+            if (v1.length == v2.length) {
+                try {
+                    v2 = factory.convertToUnit(addend, augend.getUnit()).getVectorValue();
+                } catch (ConversionException e) {
+                    throw new MathException("Could not add " + addend + " to " + augend + " because the units could not be aligned.", e);
+                }
+                double[] a = new double[v1.length];
+                for (int i = 0; i < v1.length; i++) {
+                    a[i] = v1[i] + v2[i];
+                }
+                return factory.createVectorMeasure(a, augend.getUnit());
             }
-            double[] a = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                a[i] = v1[i]+v2[i];
-            }
-            return factory.createVectorMeasure(a, augend.getUnit());
+            throw new MathException("The measure could not be added to the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
+        }catch (ClassCastException e){
+            throw new MathException("One of the argument measures is not a vector.",e);
         }
-        throw new MathException("The measure could not be added to the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -92,22 +96,26 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Point add(Point augend, Measure addend) {
-        double[] v1 = augend.getVectorValue();
-        double[] v2 = addend.getVectorValue();
-        if(v1.length == v2.length){
-            try {
-                System.out.println("Converting: "+addend+ " to "+augend.getScale().getUnit()+" = "+ factory.convertToUnit(addend, augend.getScale().getUnit()));
-                v2 = factory.convertToUnit(addend, augend.getScale().getUnit()).getVectorValue();
-            } catch (ConversionException e) {
-                throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
+        try {
+            double[] v1 = augend.getVectorValue();
+            double[] v2 = addend.getVectorValue();
+            if(v1.length == v2.length){
+                try {
+                    System.out.println("Converting: "+addend+ " to "+augend.getScale().getUnit()+" = "+ factory.convertToUnit(addend, augend.getScale().getUnit()));
+                    v2 = factory.convertToUnit(addend, augend.getScale().getUnit()).getVectorValue();
+                } catch (ConversionException e) {
+                    throw new MathException("Could not add "+addend+" to "+augend+" because the units could not be aligned.",e);
+                }
+                double[] a = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    a[i] = v1[i]+v2[i];
+                }
+                return factory.createVectorPoint(a, augend.getScale());
             }
-            double[] a = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                a[i] = v1[i]+v2[i];
-            }
-            return factory.createVectorPoint(a, augend.getScale());
+            throw new MathException("The measure could not be added to the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
+        }catch (ClassCastException e){
+            throw new MathException("One of the arguments is not a vector.",e);
         }
-        throw new MathException("The measure could not be added to the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -124,21 +132,25 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure subtract(Measure minuend, Measure subtrahend) {
-        double[] v1 = minuend.getVectorValue();
-        double[] v2 = subtrahend.getVectorValue();
-        if(v1.length == v2.length){
-            try {
-                v2 = factory.convertToUnit(subtrahend, minuend.getUnit()).getVectorValue();
-            } catch (ConversionException e) {
-                throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+        try{
+            double[] v1 = minuend.getVectorValue();
+            double[] v2 = subtrahend.getVectorValue();
+            if(v1.length == v2.length){
+                try {
+                    v2 = factory.convertToUnit(subtrahend, minuend.getUnit()).getVectorValue();
+                } catch (ConversionException e) {
+                    throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+                }
+                double[] a = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    a[i] = v1[i]-v2[i];
+                }
+                return factory.createVectorMeasure(a, minuend.getUnit());
             }
-            double[] a = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                a[i] = v1[i]-v2[i];
-            }
-            return factory.createVectorMeasure(a, minuend.getUnit());
+            throw new MathException("The measures could not be subtracted because the dimensions are not equal (e.g if they are vectors, they have a different size).");
+        }catch (ClassCastException e){
+            throw new MathException("One of the argument measures is not a vector.",e);
         }
-        throw new MathException("The measures could not be subtracted because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -155,21 +167,25 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Point subtract(Point minuend, Measure subtrahend) {
-        double[] v1 = minuend.getVectorValue();
-        double[] v2 = subtrahend.getVectorValue();
-        if(v1.length == v2.length){
-            try {
-                v2 = factory.convertToUnit(subtrahend, minuend.getScale().getUnit()).getVectorValue();
-            } catch (ConversionException e) {
-                throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+        try{
+            double[] v1 = minuend.getVectorValue();
+            double[] v2 = subtrahend.getVectorValue();
+            if(v1.length == v2.length){
+                try {
+                    v2 = factory.convertToUnit(subtrahend, minuend.getScale().getUnit()).getVectorValue();
+                } catch (ConversionException e) {
+                    throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+                }
+                double[] a = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    a[i] = v1[i]-v2[i];
+                }
+                return factory.createVectorPoint(a, minuend.getScale());
             }
-            double[] a = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                a[i] = v1[i]-v2[i];
-            }
-            return factory.createVectorPoint(a, minuend.getScale());
+            throw new MathException("The measure could not be subtracted from the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
+        }catch (ClassCastException e){
+            throw new MathException("One of the arguments is not a vector.",e);
         }
-        throw new MathException("The measure could not be subtracted from the point because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -190,21 +206,25 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure difference(Point minuend, Point subtrahend) {
-        double[] v1 = minuend.getVectorValue();
-        double[] v2 = subtrahend.getVectorValue();
-        if(v1.length == v2.length){
-            try {
-                v2 = factory.convertToScale(subtrahend, minuend.getScale()).getVectorValue();
-            } catch (ConversionException e) {
-                throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+        try{
+            double[] v1 = minuend.getVectorValue();
+            double[] v2 = subtrahend.getVectorValue();
+            if(v1.length == v2.length){
+                try {
+                    v2 = factory.convertToScale(subtrahend, minuend.getScale()).getVectorValue();
+                } catch (ConversionException e) {
+                    throw new MathException("Could not subtract "+subtrahend+" from "+minuend+" because the units could not be aligned.",e);
+                }
+                double[] a = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    a[i] = v1[i]-v2[i];
+                }
+                return factory.createVectorMeasure(a, minuend.getScale().getUnit());
             }
-            double[] a = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                a[i] = v1[i]-v2[i];
-            }
-            return factory.createVectorMeasure(a, minuend.getScale().getUnit());
+            throw new MathException("The points could not be subtracted because the dimensions are not equal (e.g if they are vectors, they have a different size).");
+        }catch (ClassCastException e){
+            throw new MathException("One of the arguments is not a vector.",e);
         }
-        throw new MathException("The points could not be subtracted because the dimensions are not equal (e.g if they are vectors, they have a different size).");
     }
 
     /**
@@ -227,28 +247,32 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure multiply(Measure multiplicand, Measure multiplier) {
-        double[] v1 = multiplicand.getVectorValue();
-        double[] v2 = multiplier.getVectorValue();
-        if(v1.length==1 || v2.length==1){
-            Unit newUnit = factory.createUnitMultiplication(multiplicand.getUnit(),multiplier.getUnit()); //todo Find existing units
-            if(v1.length==1 && v2.length>1){ //multiplication of scalar with vector
-                double v[] = new double[v2.length];
-                for(int i=0;i<v2.length;i++){
-                    v[i] = v1[0]*v2[i];
+        try {
+            double[] v1 = multiplicand.getVectorValue();
+            double[] v2 = multiplier.getVectorValue();
+            if(v1.length==1 || v2.length==1){
+                Unit newUnit = factory.createUnitMultiplication(multiplicand.getUnit(),multiplier.getUnit()); //todo Find existing units
+                if(v1.length==1 && v2.length>1){ //multiplication of scalar with vector
+                    double v[] = new double[v2.length];
+                    for(int i=0;i<v2.length;i++){
+                        v[i] = v1[0]*v2[i];
+                    }
+                    return factory.createVectorMeasure(v,newUnit);
+                }else if(v1.length>1 && v2.length==1){ //multiplication of vector with scalar.
+                    double v[] = new double[v1.length];
+                    for(int i=0;i<v1.length;i++){
+                        v[i] = v1[i]*v2[0];
+                    }
+                    return factory.createVectorMeasure(v,newUnit);
+                }else if(v1.length==1 && v2.length==1){ //multiplication of two scalars.
+                    return factory.createScalarMeasure(v1[0]*v2[0],newUnit);
                 }
-                return factory.createVectorMeasure(v,newUnit);
-            }else if(v1.length>1 && v2.length==1){ //multiplication of vector with scalar.
-                double v[] = new double[v1.length];
-                for(int i=0;i<v1.length;i++){
-                    v[i] = v1[i]*v2[0];
-                }
-                return factory.createVectorMeasure(v,newUnit);
-            }else if(v1.length==1 && v2.length==1){ //multiplication of two scalars.
-                return factory.createScalarMeasure(v1[0]*v2[0],newUnit);
             }
+            if(v1.length!=v2.length) throw new MathException("Cannot multiply two vectors of different size.");
+            throw new MathException("Cannot multiply two vectors using multiply, use dotProduct or crossProduct for vector multiplication.");
+        }catch (ClassCastException e){
+            throw new MathException("The measure "+multiplicand+" is not a vector.",e);
         }
-        if(v1.length!=v2.length) throw new MathException("Cannot multiply two vectors of different size.");
-        throw new MathException("Cannot multiply two vectors using multiply, use dotProduct or crossProduct for vector multiplication.");
     }
 
     /**
@@ -259,18 +283,23 @@ public class MathProcessorImpl implements MathProcessor {
      * @param multiplier   The double with which the multiplicand measure is to be multiplied.
      * @return The product of the double and the measure expressed in the same unit as the unit of the
      * <code>multiplicand</code>.
+     * @throws MathException When the multiplicand is not a vector or scalar.
      */
     @Override
     public Measure multiply(Measure multiplicand, double multiplier) {
-        double[] v1 = multiplicand.getVectorValue();
-        if(v1.length>1){ //multiplication of vector with scalar.
-            double v[] = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                v[i] = v1[i]*multiplier;
+        try {
+            double[] v1 = multiplicand.getVectorValue();
+            if (v1.length > 1) { //multiplication of vector with scalar.
+                double v[] = new double[v1.length];
+                for (int i = 0; i < v1.length; i++) {
+                    v[i] = v1[i] * multiplier;
+                }
+                return factory.createVectorMeasure(v, multiplicand.getUnit());
             }
-            return factory.createVectorMeasure(v,multiplicand.getUnit());
+            return factory.createScalarMeasure(v1[0] * multiplier, multiplicand.getUnit()); //multiplication of two scalars.
+        }catch (ClassCastException e){
+            throw new MathException("To measure "+multiplicand+" is not a vector.",e);
         }
-        return factory.createScalarMeasure(v1[0] * multiplier, multiplicand.getUnit()); //multiplication of two scalars.
     }
 
     /**
@@ -293,22 +322,26 @@ public class MathProcessorImpl implements MathProcessor {
      */
     @Override
     public Measure divide(Measure numerator, Measure denominator) {
-        double[] v1 = numerator.getVectorValue();
-        double[] v2 = denominator.getVectorValue();
-        if(v2.length==1){
-            Unit newUnit = factory.createUnitDivision(numerator.getUnit(), denominator.getUnit()); //todo Find existing units
-            if(v1.length>1 && v2.length==1){ //division of a vector with scalar.
-                double v[] = new double[v1.length];
-                for(int i=0;i<v1.length;i++){
-                    v[i] = v1[i]/v2[0];
+        try{
+            double[] v1 = numerator.getVectorValue();
+            double[] v2 = denominator.getVectorValue();
+            if(v2.length==1){
+                Unit newUnit = factory.createUnitDivision(numerator.getUnit(), denominator.getUnit()); //todo Find existing units
+                if(v1.length>1 && v2.length==1){ //division of a vector with scalar.
+                    double v[] = new double[v1.length];
+                    for(int i=0;i<v1.length;i++){
+                        v[i] = v1[i]/v2[0];
+                    }
+                    return factory.createVectorMeasure(v,newUnit);
+                }else if(v1.length==1 && v2.length==1){ //division of two scalars.
+                    return factory.createScalarMeasure(v1[0] / v2[0], newUnit);
                 }
-                return factory.createVectorMeasure(v,newUnit);
-            }else if(v1.length==1 && v2.length==1){ //division of two scalars.
-                return factory.createScalarMeasure(v1[0]/v2[0],newUnit);
             }
+            if(v1.length!=v2.length) throw new MathException("Cannot multiply two vectors of different size.");
+            throw new MathException("Cannot multiply two vectors using multiply, use dotProduct or crossProduct for vector multiplication.");
+        }catch (ClassCastException e){
+            throw new MathException("One of the arguments is not a vector.",e);
         }
-        if(v1.length!=v2.length) throw new MathException("Cannot multiply two vectors of different size.");
-        throw new MathException("Cannot multiply two vectors using multiply, use dotProduct or crossProduct for vector multiplication.");
     }
 
     /**
@@ -318,18 +351,23 @@ public class MathProcessorImpl implements MathProcessor {
      * @param numerator   The measure to be divided by the denominator measure.
      * @param denominator The double used to divide the numerator measure.
      * @return The quotient of the measure and the double expressed in the same unit as the <code>numerator</code>.
+     * @throws MathException When the numerator is not a vector or scalar.
      */
     @Override
     public Measure divide(Measure numerator, double denominator) {
-        double[] v1 = numerator.getVectorValue();
-        if(v1.length>1){ //division of a vector with scalar.
-            double v[] = new double[v1.length];
-            for(int i=0;i<v1.length;i++){
-                v[i] = v1[i]/denominator;
+        try {
+            double[] v1 = numerator.getVectorValue();
+            if(v1.length>1){ //division of a vector with scalar.
+                double v[] = new double[v1.length];
+                for(int i=0;i<v1.length;i++){
+                    v[i] = v1[i]/denominator;
+                }
+                return factory.createVectorMeasure(v,numerator.getUnit());
             }
-            return factory.createVectorMeasure(v,numerator.getUnit());
+            return factory.createScalarMeasure(v1[0]/denominator,numerator.getUnit()); //division of two scalars.
+        }catch (ClassCastException e){
+            throw new MathException("The numerator is not a vector.",e);
         }
-        return factory.createScalarMeasure(v1[0]/denominator,numerator.getUnit()); //division of two scalars.
     }
 
     /**
@@ -396,6 +434,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose sine is to be determined.
      * @return The sine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless, or when the unit One was not defined.
      */
     @Override
     public Measure sin(Measure measure) {
@@ -415,6 +455,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose cosine is to be determined.
      * @return The cosine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless, or when the unit One was not defined.
      */
     @Override
     public Measure cos(Measure measure) {
@@ -434,6 +476,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose tangent is to be determined.
      * @return The tangent of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless, or when the unit One was not defined.
      */
     @Override
     public Measure tan(Measure measure) {
@@ -473,6 +517,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose arc sine is to be determined.
      * @return The arc sine of the measure.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the radian unit was not defined.
      */
     @Override
     public Measure asin(Measure measure) {
@@ -493,6 +539,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose arc cosine is to be determined.
      * @return The arc cosine of the measure.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the radian unit was not defined.
      */
     @Override
     public Measure acos(Measure measure) {
@@ -513,6 +561,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose arc tangent is to be determined.
      * @return The arc tangent of the measure.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the radian unit was not defined.
      */
     @Override
     public Measure atan(Measure measure) {
@@ -530,7 +580,8 @@ public class MathProcessorImpl implements MathProcessor {
      * dimensionless it can not be expressed in unit One and a {@link MathException} will be thrown.
      * @param measure The measure to be expressed in unit One.
      * @return The vector value as expressed in unit One.
-     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined, or when the measure is not a vector (or scalar value).
      */
     private double[] getVectorValueExpressedInUnitOne(Measure measure){
         if(!measure.getUnit().isDimensionless()) throw new MathException("The argument to arc sine '"+measure+"' is not dimensionless.");
@@ -539,8 +590,8 @@ public class MathProcessorImpl implements MathProcessor {
             return nunit.getVectorValue();
         } catch (FactoryException e) {
             throw new MathException("Could not convert "+measure+" to unit One because the unit One was not defined.",e);
-        } catch (NumberFormatException e) {
-            throw new MathException("Could not convert "+measure+" to a scalar value in unit One because "+measure+" does not have a scalar value.",e);
+        } catch (ClassCastException e) {
+            throw new MathException("Could not convert "+measure+" to a vector value in unit One because "+measure+" does not have a vector value.",e);
         }
     }
 
@@ -552,6 +603,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure to raise e to.
      * @return The value of e<sup>measure</sup>.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined, or when the measure is not a vector (or scalar value).
      */
     @Override
     public Measure exp(Measure measure) {
@@ -576,6 +629,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure for which the logarithm needs to be determined.
      * @return The natural logarithm of the parameter.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined, or when the measure is not a vector (or scalar value).
      */
     @Override
     public Measure log(Measure measure) {
@@ -588,7 +643,7 @@ public class MathProcessorImpl implements MathProcessor {
             Measure result = factory.createVectorMeasure(log,factory.getOne());
             return result;
         }catch(FactoryException e){
-            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
         }
     }
 
@@ -600,6 +655,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure for which the logarithm needs to be determined.
      * @return The base 10 logarithm of the parameter.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined, or when the measure is not a vector (or scalar value).
      */
     @Override
     public Measure log10(Measure measure) {
@@ -612,7 +669,7 @@ public class MathProcessorImpl implements MathProcessor {
             Measure result = factory.createVectorMeasure(log, factory.getOne());
             return result;
         }catch(FactoryException e){
-            throw new MathException("Could not create result measure because the radian unit was not defined.",e);
+            throw new MathException("Could not create result measure because the unit One was not defined.",e);
         }
     }
 
@@ -622,25 +679,30 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure for which the square root needs to be determined.
      * @return The square root of the parameter.
+     * @throws MathException When the parameter is not a scalar or vector.
      */
     @Override
     public Measure sqrt(Measure measure) {
-        double[] m = measure.getVectorValue();
-        double[] sqrt = new double[m.length];
-        for(int i=0;i<m.length;i++){
-            sqrt[i] = Math.sqrt(m[i]);
-        }
-        Unit newUnit = null;
-        if(measure.getUnit() instanceof UnitExponentiation){
-            UnitExponentiation ue = (UnitExponentiation)measure.getUnit();
-            if(Math.abs(ue.getExponent()-2.0)<0.0000001) newUnit = ue.getBase();
-            else{
-                newUnit = factory.createUnitExponentiation(ue.getBase(),ue.getExponent()/2.); // todo find existing unit
+        try {
+            double[] m = measure.getVectorValue();
+            double[] sqrt = new double[m.length];
+            for (int i = 0; i < m.length; i++) {
+                sqrt[i] = Math.sqrt(m[i]);
             }
-        }else{
-            newUnit = factory.createUnitExponentiation(measure.getUnit(),0.5); // todo find existing unit
+            Unit newUnit = null;
+            if (measure.getUnit() instanceof UnitExponentiation) {
+                UnitExponentiation ue = (UnitExponentiation) measure.getUnit();
+                if (Math.abs(ue.getExponent() - 2.0) < 0.0000001) newUnit = ue.getBase();
+                else {
+                    newUnit = factory.createUnitExponentiation(ue.getBase(), ue.getExponent() / 2.); // todo find existing unit
+                }
+            } else {
+                newUnit = factory.createUnitExponentiation(measure.getUnit(), 0.5); // todo find existing unit
+            }
+            return factory.createVectorMeasure(sqrt, newUnit);
+        }catch (ClassCastException e){
+            throw new MathException("The parameter "+measure+" is not a scalar or vector.",e);
         }
-        return factory.createVectorMeasure(sqrt,newUnit);
     }
 
     /**
@@ -649,25 +711,30 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure for which the cubic root needs to be determined.
      * @return The cubic root of the parameter.
+     * @throws MathException When the parameter is not a scalar or vector.
      */
     @Override
     public Measure cbrt(Measure measure) {
-        double[] m = measure.getVectorValue();
-        double[] cbrt = new double[m.length];
-        for(int i=0;i<m.length;i++){
-            cbrt[i] = Math.cbrt(m[i]);
-        }
-        Unit newUnit = null;
-        if(measure.getUnit() instanceof UnitExponentiation){
-            UnitExponentiation ue = (UnitExponentiation)measure.getUnit();
-            if(Math.abs(ue.getExponent()-3.0)<0.0000001) newUnit = ue.getBase();
-            else{
-                newUnit = factory.createUnitExponentiation(ue.getBase(),ue.getExponent()/3.); // todo find existing unit
+        try {
+            double[] m = measure.getVectorValue();
+            double[] cbrt = new double[m.length];
+            for(int i=0;i<m.length;i++){
+                cbrt[i] = Math.cbrt(m[i]);
             }
-        }else{
-            newUnit = factory.createUnitExponentiation(measure.getUnit(),1./3.); // todo find existing unit
+            Unit newUnit = null;
+            if(measure.getUnit() instanceof UnitExponentiation){
+                UnitExponentiation ue = (UnitExponentiation)measure.getUnit();
+                if(Math.abs(ue.getExponent()-3.0)<0.0000001) newUnit = ue.getBase();
+                else{
+                    newUnit = factory.createUnitExponentiation(ue.getBase(),ue.getExponent()/3.); // todo find existing unit
+                }
+            }else{
+                newUnit = factory.createUnitExponentiation(measure.getUnit(),1./3.); // todo find existing unit
+            }
+            return factory.createVectorMeasure(cbrt,newUnit);
+        }catch (ClassCastException e){
+            throw new MathException("The parameter "+measure+" is not a scalar or vector.",e);
         }
-        return factory.createVectorMeasure(cbrt,newUnit);
     }
 
     /**
@@ -678,6 +745,8 @@ public class MathProcessorImpl implements MathProcessor {
      * @param y The abscissa coordinate.
      * @param x The ordinate coordinate.
      * @return The angle component of the polar coordinates.
+     * @throws MathException When the parameters do not have the same dimension or are not convertible, or because the
+     * radian unit was not defined, or when one of the parameters was not a scalar.
      */
     @Override
     public Measure atan2(Measure y, Measure x) {
@@ -692,7 +761,7 @@ public class MathProcessorImpl implements MathProcessor {
         } catch (FactoryException e) {
             throw new MathException("Could not create the result measure because the radian unit was not defined.",e);
         } catch (NumberFormatException e){
-            throw new MathException("One of the parameters of the hypot("+x+","+y+") function was not a scalar value.");
+            throw new MathException("One of the parameters of the atan2("+x+","+y+") function was not a scalar value.");
         }
     }
 
@@ -705,6 +774,7 @@ public class MathProcessorImpl implements MathProcessor {
      * @param base     The base measure which is raised to the power of the exponent.
      * @param exponent The exponent value.
      * @return The base raised to the power of the exponent.
+     * @throws MathException When the base parameter is not a scalar.
      */
     @Override
     public Measure pow(Measure base, double exponent) {
@@ -727,6 +797,8 @@ public class MathProcessorImpl implements MathProcessor {
      * @param base     The base value which is raised to the power of the exponent.
      * @param exponent The exponent measure.
      * @return The base raised to the power of the exponent.
+     * @throws MathException When the measure could not be converted to unit One, e.g. because the measure is not dimensionless,
+     * or when the unit One was not defined, or when the measure is not a vector (or scalar value).
      */
     @Override
     public Measure pow(double base, Measure exponent) {
@@ -748,15 +820,20 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measurement whose absolute value is to be determined.
      * @return The absolute value.
+     * @throws MathException When the parameter is not a scalar or vector.
      */
     @Override
     public Measure abs(Measure measure) {
-        double[] m = measure.getVectorValue();
-        double[] abs = new double[m.length];
-        for(int i=0;i<m.length;i++){
-            abs[i] = Math.abs(m[i]);
+        try {
+            double[] m = measure.getVectorValue();
+            double[] abs = new double[m.length];
+            for(int i=0;i<m.length;i++){
+                abs[i] = Math.abs(m[i]);
+            }
+            return factory.createVectorMeasure(abs,measure.getUnit());
+        }catch (ClassCastException e){
+            throw new MathException("The parameter "+measure+" is not a scalar or vector.",e);
         }
-        return factory.createVectorMeasure(abs,measure.getUnit());
     }
 
     /**
@@ -766,6 +843,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose hyperbolic sine is to be determined.
      * @return The hyperbolic sine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless, or when the unit One was not defined.
      */
     @Override
     public Measure sinh(Measure measure) {
@@ -785,6 +864,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose hyperbolic cosine is to be determined.
      * @return The hyperbolic cosine of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless, or when the unit One was not defined.
      */
     @Override
     public Measure cosh(Measure measure) {
@@ -804,6 +885,8 @@ public class MathProcessorImpl implements MathProcessor {
      *
      * @param measure The measure whose hyperbolic tangent is to be determined.
      * @return The hyperbolic tangent of the measure.
+     * @throws MathException When the measure contains a vector, which cannot be converted to an angle or
+     * when the unit of the measure is not dimensionless, or when the unit One was not defined.
      */
     @Override
     public Measure tanh(Measure measure) {
@@ -826,6 +909,8 @@ public class MathProcessorImpl implements MathProcessor {
      * @param x The first side of the right-angles rectangle, not opposite to the right angle.
      * @param y The second side of the right-angles rectangle, not opposite to the right angle.
      * @return The hypotenuse, i.e. longest side of the right-angled rectangle.
+     * @throws MathException When the two coordinate measures do not have the same dimension or are not convertible into
+     * each other or when one of the parameters was not a scalar value.
      */
     @Override
     public Measure hypot(Measure x, Measure y) {
@@ -835,10 +920,10 @@ public class MathProcessorImpl implements MathProcessor {
             double hypot = Math.hypot(xv, yv);
             return factory.createScalarMeasure(hypot,x.getUnit());
         } catch (ConversionException e) {
-            throw new MathException("The two coordinate measures x="+x+" and y="+y+" should have the same dimension and " +
+            throw new MathException("The two coordinate measures x="+x+" and y="+y+" do not have the same dimension or are not " +
                     "convertible into each other to determine the polar angle using atan2().",e);
         } catch (NumberFormatException e){
-            throw new MathException("One of the paramters of the hypot("+x+","+y+") function was not a scalar value.");
+            throw new MathException("One of the parameters of the hypot("+x+","+y+") function was not a scalar value.");
         }
     }
 
@@ -947,6 +1032,8 @@ public class MathProcessorImpl implements MathProcessor {
      * @param vector1 The first vector in the dot product.
      * @param vector2 The second vector in the dot product.
      * @return The dot product (a scalar measure).
+     * @throws MathException When the parameters are not vectors, do not have the same size, or are not convertible
+     * into each other.
      */
     @Override
     public Measure dotProduct(Measure vector1, Measure vector2) {
@@ -983,6 +1070,8 @@ public class MathProcessorImpl implements MathProcessor {
      * @param vector1 The first vector in the dot product.
      * @param vector2 The second vector in the dot product.
      * @return The cross product (a vector measure).
+     * @throws MathException When the parameters are not vectors, are not three dimensional, or are not convertible
+     * into each other.
      */
     @Override
     public Measure crossProduct(Measure vector1, Measure vector2) {
