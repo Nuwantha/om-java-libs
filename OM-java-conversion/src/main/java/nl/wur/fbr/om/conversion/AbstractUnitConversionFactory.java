@@ -11,7 +11,9 @@ import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +34,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
     /** A map with as key a tuple with the source and target unit or scale identifiers and as value the conversion instance. */
     private Map<Pair<String,String>,UnitOrScaleConversion> conversions = new HashMap<>();
+    private Map<Unit,List<Unit>> equalUnits = new HashMap<>();
 
     /**
      * The constructor to create the AbstractUnitConversionFactory.
@@ -50,7 +53,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
      * @throws UnitConversionException When the numerical value could not be converted to the specified target unit.
      */
     protected double convertDoubleValueToUnit(double value, Unit sourceUnit, Unit targetUnit) throws ConversionException {
-        UnitOrScaleConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
+        UnitOrScaleConversion conversion = this.getUnitConversion(sourceUnit, targetUnit);
         if(conversion==null) throw new UnitConversionException("Could not convert unit "+sourceUnit+" to "+targetUnit,sourceUnit,targetUnit);
         return this.convertDoubleValue(conversion,value);
     }
@@ -67,7 +70,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
     protected double convertDoubleValueToScale(double value, Scale sourceScale, Scale targetScale) throws ConversionException {
         UnitOrScaleConversion conversion = this.getScaleConversion(sourceScale, targetScale);
         if(conversion==null) throw new ScaleConversionException("Could not convert scale "+sourceScale+" to "+targetScale,sourceScale,targetScale);
-        return this.convertDoubleValue(conversion,value);
+        return this.convertDoubleValue(conversion, value);
     }
 
     /**
@@ -114,11 +117,12 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             UnitOrScaleConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
             UnitOrScaleConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
 
-            if(!(tobase1.toUnit.equals(tobase2.toUnit))){
+            boolean ies = inEqualsSet(tobase1,tobase2);
+
+            if(!(tobase1.toUnit.equals(tobase2.toUnit)) && !ies){
                 throw new UnitConversionException("Could not convert from measure with Unit or MeasurementScale '"+
                         sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit);
             }
-
             conversion = new UnitOrScaleConversion(tobase1.factor/tobase2.factor,0,targetUnit);
             conversions.put(key,conversion);
 
@@ -128,6 +132,20 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
                     sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit,e);
         }
     }
+
+    /**
+     * Returns true when the units have been set as equal units using {@link #setUnitsToBeEqual(Unit, Unit)}.
+     * This process is recursive, if a==b and b==c then a==c.
+     * @param tobase1 The first unit tested.
+     * @param tobase2 The second unit tested.
+     * @return True when the units are equal.
+     */
+    private boolean inEqualsSet(UnitOrScaleConversion tobase1, UnitOrScaleConversion tobase2) {
+        List<Unit> equs = equalUnits.get(tobase1);
+        if(equs==null) return false;
+        return equs.contains(tobase2);
+    }
+
 
     /**
      * Creates an instance of the internal class that is able to convert between the two scales.
@@ -158,7 +176,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             }
 
             UnitOrScaleConversion tobase1 = this.getScaleConversionToBaseScale(sourceScale, 1.0, 0.0);
-            UnitOrScaleConversion tobase2 = this.getScaleConversionToBaseScale(targetScale,1.0,0.0);
+            UnitOrScaleConversion tobase2 = this.getScaleConversionToBaseScale(targetScale, 1.0, 0.0);
 
             double factor = tobase2.factor/tobase1.factor;
             double offset = tobase2.offset-tobase1.offset*factor;
@@ -227,6 +245,43 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
         }
     }
 
+
+    /**
+     * Defines two units two be equal to each other, for instance when they define the same unit but are in
+     * different sets.
+     *
+     * @param unit1 The first unit set to be equal to the second.
+     * @param unit2 The second unit set to be equal to the first.
+     */
+    @Override
+    public void setUnitsToBeEqual(Unit unit1, Unit unit2) {
+        ArrayList<Unit> l1 = (ArrayList) equalUnits.get(unit1);
+        if(l1==null){
+            equalUnits.put(unit1,l1);
+        }
+        l1.add(unit2);
+        ArrayList<Unit> l2 = (ArrayList) equalUnits.get(unit2);
+        if(l2==null){
+            equalUnits.put(unit2,l2);
+        }
+        l2.add(unit1);
+    }
+
+    /**
+     * Tests whether the specified unit is equal to One.
+     * Some units are defined with respect to the unit One, other units are compound units that equate to One.
+     * For instance the unit m/m equates to one, but km/m does not.
+     *
+     * @param unit The unit to be tested.
+     * @return True when the unit equates to one.
+     */
+    public boolean unitIsEqualToOne(Unit unit) {
+        // A unit is equal to one if it is dimensionless and if one wants to convert it to its base units,
+        // the conversion factor in 1.0 (i.e. no conversion needed).
+        if(!unit.isDimensionless()) return false;
+        UnitOrScaleConversion baseConv = this.getUnitConversionToBaseUnit(unit,1.0);
+        return  baseConv.factor==1.0;
+    }
 
 
 

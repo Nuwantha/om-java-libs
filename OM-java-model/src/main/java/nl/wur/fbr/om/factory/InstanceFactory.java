@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.factory;
 
 import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.FactoryException;
 import nl.wur.fbr.om.exceptions.FactoryNotSetException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
@@ -13,6 +14,9 @@ import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 import org.apache.commons.lang3.Range;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This factory class is a wrapper that contains the different factory classes that are used to create and convert
  * units and measurement scales.
@@ -23,6 +27,8 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     private UnitAndScaleFactory unitAndScaleFactory = null;
     private MeasureAndPointFactory measureAndPointFactory = null;
     private UnitAndScaleConversionFactory unitAndScaleConversionFactory = null;
+    private Unit one = null;
+    private Unit radian = null;
 
     /**
      * Creates a new InstanceFactory with the specified factory classes.
@@ -87,6 +93,25 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
         this.unitAndScaleConversionFactory = unitAndScaleConversionFactory;
     }
 
+    /**
+     * Returns the unit in this set that is equal to the unit one.
+     * @return The unit that is one.
+     */
+    public Unit getOne() throws FactoryException {
+        if(one == null) throw new FactoryException("No unit one defined in the sets added to this factory.");
+        return one;
+    }
+
+    /**
+     * Returns the unit that defines the radian unit
+     * The radian unit is needed to implement trigonometric functions.
+     * @return The radian unit.
+     */
+    public Unit getRadianUnit() throws FactoryException {
+        if(radian == null) throw new FactoryException("No radian unit defined in the sets added to this factory.");
+        return radian;
+    }
+
 
     /**
      * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
@@ -96,9 +121,20 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      * @throws UnitOrScaleCreationException When the methods in the <code>unitAndScaleSetClass</code> such
      * as when {@link UnitAndScaleSet#initialize(UnitAndScaleFactory)} do not exist.
      */
-    public void addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException {
+    public UnitAndScaleSet addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException {
         if(unitAndScaleFactory == null) throw new FactoryNotSetException("The unit and scale creation factory is not set in the InstanceFactory.");
-        unitAndScaleFactory.addUnitAndScaleSet(unitAndScaleSetClass);
+        UnitAndScaleSet set = unitAndScaleFactory.addUnitAndScaleSet(unitAndScaleSetClass);
+        if(one==null) one = set.getOne();
+        else{
+            if(!one.getIdentifier().equals(set.getOne().getIdentifier()))
+                unitAndScaleConversionFactory.setUnitsToBeEqual(one,set.getOne());
+        }
+        if(radian==null) radian = set.getRadianUnit();
+        else{
+            if(!radian.getIdentifier().equals(set.getRadianUnit().getIdentifier()))
+                unitAndScaleConversionFactory.setUnitsToBeEqual(radian,set.getRadianUnit());
+        }
+        return set;
     }
 
     /**
@@ -879,7 +915,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     @Override
     public Measure createScalarRangeMeasure(double minimumValue, double maximumValue, Unit unit) {
         if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
-        return measureAndPointFactory.createScalarRangeMeasure(minimumValue,maximumValue,unit);
+        return measureAndPointFactory.createScalarRangeMeasure(minimumValue, maximumValue, unit);
     }
 
     /**
@@ -908,7 +944,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     @Override
     public Point createScalarRangePoint(double minimumValue, double maximumValue, Scale scale) {
         if(measureAndPointFactory == null) throw new FactoryNotSetException("The measure and point creation factory is not set in the InstanceFactory.");
-        return measureAndPointFactory.createScalarRangePoint(minimumValue,maximumValue,scale);
+        return measureAndPointFactory.createScalarRangePoint(minimumValue, maximumValue, scale);
     }
 
     /**
@@ -1001,7 +1037,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     @Override
     public final int compare(Measure measure1, Measure measure2) throws ConversionException {
         if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
-        return unitAndScaleConversionFactory.compare(measure1,measure2);
+        return unitAndScaleConversionFactory.compare(measure1, measure2);
     }
 
     /**
@@ -1038,7 +1074,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     @Override
     public final int compare(Point point1, Point point2) throws ConversionException {
         if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
-        return unitAndScaleConversionFactory.compare(point1,point2);
+        return unitAndScaleConversionFactory.compare(point1, point2);
     }
 
     /**
@@ -1058,5 +1094,30 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     public final boolean equals(Point point1, Point point2, double diff) {
         if(unitAndScaleConversionFactory == null) throw new FactoryNotSetException("The conversion factory is not set in the InstanceFactory.");
         return unitAndScaleConversionFactory.equals(point1, point2, diff);
+    }
+
+    /**
+     * Defines two units two be equal to each other, for instance when they define the same unit but are in
+     * different sets.
+     *
+     * @param unit1 The first unit set to be equal to the second.
+     * @param unit2 The second unit set to be equal to the first.
+     */
+    @Override
+    public void setUnitsToBeEqual(Unit unit1, Unit unit2) {
+        unitAndScaleConversionFactory.setUnitsToBeEqual(unit1,unit2);
+    }
+
+    /**
+     * Tests whether the specified unit is equal to One.
+     * Some units are defined with respect to the unit One, other units are compound units that equate to One.
+     * For instance the unit m/m equates to one, but km/m does not.
+     *
+     * @param unit The unit to be tested.
+     * @return True when the unit equates to one.
+     */
+    public boolean unitIsEqualToOne(Unit unit) {
+        if(!unit.isDimensionless()) return false;
+        return unitAndScaleConversionFactory.unitIsEqualToOne(unit);
     }
 }

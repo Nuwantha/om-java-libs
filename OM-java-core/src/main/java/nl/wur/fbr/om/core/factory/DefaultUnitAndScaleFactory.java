@@ -91,7 +91,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
      * @param unitAndScaleSetClass The class of set to be added that should override {@link UnitAndScaleSet}.
      */
     @Override
-    public void addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException{
+    public UnitAndScaleSet addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException{
         try {
             UnitAndScaleSet set = (UnitAndScaleSet) unitAndScaleSetClass.newInstance();
             set.initialize(this);
@@ -103,6 +103,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
             for(Scale setScale : setScales){
                 if(setScale!=null) this.addScale(setScale);
             }
+            return set;
         } catch (IllegalAccessException e) {
             throw new UnitOrScaleCreationException("Could not add set "+unitAndScaleSetClass+" to factory.",e);
         } catch (InstantiationException e) {

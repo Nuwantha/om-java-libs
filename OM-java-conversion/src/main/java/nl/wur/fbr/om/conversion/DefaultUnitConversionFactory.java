@@ -9,6 +9,9 @@ import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.Unit;
 import org.apache.commons.lang3.Range;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This is the default unit conversion factory that implements the public methods for {@link UnitAndScaleConversionFactory}.
  * It extends the {@link AbstractUnitConversionFactory} which implements the actual conversion algorithm.

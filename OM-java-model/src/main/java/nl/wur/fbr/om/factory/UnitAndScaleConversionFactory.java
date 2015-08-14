@@ -107,4 +107,22 @@ public interface UnitAndScaleConversionFactory {
      * @return True when the points are equal, or false otherwise.
      */
     public boolean equals(Point point1, Point point2,double diff);
+
+    /**
+     * Defines two units two be equal to each other, for instance when they define the same unit but are in
+     * different sets.
+     * @param unit1 The first unit set to be equal to the second.
+     * @param unit2 The second unit set to be equal to the first.
+     */
+    public void setUnitsToBeEqual(Unit unit1, Unit unit2);
+
+    /**
+     * Tests whether the specified unit is equal to One.
+     * Some units are defined with respect to the unit One, other units are compound units that equate to One.
+     * For instance the unit m/m equates to one, but km/m does not.
+     *
+     * @param unit The unit to be tested.
+     * @return True when the unit equates to one.
+     */
+    public boolean unitIsEqualToOne(Unit unit);
 }

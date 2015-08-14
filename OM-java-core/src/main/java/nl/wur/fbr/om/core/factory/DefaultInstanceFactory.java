@@ -4,6 +4,7 @@ import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.units.Unit;
 
 /**
  * The default implementation of the abstract class {@link InstanceFactory}, which combines the different
