@@ -1,10 +1,12 @@
 package nl.wur.fbr.om.conversion;
 
 import javafx.util.Pair;
+import nl.wur.fbr.om.core.impl.units.BaseUnitImpl;
 import nl.wur.fbr.om.core.impl.units.UnitDivisionImpl;
 import nl.wur.fbr.om.core.impl.units.UnitExponentiationImpl;
 import nl.wur.fbr.om.core.impl.units.UnitMultiplicationImpl;
 import nl.wur.fbr.om.exceptions.ConversionException;
+import nl.wur.fbr.om.exceptions.FactoryException;
 import nl.wur.fbr.om.exceptions.ScaleConversionException;
 import nl.wur.fbr.om.exceptions.UnitConversionException;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
@@ -117,9 +119,18 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             UnitOrScaleConversion tobase1 = this.getUnitConversionToBaseUnit(sourceUnit,1.0);
             UnitOrScaleConversion tobase2 = this.getUnitConversionToBaseUnit(targetUnit,1.0);
 
-            boolean ies = inEqualsSet(tobase1,tobase2);
+            boolean ies = inEqualsSet(tobase1, tobase2);
 
-            if(!(tobase1.toUnit.equals(tobase2.toUnit)) && !ies){
+            boolean isOne = false;
+
+            // Test if one of the tobase units is ONE
+            if(tobase1.toUnit instanceof BaseUnit && ((BaseUnit) tobase1.toUnit).isDimensionless()) { // Test to ONE
+                if(tobase2.toUnit.isDimensionless()) isOne = true;
+            } else if (tobase2.toUnit instanceof BaseUnit && ((BaseUnit) tobase2.toUnit).isDimensionless()){ // Test to ONE
+                if(tobase1.toUnit.isDimensionless()) isOne = true;
+            }
+
+            if(!(tobase1.toUnit.equals(tobase2.toUnit)) && !ies && !isOne){
                 throw new UnitConversionException("Could not convert from measure with Unit or MeasurementScale '"+
                         sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit);
             }

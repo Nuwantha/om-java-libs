@@ -96,6 +96,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     /**
      * Returns the unit in this set that is equal to the unit one.
      * @return The unit that is one.
+     * @throws FactoryException When no unit was defined as unit One.
      */
     public Unit getOne() throws FactoryException {
         if(one == null) throw new FactoryException("No unit one defined in the sets added to this factory.");
@@ -106,6 +107,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
      * Returns the unit that defines the radian unit
      * The radian unit is needed to implement trigonometric functions.
      * @return The radian unit.
+     * @throws FactoryException When no unit was defined as the radian unit.
      */
     public Unit getRadianUnit() throws FactoryException {
         if(radian == null) throw new FactoryException("No radian unit defined in the sets added to this factory.");
