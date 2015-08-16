@@ -109,6 +109,15 @@ public interface UnitAndScaleConversionFactory {
     public boolean equals(Point point1, Point point2,double diff);
 
     /**
+     * Returns the conversion factor that is needed to convert the source unit to the target unit.
+     * @param sourceUnit The source unit.
+     * @param targetUnit The target unit.
+     * @return The conversion factor.
+     * @throws ConversionException When the sourceUnit cannot be converted into the targetUnit.
+     */
+    public double getConversionFactor(Unit sourceUnit, Unit targetUnit) throws ConversionException;
+
+    /**
      * Defines two units two be equal to each other, for instance when they define the same unit but are in
      * different sets.
      * @param unit1 The first unit set to be equal to the second.

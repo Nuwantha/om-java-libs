@@ -138,6 +138,19 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     }
 
     /**
+     * Returns a list of units that have the specified dimension.
+     *
+     * @param dimension The dimension that units need to have to be included in the returned list.
+     * @return The list of units with the specified dimension.
+     */
+    @Override
+    public List<Unit> getUnitsInDimension(Dimension dimension) {
+        List<Unit> list = unitsByDimension.get(dimension.toString());
+        if(list!=null) return list;
+        return new ArrayList<>();
+    }
+
+    /**
      * Creates a new singular base unit. For prefixed base units (e.g. kilogram) see
      * {@link #createPrefixedBaseUnit(BaseDimension, SingularUnit, Prefix)}.
      * For instance the metre unit is a base unit in SI and does not have a definition unit.

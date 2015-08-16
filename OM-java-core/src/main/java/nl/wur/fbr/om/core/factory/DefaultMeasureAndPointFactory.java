@@ -28,7 +28,7 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
      */
     @Override
     public Measure createMeasure(Object numericalValue, Unit unit) {
-        if(numericalValue instanceof Number) return new MeasureImpl((double)numericalValue,unit);
+        if(numericalValue instanceof Number) return new MeasureImpl(((Number) numericalValue).doubleValue(),unit);
         if(numericalValue instanceof double[]) return new MeasureImpl((double[])numericalValue,unit);
         if(numericalValue instanceof Range) return new MeasureImpl((Range)numericalValue,unit);
         throw new NumberFormatException("The numerical value is not one of the known number types.");
@@ -94,7 +94,7 @@ public class DefaultMeasureAndPointFactory implements MeasureAndPointFactory {
      */
     @Override
     public Point createPoint(Object numericalValue, Scale scale) {
-        if(numericalValue instanceof Number) return new PointImpl((double)numericalValue,scale);
+        if(numericalValue instanceof Number) return new PointImpl(((Number) numericalValue).doubleValue(),scale);
         if(numericalValue instanceof double[]) return new PointImpl((double[])numericalValue,scale);
         if(numericalValue instanceof Range) return new PointImpl((Range)numericalValue,scale);
         throw new NumberFormatException("The numerical value is not one of the known number types.");

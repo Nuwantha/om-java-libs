@@ -3,9 +3,12 @@ package nl.wur.fbr.om.factory;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
+
+import java.util.List;
 
 /**
  * This factory method provides the preferred method for creating new instance of Units and Measurement scales.
@@ -98,6 +101,13 @@ public interface UnitAndScaleFactory {
      * @throws UnitOrScaleCreationException When the unit could not be created from the specified identifier.
      */
     public Object getUnitOrScale(String identifier) throws UnitOrScaleCreationException;
+
+    /**
+     * Returns a list of units that have the specified dimension.
+     * @param dimension The dimension that units need to have to be included in the returned list.
+     * @return The list of units with the specified dimension.
+     */
+    public List<Unit> getUnitsInDimension(Dimension dimension);
 
     /**
      * Creates a new singular base unit. For prefixed base units (e.g. kilogram) see

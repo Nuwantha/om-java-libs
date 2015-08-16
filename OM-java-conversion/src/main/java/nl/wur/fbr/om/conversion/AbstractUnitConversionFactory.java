@@ -87,6 +87,19 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
 
     /**
+     * Returns the conversion factor that is needed to convert the source unit to the target unit.
+     *
+     * @param sourceUnit The source unit.
+     * @param targetUnit The target unit.
+     * @return The conversion factor.
+     */
+    @Override
+    public double getConversionFactor(Unit sourceUnit, Unit targetUnit) throws ConversionException {
+        UnitOrScaleConversion conversion = this.getUnitConversion(sourceUnit,targetUnit);
+        return conversion.factor;
+    }
+
+    /**
      * Creates an instance of the internal class that is able to convert between the two units.
      * @param sourceUnit The source unit.
      * @param targetUnit The target unit.

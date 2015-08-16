@@ -14,8 +14,7 @@ import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 import org.apache.commons.lang3.Range;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This factory class is a wrapper that contains the different factory classes that are used to create and convert
@@ -114,6 +113,86 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
         return radian;
     }
 
+    /**
+     * Returns a sorted list of suggested units for a specific measure. The returned units should have the same
+     * dimension as the current dimension of the measure. The list is sorted according to the specifications of the
+     * implementation of this factory. It may for instance be sorted according to the order of magnitude to be
+     * close to 1, or to the system of units being used. <br>
+     * For a measure of 1e5 micrometre, the suggested units may be ordered as: dm, m, cm, inch, ...
+     * @param measure The measure for which a suggested unit should be found.
+     * @return An ordered list of suggested units.
+     */
+    public List<Unit> getUnitSuggestions(Measure measure){
+        final Unit munit = measure.getUnit();
+        List<Unit> unitsInDimension = this.getUnitsInDimension(munit.getUnitDimension());
+        Map<Unit,Number> convfactors = new HashMap<>();
+        List<Unit> suggestions = new ArrayList<>();
+        double min = 0;
+        double max = 0;
+        if(measure.getNumericalValue() instanceof Number){
+            min = measure.getScalarValue();
+            max = measure.getScalarValue();
+        }else if(measure.getNumericalValue() instanceof double[]){
+            double[] vec = measure.getVectorValue();
+            min = vec[0];
+            max = vec[0];
+            for(int i=1;i<vec.length;i++){
+                if(vec[i]>max) max = vec[i];
+                if(vec[i]<min) min = vec[i];
+            }
+        }else if(measure.getNumericalValue() instanceof Range){
+            min = (double) ((Range) measure.getNumericalValue()).getMinimum();
+            max = (double) ((Range) measure.getNumericalValue()).getMaximum();
+        }
+        double testValue = Math.pow(10,(int)(Math.log(Math.abs(min+max)/2)+0.5));
+        if(testValue<1) testValue = testValue*10;
+        for(Unit unit : unitsInDimension){
+            try {
+                double factor = this.getConversionFactor(munit,unit);
+                factor = factor*testValue;
+                suggestions.add(unit);
+                convfactors.put(unit,factor);
+            } catch (ConversionException e) {
+                // cannot convert, so should not be included in the list
+            }
+        }
+        Collections.sort(suggestions, new Comparator<Unit>() {
+            @Override
+            public int compare(Unit o1, Unit o2) {
+                double factor1 = convfactors.get(o1).doubleValue();
+                double factor2 = convfactors.get(o2).doubleValue();
+                double log1 = Math.abs(Math.log10(factor1));
+                double log2 = Math.abs(Math.log10(factor2));
+                double fac1 = Math.abs(log1 - (int) (log1 + 0.5));
+                double fac2 = Math.abs(log2 - (int) (log2 + 0.5));
+                double l1m2 = log1-log2;
+                double fac =  fac1-fac2;
+                // Prefer units that convert with exponents of 10
+                return (int)(l1m2+fac *1000);
+            }
+        });
+        return suggestions;
+    }
+
+    /**
+     * Returns a list of units that have the specified dimension.
+     * @param dimension The dimension that units need to have to be included in the returned list.
+     * @return The list of units with the specified dimension.
+     */
+    public List<Unit> getUnitsInDimension(Dimension dimension) {
+        return unitAndScaleFactory.getUnitsInDimension(dimension);
+    }
+
+    /**
+     * Returns the conversion factor that is needed to convert the source unit to the target unit.
+     * @param sourceUnit The source unit.
+     * @param targetUnit The target unit.
+     * @return The conversion factor.
+     * @throws ConversionException When the sourceUnit cannot be converted into the targetUnit.
+     */
+    public double getConversionFactor(Unit sourceUnit, Unit targetUnit) throws ConversionException {
+        return  unitAndScaleConversionFactory.getConversionFactor(sourceUnit,targetUnit);
+    }
 
     /**
      * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
