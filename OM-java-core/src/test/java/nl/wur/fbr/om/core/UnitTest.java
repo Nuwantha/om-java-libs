@@ -284,4 +284,19 @@ public class UnitTest {
             Assert.fail("FactoryNotSetException was NOT thrown as expected.");
         }
     }
+
+    @Test
+    public void testSameUnitCreation(){
+        InstanceFactory factory = new DefaultInstanceFactory();
+        Unit metre = factory.createBaseUnit("metre", "m", SIBaseDimension.LENGTH);
+        Unit myLengthUnit = factory.createSingularUnit("myLengthUnit", "mlu", metre, 2.432);
+        Unit newUnit = factory.createSingularUnit(metre,2.432);
+        Assert.assertEquals("Test unit recreation","myLengthUnit",newUnit.getName());
+        Unit gram = factory.createBaseUnit("gram","g", SIBaseDimension.MASS);
+        Unit gramPerMetre = factory.createUnitDivision("Gram per Metre", "g/m", gram, metre);
+        Unit mygpm = factory.createUnitDivision(gram,metre);
+        Assert.assertEquals("Test unit recreation",gramPerMetre,mygpm);
+        Unit nmygom = factory.createUnitMultiple(gramPerMetre, 0.12343);
+        Assert.assertNotEquals("Test unit recreation", gramPerMetre, nmygom);
+    }
 }
