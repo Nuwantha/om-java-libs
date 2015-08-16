@@ -114,6 +114,24 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
     }
 
     /**
+     * Returns a measure that hase the same value as the specified measure, but converted to the first unit as
+     * suggested by the {@link #getUnitSuggestions(Measure)}. For instance, a measure of 0.02 m will be converted
+     * to 2 cm. If no suttable suggestions are available, the same measure is returned.
+     *
+     * @param measure The measure to be converted.
+     * @return The converted measure.
+     */
+    public Measure convertMeasureToSuggestedUnit(Measure measure) {
+        List<Unit> units = this.getUnitSuggestions(measure);
+        if(units.size()<=0) return measure;
+        try {
+            return this.convertToUnit(measure,units.get(0));
+        } catch (ConversionException e) {
+            return measure; // this exception cannot happen as the conversion is already tested in getUnitSuggestions.
+        }
+    }
+
+    /**
      * Returns a sorted list of suggested units for a specific measure. The returned units should have the same
      * dimension as the current dimension of the measure. The list is sorted according to the specifications of the
      * implementation of this factory. It may for instance be sorted according to the order of magnitude to be
@@ -144,7 +162,7 @@ public abstract class InstanceFactory implements UnitAndScaleFactory, MeasureAnd
             min = (double) ((Range) measure.getNumericalValue()).getMinimum();
             max = (double) ((Range) measure.getNumericalValue()).getMaximum();
         }
-        double testValue = Math.pow(10,(int)(Math.log(Math.abs(min+max)/2)+0.5));
+        double testValue = Math.pow(10,(int)(Math.log(Math.abs(min + max)/2)+0.5));
         if(testValue<1) testValue = testValue*10;
         for(Unit unit : unitsInDimension){
             try {
