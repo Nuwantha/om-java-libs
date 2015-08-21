@@ -35,4 +35,12 @@ public interface Unit extends NamedObject {
      * @return The set of dimensions and dimensional exponents.
      */
     public Dimension getUnitDimension();
+
+    /**
+     * This method returns true when the unit is dimensionless. Dimensionless units are for instance unit divisions such
+     * as m/m or s^2/s^2.
+     * @return True when the unit is dimensionless, false otherwise.
+     */
+    public boolean isDimensionless();
+
 }

@@ -7,7 +7,7 @@ import nl.wur.fbr.om.factory.MeasureAndPointFactory;
  * in {@link MeasureAndPointFactory MeasureAndPointFactory}.
  * @author Don Willems on 21/07/15.
  */
-public class MeasureOrPointCreationException extends Exception {
+public class MeasureOrPointCreationException extends FactoryException {
 
 
     /**

@@ -197,14 +197,28 @@ public class QuantityImpl implements Quantity {
     }
 
     /**
+     * Returns the languages of the set of names.
+     * @return The languages.
+     */
+    public List<String> getLanguages() {
+        List<String> languages = new ArrayList<>();
+        for(Pair<String,String> pair : names){
+            languages.add(pair.getKey());
+        }
+        return languages;
+    }
+
+    /**
      * Adds a name with the specified language. If the name is not specific to a language
      * use null for language.
      * @param name An alternative name of the Quantity.
      * @param language The language of the name.
      */
+    @Override
     public void addAlternativeName(String name,String language){
         if(language==null) language="";
-        names.add(new Pair(language,name));
+        Pair<String,String> pair = new Pair(language,name);
+        if(!names.contains(pair)) names.add(pair);
     }
 
     /**
@@ -217,6 +231,15 @@ public class QuantityImpl implements Quantity {
     public String getSymbol() {
         if(symbols.size()<=0) return null;
         return symbols.get(0);
+    }
+
+    /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    @Override
+    public void setSymbol(String symbol){
+        if(!symbols.contains(symbol)) symbols.add(symbol);
     }
 
     /**

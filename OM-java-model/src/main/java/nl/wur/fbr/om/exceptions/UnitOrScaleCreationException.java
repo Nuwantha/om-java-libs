@@ -7,7 +7,7 @@ import nl.wur.fbr.om.factory.UnitAndScaleFactory;
  * in {@link UnitAndScaleFactory UnitAndScaleFactory}.
  * @author Don Willems on 19/07/15.
  */
-public class UnitOrScaleCreationException extends Exception {
+public class UnitOrScaleCreationException extends FactoryException {
 
     /** The identifier of the unit or scale being created. */
     private String identifier;

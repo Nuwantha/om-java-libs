@@ -4,6 +4,7 @@ package nl.wur.fbr.om.core.impl.measures;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.units.Unit;
+import org.apache.commons.lang3.Range;
 
 /**
  * This class implements the {@link Measure Measure} interface that represents a value expressed in a unit.
@@ -22,12 +23,35 @@ public class MeasureImpl implements Measure {
     private Object numericalValue;
 
     /**
-     * Creates a new {@link Measure} with the specified numerical value expressed in the specified Unit.
+     * Creates a new {@link Measure} with the specified scalar value expressed in the specified Unit.
      *
-     * @param numericalValue The numerical value.
+     * @param numericalValue The scalar value.
      * @param unit The unit.
      */
-    public MeasureImpl(Object numericalValue, Unit unit){
+    public MeasureImpl(double numericalValue, Unit unit){
+        this.unit = unit;
+        this.numericalValue = numericalValue;
+    }
+
+    /**
+     * Creates a new {@link Measure} with the specified vector value expressed in the specified Unit.
+     *
+     * @param numericalValue The vector value.
+     * @param unit The unit.
+     */
+    public MeasureImpl(double[] numericalValue, Unit unit){
+        this.unit = unit;
+        if(numericalValue.length==1) this.numericalValue = numericalValue[0];
+        else this.numericalValue = numericalValue;
+    }
+
+    /**
+     * Creates a new {@link Measure} with the specified scalar range value expressed in the specified Unit.
+     *
+     * @param numericalValue The scalar range value.
+     * @param unit The unit.
+     */
+    public MeasureImpl(Range numericalValue, Unit unit){
         this.unit = unit;
         this.numericalValue = numericalValue;
     }
@@ -54,6 +78,43 @@ public class MeasureImpl implements Measure {
     }
 
     /**
+     * Returns the numerical value (as a scalar) of this measure.
+     *
+     * @return The double value.
+     */
+    @Override
+    public double getScalarValue() {
+        if(!(numericalValue instanceof Number)) throw new NumberFormatException("The numerical value of "+this+" is not a scalar.");
+        return (double) numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a scalar range) of this measure.
+     *
+     * @return The range value.
+     */
+    @Override
+    public Range getScalarRange() {
+        if(!(numericalValue instanceof Range)) throw new NumberFormatException("The numerical value of "+this+" is not a scalar range.");
+        return (Range)numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a vector of doubles) of this measure.
+     *
+     * @return The vector value.
+     */
+    @Override
+    public double[] getVectorValue() {
+        if(numericalValue instanceof Number){
+            double[] vec = {(double) numericalValue};
+            return vec;
+        }
+        if(!(numericalValue instanceof double[])) throw new NumberFormatException("The numerical value of "+this+" is not a vector.");
+        return (double[]) numericalValue;
+    }
+
+    /**
      * A string representation of this measure, the string representation of the numerical value followed by the
      * symbol of the unit if not null. For instance, a measure with value 15 and unit metre,
      * will be represented as 15 m.
@@ -61,7 +122,20 @@ public class MeasureImpl implements Measure {
      */
     @Override
     public String toString(){
-        String str = ""+numericalValue;
+        String str = "";
+        if(this.getNumericalValue() instanceof Number){
+            str += ""+this.getScalarValue();
+        }else if(this.getNumericalValue() instanceof double[]){
+            double[] vec = this.getVectorValue();
+            str += "[";
+            for(int i=0;i<vec.length;i++){
+                if(i>0) str+=",";
+                str+=""+vec[i];
+            }
+            str+="]";
+        }else{
+            str+= ""+numericalValue;
+        }
         if(getUnit()!=null && getUnit().getSymbol()!=null){
             str+= " " + getUnit().getSymbol();
         }

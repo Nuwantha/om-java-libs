@@ -33,6 +33,21 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         super();
         this.base = base;
         this.exponent = exponent;
+        String symbol = null;
+        String symbol1 = base.getSymbol();
+        if(symbol1!=null && symbol1.length()>0){
+            String exp = ""+(int)exponent;
+            if(exponent<1) {
+                int rec = (int)(1/exponent);
+                if(Math.abs(1/exponent-(double)rec)<0.00001){
+                    exp = "1/" + rec;
+                }else {
+                    exp = "1/" + (1 / exponent);
+                }
+            }
+            symbol = symbol1+""+exp;
+        }
+        if(symbol!=null) this.addAlternativeSymbol(symbol);
     }
 
     /**
@@ -46,6 +61,22 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         super(name,symbol);
         this.base = base;
         this.exponent = exponent;
+        if(symbol==null){
+            String symbol1 = base.getSymbol();
+            if(symbol1!=null && symbol1.length()>0){
+                String exp = ""+(int)exponent;
+                if(exponent<1) {
+                    int rec = (int)(1/exponent);
+                    if(Math.abs(1/exponent-(double)rec)<0.00001){
+                        exp = "1/" + rec;
+                    }else {
+                        exp = "1/" + (1 / exponent);
+                    }
+                }
+                symbol = symbol1+""+exp;
+            }
+            if(symbol!=null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -60,6 +91,22 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         super(identifier,name,symbol);
         this.base = base;
         this.exponent = exponent;
+        if(symbol==null){
+            String symbol1 = base.getSymbol();
+            if(symbol1!=null && symbol1.length()>0){
+                String exp = ""+(int)exponent;
+                if(exponent<1) {
+                    int rec = (int)(1/exponent);
+                    if(Math.abs(1/exponent-(double)rec)<0.00001){
+                        exp = "1/" + rec;
+                    }else {
+                        exp = "1/" + (1 / exponent);
+                    }
+                }
+                symbol = symbol1+""+exp;
+            }
+            if(symbol!=null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -104,9 +151,32 @@ public class UnitExponentiationImpl extends UnitImpl implements UnitExponentiati
         Dimension bmap = base.getUnitDimension();
         Set<BaseDimension> dims = bmap.getDimensions();
         for(BaseDimension dim : dims){
-            int exp = bmap.getDimensionalExponent(dim);
-            map.setDimensionalExponent(dim,exp*(int)getExponent());
+            double exp = bmap.getDimensionalExponent(dim);
+            if(exp*(double)getExponent()!=0){
+                map.setDimensionalExponent(dim,exp*(double)getExponent());
+            }else{
+                map.remove(dim);
+            }
         }
         return map;
+    }
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal. If not and if the object is also a {@link UnitExponentiation}, the base
+     * units and exponents are tested if they are equal and if they are equal, the method returns true.
+     * This check is needed for dimensionless units.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(super.equals(object)) return true;
+        if(object instanceof UnitExponentiation){
+            UnitExponentiation umult = (UnitExponentiation)object;
+            return getBase().equals(umult.getBase()) && getExponent()==umult.getExponent();
+        }
+        return false;
     }
 }

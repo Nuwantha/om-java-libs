@@ -206,6 +206,7 @@ public class ScaleImpl implements Scale {
      * Celsius scale is defined by points such as the boiling point of water (i.e. 100 degrees Celsius).
      * @param point The point.
      */
+    @Override
     public void addDefinitionPoint(Point point){
         definitionPoints.add(point);
     }
@@ -300,6 +301,18 @@ public class ScaleImpl implements Scale {
     }
 
     /**
+     * Returns the languages of the set of names.
+     * @return The languages.
+     */
+    public List<String> getLanguages() {
+        List<String> languages = new ArrayList<>();
+        for(Pair<String,String> pair : names){
+            languages.add(pair.getKey());
+        }
+        return languages;
+    }
+
+    /**
      * Adds a name with the specified language. If the name is not specific to a language
      * use null for language.
      * @param name An alternative name of the Scale.
@@ -307,7 +320,8 @@ public class ScaleImpl implements Scale {
      */
     public void addAlternativeName(String name,String language){
         if(language==null) language="";
-        names.add(new Pair(language,name));
+        Pair<String,String> pair = new Pair(language,name);
+        if(!names.contains(pair)) names.add(pair);
     }
 
     /**
@@ -320,6 +334,15 @@ public class ScaleImpl implements Scale {
     public String getSymbol() {
         if(symbols.size()<=0) return null;
         return symbols.get(0);
+    }
+
+    /**
+     * Sets the preferred symbol to the specified string.
+     * @param symbol The preferred symbol.
+     */
+    @Override
+    public void setSymbol(String symbol){
+        symbols.add(0,symbol);
     }
 
     /**
@@ -340,7 +363,7 @@ public class ScaleImpl implements Scale {
      * @param symbol The alternative symbol.
      */
     public void addAlternativeSymbol(String symbol){
-        symbols.add(symbol);
+        if(!symbols.contains(symbol)) symbols.add(symbol);
     }
 
     /**

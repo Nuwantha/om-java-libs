@@ -5,6 +5,7 @@ import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.units.BaseUnit;
 import nl.wur.fbr.om.model.units.SingularUnit;
 import nl.wur.fbr.om.model.units.Unit;
+import nl.wur.fbr.om.model.units.UnitMultiplication;
 
 /**
  * The core implementation of a singular unit.
@@ -247,6 +248,32 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
      */
     @Override
     public Dimension getUnitDimension() {
+        if(definitionUnit==null) return new Dimension();
         return definitionUnit.getUnitDimension();
+    }
+
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal.
+     * If the identifiers are not equal the object is tested if it is a {@link SingularUnit} and
+     * if so, whether the definition unit and numerical value are equal.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(super.equals(object)) return true;
+        if(object instanceof SingularUnit){
+            SingularUnit su = (SingularUnit)object;
+            if(su.getDefinitionUnit()==null && this.getDefinitionUnit()!=null) return false;
+            if(su.getDefinitionUnit()!=null && this.getDefinitionUnit()==null) return false;
+            if((su.getDefinitionUnit()==null && this.getDefinitionUnit()==null)
+                    || su.getDefinitionUnit().equals(this.getDefinitionUnit())){
+                if(su.getDefinitionNumericalValue()==this.getDefinitionNumericalValue()) return true;
+            }
+        }
+        return false;
     }
 }

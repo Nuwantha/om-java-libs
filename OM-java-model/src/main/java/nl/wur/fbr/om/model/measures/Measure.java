@@ -2,6 +2,7 @@ package nl.wur.fbr.om.model.measures;
 
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.units.Unit;
+import org.apache.commons.lang3.Range;
 
 /**
  * This interface represents a value expressed in a unit.
@@ -26,4 +27,23 @@ public interface Measure {
      * @return The numerical value.
      */
     public Object getNumericalValue();
+
+    /**
+     * Returns the numerical value (as a scalar) of this measure.
+     * @return The double value.
+     */
+    public double getScalarValue();
+
+    /**
+     * Returns the numerical value (as a scalar range) of this measure.
+     * @return The range value.
+     */
+    public Range getScalarRange();
+
+    /**
+     * Returns the numerical value (as a vector of doubles) of this measure.
+     * @return The vector value.
+     */
+    public double[] getVectorValue();
+
 }

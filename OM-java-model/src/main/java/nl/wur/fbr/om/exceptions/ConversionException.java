@@ -5,7 +5,7 @@ package nl.wur.fbr.om.exceptions;
  * @author Don Willems on 17/07/15.
  *
  */
-public class ConversionException extends Exception {
+public class ConversionException extends FactoryException {
 
     /**
      * Creates a new <code>ConversionException</code> with the specified message.

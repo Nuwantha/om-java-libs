@@ -74,7 +74,7 @@ public class BaseUnitImpl extends SingularUnitImpl implements BaseUnit {
     @Override
     public Dimension getUnitDimension() {
         Dimension map = new Dimension();
-        map.setDimensionalExponent(definitionDimension,1);
+        if(definitionDimension!=null) map.setDimensionalExponent(definitionDimension,1);
         return map;
     }
 }
