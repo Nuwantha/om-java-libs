@@ -5,13 +5,16 @@ import nl.wur.fbr.om.core.impl.units.*;
 import nl.wur.fbr.om.exceptions.InsufficientDataException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
+import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * This core class implements methods that should be used for the creation of the different types of Units and Scales.
@@ -79,6 +82,40 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     private Map<String,Object> unitsOrScalesByID = new HashMap<>();
 
     /**
+     * A map containing all existing units in the set per dimension.
+     */
+    private Map<String,List<Unit>> unitsByDimension = new HashMap<>();
+
+
+    /**
+     * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
+     * full set in this factory so that these units and scales are also searched through when searching through
+     * the full set in this factory.
+     *
+     * @param unitAndScaleSetClass The class of set to be added that should override {@link UnitAndScaleSet}.
+     */
+    @Override
+    public UnitAndScaleSet addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException{
+        try {
+            UnitAndScaleSet set = (UnitAndScaleSet) unitAndScaleSetClass.newInstance();
+            set.initialize(this);
+            Set<Unit> setUnits = set.getAllUnits();
+            for(Unit setUnit : setUnits) {
+                if(setUnit!=null) this.addUnit(setUnit);
+            }
+            Set<Scale> setScales = set.getAllScales();
+            for(Scale setScale : setScales){
+                if(setScale!=null) this.addScale(setScale);
+            }
+            return set;
+        } catch (IllegalAccessException e) {
+            throw new UnitOrScaleCreationException("Could not add set "+unitAndScaleSetClass+" to factory.",e);
+        } catch (InstantiationException e) {
+            throw new UnitOrScaleCreationException("Could not add set "+unitAndScaleSetClass+" to factory.",e);
+        }
+    }
+
+    /**
      * Returns the Unit or Scale identified by the specified identifier.
      * If the Unit or Scale with the same identifier has been created previously, this method should return the
      * same instance. If the Unit or Scale has not been created previously, this method should create the
@@ -101,6 +138,19 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     }
 
     /**
+     * Returns a list of units that have the specified dimension.
+     *
+     * @param dimension The dimension that units need to have to be included in the returned list.
+     * @return The list of units with the specified dimension.
+     */
+    @Override
+    public List<Unit> getUnitsInDimension(Dimension dimension) {
+        List<Unit> list = unitsByDimension.get(dimension.toString());
+        if(list!=null) return list;
+        return new ArrayList<>();
+    }
+
+    /**
      * Creates a new singular base unit. For prefixed base units (e.g. kilogram) see
      * {@link #createPrefixedBaseUnit(BaseDimension, SingularUnit, Prefix)}.
      * For instance the metre unit is a base unit in SI and does not have a definition unit.
@@ -111,7 +161,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public BaseUnit createBaseUnit(BaseDimension dimension) {
         SingularUnit unit = new BaseUnitImpl(dimension);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (SingularUnit)checkExistingAndAddUnit(unit);
         return (BaseUnit)unit;
     }
 
@@ -129,7 +179,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public BaseUnit createBaseUnit(String name, String symbol,BaseDimension dimension) {
         SingularUnit unit = new BaseUnitImpl(name,symbol,dimension);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return (BaseUnit)unit;
     }
 
@@ -147,7 +197,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public BaseUnit createBaseUnit(String identifier, String name, String symbol,BaseDimension dimension) {
         SingularUnit unit = new BaseUnitImpl(identifier,name,symbol,dimension);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return (BaseUnit)unit;
     }
 
@@ -163,7 +213,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public BaseUnit createPrefixedBaseUnit(BaseDimension dimension, SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedBaseUnitImpl(singularUnit,prefix,dimension);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return (BaseUnit)unit;
     }
 
@@ -181,7 +231,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public BaseUnit createPrefixedBaseUnit(String name, String symbol, BaseDimension dimension, SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedBaseUnitImpl(name,symbol,singularUnit,prefix,dimension);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return (BaseUnit)unit;
     }
 
@@ -200,7 +250,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public BaseUnit createPrefixedBaseUnit(String identifier, String name, String symbol, BaseDimension dimension, SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedBaseUnitImpl(identifier,name,symbol,singularUnit,prefix,dimension);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return (BaseUnit)unit;
     }
 
@@ -214,7 +264,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit() {
         SingularUnit unit = new SingularUnitImpl((Unit)null);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (SingularUnit)checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -230,7 +280,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(String name, String symbol) {
         SingularUnit unit = new SingularUnitImpl(name,symbol,(Unit)null);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -247,7 +297,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(String identifier, String name, String symbol) {
         SingularUnit unit = new SingularUnitImpl(identifier,name,symbol,(Unit)null);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -263,7 +313,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(Unit definitionUnit) {
         SingularUnit unit = new SingularUnitImpl(definitionUnit);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (SingularUnit)checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -282,7 +332,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(String name, String symbol, Unit definitionUnit) {
         SingularUnit unit = new SingularUnitImpl(name,symbol,definitionUnit);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -301,7 +351,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit) {
         SingularUnit unit = new SingularUnitImpl(identifier,name,symbol,definitionUnit);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -318,7 +368,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(Unit definitionUnit, double definitionFactor) {
         SingularUnit unit = new SingularUnitImpl(definitionUnit,definitionFactor);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (SingularUnit) checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -338,7 +388,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(String name, String symbol, Unit definitionUnit, double definitionFactor) {
         SingularUnit unit = new SingularUnitImpl(name,symbol,definitionUnit,definitionFactor);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -358,7 +408,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public SingularUnit createSingularUnit(String identifier, String name, String symbol, Unit definitionUnit, double definitionFactor) {
         SingularUnit unit = new SingularUnitImpl(identifier,name,symbol,definitionUnit,definitionFactor);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -377,7 +427,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public PrefixedUnit createPrefixedUnit(SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedUnitImpl(singularUnit,prefix);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (PrefixedUnit)checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -398,7 +448,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public PrefixedUnit createPrefixedUnit(String name, SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedUnitImpl(name,singularUnit,prefix);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -419,7 +469,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public PrefixedUnit createPrefixedUnit(String identifier, String name, SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedUnitImpl(identifier,name,singularUnit,prefix);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -440,7 +490,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public PrefixedUnit createPrefixedUnit(String identifier, String name, String symbol, SingularUnit singularUnit, Prefix prefix) {
         PrefixedUnit unit = new PrefixedUnitImpl(identifier,name,symbol,singularUnit,prefix);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -457,7 +507,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiple createUnitMultiple(Unit unit, double factor) {
         UnitMultiple unitm = new UnitMultipleImpl(unit,factor);
-        unitsOrScalesByID.put(unitm.getIdentifier(),unitm);
+        unit = (UnitMultiple)checkExistingAndAddUnit(unitm);
         return unitm;
     }
 
@@ -478,7 +528,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiple createUnitMultiple(String name, Unit unit, double factor) {
         UnitMultiple unitm = new UnitMultipleImpl(name,unit,factor);
-        unitsOrScalesByID.put(unitm.getIdentifier(),unitm);
+        addUnit(unitm);
         return unitm;
     }
 
@@ -498,7 +548,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiple createUnitMultiple(String name, String symbol, Unit unit, double factor) {
         UnitMultiple unitm = new UnitMultipleImpl(name,symbol,unit,factor);
-        unitsOrScalesByID.put(unitm.getIdentifier(),unitm);
+        addUnit(unitm);
         return unitm;
     }
 
@@ -518,7 +568,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiple createUnitMultiple(String identifier, String name, String symbol, Unit unit, double factor) {
         UnitMultiple unitm = new UnitMultipleImpl(identifier,name,symbol,unit,factor);
-        unitsOrScalesByID.put(unitm.getIdentifier(),unitm);
+        addUnit(unitm);
         return unitm;
     }
 
@@ -532,7 +582,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiplication createUnitMultiplication(Unit unit1, Unit unit2) {
         UnitMultiplication unit = new UnitMultiplicationImpl(unit1,unit2);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (UnitMultiplication)checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -549,7 +599,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiplication createUnitMultiplication(String name, String symbol, Unit unit1, Unit unit2) {
         UnitMultiplication unit = new UnitMultiplicationImpl(name,symbol,unit1,unit2);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -566,7 +616,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitMultiplication createUnitMultiplication(String identifier, String name, String symbol, Unit unit1, Unit unit2) {
         UnitMultiplication unit = new UnitMultiplicationImpl(identifier,name,symbol,unit1,unit2);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -581,7 +631,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitDivision createUnitDivision(Unit numerator, Unit denominator){
         UnitDivision unit = new UnitDivisionImpl(numerator,denominator);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (UnitDivision)checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -599,7 +649,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitDivision createUnitDivision(String name, String symbol, Unit numerator, Unit denominator) {
         UnitDivision unit = new UnitDivisionImpl(name,symbol,numerator,denominator);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -617,7 +667,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitDivision createUnitDivision(String identifier, String name, String symbol, Unit numerator, Unit denominator) {
         UnitDivision unit = new UnitDivisionImpl(identifier,name,symbol,numerator,denominator);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -632,7 +682,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitExponentiation createUnitExponentiation(Unit base, double exponent) {
         UnitExponentiation unit = new UnitExponentiationImpl(base,exponent);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        unit = (UnitExponentiation)checkExistingAndAddUnit(unit);
         return unit;
     }
 
@@ -650,7 +700,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitExponentiation createUnitExponentiation(String name, String symbol, Unit base, double exponent) {
         UnitExponentiation unit = new UnitExponentiationImpl(name,symbol,base,exponent);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -668,7 +718,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public UnitExponentiation createUnitExponentiation(String identifier, String name, String symbol, Unit base, double exponent) {
         UnitExponentiation unit = new UnitExponentiationImpl(identifier,name,symbol,base,exponent);
-        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        addUnit(unit);
         return unit;
     }
 
@@ -681,7 +731,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public Scale createScale(Unit unit) {
         Scale scale = new ScaleImpl(unit);
-        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        addScale(scale);
         return scale;
     }
 
@@ -697,7 +747,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public Scale createScale(String name, String symbol, Unit unit) {
         Scale scale = new ScaleImpl(name,symbol,unit);
-        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        addScale(scale);
         return scale;
     }
 
@@ -713,7 +763,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public Scale createScale(String identifier, String name, String symbol, Unit unit) {
         Scale scale = new ScaleImpl(identifier,name,symbol,unit);
-        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        addScale(scale);
         return scale;
     }
 
@@ -733,7 +783,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public Scale createScale(Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
         Scale scale = new ScaleImpl(definitionScale,definitionOffset,definitionFactor,unit);
-        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        addScale(scale);
         return scale;
     }
 
@@ -756,7 +806,7 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public Scale createScale(String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
         Scale scale = new ScaleImpl(name,symbol,definitionScale,definitionOffset,definitionFactor,unit);
-        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        addScale(scale);
         return scale;
     }
 
@@ -779,7 +829,60 @@ public class DefaultUnitAndScaleFactory implements UnitAndScaleFactory{
     @Override
     public Scale createScale(String identifier, String name, String symbol, Scale definitionScale, double definitionOffset, double definitionFactor, Unit unit) {
         Scale scale = new ScaleImpl(identifier,name,symbol,definitionScale,definitionOffset,definitionFactor,unit);
-        unitsOrScalesByID.put(scale.getIdentifier(),scale);
+        addScale(scale);
         return scale;
+    }
+
+    /**
+     * Checks whether the unit already exists and if not adds the unit to the set.
+     * It tries to find an identical unit although names, symbols, or identifiers may not be the same.
+     * If it finds an identical unit returns that unit, it not it adds the new unit to the set and
+     * returns the new unit.
+     * <br>
+     * NB. This method should only be used when units are created automatically, for instance when multiplying two
+     * measures, the multiplication method does not know which existing unit to add to the resulting measure, nor
+     * does it now its name, symbol, or identifier. It only knows that it is a {@link UnitMultiplication} of two
+     * existing units. The method {@link #createUnitMultiplication(Unit, Unit)}, with only unit arguments will
+     * be used to create a new unit. This method checks whether a unit multiplication with the same constituent
+     * units already exists and returns that unit, this to prevent the creation of duplicate unit. USE THIS 
+     * METHOD ONLY WITH THE CREATION UNITS THAT ONLY TAKE UNIT ARGUMENTS.
+     *     
+     * @param unit The unit to be checked and added.
+     * @return The new unit or an identical unit.
+     */
+    private Unit checkExistingAndAddUnit(Unit unit){
+        // todo check unit
+        Dimension dim = unit.getUnitDimension();
+        List<Unit> unitsInDim = unitsByDimension.get(dim.toString());
+        if(unitsInDim!=null && unitsInDim.contains(unit)){
+            int index = unitsInDim.indexOf(unit);
+            unit = unitsInDim.get(index);
+        } else {
+            addUnit(unit);
+        }
+        return unit;
+    }
+
+    /**
+     * Adds a unit to the full set of units and scales in this factory.
+     * @param unit The unit being added.
+     */
+    private void addUnit(Unit unit) {
+        unitsOrScalesByID.put(unit.getIdentifier(),unit);
+        Dimension dim = unit.getUnitDimension();
+        List<Unit> unitsInDim = unitsByDimension.get(dim.toString());
+        if(unitsInDim==null){
+            unitsInDim = new ArrayList<>();
+            unitsByDimension.put(dim.toString(),unitsInDim);
+        }
+        unitsInDim.add(unit);
+    }
+
+    /**
+     * Adds a scale to the full set of units and scales in this factory.
+     * @param scale The scale being added.
+     */
+    private void addScale(Scale scale) {
+        unitsOrScalesByID.put(scale.getIdentifier(),scale);
     }
 }

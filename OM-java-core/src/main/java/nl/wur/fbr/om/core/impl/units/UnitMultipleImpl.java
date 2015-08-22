@@ -144,4 +144,28 @@ public class UnitMultipleImpl extends UnitImpl implements UnitMultiple {
     public Dimension getUnitDimension() {
         return unit.getUnitDimension();
     }
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal.
+     * If the identifiers are not equal the object is tested if it is a {@link UnitMultiple} and
+     * if so, whether the unit and numerical factor are equal.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(super.equals(object)) return true;
+        if(object instanceof UnitMultiple){
+            UnitMultiple su = (UnitMultiple)object;
+            if(su.getUnit()==null && this.getUnit()!=null) return false;
+            if(su.getUnit()!=null && this.getUnit()==null) return false;
+            if((su.getUnit()==null && this.getUnit()==null)
+                    || su.getUnit().equals(this.getUnit())){
+                if(su.getFactor()==this.getFactor()) return true;
+            }
+        }
+        return false;
+    }
 }

@@ -1,9 +1,12 @@
 package nl.wur.fbr.om.core.impl.points;
 
 
+import nl.wur.fbr.om.core.impl.measures.MeasureImpl;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.scales.Scale;
+import nl.wur.fbr.om.model.units.Unit;
+import org.apache.commons.lang3.Range;
 
 /**
  * This class implements the {@link Point Point} interface that represents a point (value and scale) on a measurement scale.
@@ -26,12 +29,37 @@ public class PointImpl implements Point{
     /** The numerical value of this point on the scale. */
     private Object numericalValue;
 
+
     /**
-     * Creates a new <code>Point</code> with the specified numerical value on the specified scale.
-     * @param numericalValue The numerical value.
+     * Creates a new {@link Point} with the specified scalar value on the specified measurement scale.
+     *
+     * @param numericalValue The scalar value.
      * @param scale The scale.
      */
-    public PointImpl(Object numericalValue, Scale scale){
+    public PointImpl(double numericalValue,Scale scale){
+        this.scale = scale;
+        this.numericalValue = numericalValue;
+    }
+
+    /**
+     * Creates a new {@link Point} with the specified vector value on the specified measurement scale.
+     *
+     * @param numericalValue The vector value.
+     * @param scale The scale.
+     */
+    public PointImpl(double[] numericalValue, Scale scale){
+        this.scale = scale;
+        if(numericalValue.length==1) this.numericalValue = numericalValue[0];
+        else this.numericalValue = numericalValue;
+    }
+
+    /**
+     * Creates a new {@link Point} with the specified scalar range value on the specified measurement scale.
+     *
+     * @param numericalValue The scalar range value.
+     * @param scale The scale.
+     */
+    public PointImpl(Range numericalValue, Scale scale){
         this.scale = scale;
         this.numericalValue = numericalValue;
     }
@@ -47,13 +75,68 @@ public class PointImpl implements Point{
     }
 
     /**
-     * The numerical value of the point on the scale.
+     * The numerical value of the point.
+     * The return type is an Object but can be of type Number, or (in the future) of Vector or Tensor types.
      *
      * @return The numerical value.
      */
     @Override
     public Object getNumericalValue() {
         return numericalValue;
+    }
+
+    /**
+     * Returns the difference of the point with the zero point on the scale.
+     *
+     * @return The difference from zero point.
+     */
+    @Override
+    public Measure getDifferenceFromZero() {
+        if(numericalValue instanceof Number)
+            return new MeasureImpl((double)this.getNumericalValue(),this.getScale().getUnit());
+        if(numericalValue instanceof double[])
+            return new MeasureImpl((double[])this.getNumericalValue(),this.getScale().getUnit());
+        if(numericalValue instanceof Range)
+            return new MeasureImpl((Range)this.getNumericalValue(),this.getScale().getUnit());
+        throw new NumberFormatException("THe difference to the zero point could not be determined as the numerical value" +
+                "is not of a known numerical value type.");
+    }
+
+    /**
+     * Returns the numerical value (as a scalar) of this point.
+     *
+     * @return The double value.
+     */
+    @Override
+    public double getScalarValue() {
+        if(!(numericalValue instanceof Number)) throw new NumberFormatException("The numerical value of "+this+" is not a scalar.");
+        return (double) numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a scalar range) of this point.
+     *
+     * @return The range value.
+     */
+    @Override
+    public Range getScalarRange() {
+        if(!(numericalValue instanceof Range)) throw new NumberFormatException("The numerical value of "+this+" is not a scalar range.");
+        return (Range)numericalValue;
+    }
+
+    /**
+     * Returns the numerical value (as a vector of doubles) of this point.
+     *
+     * @return The vector value.
+     */
+    @Override
+    public double[] getVectorValue() {
+        if(numericalValue instanceof Number){
+            double[] vec = {(double) numericalValue};
+            return vec;
+        }
+        if(!(numericalValue instanceof double[])) throw new NumberFormatException("The numerical value of "+this+" is not a vector.");
+        return (double[]) numericalValue;
     }
 
     /**
@@ -64,10 +147,24 @@ public class PointImpl implements Point{
      */
     @Override
     public String toString(){
-        String str = ""+numericalValue;
-        if(getScale().getUnit()!=null && getScale().getUnit().getSymbol()!=null){
-            str+= " " + getScale().getUnit().getSymbol();
+        String str = "";
+        if(this.getNumericalValue() instanceof Number){
+            str += ""+this.getScalarValue();
+        }else if(this.getNumericalValue() instanceof double[]){
+            double[] vec = this.getVectorValue();
+            str += "[";
+            for(int i=0;i<vec.length;i++){
+                if(i>0) str+=",";
+                str+=""+vec[i];
+            }
+            str+="]";
+        }else{
+            str+= ""+numericalValue;
         }
+        if(this.getScale().getUnit()!=null && this.getScale().getUnit().getSymbol()!=null){
+            str+= " " + this.getScale().getUnit().getSymbol();
+        }
+        str+= " (scale)";
         return str;
     }
 }

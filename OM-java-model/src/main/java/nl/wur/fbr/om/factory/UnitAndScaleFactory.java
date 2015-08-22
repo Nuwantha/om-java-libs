@@ -1,10 +1,14 @@
 package nl.wur.fbr.om.factory;
 
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
+import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import nl.wur.fbr.om.prefixes.Prefix;
+
+import java.util.List;
 
 /**
  * This factory method provides the preferred method for creating new instance of Units and Measurement scales.
@@ -74,6 +78,17 @@ import nl.wur.fbr.om.prefixes.Prefix;
 public interface UnitAndScaleFactory {
 
     /**
+     * Adds a (large) set of units and scales to this factory. These units and scales are then added to the
+     * full set in this factory so that these units and scales are also searched through when searching through
+     * the full set in this factory.
+     * @param unitAndScaleSetClass The class of set to be added that should override {@link UnitAndScaleSet}.
+     * @return The set just added to the factory.
+     * @throws UnitOrScaleCreationException When the methods in the <code>unitAndScaleSetClass</code> such
+     * as when {@link UnitAndScaleSet#initialize(UnitAndScaleFactory)} do not exist.
+     */
+    public UnitAndScaleSet addUnitAndScaleSet(Class unitAndScaleSetClass) throws UnitOrScaleCreationException;
+
+    /**
      * Implementations should return a unit or scale identified by the specified
      * identifier. If the Unit or Scale with the same identifier has been created previously, this method should return the
      * same instance. If the Unit or Scale has not been created previously, this method should create the
@@ -86,6 +101,13 @@ public interface UnitAndScaleFactory {
      * @throws UnitOrScaleCreationException When the unit could not be created from the specified identifier.
      */
     public Object getUnitOrScale(String identifier) throws UnitOrScaleCreationException;
+
+    /**
+     * Returns a list of units that have the specified dimension.
+     * @param dimension The dimension that units need to have to be included in the returned list.
+     * @return The list of units with the specified dimension.
+     */
+    public List<Unit> getUnitsInDimension(Dimension dimension);
 
     /**
      * Creates a new singular base unit. For prefixed base units (e.g. kilogram) see

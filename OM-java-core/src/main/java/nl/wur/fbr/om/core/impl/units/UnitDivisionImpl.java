@@ -32,6 +32,20 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         super();
         this.numerator = numerator;
         this.denominator = denominator;
+        String symbol = null;
+        String symbol1 = numerator.getSymbol();
+        String symbol2 = denominator.getSymbol();
+        if(symbol1!=null && symbol1.length()>0){
+            symbol = symbol1;
+        }
+        if(symbol2!=null && symbol2.length()>0){
+            if(symbol==null){
+                symbol="1";
+            }
+            symbol += "/";
+            symbol += symbol2;
+        }
+        if(symbol!=null) this.addAlternativeSymbol(symbol);
     }
 
     /**
@@ -45,6 +59,21 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         super(name,symbol);
         this.numerator = numerator;
         this.denominator = denominator;
+        if(symbol==null) {
+            String symbol1 = numerator.getSymbol();
+            String symbol2 = denominator.getSymbol();
+            if (symbol1 != null && symbol1.length() > 0) {
+                symbol = symbol1;
+            }
+            if (symbol2 != null && symbol2.length() > 0) {
+                if (symbol == null) {
+                    symbol = "1";
+                }
+                symbol += "/";
+                symbol += symbol2;
+            }
+            if (symbol != null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -59,6 +88,21 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         super(identifier,name,symbol);
         this.numerator = numerator;
         this.denominator = denominator;
+        if(symbol==null) {
+            String symbol1 = numerator.getSymbol();
+            String symbol2 = denominator.getSymbol();
+            if (symbol1 != null && symbol1.length() > 0) {
+                symbol = symbol1;
+            }
+            if (symbol2 != null && symbol2.length() > 0) {
+                if (symbol == null) {
+                    symbol = "1";
+                }
+                symbol += "/";
+                symbol += symbol2;
+            }
+            if (symbol != null) this.addAlternativeSymbol(symbol);
+        }
     }
 
     /**
@@ -107,15 +151,38 @@ public class UnitDivisionImpl extends UnitImpl implements UnitDivision {
         Dimension map2 = getDenominator().getUnitDimension();
         Set<BaseDimension> dims1 = map1.getDimensions();
         for(BaseDimension dim : dims1){
-            int exp = map1.getDimensionalExponent(dim);
+            double exp = map1.getDimensionalExponent(dim);
             map.setDimensionalExponent(dim,exp);
         }
         Set<BaseDimension> dims2 = map2.getDimensions();
         for(BaseDimension dim : dims2){
-            int exp = map2.getDimensionalExponent(dim);
-            int eee = map.getDimensionalExponent(dim);
-            map.setDimensionalExponent(dim,eee-exp);
+            double exp = map2.getDimensionalExponent(dim);
+            double eee = map.getDimensionalExponent(dim);
+            if(eee-exp!=0){
+                map.setDimensionalExponent(dim,eee-exp);
+            }else{
+                map.remove(dim);
+            }
         }
         return map;
+    }
+
+    /**
+     * Test whether the specified object is equal to this Unit. If the object
+     * is an instance of Unit, the identifiers are compared and if they are equal,
+     * the units are equal. If not and if the object is also a {@link UnitDivision}, the numerator and denominator
+     * units are tested if they are equal and if both are equal, the method returns true. This check is needed for dimensionless
+     * units.
+     * @param object The object to be compared to this unit.
+     * @return True when the object is equal to this unit, false otherwise.
+     */
+    @Override
+    public boolean equals(Object object){
+        if(super.equals(object)) return true;
+        if(object instanceof UnitDivision){
+            UnitDivision umult = (UnitDivision)object;
+            return getNumerator().equals(umult.getNumerator()) && getDenominator().equals(umult.getDenominator());
+        }
+        return false;
     }
 }
