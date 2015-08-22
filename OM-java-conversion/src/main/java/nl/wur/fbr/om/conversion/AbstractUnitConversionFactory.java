@@ -144,7 +144,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
             }
 
             if(!(tobase1.toUnit.equals(tobase2.toUnit)) && !ies && !isOne){
-                throw new UnitConversionException("Could not convert from measure with Unit or MeasurementScale '"+
+                throw new UnitConversionException("Could not convert from measure with unit '"+
                         sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit);
             }
             conversion = new UnitOrScaleConversion(tobase1.factor/tobase2.factor,0,targetUnit);
@@ -152,7 +152,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
             return conversion;
         } catch (Throwable e) {
-            throw new UnitConversionException("Could not convert from measure with Unit or MeasurementScale '"+
+            throw new UnitConversionException("Could not convert from measure with unit '"+
                     sourceUnit+"' to '"+targetUnit+"'.", sourceUnit,targetUnit,e);
         }
     }
@@ -208,7 +208,7 @@ public abstract class AbstractUnitConversionFactory implements UnitAndScaleConve
 
             return conversion;
         } catch (Throwable e) {
-            throw new ScaleConversionException("Could not convert from measure with Unit or MeasurementScale '"+
+            throw new ScaleConversionException("Could not convert from point in scale '"+
                     sourceScale+"' to '"+targetScale+"'.", sourceScale,targetScale,e);
         }
     }
