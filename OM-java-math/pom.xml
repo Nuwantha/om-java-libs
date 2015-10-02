@@ -6,7 +6,7 @@
     <parent>
 		<artifactId>om-java</artifactId>
 		<groupId>nl.wur.fbr.om</groupId>
-		<version>0.3.0</version>
+		<version>0.5.1</version>
     </parent>
 
     <properties>
@@ -15,7 +15,7 @@
 
     <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java-math</artifactId>
-    <version>0.3.0</version>
+    <version>0.5.1</version>
 	<packaging>jar</packaging>
 
 	<name>Mathematical functions for Measures and Points</name>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-model</artifactId>
-			<version>0.3.0</version>
+			<version>0.5.1</version>
         </dependency>
 	</dependencies>
 
