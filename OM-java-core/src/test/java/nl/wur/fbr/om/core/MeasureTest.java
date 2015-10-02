@@ -28,6 +28,7 @@ public class MeasureTest {
         Assert.assertTrue("Test measure creation",m1.getNumericalValue() instanceof Number);
         Assert.assertTrue("Test measure creation", ((Number) m1.getNumericalValue()).doubleValue() == 15.3);
         Assert.assertEquals("Test measure creation", metre, m1.getUnit());
+        Assert.assertNotEquals("Test measure creation", second, m1.getUnit());
 
         Unit metrePerSecond = factory.createUnitDivision("metre per second", "m/s", metre, second);
         Measure ms1 = factory.createScalarMeasure(2.4e2, metrePerSecond);
@@ -35,12 +36,14 @@ public class MeasureTest {
         Assert.assertTrue("Test measure creation",ms1.getNumericalValue() instanceof Number);
         Assert.assertTrue("Test measure creation", ((Number) ms1.getNumericalValue()).doubleValue() == 2.4e2);
         Assert.assertEquals("Test measure creation", metrePerSecond, ms1.getUnit());
+        Assert.assertNotEquals("Test measure creation", second, ms1.getUnit());
 
         Measure m2 = factory.createMeasure(15.3, metre);
         Assert.assertTrue("Test measure creation",m2.getScalarValue()==15.3);
         Assert.assertTrue("Test measure creation",m2.getNumericalValue() instanceof Number);
         Assert.assertTrue("Test measure creation", ((Number) m2.getNumericalValue()).doubleValue() == 15.3);
         Assert.assertEquals("Test measure creation", metre, m2.getUnit());
+        Assert.assertNotEquals("Test measure creation", second, m2.getUnit());
     }
 
     @Test

@@ -269,8 +269,8 @@ public class SingularUnitImpl extends UnitImpl implements SingularUnit {
             SingularUnit su = (SingularUnit)object;
             if(su.getDefinitionUnit()==null && this.getDefinitionUnit()!=null) return false;
             if(su.getDefinitionUnit()!=null && this.getDefinitionUnit()==null) return false;
-            if((su.getDefinitionUnit()==null && this.getDefinitionUnit()==null)
-                    || su.getDefinitionUnit().equals(this.getDefinitionUnit())){
+            if(su.getDefinitionUnit()==null && this.getDefinitionUnit()==null) return false;
+            if(su.getDefinitionUnit().equals(this.getDefinitionUnit())){
                 if(su.getDefinitionNumericalValue()==this.getDefinitionNumericalValue()) return true;
             }
         }
