@@ -46,7 +46,7 @@ public interface QuantityClass extends NamedObject {
      * preferred unit or scale should be the corresponding SI unit.
      * @return The preferred unit.
      */
-    public Unit getPreferredUnitOrScale();
+    public Object getPreferredUnitOrScale();
 
     /**
      * Returns all units or scales that can be used for quantities of this quantity class type,
@@ -55,5 +55,11 @@ public interface QuantityClass extends NamedObject {
      * @param set The set of units and scales in which the requested units and scales should be found.
      * @return A list of units and scales that can be used for this quantity.
      */
-    public Set<Unit> getUnitsOrScales(UnitAndScaleSet set);
+    public Set<Object> getUnitsOrScales(UnitAndScaleSet set);
+
+    /**
+     * Returns the java class representing instances of this quantity class.
+     * @return The java class.
+     */
+    public Class getClassForQuantityClass();
 }

@@ -1,11 +1,16 @@
 package nl.wur.fbr.om.core.impl.quantities;
 
 import javafx.util.Pair;
+import nl.wur.fbr.om.model.UnitAndScaleSet;
+import nl.wur.fbr.om.model.dimensions.BaseDimension;
+import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.quantities.Quantity;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
+import nl.wur.fbr.om.model.units.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An abstract implementation of {@link QuantityClass} that handles names, symbols and identifiers of
@@ -13,7 +18,7 @@ import java.util.List;
  * of this class.
  * @author Don Willems on 02/10/15.
  */
-public abstract class AbstractQuantityClass implements QuantityClass {
+public class DefaultQuantityClass implements QuantityClass {
 
     /** The identifier for this quantity. */
     private String identifier;
@@ -28,16 +33,30 @@ public abstract class AbstractQuantityClass implements QuantityClass {
     /** The list of symbols for this quantity, the first symbol in the list is the preferred symbol. */
     private List<String> symbols = new ArrayList<>();
 
+    private Dimension dimension;
+    private Set<Object> unitsOrScales;
+    private Object preferredUnitOrScale;
+    private Class quantityJavaClass;
+
     /**
-     * Creates a new {@link QuantityClass} with the specified identifier, name and symbol.
-     * @param identifier The identifier for the class of quantities.
+     * Creates a quantity class with the specified properties.
+     *
+     * @param identifier The identifier of the quantity class.
      * @param name The name of the quantity class.
-     * @param symbol The symbol used for quantities of this class.
+     * @param symbol The default symbol used for quantities of this class.
+     * @param dimension The dimension of quantities of this class.
+     * @param unitOrScale The preferred unit or scale to be used by quantities of this class.
+     * @param unitsOrScales The set of units or scales that can be used by quantities of this class.
+     * @param quantityClass The Java class whose instances represent quantities of this class.
      */
-    public AbstractQuantityClass(String identifier,String name,String symbol){
+    public DefaultQuantityClass(String identifier, String name, String symbol, Dimension dimension, Object unitOrScale, Set<Object> unitsOrScales, Class quantityClass){
         this.addAlternativeName(name,null);
         this.addAlternativeSymbol(symbol);
         this.identifier = identifier;
+        this.unitsOrScales = unitsOrScales;
+        this.preferredUnitOrScale = unitOrScale;
+        this.quantityJavaClass = quantityClass;
+        this.dimension = dimension;
     }
 
 
@@ -197,5 +216,73 @@ public abstract class AbstractQuantityClass implements QuantityClass {
             return ((Quantity)object).getIdentifier().equals(this.getIdentifier());
         }
         return false;
+    }
+
+    /**
+     * Returns the dimension, and therefore, the dimensional exponents, in which quantities of this class are defined.<br>
+     * The dimension of derived quantities are written as products of powers of the base dimensions of the
+     * base quantities using the equations that relate the derived quantities to the base units or
+     * quantities. In SI the dimension of any quantities Q is written in the form of a dimensional product,
+     * dim Q = L^&#945; M^&#946; T^&#947; l^&#948; &#920;^&#949; N^&#950; J^eta
+     * where the exponents &#945;, &#946;, &#947;, &#948;, &#949;, &#950;, and &#951;, are generally small integers
+     * which can be positive, negative or zero, and are called the dimensional exponents.
+     * <br>
+     * <b>For implementations</b>:
+     * The dimension of a quantity can not be calculated as they can for compound units. The implementations of this
+     * method should probably return a constant value for the dimension of the {@link Quantity} implementation.
+     *
+     * @return The set of dimensions and dimensional exponents.
+     */
+    @Override
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    /**
+     * This method returns true when the quantities of this class are dimensionless.
+     *
+     * @return True when the quantity is dimensionless, false otherwise.
+     */
+    @Override
+    public boolean isDimensionless() {
+        Set<BaseDimension> dimensions = dimension.getDimensions();
+        for(BaseDimension base : dimensions){
+            if(dimension.getDimensionalExponent(base)!=0) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns the preferred unit or scale to be used for quantities of this quantity class type.
+     * For instance, for a quantity defined in SI, the
+     * preferred unit or scale should be the corresponding SI unit.
+     *
+     * @return The preferred unit.
+     */
+    @Override
+    public Object getPreferredUnitOrScale() {
+        return preferredUnitOrScale;
+    }
+
+    /**
+     * Returns all units or scales that can be used for quantities of this quantity class type,
+     * that are specified in the set.
+     *
+     * @param set The set of units and scales in which the requested units and scales should be found.
+     * @return A list of units and scales that can be used for this quantity.
+     */
+    @Override
+    public Set<Object> getUnitsOrScales(UnitAndScaleSet set) {
+        return unitsOrScales;
+    }
+
+    /**
+     * Returns the java class representing instances of this quantity class.
+     *
+     * @return The java class.
+     */
+    @Override
+    public Class getClassForQuantityClass() {
+        return quantityJavaClass;
     }
 }

@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Don Willems on 29/07/15.
  */
-public class CoreSet extends UnitAndScaleSet {
+public class CoreUnitAndScaleSet extends UnitAndScaleSet {
 
     /** The namespace of the core unit set.*/
     public static String NAMESPACE;

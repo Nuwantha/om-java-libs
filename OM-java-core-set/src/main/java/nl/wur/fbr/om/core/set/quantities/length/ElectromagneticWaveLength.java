@@ -1,7 +1,8 @@
 package nl.wur.fbr.om.core.set.quantities.length;
 
-import nl.wur.fbr.om.core.impl.quantities.AbstractQuantityClass;
-import nl.wur.fbr.om.core.set.CoreSet;
+import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
+import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
+import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -16,50 +17,15 @@ import java.util.Set;
  * Instances of this class represent an electromagnetic wavelength quantity.
  * @author Don Willems on 02/10/15.
  */
-public class ElectromagneticWaveLength extends WaveLength {
+public class ElectromagneticWavelength extends Wavelength {
 
-    private static QuantityClass quantityClass;
-
-    static {
-        Dimension dimension = new Dimension();
-        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 1);
-        Set<Unit> uoss = new HashSet<>();
-        uoss.add(CoreSet.METRE);
-        uoss.add(CoreSet.DECIMETRE);
-        uoss.add(CoreSet.CENTIMETRE);
-        uoss.add(CoreSet.MILLIMETRE);
-        uoss.add(CoreSet.MICROMETRE);
-        uoss.add(CoreSet.NANOMETRE);
-        uoss.add(CoreSet.ANGSTROM);
-        ElectromagneticWaveLength.quantityClass = new AbstractQuantityClass("nl.wur.fbr.om.core.set.quantity.ElectromagneticWaveLength","wavelength","λ") {
-            @Override
-            public Dimension getDimension() {
-                return dimension;
-            }
-
-            @Override
-            public boolean isDimensionless() {
-                return false;
-            }
-
-            @Override
-            public Unit getPreferredUnitOrScale() {
-                return CoreSet.NANOMETRE;
-            }
-
-            @Override
-            public Set<Unit> getUnitsOrScales(UnitAndScaleSet set) {
-                return uoss;
-            }
-        };
-    }
     /**
      * Creates an electromagnetic wavelength with the specified measure as value.
      * An identifier will be automatically generated.
      *
      * @param measure The value of the wavelength quantity.
      */
-    public ElectromagneticWaveLength(Measure measure) {
+    public ElectromagneticWavelength(Measure measure) {
         super("wavelength","λ",measure);
     }
 
@@ -71,7 +37,17 @@ public class ElectromagneticWaveLength extends WaveLength {
      * @param symbol The symbol of the electromagnetic wavelength.
      * @param measure The value of the wavelength quantity.
      */
-    public ElectromagneticWaveLength(String name, String symbol, Measure measure) {
+    public ElectromagneticWavelength(String name, String symbol, Measure measure) {
         super(name, symbol, measure);
+    }
+
+    /**
+     * Returns the {@link QuantityClass} for which this quantity is an instance.
+     *
+     * @return The quantity class.
+     */
+    @Override
+    public QuantityClass getQuantityClass() {
+        return CoreQuantitySet.ELECTROMAGNETIC_WAVELENGTH;
     }
 }

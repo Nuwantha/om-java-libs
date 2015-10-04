@@ -1,25 +1,23 @@
 package nl.wur.fbr.om.core.set.quantities.length;
 
-import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
 /**
- * Instances of this class represent a length quantity.
+ * Instance of this class represent a radius quantity.
  *
- * @author Don Willems on 02/10/15.
+ * @author Don Willems on 04/10/15.
  */
-public class Length extends AbstractQuantity {
-
+public class Radius extends Length {
     /**
      * Creates an Length with the specified measure as value.
      * An identifier will be automatically generated.
      *
      * @param measure The value of the length quantity.
      */
-    public Length(Measure measure) {
-        super(measure);
+    public Radius(Measure measure) {
+        super("radius","r",measure);
     }
 
     /**
@@ -30,8 +28,8 @@ public class Length extends AbstractQuantity {
      * @param symbol The custom symbol of the quantity.
      * @param measure The value of the length quantity.
      */
-    public Length(String name, String symbol, Measure measure) {
-        super(name,symbol,measure);
+    public Radius(String name, String symbol, Measure measure) {
+        super(name, symbol, measure);
     }
 
     /**
@@ -41,6 +39,6 @@ public class Length extends AbstractQuantity {
      */
     @Override
     public QuantityClass getQuantityClass() {
-        return CoreQuantitySet.LENGTH;
+        return CoreQuantitySet.RADIUS;
     }
 }
