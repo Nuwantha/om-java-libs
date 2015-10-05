@@ -51,6 +51,11 @@ public class Expression {
             }
             return null;
         }
+
+        @Override
+        public String toString(){
+            return "add";
+        }
     };
 
     public Expression(double numericalValue){
@@ -60,13 +65,12 @@ public class Expression {
 
     public Expression(Quantity quantity){
         this.quantity = quantity;
+        dimensionOfResult = quantity.getQuantityClass().getDimension();
         if(quantity.getMeasureValue()!=null) {
             measure = quantity.getMeasureValue();
-            dimensionOfResult = measure.getUnit().getUnitDimension();
         }
         else if(quantity.getPointValue()!=null) {
             point = quantity.getPointValue();
-            dimensionOfResult = point.getScale().getUnit().getUnitDimension();
         }
     }
 
@@ -130,17 +134,17 @@ public class Expression {
     }
 
     public Expression add(double numericalValue){
-        Expression result = new Expression(addition,new Expression(numericalValue));
+        Expression result = new Expression(addition,this,new Expression(numericalValue));
         return result;
     }
 
     public Expression add(Quantity quantity){
-        Expression result = new Expression(addition,new Expression(quantity));
+        Expression result = new Expression(addition,this,new Expression(quantity));
         return result;
     }
 
     public Expression add(Expression expression){
-        Expression result = new Expression(addition,expression);
+        Expression result = new Expression(addition,this,expression);
         return result;
     }
 
@@ -153,5 +157,28 @@ public class Expression {
             return function.evaluate(parameters);
         }
         return this;
+    }
+
+    @Override
+    public String toString(){
+        String str = "";
+        if(function!=null){
+            str += function.toString()+"(";
+            for(int i=0;i<parameters.length;i++){
+                if(i>0) str+=",";
+                str += ""+parameters[i].toString();
+            }
+            str += ")";
+        }else if(quantity!=null){
+            str += quantity.toString();
+        }else if(measure!=null){
+            str += measure.toString();
+        }else if(point!=null){
+            str += point.toString();
+        }else {
+            str += ""+numericalValue;
+        }
+        if(!this.isDimensionalConsistent()) str = "["+str+"->XX]";
+        return str;
     }
 }

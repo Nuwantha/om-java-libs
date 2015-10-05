@@ -388,11 +388,11 @@ public class CoreQuantitySet extends QuantitySet {
         uoss.add(CoreUnitAndScaleSet.YEAR);
         uoss.add(CoreUnitAndScaleSet.DAY);
 
-        TIME = new DefaultQuantityClass(NAMESPACE+"Time","time","s",dimension,CoreUnitAndScaleSet.SECOND,uoss, Time.class);
+        TIME = new DefaultQuantityClass(NAMESPACE+"Time","time","t",dimension,CoreUnitAndScaleSet.SECOND,uoss, Time.class);
         quantityClasses.add(TIME);
         quantityClassesByID.put(TIME.getIdentifier(), TIME);
 
-        DATE = new DefaultQuantityClass(NAMESPACE+"Date","date","s",dimension,CoreUnitAndScaleSet.SECOND,uoss, Date.class);
+        DATE = new DefaultQuantityClass(NAMESPACE+"Date","date","t",dimension,CoreUnitAndScaleSet.SECOND,uoss, Date.class);
         quantityClasses.add(DATE);
         quantityClassesByID.put(DATE.getIdentifier(), DATE);
 
