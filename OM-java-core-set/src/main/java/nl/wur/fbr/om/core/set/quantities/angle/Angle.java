@@ -16,10 +16,8 @@ public class Angle extends AbstractQuantity {
     /**
      * Creates an Angle quantity without a measure, i.e. this quantity is a variable.
      * An identifier will be automatically generated.
-     *
-     * @throws QuantityCreationException
      */
-    public Angle() throws QuantityCreationException {
+    public Angle() {
         super();
     }
 

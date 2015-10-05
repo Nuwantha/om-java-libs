@@ -13,6 +13,14 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
 public class Force extends AbstractQuantity {
 
     /**
+     * Creates a Force quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public Force() {
+        super();
+    }
+
+    /**
      * Creates a Force quantity with the specified measure as value.
      * An identifier will be automatically generated.
      *
@@ -23,6 +31,18 @@ public class Force extends AbstractQuantity {
     public Force(Measure measure)  throws QuantityCreationException {
         super(measure);
     }
+
+    /**
+     * Creates a Force quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Force(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Creates a Force quantity with the specified measure as value.

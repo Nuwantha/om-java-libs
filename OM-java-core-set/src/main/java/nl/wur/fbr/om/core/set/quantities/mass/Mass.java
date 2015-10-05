@@ -12,6 +12,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class Mass extends AbstractQuantity {
+
+    /**
+     * Creates a Mass quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public Mass() {
+        super();
+    }
+
     /**
      * Creates a Mass quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -23,6 +32,18 @@ public class Mass extends AbstractQuantity {
     public Mass(Measure measure) throws QuantityCreationException {
         super("mass","m",measure);
     }
+
+    /**
+     * Creates a Mass quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Mass(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Creates a Mass quantity with the specified measure as value.

@@ -19,6 +19,28 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
 public class Temperature extends AbstractQuantity {
 
     /**
+     * Creates a Temperature quantity without a point on a measurement scale, i.e. this quantity is a variable.
+     * This quantity accepts only points on a measurement scale and is therefore an absolute temperature.
+     * An identifier will be automatically generated.
+     */
+    public Temperature() {
+        super(true);
+    }
+
+    /**
+     * Creates a Temperature quantity without a measure or point on a measurement scale, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     *
+     * @param isTemperatureDifference True when the temperature is a temperature difference and not an
+     *                                absolute temperature, and therefore, only accepts measures as value,
+     *                                or false when the temperature is an absolute temperature and should
+     *                                only accept points on a measurement scale.
+     */
+    public Temperature(boolean isTemperatureDifference) {
+        super(!isTemperatureDifference);
+    }
+
+    /**
      * Creates a temperature difference quantity with the specified measure as value.
      * An identifier will be automatically generated.
      *
@@ -29,6 +51,34 @@ public class Temperature extends AbstractQuantity {
     public Temperature(Measure measure) throws QuantityCreationException {
         super(measure);
     }
+
+    /**
+     * Creates a Temperature quantity without a point on a measurement scale as value, i.e. this quantity is variable.
+     * This quantity accepts only points on a measurement scale and is therefore an absolute temperature.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Temperature(String name, String symbol) {
+        super(name, symbol,true);
+    }
+
+    /**
+     * Creates a temperature difference quantity with the specified measure as value.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     * @param isTemperatureDifference True when the temperature is a temperature difference and not an
+     *                                absolute temperature, and therefore, only accepts measures as value,
+     *                                or false when the temperature is an absolute temperature and should
+     *                                only accept points on a measurement scale.
+     */
+    public Temperature(String name, String symbol,boolean isTemperatureDifference) {
+        super(name, symbol,true);
+    }
+
 
     /**
      * Creates an absolute temperature quantity with the specified point on a measurement scale as value.

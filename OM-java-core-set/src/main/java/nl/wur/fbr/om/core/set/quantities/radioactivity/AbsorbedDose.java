@@ -12,6 +12,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class AbsorbedDose extends AbstractQuantity {
+
+    /**
+     * Creates an Absorbed Dose quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public AbsorbedDose() {
+        super();
+    }
+
     /**
      * Creates an Absorbed Dose quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -23,6 +32,18 @@ public class AbsorbedDose extends AbstractQuantity {
     public AbsorbedDose(Measure measure) throws QuantityCreationException {
         super(measure);
     }
+
+    /**
+     * Creates an Absorbed Dose quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public AbsorbedDose(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Creates an Absorbed Dose quantity with the specified measure as value.
