@@ -2,6 +2,7 @@ package nl.wur.fbr.om.core.set.quantities.time;
 
 import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -17,8 +18,10 @@ public class Time extends AbstractQuantity {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Time(Measure measure) {
+    public Time(Measure measure) throws QuantityCreationException {
         super(measure);
     }
 
@@ -29,8 +32,10 @@ public class Time extends AbstractQuantity {
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Time(String name, String symbol, Measure measure) {
+    public Time(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

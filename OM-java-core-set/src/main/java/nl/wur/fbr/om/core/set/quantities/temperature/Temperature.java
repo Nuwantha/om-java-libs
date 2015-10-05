@@ -2,6 +2,7 @@ package nl.wur.fbr.om.core.set.quantities.temperature;
 
 import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
@@ -22,8 +23,10 @@ public class Temperature extends AbstractQuantity {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Temperature(Measure measure) {
+    public Temperature(Measure measure) throws QuantityCreationException {
         super(measure);
     }
 
@@ -32,8 +35,10 @@ public class Temperature extends AbstractQuantity {
      * An identifier will be automatically generated.
      *
      * @param point The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Temperature(Point point) {
+    public Temperature(Point point) throws QuantityCreationException {
         super(point);
     }
 
@@ -44,8 +49,10 @@ public class Temperature extends AbstractQuantity {
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Temperature(String name, String symbol, Measure measure) {
+    public Temperature(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 
@@ -56,8 +63,10 @@ public class Temperature extends AbstractQuantity {
      * @param name   The name of the quantity.
      * @param symbol The symbol used for the quantity.
      * @param point  The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Temperature(String name, String symbol, Point point) {
+    public Temperature(String name, String symbol, Point point) throws QuantityCreationException {
         super(name, symbol, point);
     }
 

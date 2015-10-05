@@ -2,6 +2,7 @@ package nl.wur.fbr.om.core.set.quantities.length;
 
 import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -16,8 +17,10 @@ public class Area extends AbstractQuantity {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Area(Measure measure) {
+    public Area(Measure measure) throws QuantityCreationException {
         super(measure);
     }
 
@@ -28,8 +31,10 @@ public class Area extends AbstractQuantity {
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Area(String name, String symbol, Measure measure) {
+    public Area(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

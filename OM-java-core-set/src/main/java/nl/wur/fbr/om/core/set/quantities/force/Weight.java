@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core.set.quantities.force;
 
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -15,8 +16,10 @@ public class Weight extends Force {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Weight(Measure measure) {
+    public Weight(Measure measure) throws QuantityCreationException {
         super(measure);
     }
 
@@ -27,8 +30,10 @@ public class Weight extends Force {
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Weight(String name, String symbol, Measure measure) {
+    public Weight(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

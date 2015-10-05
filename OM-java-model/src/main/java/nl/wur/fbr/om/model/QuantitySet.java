@@ -4,7 +4,7 @@ import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.quantities.Quantity;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
-import nl.wur.fbr.om.model.quantities.QuantityCreationException;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;

@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core.set.quantities.length;
 
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -15,8 +16,10 @@ public class Wavelength extends Length {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the wavelength quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Wavelength(Measure measure) {
+    public Wavelength(Measure measure) throws QuantityCreationException {
         super("wavelength","l",measure);
     }
 
@@ -27,8 +30,10 @@ public class Wavelength extends Length {
      * @param name The custom name of the quantity.
      * @param symbol The custom symbol of the quantity.
      * @param measure The value of the wavelength quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Wavelength(String name, String symbol, Measure measure) {
+    public Wavelength(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name,symbol,measure);
     }
 

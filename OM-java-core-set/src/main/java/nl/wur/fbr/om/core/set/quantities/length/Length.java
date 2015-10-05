@@ -2,6 +2,7 @@ package nl.wur.fbr.om.core.set.quantities.length;
 
 import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -18,7 +19,7 @@ public class Length extends AbstractQuantity {
      *
      * @param measure The value of the length quantity.
      */
-    public Length(Measure measure) {
+    public Length(Measure measure) throws QuantityCreationException{
         super(measure);
     }
 
@@ -30,7 +31,7 @@ public class Length extends AbstractQuantity {
      * @param symbol The custom symbol of the quantity.
      * @param measure The value of the length quantity.
      */
-    public Length(String name, String symbol, Measure measure) {
+    public Length(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name,symbol,measure);
     }
 

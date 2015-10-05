@@ -3,6 +3,7 @@ package nl.wur.fbr.om.core.set.quantities.length;
 import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.UnitAndScaleSet;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -24,8 +25,10 @@ public class ElectromagneticWavelength extends Wavelength {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the wavelength quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public ElectromagneticWavelength(Measure measure) {
+    public ElectromagneticWavelength(Measure measure) throws QuantityCreationException {
         super("wavelength","λ",measure);
     }
 
@@ -36,8 +39,10 @@ public class ElectromagneticWavelength extends Wavelength {
      * @param name The name of the electromagnetic wavelength
      * @param symbol The symbol of the electromagnetic wavelength.
      * @param measure The value of the wavelength quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public ElectromagneticWavelength(String name, String symbol, Measure measure) {
+    public ElectromagneticWavelength(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

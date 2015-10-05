@@ -6,7 +6,7 @@ import nl.wur.fbr.om.core.set.quantities.length.ElectromagneticWavelength;
 import nl.wur.fbr.om.core.set.quantities.length.Length;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.InstanceFactory;
-import nl.wur.fbr.om.model.quantities.QuantityCreationException;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,5 +37,11 @@ public class QuantityCoreSetTest {
             Assert.assertTrue("Expected exception when creating a length with a celsius scale.",true);
         }
 
+        try {
+            quantitySet.createQuantity(CoreQuantitySet.LENGTH,factory.createMeasure(15.4,CoreUnitAndScaleSet.SECOND));
+            Assert.fail("Should have thrown a QuantityCreationException.");
+        }catch (QuantityCreationException e){
+            Assert.assertTrue("Expected exception when creating a length with a number of seconds.",true);
+        }
     }
 }

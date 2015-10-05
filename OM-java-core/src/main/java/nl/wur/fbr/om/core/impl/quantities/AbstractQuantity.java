@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core.impl.quantities;
 
 import javafx.util.Pair;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.dimensions.BaseDimension;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.measures.Measure;
@@ -46,10 +47,17 @@ public abstract class AbstractQuantity implements Quantity {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the measure.
      */
-    public AbstractQuantity(Measure measure){
+    public AbstractQuantity(Measure measure) throws QuantityCreationException {
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.measureValue = measure;
+        if(!measure.getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
+            throw new QuantityCreationException("Could not create quantity '"+this.getName()+"'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '"+measure.getUnit()+"'");
+        }
     }
 
     /**
@@ -57,10 +65,17 @@ public abstract class AbstractQuantity implements Quantity {
      * An identifier will be automatically generated.
      *
      * @param point The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public AbstractQuantity(Point point){
+    public AbstractQuantity(Point point) throws QuantityCreationException {
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.pointValue = point;
+        if(!point.getScale().getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
+            throw new QuantityCreationException("Could not create quantity '"+this.getName()+"'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '"+point.getScale().getUnit()+"'");
+        }
     }
 
     /**
@@ -68,10 +83,17 @@ public abstract class AbstractQuantity implements Quantity {
      *
      * @param identifier The identifier for this quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the measure.
      */
-    public AbstractQuantity(String identifier,Measure measure){
+    public AbstractQuantity(String identifier,Measure measure) throws QuantityCreationException {
         this.measureValue = measure;
         this.identifier = identifier;
+        if(!measure.getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
+            throw new QuantityCreationException("Could not create quantity '"+this.getName()+"'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '"+measure.getUnit()+"'");
+        }
     }
 
     /**
@@ -79,10 +101,17 @@ public abstract class AbstractQuantity implements Quantity {
      *
      * @param identifier The identifier for this quantity.
      * @param point The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public AbstractQuantity(String identifier,Point point){
+    public AbstractQuantity(String identifier,Point point) throws QuantityCreationException {
         this.pointValue = point;
         this.identifier = identifier;
+        if(!point.getScale().getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())) {
+            throw new QuantityCreationException("Could not create quantity '" + this.getName() + "'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '" + point.getScale().getUnit() + "'");
+        }
     }
 
     /**
@@ -92,12 +121,19 @@ public abstract class AbstractQuantity implements Quantity {
      * @param name The name of the quantity.
      * @param symbol The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the measure.
      */
-    public AbstractQuantity(String name,String symbol, Measure measure){
+    public AbstractQuantity(String name,String symbol, Measure measure) throws QuantityCreationException {
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.measureValue = measure;
         this.addAlternativeName(name,null);
         this.addAlternativeSymbol(symbol);
+        if(!measure.getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
+            throw new QuantityCreationException("Could not create quantity '"+this.getName()+"'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '"+measure.getUnit()+"'");
+        }
     }
 
     /**
@@ -107,12 +143,19 @@ public abstract class AbstractQuantity implements Quantity {
      * @param name The name of the quantity.
      * @param symbol The symbol used for the quantity.
      * @param point The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public AbstractQuantity(String name,String symbol, Point point){
+    public AbstractQuantity(String name,String symbol, Point point) throws QuantityCreationException {
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.pointValue = point;
         this.addAlternativeName(name,null);
         this.addAlternativeSymbol(symbol);
+        if(!point.getScale().getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())) {
+            throw new QuantityCreationException("Could not create quantity '" + this.getName() + "'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '" + point.getScale().getUnit() + "'");
+        }
     }
 
     /**
@@ -122,12 +165,19 @@ public abstract class AbstractQuantity implements Quantity {
      * @param name The name of the quantity.
      * @param symbol The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the measure.
      */
-    public AbstractQuantity(String identifier,String name,String symbol, Measure measure){
+    public AbstractQuantity(String identifier,String name,String symbol, Measure measure) throws QuantityCreationException {
         this.measureValue = measure;
         this.identifier = identifier;
         this.addAlternativeName(name,null);
         this.addAlternativeSymbol(symbol);
+        if(!measure.getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
+            throw new QuantityCreationException("Could not create quantity '"+this.getName()+"'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '"+measure.getUnit()+"'");
+        }
     }
 
     /**
@@ -137,12 +187,19 @@ public abstract class AbstractQuantity implements Quantity {
      * @param name The name of the quantity.
      * @param symbol The symbol used for the quantity.
      * @param point The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public AbstractQuantity(String identifier,String name,String symbol, Point point){
+    public AbstractQuantity(String identifier,String name,String symbol, Point point) throws QuantityCreationException {
         this.pointValue = point;
         this.identifier = identifier;
         this.addAlternativeName(name,null);
         this.addAlternativeSymbol(symbol);
+        if(!point.getScale().getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())) {
+            throw new QuantityCreationException("Could not create quantity '" + this.getName() + "'" +
+                    "because the dimension of the quantity did not match the dimension of" +
+                    "the unit '" + point.getScale().getUnit() + "'");
+        }
     }
 
 

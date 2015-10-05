@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core.set.quantities.length;
 
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -15,8 +16,10 @@ public class Diameter extends Length {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the diameter quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Diameter(Measure measure) {
+    public Diameter(Measure measure) throws QuantityCreationException {
         super("diameter","d",measure);
     }
 
@@ -27,8 +30,10 @@ public class Diameter extends Length {
      * @param name The custom name of the diameter quantity.
      * @param symbol The custom symbol of the diameter quantity.
      * @param measure The value of the diameter quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Diameter(String name, String symbol, Measure measure) {
+    public Diameter(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

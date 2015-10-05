@@ -1,6 +1,7 @@
 package nl.wur.fbr.om.core.set.quantities.length;
 
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -14,8 +15,10 @@ public class Distance extends Length {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the distance quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Distance(Measure measure) {
+    public Distance(Measure measure) throws QuantityCreationException {
         super(measure);
     }
 
@@ -26,8 +29,10 @@ public class Distance extends Length {
      * @param name The custom name of the distance quantity.
      * @param symbol The custom symbol of the distance quantity.
      * @param measure The value of the distance quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Distance(String name, String symbol, Measure measure) {
+    public Distance(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

@@ -3,6 +3,7 @@ package nl.wur.fbr.om.core.set.quantities.time;
 import nl.wur.fbr.om.core.impl.measures.MeasureImpl;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
 
@@ -17,8 +18,10 @@ public class Date extends Time {
      * the standard base time known as "the epoch", namely January 1, 1970, 00:00:00 GMT.
      * An identifier will be automatically generated.
      *
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Date() {
+    public Date() throws QuantityCreationException {
         super(new MeasureImpl((new java.util.Date()).getTime(), CoreUnitAndScaleSet.MILLISECOND));
     }
 
@@ -28,8 +31,10 @@ public class Date extends Time {
      * An identifier will be automatically generated.
      *
      * @param date The date.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Date(java.util.Date date) {
+    public Date(java.util.Date date) throws QuantityCreationException {
         super(new MeasureImpl(date.getTime(), CoreUnitAndScaleSet.MILLISECOND));
     }
 
@@ -38,8 +43,10 @@ public class Date extends Time {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Date(Measure measure) {
+    public Date(Measure measure) throws QuantityCreationException {
         super(measure);
     }
 
@@ -50,8 +57,10 @@ public class Date extends Time {
      *
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Date(String name, String symbol) {
+    public Date(String name, String symbol) throws QuantityCreationException {
         super(name, symbol, new MeasureImpl((new java.util.Date()).getTime(), CoreUnitAndScaleSet.MILLISECOND));
     }
 
@@ -63,8 +72,10 @@ public class Date extends Time {
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
      * @param date The date.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Date(String name, String symbol, java.util.Date date) {
+    public Date(String name, String symbol, java.util.Date date) throws QuantityCreationException {
         super(name, symbol, new MeasureImpl(date.getTime(), CoreUnitAndScaleSet.MILLISECOND));
     }
 
@@ -75,8 +86,10 @@ public class Date extends Time {
      * @param name    The name of the quantity.
      * @param symbol  The symbol used for the quantity.
      * @param measure The value of the quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
-    public Date(String name, String symbol, Measure measure) {
+    public Date(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
 

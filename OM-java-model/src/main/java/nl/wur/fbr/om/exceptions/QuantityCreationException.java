@@ -1,8 +1,9 @@
-package nl.wur.fbr.om.model.quantities;
+package nl.wur.fbr.om.exceptions;
 
 import nl.wur.fbr.om.exceptions.FactoryException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.quantities.QuantityClass;
 
 /**
  * An exception thrown when creating quantities. Quantities are created in
