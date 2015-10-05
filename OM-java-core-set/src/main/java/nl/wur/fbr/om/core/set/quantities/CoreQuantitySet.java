@@ -422,9 +422,9 @@ public class CoreQuantitySet extends QuantitySet {
         dimension.setDimensionalExponent(SIBaseDimension.TIME, -3);
         dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, -2);
         uoss = new HashSet<>();
-        uoss.add(CoreUnitAndScaleSet.VOLT);
+        uoss.add(CoreUnitAndScaleSet.OHM);
 
-        ELECTRICAL_RESISTANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalResistance","electrical resistance","R",dimension,CoreUnitAndScaleSet.VOLT,uoss, ElectricalResistance.class);
+        ELECTRICAL_RESISTANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalResistance","electrical resistance","R",dimension,CoreUnitAndScaleSet.OHM,uoss, ElectricalResistance.class);
         quantityClasses.add(ELECTRICAL_RESISTANCE);
         quantityClassesByID.put(ELECTRICAL_RESISTANCE.getIdentifier(), ELECTRICAL_RESISTANCE);
 
