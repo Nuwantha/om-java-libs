@@ -4,7 +4,7 @@ import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.angle.Angle;
 import nl.wur.fbr.om.core.set.quantities.angle.SolidAngle;
-import nl.wur.fbr.om.core.set.quantities.electricity.ElectricalCurrent;
+import nl.wur.fbr.om.core.set.quantities.electricity.*;
 import nl.wur.fbr.om.core.set.quantities.energy.Energy;
 import nl.wur.fbr.om.core.set.quantities.energy.Power;
 import nl.wur.fbr.om.core.set.quantities.force.Force;
@@ -189,6 +189,37 @@ public class CoreQuantitySet extends QuantitySet {
      */
     public static QuantityClass POWER;
 
+    /**
+     * Electric charge is a conserved property of some subatomic particles, which determines their electromagnetic
+     * interaction. It is a derived quantity in the International System of Units. Electric charge is electric current
+     * times time.
+     */
+    public static QuantityClass ELECTRICAL_CHARGE;
+
+    /**
+     * Electric potential is the potential energy per unit charge associated with static (time-invariant) electric field.
+     */
+    public static QuantityClass ELECTRICAL_POTENTIAL;
+
+    /**
+     * Capacitance is the ability to hold electrical charge. It is a derived quantity in the International System of
+     * Units. Capacitance is electric charge divided by electric potential.
+     */
+    public static QuantityClass ELECTRICAL_CAPACITANCE;
+
+    /**
+     * Electrical resistance is the degree to which an object opposes an electric current through it. It is a derived
+     * quantity in the International System of Units. Electrical resistance is electric potential divided by
+     * electric current.
+     */
+    public static QuantityClass ELECTRICAL_RESISTANCE;
+
+    /**
+     * Electrical conductance is a measure of how easily electricity flows along a certain path through an electrical
+     * element.
+     */
+    public static QuantityClass ELECTRICAL_CONDUCTANCE;
+
 
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
@@ -328,7 +359,7 @@ public class CoreQuantitySet extends QuantitySet {
         quantityClassesByID.put(DATE.getIdentifier(), FREQUENCY);
 
 
-        // ELECTRICAL CURRENT quantities
+        // ELECTRICITY quantities
 
         dimension = new Dimension();
         dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, 1);
@@ -338,6 +369,64 @@ public class CoreQuantitySet extends QuantitySet {
         ELECTRICAL_CURRENT = new DefaultQuantityClass(NAMESPACE+"ElectricalCurrent","electrical current","I",dimension,CoreUnitAndScaleSet.AMPERE,uoss, ElectricalCurrent.class);
         quantityClasses.add(ELECTRICAL_CURRENT);
         quantityClassesByID.put(ELECTRICAL_CURRENT.getIdentifier(), ELECTRICAL_CURRENT);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, 1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.COULOMB);
+
+        ELECTRICAL_CHARGE = new DefaultQuantityClass(NAMESPACE+"ElectricalCharge","electrical charge","Q",dimension,CoreUnitAndScaleSet.COULOMB,uoss, ElectricalCharge.class);
+        quantityClasses.add(ELECTRICAL_CHARGE);
+        quantityClassesByID.put(ELECTRICAL_CHARGE.getIdentifier(), ELECTRICAL_CHARGE);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, -2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, -1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, 4);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, 1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.FARAD);
+
+        ELECTRICAL_CAPACITANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalCapacitance","electrical capacitance","C",dimension,CoreUnitAndScaleSet.FARAD,uoss, ElectricalCapacitance.class);
+        quantityClasses.add(ELECTRICAL_CAPACITANCE);
+        quantityClassesByID.put(ELECTRICAL_CAPACITANCE.getIdentifier(), ELECTRICAL_CAPACITANCE);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, -2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, -1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, 3);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, 2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.SIEMENS);
+
+        ELECTRICAL_CONDUCTANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalConductance","electrical conductance","G",dimension,CoreUnitAndScaleSet.SIEMENS,uoss, ElectricalConductance.class);
+        quantityClasses.add(ELECTRICAL_CONDUCTANCE);
+        quantityClassesByID.put(ELECTRICAL_CONDUCTANCE.getIdentifier(), ELECTRICAL_CONDUCTANCE);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -3);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, -1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.VOLT);
+
+        ELECTRICAL_POTENTIAL = new DefaultQuantityClass(NAMESPACE+"ElectricalPotential","electrical potential","V",dimension,CoreUnitAndScaleSet.VOLT,uoss, ElectricalPotential.class);
+        quantityClasses.add(ELECTRICAL_POTENTIAL);
+        quantityClassesByID.put(ELECTRICAL_POTENTIAL.getIdentifier(), ELECTRICAL_POTENTIAL);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -3);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, -2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.VOLT);
+
+        ELECTRICAL_RESISTANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalResistance","electrical resistance","R",dimension,CoreUnitAndScaleSet.VOLT,uoss, ElectricalResistance.class);
+        quantityClasses.add(ELECTRICAL_RESISTANCE);
+        quantityClassesByID.put(ELECTRICAL_RESISTANCE.getIdentifier(), ELECTRICAL_RESISTANCE);
 
 
         // TEMPERATURE quantities
