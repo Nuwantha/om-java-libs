@@ -14,8 +14,6 @@ public class Diameter extends Length {
     /**
      * Creates a Diameter quantity without a measure, i.e. this quantity is a variable.
      * An identifier will be automatically generated.
-     *
-     * @throws QuantityCreationException
      */
     public Diameter() {
         super();

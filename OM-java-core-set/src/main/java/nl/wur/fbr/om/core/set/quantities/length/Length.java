@@ -26,6 +26,8 @@ public class Length extends AbstractQuantity {
      * An identifier will be automatically generated.
      *
      * @param measure The value of the length quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
     public Length(Measure measure) throws QuantityCreationException{
         super(measure);
@@ -50,6 +52,8 @@ public class Length extends AbstractQuantity {
      * @param name The custom name of the quantity.
      * @param symbol The custom symbol of the quantity.
      * @param measure The value of the length quantity.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
      */
     public Length(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name,symbol,measure);

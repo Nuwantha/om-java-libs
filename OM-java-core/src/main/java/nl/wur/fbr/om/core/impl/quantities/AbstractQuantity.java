@@ -213,10 +213,8 @@ public abstract class AbstractQuantity implements Quantity {
      * @param symbol The symbol used for the quantity.
      * @param expectPointValue True when only {@link Point points} are acceptable for this quantity, or
      *                         false when only {@link Measure measures} are acceptable.
-     * @throws QuantityCreationException When the dimension of the quantity did not match the
-     * dimension of the unit of the point.
      */
-    public AbstractQuantity(String name,String symbol, boolean expectPointValue) throws QuantityCreationException {
+    public AbstractQuantity(String name,String symbol, boolean expectPointValue) {
         this.expectPointValue = expectPointValue;
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.addAlternativeName(name,null);
