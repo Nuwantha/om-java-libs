@@ -67,6 +67,19 @@ public class CoreQuantitySet extends QuantitySet {
     public static QuantityClass ELECTROMAGNETIC_WAVELENGTH;
 
     /**
+     * Area expresses the two-dimensional size of a defined part of a surface, typically a region bounded by a closed
+     * curve. It is a derived quantity in the International System of Units. Area is length squared.
+     */
+    public static QuantityClass AREA;
+
+    /**
+     * Volume is a measure of how much three-dimensional space any phenomenon occupies. It is a derived quantity in
+     * the International System of Units. Volume is length to the power 3.
+     */
+    public static QuantityClass VOLUME;
+
+
+    /**
      * Mass is the amount of matter of a phenomenon. It is a base quantity in the International System of Units.
      */
     public static QuantityClass MASS;
@@ -182,9 +195,41 @@ public class CoreQuantitySet extends QuantitySet {
         quantityClasses.add(ELECTROMAGNETIC_WAVELENGTH);
         quantityClassesByID.put(ELECTROMAGNETIC_WAVELENGTH.getIdentifier(), ELECTROMAGNETIC_WAVELENGTH);
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.SQUARE_METRE);
+        uoss.add(CoreUnitAndScaleSet.SQUARE_KILOMETRE);
+        uoss.add(CoreUnitAndScaleSet.SQUARE_FEET);
+        uoss.add(CoreUnitAndScaleSet.SQUARE_MILE);
+        uoss.add(CoreUnitAndScaleSet.HECTARE);
+        uoss.add(CoreUnitAndScaleSet.ACRE);
+
+        AREA = new DefaultQuantityClass(NAMESPACE+"Area","area","A",dimension,CoreUnitAndScaleSet.SQUARE_METRE,uoss, Area.class);
+        quantityClasses.add(AREA);
+        quantityClassesByID.put(AREA.getIdentifier(), AREA);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 3);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.CUBIC_METRE);
+        uoss.add(CoreUnitAndScaleSet.LITRE);
+        uoss.add(CoreUnitAndScaleSet.MILLILITRE);
+        uoss.add(CoreUnitAndScaleSet.PINT_IMPERIAL);
+        uoss.add(CoreUnitAndScaleSet.GALLON_IMPERIAL);
+        uoss.add(CoreUnitAndScaleSet.CUP);
+        uoss.add(CoreUnitAndScaleSet.TEASPOON);
+        uoss.add(CoreUnitAndScaleSet.TABLESPOON);
+
+        VOLUME = new DefaultQuantityClass(NAMESPACE+"Volume","volume","V",dimension,CoreUnitAndScaleSet.CUBIC_METRE,uoss, Volume.class);
+        quantityClasses.add(VOLUME);
+        quantityClassesByID.put(VOLUME.getIdentifier(), VOLUME);
+
 
         // MASS quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.GRAM);
         uoss.add(CoreUnitAndScaleSet.KILOGRAM);
@@ -198,6 +243,8 @@ public class CoreQuantitySet extends QuantitySet {
 
         // TIME quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, 1);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.SECOND);
         uoss.add(CoreUnitAndScaleSet.MILLISECOND);
@@ -219,6 +266,8 @@ public class CoreQuantitySet extends QuantitySet {
 
         // ELECTRICAL CURRENT quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, 1);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.AMPERE);
 
@@ -229,6 +278,8 @@ public class CoreQuantitySet extends QuantitySet {
 
         // TEMPERATURE quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.THERMODYNAMIC_TEMPERATURE, 1);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.CELSIUS_SCALE);
         uoss.add(CoreUnitAndScaleSet.KELVIN_SCALE);
@@ -244,6 +295,10 @@ public class CoreQuantitySet extends QuantitySet {
 
         // FORCE quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.NEWTON);
 
@@ -258,6 +313,8 @@ public class CoreQuantitySet extends QuantitySet {
 
         // AMOUNT OF SUBSTANCE quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.AMOUNT_OF_SUBSTANCE, 1);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.MOLE);
 
@@ -268,6 +325,8 @@ public class CoreQuantitySet extends QuantitySet {
 
         // LUMINOUS INTENSITY quantities
 
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LUMINOUS_INTENSITY, 1);
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.CANDELA);
 
