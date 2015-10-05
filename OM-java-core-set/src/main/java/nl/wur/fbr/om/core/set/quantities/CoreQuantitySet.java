@@ -11,6 +11,9 @@ import nl.wur.fbr.om.core.set.quantities.force.Force;
 import nl.wur.fbr.om.core.set.quantities.force.Pressure;
 import nl.wur.fbr.om.core.set.quantities.length.*;
 import nl.wur.fbr.om.core.set.quantities.luminosity.LuminousIntensity;
+import nl.wur.fbr.om.core.set.quantities.magnetism.Inductance;
+import nl.wur.fbr.om.core.set.quantities.magnetism.MagneticFieldStrength;
+import nl.wur.fbr.om.core.set.quantities.magnetism.MagneticFlux;
 import nl.wur.fbr.om.core.set.quantities.mass.Mass;
 import nl.wur.fbr.om.core.set.quantities.force.Weight;
 import nl.wur.fbr.om.core.set.quantities.substance.AmountOfSubstance;
@@ -221,6 +224,23 @@ public class CoreQuantitySet extends QuantitySet {
     public static QuantityClass ELECTRICAL_CONDUCTANCE;
 
 
+    /**
+     * Magnetic flux through any area perpendicular to a magnetic field is the product of the area by the field strength.
+     */
+    public static QuantityClass MAGNETIC_FLUX;
+
+    /**
+     * The strength of a magnetic field, or magnetic field density.
+     */
+    public static QuantityClass MAGNETIC_FIELD_STRENGTH;
+
+    /**
+     * Inductance is that property in an electrical circuit where a change in the current flowing through that circuit
+     * induces an electromotive force that opposes the change in current.
+     */
+    public static QuantityClass INDUCTANCE;
+
+
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
     private static Map<String,QuantityClass> quantityClassesByID = new HashMap<>();
@@ -276,7 +296,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss.add(CoreUnitAndScaleSet.NANOMETRE);
         uoss.add(CoreUnitAndScaleSet.ANGSTROM);
 
-        ELECTROMAGNETIC_WAVELENGTH = new DefaultQuantityClass(NAMESPACE+"ElectromagneticWavelength","wavelength","λ",dimension,CoreUnitAndScaleSet.NANOMETRE,uoss, ElectromagneticWavelength.class);
+        ELECTROMAGNETIC_WAVELENGTH = new DefaultQuantityClass(NAMESPACE + "ElectromagneticWavelength","wavelength","λ",dimension,CoreUnitAndScaleSet.NANOMETRE,uoss, ElectromagneticWavelength.class);
         quantityClasses.add(ELECTROMAGNETIC_WAVELENGTH);
         quantityClassesByID.put(ELECTROMAGNETIC_WAVELENGTH.getIdentifier(), ELECTROMAGNETIC_WAVELENGTH);
 
@@ -400,7 +420,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.SIEMENS);
 
-        ELECTRICAL_CONDUCTANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalConductance","electrical conductance","G",dimension,CoreUnitAndScaleSet.SIEMENS,uoss, ElectricalConductance.class);
+        ELECTRICAL_CONDUCTANCE = new DefaultQuantityClass(NAMESPACE +"ElectricalConductance","electrical conductance","G",dimension,CoreUnitAndScaleSet.SIEMENS,uoss, ElectricalConductance.class);
         quantityClasses.add(ELECTRICAL_CONDUCTANCE);
         quantityClassesByID.put(ELECTRICAL_CONDUCTANCE.getIdentifier(), ELECTRICAL_CONDUCTANCE);
 
@@ -575,6 +595,46 @@ public class CoreQuantitySet extends QuantitySet {
         POWER = new DefaultQuantityClass(NAMESPACE+"Power","power","P",dimension,CoreUnitAndScaleSet.WATT,uoss, Power.class);
         quantityClasses.add(POWER);
         quantityClassesByID.put(POWER.getIdentifier(), POWER);
+
+
+        // MAGNETIC quantities
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, -1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.WEBER);
+
+        MAGNETIC_FLUX = new DefaultQuantityClass(NAMESPACE+"MagneticFlux","magnetic flux","Φ",dimension,CoreUnitAndScaleSet.WEBER,uoss, MagneticFlux.class);
+        quantityClasses.add(MAGNETIC_FLUX);
+        quantityClassesByID.put(MAGNETIC_FLUX.getIdentifier(), MAGNETIC_FLUX);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, -1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.TESLA);
+
+        MAGNETIC_FIELD_STRENGTH = new DefaultQuantityClass(NAMESPACE+"MagneticFieldStrength","magnetic field strength","B",dimension,CoreUnitAndScaleSet.TESLA,uoss, MagneticFieldStrength.class);
+        quantityClasses.add(MAGNETIC_FIELD_STRENGTH);
+        quantityClassesByID.put(MAGNETIC_FIELD_STRENGTH.getIdentifier(), MAGNETIC_FIELD_STRENGTH);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        dimension.setDimensionalExponent(SIBaseDimension.ELECTRIC_CURRENT, -2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.HENRY);
+
+        INDUCTANCE = new DefaultQuantityClass(NAMESPACE+"Inductance","inductance","L",dimension,CoreUnitAndScaleSet.HENRY,uoss, Inductance.class);
+        quantityClasses.add(INDUCTANCE);
+        quantityClassesByID.put(INDUCTANCE.getIdentifier(), INDUCTANCE);
+
+
     }
 
 
