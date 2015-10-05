@@ -3,9 +3,10 @@ package nl.wur.fbr.om.core.set.quantities;
 import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.electricalcurrent.ElectricalCurrent;
+import nl.wur.fbr.om.core.set.quantities.force.Force;
 import nl.wur.fbr.om.core.set.quantities.length.*;
 import nl.wur.fbr.om.core.set.quantities.mass.Mass;
-import nl.wur.fbr.om.core.set.quantities.mass.Weight;
+import nl.wur.fbr.om.core.set.quantities.force.Weight;
 import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Date;
 import nl.wur.fbr.om.core.set.quantities.time.Time;
@@ -15,7 +16,6 @@ import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
-import nl.wur.fbr.om.model.units.Unit;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,23 +32,81 @@ import java.util.Set;
  */
 public class CoreQuantitySet extends QuantitySet {
 
-    public static String NAMESPACE;
+    private static String NAMESPACE;
+
+    /** Length is the amount of space between two geographical points along a curve. It is a base quantity in the
+     * International System of Units and other systems of units. */
     public static QuantityClass LENGTH;
+
+    /** Distance is a numerical description of how far apart objects are. */
     public static QuantityClass DISTANCE;
+
+    /**
+     * The diameter of a circle or sphere is any straight line segment that passes through the center of
+     * the circle or sphere and whose endpoints lie on the circle or sphere.
+     */
     public static QuantityClass DIAMETER;
+
+    /**
+     * The radius of a circle or sphere is the length of a line segment from its center to its
+     * perimeter.
+     */
     public static QuantityClass RADIUS;
+
+    /**
+     * The wavelength of a wave is the spatial period of the wave—the distance over which the wave's shape
+     * repeats, and the inverse of the spatial frequency
+     */
     public static QuantityClass WAVELENGTH;
+
+    /**
+     * The wavelength of an electromagnetic wave, i.e. light.
+     */
     public static QuantityClass ELECTROMAGNETIC_WAVELENGTH;
 
+    /**
+     * Mass is the amount of matter of a phenomenon. It is a base quantity in the International System of Units.
+     */
     public static QuantityClass MASS;
-    public static QuantityClass WEIGHT;
 
+    /**
+     * Time is a base quantity in the International System of Units and other systems of units.
+     * It is measured by numbers of repetitions of cyclical events.
+     */
     public static QuantityClass TIME;
+
+    /**
+     * A calendar date is a reference to a particular day represented within a calendar system.
+     */
     public static QuantityClass DATE;
 
+    /**
+     * The electrical current is a quantity that measures the flow of electric charge.
+     * In electric circuits this charge is often carried by moving
+     * electrons in a wire. It can also be carried by ions in an electrolyte, or by both ions and electrons such
+     * as in a plasma.
+     */
     public static QuantityClass ELECTRICAL_CURRENT;
 
+
+    /**
+     * Temperature is the extent to which an object is hot. The temperature can be measured on a temperature scale
+     * (absolute temperature) or a temperature difference, where it would be a measure instead of a point on a
+     * measurement scale.
+     */
     public static QuantityClass TEMPERATURE;
+
+
+    /**
+     * Force is the extent to which an object with mass can be caused to accelerate. It is a derived quantity in the
+     * International System of Units. Force is mass times acceleration.
+     */
+    public static QuantityClass FORCE;
+
+    /**
+     * Weight is a force that attracts a body towards another (reference) body, e.g. Earth.
+     */
+    public static QuantityClass WEIGHT;
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
     private static Map<String,QuantityClass> quantityClassesByID = new HashMap<>();
@@ -121,10 +179,6 @@ public class CoreQuantitySet extends QuantitySet {
         quantityClasses.add(MASS);
         quantityClassesByID.put(MASS.getIdentifier(), MASS);
 
-        WEIGHT = new DefaultQuantityClass(NAMESPACE+"Weight","weight","w",dimension,CoreUnitAndScaleSet.KILOGRAM,uoss, Weight.class);
-        quantityClasses.add(WEIGHT);
-        quantityClassesByID.put(WEIGHT.getIdentifier(), WEIGHT);
-
 
         // TIME quantities
 
@@ -170,6 +224,20 @@ public class CoreQuantitySet extends QuantitySet {
         TEMPERATURE = new DefaultQuantityClass(NAMESPACE+"Temperature","temperature","T",dimension,CoreUnitAndScaleSet.KELVIN_SCALE,uoss, Temperature.class);
         quantityClasses.add(TEMPERATURE);
         quantityClassesByID.put(TEMPERATURE.getIdentifier(), TEMPERATURE);
+
+
+        // FORCE quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.NEWTON);
+
+        FORCE = new DefaultQuantityClass(NAMESPACE+"Force","force","F",dimension,CoreUnitAndScaleSet.NEWTON,uoss, Force.class);
+        quantityClasses.add(FORCE);
+        quantityClassesByID.put(FORCE.getIdentifier(), FORCE);
+
+        WEIGHT = new DefaultQuantityClass(NAMESPACE+"Weight","weight","W",dimension,CoreUnitAndScaleSet.NEWTON,uoss, Weight.class);
+        quantityClasses.add(WEIGHT);
+        quantityClassesByID.put(WEIGHT.getIdentifier(), WEIGHT);
     }
 
 

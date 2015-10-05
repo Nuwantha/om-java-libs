@@ -123,7 +123,7 @@ public class CoreUnitAndScaleSet extends UnitAndScaleSet {
     /** The identifier in the core unit set for the unit of temperature Fahrenheit.*/
     public static Unit FAHRENHEIT;
 
-    
+
 
     /** The identifier in the core unit set for the SI unit of ammount of substance Mole.*/
     public static Unit MOLE;
