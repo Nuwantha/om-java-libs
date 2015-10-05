@@ -6,6 +6,7 @@ import nl.wur.fbr.om.core.set.quantities.angle.Angle;
 import nl.wur.fbr.om.core.set.quantities.angle.SolidAngle;
 import nl.wur.fbr.om.core.set.quantities.electricalcurrent.ElectricalCurrent;
 import nl.wur.fbr.om.core.set.quantities.force.Force;
+import nl.wur.fbr.om.core.set.quantities.force.Pressure;
 import nl.wur.fbr.om.core.set.quantities.length.*;
 import nl.wur.fbr.om.core.set.quantities.luminosity.LuminousIntensity;
 import nl.wur.fbr.om.core.set.quantities.mass.Mass;
@@ -146,6 +147,13 @@ public class CoreQuantitySet extends QuantitySet {
      * Weight is a force that attracts a body towards another (reference) body, e.g. Earth.
      */
     public static QuantityClass WEIGHT;
+
+
+    /**
+     * Pressure is the force applied to or distributed over a surface. It is a derived quantity in the
+     * International System of Units. Pressure is force divided by area.
+     */
+    public static QuantityClass PRESSURE;
 
     /**
      * A Plane angle is the ratio between an arc and its radius.
@@ -350,6 +358,22 @@ public class CoreQuantitySet extends QuantitySet {
         WEIGHT = new DefaultQuantityClass(NAMESPACE+"Weight","weight","W",dimension,CoreUnitAndScaleSet.NEWTON,uoss, Weight.class);
         quantityClasses.add(WEIGHT);
         quantityClassesByID.put(WEIGHT.getIdentifier(), WEIGHT);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, -1);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.PASCAL);
+        uoss.add(CoreUnitAndScaleSet.NEWTON_PER_SQUARE_METRE);
+        uoss.add(CoreUnitAndScaleSet.ATMOSPHERE);
+        uoss.add(CoreUnitAndScaleSet.BAR);
+        uoss.add(CoreUnitAndScaleSet.MILLIBAR);
+        uoss.add(CoreUnitAndScaleSet.PSI);
+
+        PRESSURE = new DefaultQuantityClass(NAMESPACE+"Pressure","pressure","p",dimension,CoreUnitAndScaleSet.PASCAL,uoss, Pressure.class);
+        quantityClasses.add(PRESSURE);
+        quantityClassesByID.put(PRESSURE.getIdentifier(), PRESSURE);
 
 
         // AMOUNT OF SUBSTANCE quantities
