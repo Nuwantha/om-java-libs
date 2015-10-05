@@ -1,6 +1,5 @@
-package nl.wur.fbr.om.core.set.quantities.mass;
+package nl.wur.fbr.om.core.set.quantities.force;
 
-import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
@@ -10,7 +9,7 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  *
  * @author Don Willems on 05/10/15.
  */
-public class Weight extends AbstractQuantity {
+public class Weight extends Force {
     /**
      * Creates a weight quantity with the specified measure as value.
      * An identifier will be automatically generated.
