@@ -10,6 +10,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 02/10/15.
  */
 public class Distance extends Length {
+
+    /**
+     * Creates a Distance quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public Distance() {
+        super();
+    }
+
     /**
      * Creates an Distance with the specified measure as value.
      * An identifier will be automatically generated.
@@ -21,6 +30,18 @@ public class Distance extends Length {
     public Distance(Measure measure) throws QuantityCreationException {
         super(measure);
     }
+
+    /**
+     * Creates a Distance quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Distance(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Creates a Distance with the specified measure as value.

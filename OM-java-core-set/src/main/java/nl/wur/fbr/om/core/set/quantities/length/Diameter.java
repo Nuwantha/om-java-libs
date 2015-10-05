@@ -12,6 +12,16 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
 public class Diameter extends Length {
 
     /**
+     * Creates a Diameter quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     *
+     * @throws QuantityCreationException
+     */
+    public Diameter() {
+        super();
+    }
+
+    /**
      * Creates an Diameter with the specified measure as value.
      * An identifier will be automatically generated.
      *
@@ -22,6 +32,18 @@ public class Diameter extends Length {
     public Diameter(Measure measure) throws QuantityCreationException {
         super("diameter","d",measure);
     }
+
+    /**
+     * Creates a Diameter quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Diameter(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Creates a Diameter with the specified measure as value.

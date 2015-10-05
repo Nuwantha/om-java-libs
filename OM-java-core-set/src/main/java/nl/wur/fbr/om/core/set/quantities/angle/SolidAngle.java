@@ -16,10 +16,8 @@ public class SolidAngle extends AbstractQuantity {
     /**
      * Creates a Solid Angle quantity without a measure, i.e. this quantity is a variable.
      * An identifier will be automatically generated.
-     *
-     * @throws QuantityCreationException
      */
-    public SolidAngle() throws QuantityCreationException {
+    public SolidAngle() {
         super();
     }
 

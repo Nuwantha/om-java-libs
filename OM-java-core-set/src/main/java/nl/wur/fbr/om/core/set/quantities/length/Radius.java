@@ -11,6 +11,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 04/10/15.
  */
 public class Radius extends Length {
+
+    /**
+     * Creates a Radius quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public Radius() {
+        super();
+    }
+
     /**
      * Creates an Length with the specified measure as value.
      * An identifier will be automatically generated.
@@ -21,6 +30,17 @@ public class Radius extends Length {
      */
     public Radius(Measure measure) throws QuantityCreationException {
         super("radius","r",measure);
+    }
+
+    /**
+     * Creates a Radius quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Radius(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**

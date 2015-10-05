@@ -13,6 +13,14 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  */
 public class Pressure extends AbstractQuantity {
     /**
+     * Creates a Pressure quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public Pressure() {
+        super();
+    }
+
+    /**
      * Creates a Pressure quantity with the specified measure as value.
      * An identifier will be automatically generated.
      *
@@ -22,6 +30,17 @@ public class Pressure extends AbstractQuantity {
      */
     public Pressure(Measure measure) throws QuantityCreationException {
         super(measure);
+    }
+
+    /**
+     * Creates a Pressure quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Pressure(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**
