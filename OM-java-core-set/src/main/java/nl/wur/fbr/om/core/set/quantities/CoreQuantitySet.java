@@ -4,7 +4,9 @@ import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.angle.Angle;
 import nl.wur.fbr.om.core.set.quantities.angle.SolidAngle;
-import nl.wur.fbr.om.core.set.quantities.electricalcurrent.ElectricalCurrent;
+import nl.wur.fbr.om.core.set.quantities.electricity.ElectricalCurrent;
+import nl.wur.fbr.om.core.set.quantities.energy.Energy;
+import nl.wur.fbr.om.core.set.quantities.energy.Power;
 import nl.wur.fbr.om.core.set.quantities.force.Force;
 import nl.wur.fbr.om.core.set.quantities.force.Pressure;
 import nl.wur.fbr.om.core.set.quantities.length.*;
@@ -175,6 +177,19 @@ public class CoreQuantitySet extends QuantitySet {
      * Acceleration is the rate of change of the velocity of an object.
      */
     public static QuantityClass ACCELERATION;
+
+    /**
+     * Energy can be defined as the ability to do work. It is a derived quantity in the International System of Units.
+     */
+    public static QuantityClass ENERGY;
+
+    /**
+     * Power is the time rate at which work is done. It is a derived quantity in the International System of Units.
+     * Power is energy divided by time.
+     */
+    public static QuantityClass POWER;
+
+
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
     private static Map<String,QuantityClass> quantityClassesByID = new HashMap<>();
@@ -444,6 +459,33 @@ public class CoreQuantitySet extends QuantitySet {
         ACCELERATION = new DefaultQuantityClass(NAMESPACE+"Acceleration","acceleration","a",dimension,CoreUnitAndScaleSet.METRE_PER_SECOND_SQUARED,uoss, Acceleration.class);
         quantityClasses.add(ACCELERATION);
         quantityClassesByID.put(ACCELERATION.getIdentifier(), ACCELERATION);
+
+
+        // ENERGY quantities
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.JOULE);
+        uoss.add(CoreUnitAndScaleSet.CALORIE);
+        uoss.add(CoreUnitAndScaleSet.KILOCALORIE);
+
+        ENERGY = new DefaultQuantityClass(NAMESPACE+"Energy","energy","E",dimension,CoreUnitAndScaleSet.JOULE,uoss, Energy.class);
+        quantityClasses.add(ENERGY);
+        quantityClassesByID.put(ENERGY.getIdentifier(), ENERGY);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.MASS, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -3);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.WATT);
+
+        POWER = new DefaultQuantityClass(NAMESPACE+"Power","power","P",dimension,CoreUnitAndScaleSet.WATT,uoss, Power.class);
+        quantityClasses.add(POWER);
+        quantityClassesByID.put(POWER.getIdentifier(), POWER);
     }
 
 
