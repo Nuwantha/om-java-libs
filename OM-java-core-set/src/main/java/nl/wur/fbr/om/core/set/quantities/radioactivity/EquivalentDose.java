@@ -11,6 +11,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class EquivalentDose extends AbstractQuantity {
+
+    /**
+     * Creates a Equivalent Dose quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public EquivalentDose() {
+        super();
+    }
+
     /**
      * Creates an Equivalent Dose quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -22,6 +31,18 @@ public class EquivalentDose extends AbstractQuantity {
     public EquivalentDose(Measure measure) throws QuantityCreationException {
         super(measure);
     }
+
+    /**
+     * Creates a Equivalent Dose quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public EquivalentDose(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Creates an Equivalent Dose quantity with the specified measure as value.

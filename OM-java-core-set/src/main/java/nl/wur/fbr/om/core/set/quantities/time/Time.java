@@ -14,6 +14,14 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
 public class Time extends AbstractQuantity {
 
     /**
+     * Creates a Time quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public Time() {
+        super();
+    }
+
+    /**
      * Creates a Time quantity with the specified measure as value.
      * An identifier will be automatically generated.
      *
@@ -38,6 +46,18 @@ public class Time extends AbstractQuantity {
     public Time(String name, String symbol, Measure measure) throws QuantityCreationException {
         super(name, symbol, measure);
     }
+
+    /**
+     * Creates a Time quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public Time(String name, String symbol) {
+        super(name, symbol);
+    }
+
 
     /**
      * Returns the {@link QuantityClass} for which this quantity is an instance.
