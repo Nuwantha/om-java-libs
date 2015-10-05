@@ -16,6 +16,9 @@ import nl.wur.fbr.om.core.set.quantities.magnetism.MagneticFieldStrength;
 import nl.wur.fbr.om.core.set.quantities.magnetism.MagneticFlux;
 import nl.wur.fbr.om.core.set.quantities.mass.Mass;
 import nl.wur.fbr.om.core.set.quantities.force.Weight;
+import nl.wur.fbr.om.core.set.quantities.radioactivity.AbsorbedDose;
+import nl.wur.fbr.om.core.set.quantities.radioactivity.EquivalentDose;
+import nl.wur.fbr.om.core.set.quantities.radioactivity.Radioactivity;
 import nl.wur.fbr.om.core.set.quantities.substance.AmountOfSubstance;
 import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Date;
@@ -240,6 +243,24 @@ public class CoreQuantitySet extends QuantitySet {
      */
     public static QuantityClass INDUCTANCE;
 
+    /**
+     * The decay rate of a radioactive substance. It is a derived quantity in the International System of Units.
+     * Radioactivity is 1 divided by time.
+     */
+    public static QuantityClass RADIOACTIVITY;
+
+    /**
+     * Absorbed dose is the energy deposited in a medium by ionizing radiation. It is a derived quantity in the
+     * International System of Units. Absorbed dose is energy divided by mass.
+     */
+    public static QuantityClass ABSORBED_DOSE;
+
+    /**
+     * Dose equivalent is a measure of the radiation dose to tissue where an attempt has been made to allow for the
+     * different relative biological effects of different types of ionizing radiation.
+     */
+    public static QuantityClass EQUIVALENT_DOSE;
+
 
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
@@ -283,7 +304,7 @@ public class CoreQuantitySet extends QuantitySet {
         quantityClasses.add(RADIUS);
         quantityClassesByID.put(RADIUS.getIdentifier(), RADIUS);
 
-        WAVELENGTH = new DefaultQuantityClass(NAMESPACE+"Wavelength","wavelength","l",dimension,CoreUnitAndScaleSet.METRE,uoss,Wavelength.class);
+        WAVELENGTH = new DefaultQuantityClass(NAMESPACE + "Wavelength", "wavelength","l",dimension,CoreUnitAndScaleSet.METRE,uoss,Wavelength.class);
         quantityClasses.add(WAVELENGTH);
         quantityClassesByID.put(WAVELENGTH.getIdentifier(), WAVELENGTH);
 
@@ -386,7 +407,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.AMPERE);
 
-        ELECTRICAL_CURRENT = new DefaultQuantityClass(NAMESPACE+"ElectricalCurrent","electrical current","I",dimension,CoreUnitAndScaleSet.AMPERE,uoss, ElectricalCurrent.class);
+        ELECTRICAL_CURRENT = new DefaultQuantityClass(NAMESPACE+"ElectricalCurrent", "electrical current", "I", dimension, CoreUnitAndScaleSet.AMPERE,uoss, ElectricalCurrent.class);
         quantityClasses.add(ELECTRICAL_CURRENT);
         quantityClassesByID.put(ELECTRICAL_CURRENT.getIdentifier(), ELECTRICAL_CURRENT);
 
@@ -396,7 +417,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.COULOMB);
 
-        ELECTRICAL_CHARGE = new DefaultQuantityClass(NAMESPACE+"ElectricalCharge","electrical charge","Q",dimension,CoreUnitAndScaleSet.COULOMB,uoss, ElectricalCharge.class);
+        ELECTRICAL_CHARGE = new DefaultQuantityClass(NAMESPACE+"ElectricalCharge", "electrical charge", "Q", dimension, CoreUnitAndScaleSet.COULOMB,uoss, ElectricalCharge.class);
         quantityClasses.add(ELECTRICAL_CHARGE);
         quantityClassesByID.put(ELECTRICAL_CHARGE.getIdentifier(), ELECTRICAL_CHARGE);
 
@@ -408,7 +429,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.FARAD);
 
-        ELECTRICAL_CAPACITANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalCapacitance","electrical capacitance","C",dimension,CoreUnitAndScaleSet.FARAD,uoss, ElectricalCapacitance.class);
+        ELECTRICAL_CAPACITANCE = new DefaultQuantityClass(NAMESPACE+"ElectricalCapacitance", "electrical capacitance", "C", dimension, CoreUnitAndScaleSet.FARAD,uoss, ElectricalCapacitance.class);
         quantityClasses.add(ELECTRICAL_CAPACITANCE);
         quantityClassesByID.put(ELECTRICAL_CAPACITANCE.getIdentifier(), ELECTRICAL_CAPACITANCE);
 
@@ -420,7 +441,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.SIEMENS);
 
-        ELECTRICAL_CONDUCTANCE = new DefaultQuantityClass(NAMESPACE +"ElectricalConductance","electrical conductance","G",dimension,CoreUnitAndScaleSet.SIEMENS,uoss, ElectricalConductance.class);
+        ELECTRICAL_CONDUCTANCE = new DefaultQuantityClass(NAMESPACE +"ElectricalConductance", "electrical conductance", "G", dimension, CoreUnitAndScaleSet.SIEMENS,uoss, ElectricalConductance.class);
         quantityClasses.add(ELECTRICAL_CONDUCTANCE);
         quantityClassesByID.put(ELECTRICAL_CONDUCTANCE.getIdentifier(), ELECTRICAL_CONDUCTANCE);
 
@@ -432,7 +453,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.VOLT);
 
-        ELECTRICAL_POTENTIAL = new DefaultQuantityClass(NAMESPACE+"ElectricalPotential","electrical potential","V",dimension,CoreUnitAndScaleSet.VOLT,uoss, ElectricalPotential.class);
+        ELECTRICAL_POTENTIAL = new DefaultQuantityClass(NAMESPACE+"ElectricalPotential", "electrical potential", "V", dimension, CoreUnitAndScaleSet.VOLT,uoss, ElectricalPotential.class);
         quantityClasses.add(ELECTRICAL_POTENTIAL);
         quantityClassesByID.put(ELECTRICAL_POTENTIAL.getIdentifier(), ELECTRICAL_POTENTIAL);
 
@@ -461,7 +482,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss.add(CoreUnitAndScaleSet.KELVIN);
         uoss.add(CoreUnitAndScaleSet.FAHRENHEIT);
 
-        TEMPERATURE = new DefaultQuantityClass(NAMESPACE+"Temperature","temperature","T",dimension,CoreUnitAndScaleSet.KELVIN_SCALE,uoss, Temperature.class);
+        TEMPERATURE = new DefaultQuantityClass(NAMESPACE + "Temperature", "temperature","T",dimension,CoreUnitAndScaleSet.KELVIN_SCALE,uoss, Temperature.class);
         quantityClasses.add(TEMPERATURE);
         quantityClassesByID.put(TEMPERATURE.getIdentifier(), TEMPERATURE);
 
@@ -519,7 +540,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.CANDELA);
 
-        AMOUNT_OF_SUBSTANCE = new DefaultQuantityClass(NAMESPACE+"LuminousIntensity","luminous intensity","I",dimension,CoreUnitAndScaleSet.CANDELA,uoss, LuminousIntensity.class);
+        AMOUNT_OF_SUBSTANCE = new DefaultQuantityClass(NAMESPACE+"LuminousIntensity", "luminous intensity", "I", dimension, CoreUnitAndScaleSet.CANDELA,uoss, LuminousIntensity.class);
         quantityClasses.add(AMOUNT_OF_SUBSTANCE);
         quantityClassesByID.put(AMOUNT_OF_SUBSTANCE.getIdentifier(), AMOUNT_OF_SUBSTANCE);
 
@@ -531,14 +552,14 @@ public class CoreQuantitySet extends QuantitySet {
         uoss.add(CoreUnitAndScaleSet.RADIAN);
         uoss.add(CoreUnitAndScaleSet.DEGREE);
 
-        ANGLE = new DefaultQuantityClass(NAMESPACE+"Angle","angle","α",dimension,CoreUnitAndScaleSet.RADIAN,uoss, Angle.class);
+        ANGLE = new DefaultQuantityClass(NAMESPACE+"Angle","angle","α",dimension,CoreUnitAndScaleSet.RADIAN, uoss, Angle.class);
         quantityClasses.add(ANGLE);
         quantityClassesByID.put(ANGLE.getIdentifier(), ANGLE);
 
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.STERADIAN);
 
-        SOLID_ANGLE = new DefaultQuantityClass(NAMESPACE+"SolidAngle","solid angle","Ω",dimension,CoreUnitAndScaleSet.STERADIAN,uoss, SolidAngle.class);
+        SOLID_ANGLE = new DefaultQuantityClass(NAMESPACE + "SolidAngle", "solid angle","Ω",dimension,CoreUnitAndScaleSet.STERADIAN,uoss, SolidAngle.class);
         quantityClasses.add(SOLID_ANGLE);
         quantityClassesByID.put(SOLID_ANGLE.getIdentifier(), SOLID_ANGLE);
 
@@ -555,7 +576,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss.add(CoreUnitAndScaleSet.MILE_PER_HOUR);
         uoss.add(CoreUnitAndScaleSet.KNOT);
 
-        VELOCITY = new DefaultQuantityClass(NAMESPACE+"Velocity","velocity","v",dimension,CoreUnitAndScaleSet.METRE_PER_SECOND,uoss, Velocity.class);
+        VELOCITY = new DefaultQuantityClass(NAMESPACE + "Velocity", "velocity","v",dimension,CoreUnitAndScaleSet.METRE_PER_SECOND,uoss, Velocity.class);
         quantityClasses.add(VELOCITY);
         quantityClassesByID.put(VELOCITY.getIdentifier(), VELOCITY);
 
@@ -565,7 +586,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.METRE_PER_SECOND_SQUARED);
 
-        ACCELERATION = new DefaultQuantityClass(NAMESPACE+"Acceleration","acceleration","a",dimension,CoreUnitAndScaleSet.METRE_PER_SECOND_SQUARED,uoss, Acceleration.class);
+        ACCELERATION = new DefaultQuantityClass(NAMESPACE+"Acceleration", "acceleration", "a", dimension, CoreUnitAndScaleSet.METRE_PER_SECOND_SQUARED,uoss, Acceleration.class);
         quantityClasses.add(ACCELERATION);
         quantityClassesByID.put(ACCELERATION.getIdentifier(), ACCELERATION);
 
@@ -607,7 +628,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.WEBER);
 
-        MAGNETIC_FLUX = new DefaultQuantityClass(NAMESPACE+"MagneticFlux","magnetic flux","Φ",dimension,CoreUnitAndScaleSet.WEBER,uoss, MagneticFlux.class);
+        MAGNETIC_FLUX = new DefaultQuantityClass(NAMESPACE + "MagneticFlux", "magnetic flux","Φ",dimension,CoreUnitAndScaleSet.WEBER,uoss, MagneticFlux.class);
         quantityClasses.add(MAGNETIC_FLUX);
         quantityClassesByID.put(MAGNETIC_FLUX.getIdentifier(), MAGNETIC_FLUX);
 
@@ -618,7 +639,7 @@ public class CoreQuantitySet extends QuantitySet {
         uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.TESLA);
 
-        MAGNETIC_FIELD_STRENGTH = new DefaultQuantityClass(NAMESPACE+"MagneticFieldStrength","magnetic field strength","B",dimension,CoreUnitAndScaleSet.TESLA,uoss, MagneticFieldStrength.class);
+        MAGNETIC_FIELD_STRENGTH = new DefaultQuantityClass(NAMESPACE+"MagneticFieldStrength", "magnetic field strength", "B", dimension, CoreUnitAndScaleSet.TESLA,uoss, MagneticFieldStrength.class);
         quantityClasses.add(MAGNETIC_FIELD_STRENGTH);
         quantityClassesByID.put(MAGNETIC_FIELD_STRENGTH.getIdentifier(), MAGNETIC_FIELD_STRENGTH);
 
@@ -635,6 +656,33 @@ public class CoreQuantitySet extends QuantitySet {
         quantityClassesByID.put(INDUCTANCE.getIdentifier(), INDUCTANCE);
 
 
+        // RADIOACTIVITY quantities
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.BECQUEREL);
+
+        RADIOACTIVITY = new DefaultQuantityClass(NAMESPACE + "Radioactivity", "radioactivity", "A", dimension,CoreUnitAndScaleSet.BECQUEREL,uoss, Radioactivity.class);
+        quantityClasses.add(RADIOACTIVITY);
+        quantityClassesByID.put(RADIOACTIVITY.getIdentifier(), RADIOACTIVITY);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 2);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.GRAY);
+
+        ABSORBED_DOSE = new DefaultQuantityClass(NAMESPACE + "AbsorbedDose", "absorbed dose","D",dimension,CoreUnitAndScaleSet.GRAY,uoss, AbsorbedDose.class);
+        quantityClasses.add(ABSORBED_DOSE);
+        quantityClassesByID.put(ABSORBED_DOSE.getIdentifier(), ABSORBED_DOSE);
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.SIEVERT);
+
+        EQUIVALENT_DOSE = new DefaultQuantityClass(NAMESPACE+"EquivalentDose","equivalent dose","H",dimension,CoreUnitAndScaleSet.SIEVERT,uoss, EquivalentDose.class);
+        quantityClasses.add(EQUIVALENT_DOSE);
+        quantityClassesByID.put(EQUIVALENT_DOSE.getIdentifier(), EQUIVALENT_DOSE);
     }
 
 
