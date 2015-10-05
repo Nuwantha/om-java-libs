@@ -2,7 +2,13 @@ package nl.wur.fbr.om.core.set.quantities;
 
 import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
+import nl.wur.fbr.om.core.set.quantities.electricalcurrent.ElectricalCurrent;
 import nl.wur.fbr.om.core.set.quantities.length.*;
+import nl.wur.fbr.om.core.set.quantities.mass.Mass;
+import nl.wur.fbr.om.core.set.quantities.mass.Weight;
+import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
+import nl.wur.fbr.om.core.set.quantities.time.Date;
+import nl.wur.fbr.om.core.set.quantities.time.Time;
 import nl.wur.fbr.om.model.QuantitySet;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -34,6 +40,16 @@ public class CoreQuantitySet extends QuantitySet {
     public static QuantityClass WAVELENGTH;
     public static QuantityClass ELECTROMAGNETIC_WAVELENGTH;
 
+    public static QuantityClass MASS;
+    public static QuantityClass WEIGHT;
+
+    public static QuantityClass TIME;
+    public static QuantityClass DATE;
+
+    public static QuantityClass ELECTRICAL_CURRENT;
+
+    public static QuantityClass TEMPERATURE;
+
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
     private static Map<String,QuantityClass> quantityClassesByID = new HashMap<>();
 
@@ -42,7 +58,7 @@ public class CoreQuantitySet extends QuantitySet {
 
         // LENGTH Quantities
         Dimension dimension = new Dimension();
-        dimension.setDimensionalExponent(SIBaseDimension.LENGTH,1);
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 1);
         Set<Object> uoss = new HashSet<>();
         uoss.add(CoreUnitAndScaleSet.METRE);
         uoss.add(CoreUnitAndScaleSet.KILOMETRE);
@@ -90,7 +106,70 @@ public class CoreQuantitySet extends QuantitySet {
 
         ELECTROMAGNETIC_WAVELENGTH = new DefaultQuantityClass(NAMESPACE+"ElectromagneticWavelength","wavelength","λ",dimension,CoreUnitAndScaleSet.NANOMETRE,uoss, ElectromagneticWavelength.class);
         quantityClasses.add(ELECTROMAGNETIC_WAVELENGTH);
-        quantityClassesByID.put(ELECTROMAGNETIC_WAVELENGTH.getIdentifier(),ELECTROMAGNETIC_WAVELENGTH);
+        quantityClassesByID.put(ELECTROMAGNETIC_WAVELENGTH.getIdentifier(), ELECTROMAGNETIC_WAVELENGTH);
+
+
+        // MASS quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.GRAM);
+        uoss.add(CoreUnitAndScaleSet.KILOGRAM);
+        uoss.add(CoreUnitAndScaleSet.MILLIGRAM);
+        uoss.add(CoreUnitAndScaleSet.MICROGRAM);
+
+        MASS = new DefaultQuantityClass(NAMESPACE+"Mass","mass","m",dimension,CoreUnitAndScaleSet.KILOGRAM,uoss, Mass.class);
+        quantityClasses.add(MASS);
+        quantityClassesByID.put(MASS.getIdentifier(), MASS);
+
+        WEIGHT = new DefaultQuantityClass(NAMESPACE+"Weight","weight","w",dimension,CoreUnitAndScaleSet.KILOGRAM,uoss, Weight.class);
+        quantityClasses.add(WEIGHT);
+        quantityClassesByID.put(WEIGHT.getIdentifier(), WEIGHT);
+
+
+        // TIME quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.SECOND);
+        uoss.add(CoreUnitAndScaleSet.MILLISECOND);
+        uoss.add(CoreUnitAndScaleSet.MICROSECOND);
+        uoss.add(CoreUnitAndScaleSet.NANOSECOND);
+        uoss.add(CoreUnitAndScaleSet.MINUTE);
+        uoss.add(CoreUnitAndScaleSet.HOUR);
+        uoss.add(CoreUnitAndScaleSet.YEAR);
+        uoss.add(CoreUnitAndScaleSet.DAY);
+
+        TIME = new DefaultQuantityClass(NAMESPACE+"Time","time","s",dimension,CoreUnitAndScaleSet.SECOND,uoss, Time.class);
+        quantityClasses.add(TIME);
+        quantityClassesByID.put(TIME.getIdentifier(), TIME);
+
+        DATE = new DefaultQuantityClass(NAMESPACE+"Date","date","s",dimension,CoreUnitAndScaleSet.SECOND,uoss, Date.class);
+        quantityClasses.add(DATE);
+        quantityClassesByID.put(DATE.getIdentifier(), DATE);
+
+
+        // ELECTRICAL CURRENT quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.AMPERE);
+
+        ELECTRICAL_CURRENT = new DefaultQuantityClass(NAMESPACE+"ElectricalCurrent","electrical current","I",dimension,CoreUnitAndScaleSet.AMPERE,uoss, ElectricalCurrent.class);
+        quantityClasses.add(ELECTRICAL_CURRENT);
+        quantityClassesByID.put(ELECTRICAL_CURRENT.getIdentifier(), ELECTRICAL_CURRENT);
+
+
+        // TEMPERATURE quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.CELSIUS_SCALE);
+        uoss.add(CoreUnitAndScaleSet.KELVIN_SCALE);
+        uoss.add(CoreUnitAndScaleSet.FAHRENHEIT_SCALE);
+        uoss.add(CoreUnitAndScaleSet.CELSIUS);
+        uoss.add(CoreUnitAndScaleSet.KELVIN);
+        uoss.add(CoreUnitAndScaleSet.FAHRENHEIT);
+
+        TEMPERATURE = new DefaultQuantityClass(NAMESPACE+"Temperature","temperature","T",dimension,CoreUnitAndScaleSet.KELVIN_SCALE,uoss, Temperature.class);
+        quantityClasses.add(TEMPERATURE);
+        quantityClassesByID.put(TEMPERATURE.getIdentifier(), TEMPERATURE);
     }
 
 
