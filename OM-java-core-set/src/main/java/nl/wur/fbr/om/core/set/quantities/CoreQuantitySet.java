@@ -2,6 +2,8 @@ package nl.wur.fbr.om.core.set.quantities;
 
 import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
+import nl.wur.fbr.om.core.set.quantities.angle.Angle;
+import nl.wur.fbr.om.core.set.quantities.angle.SolidAngle;
 import nl.wur.fbr.om.core.set.quantities.electricalcurrent.ElectricalCurrent;
 import nl.wur.fbr.om.core.set.quantities.force.Force;
 import nl.wur.fbr.om.core.set.quantities.length.*;
@@ -136,6 +138,17 @@ public class CoreQuantitySet extends QuantitySet {
      * Weight is a force that attracts a body towards another (reference) body, e.g. Earth.
      */
     public static QuantityClass WEIGHT;
+
+    /**
+     * A Plane angle is the ratio between an arc and its radius.
+     */
+    public static QuantityClass ANGLE;
+
+    /**
+     * ASolid angle is the ratio of the surface of a portion of a sphere enclosed by the conical surface that forms an
+     * angle to the square of the radius of the sphere.
+     */
+    public static QuantityClass SOLID_ANGLE;
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
     private static Map<String,QuantityClass> quantityClassesByID = new HashMap<>();
@@ -333,6 +346,25 @@ public class CoreQuantitySet extends QuantitySet {
         AMOUNT_OF_SUBSTANCE = new DefaultQuantityClass(NAMESPACE+"LuminousIntensity","luminous intensity","I",dimension,CoreUnitAndScaleSet.CANDELA,uoss, LuminousIntensity.class);
         quantityClasses.add(AMOUNT_OF_SUBSTANCE);
         quantityClassesByID.put(AMOUNT_OF_SUBSTANCE.getIdentifier(), AMOUNT_OF_SUBSTANCE);
+
+
+        // ANGLE quantities
+
+        dimension = new Dimension();
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.RADIAN);
+        uoss.add(CoreUnitAndScaleSet.DEGREE);
+
+        ANGLE = new DefaultQuantityClass(NAMESPACE+"Angle","angle","α",dimension,CoreUnitAndScaleSet.RADIAN,uoss, Angle.class);
+        quantityClasses.add(ANGLE);
+        quantityClassesByID.put(ANGLE.getIdentifier(), ANGLE);
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.STERADIAN);
+
+        SOLID_ANGLE = new DefaultQuantityClass(NAMESPACE+"SolidAngle","solid angle","Ω",dimension,CoreUnitAndScaleSet.STERADIAN,uoss, SolidAngle.class);
+        quantityClasses.add(SOLID_ANGLE);
+        quantityClassesByID.put(SOLID_ANGLE.getIdentifier(), SOLID_ANGLE);
     }
 
 
