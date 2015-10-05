@@ -15,6 +15,8 @@ import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Date;
 import nl.wur.fbr.om.core.set.quantities.time.Frequency;
 import nl.wur.fbr.om.core.set.quantities.time.Time;
+import nl.wur.fbr.om.core.set.quantities.velocity.Acceleration;
+import nl.wur.fbr.om.core.set.quantities.velocity.Velocity;
 import nl.wur.fbr.om.model.QuantitySet;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.dimensions.SIBaseDimension;
@@ -155,6 +157,16 @@ public class CoreQuantitySet extends QuantitySet {
      * angle to the square of the radius of the sphere.
      */
     public static QuantityClass SOLID_ANGLE;
+
+    /**
+     * Velocity is the rate of change of position.
+     */
+    public static QuantityClass VELOCITY;
+
+    /**
+     * Acceleration is the rate of change of the velocity of an object.
+     */
+    public static QuantityClass ACCELERATION;
 
     private static Set<QuantityClass> quantityClasses = new HashSet<>();
     private static Map<String,QuantityClass> quantityClassesByID = new HashMap<>();
@@ -381,6 +393,33 @@ public class CoreQuantitySet extends QuantitySet {
         SOLID_ANGLE = new DefaultQuantityClass(NAMESPACE+"SolidAngle","solid angle","Ω",dimension,CoreUnitAndScaleSet.STERADIAN,uoss, SolidAngle.class);
         quantityClasses.add(SOLID_ANGLE);
         quantityClassesByID.put(SOLID_ANGLE.getIdentifier(), SOLID_ANGLE);
+
+
+        // VELOCITY quantities
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.METRE_PER_SECOND);
+        uoss.add(CoreUnitAndScaleSet.KILOMETRE_PER_SECOND);
+        uoss.add(CoreUnitAndScaleSet.KILOMETRE_PER_HOUR);
+        uoss.add(CoreUnitAndScaleSet.MILE_PER_HOUR);
+        uoss.add(CoreUnitAndScaleSet.KNOT);
+
+        VELOCITY = new DefaultQuantityClass(NAMESPACE+"Velocity","velocity","v",dimension,CoreUnitAndScaleSet.METRE_PER_SECOND,uoss, Velocity.class);
+        quantityClasses.add(VELOCITY);
+        quantityClassesByID.put(VELOCITY.getIdentifier(), VELOCITY);
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.LENGTH, 1);
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -2);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.METRE_PER_SECOND_SQUARED);
+
+        ACCELERATION = new DefaultQuantityClass(NAMESPACE+"Acceleration","acceleration","a",dimension,CoreUnitAndScaleSet.METRE_PER_SECOND_SQUARED,uoss, Acceleration.class);
+        quantityClasses.add(ACCELERATION);
+        quantityClassesByID.put(ACCELERATION.getIdentifier(), ACCELERATION);
     }
 
 
