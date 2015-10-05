@@ -4,6 +4,7 @@ import nl.wur.fbr.om.core.impl.quantities.DefaultQuantityClass;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.angle.Angle;
 import nl.wur.fbr.om.core.set.quantities.angle.SolidAngle;
+import nl.wur.fbr.om.core.set.quantities.catalysis.CatalyticActivity;
 import nl.wur.fbr.om.core.set.quantities.electricity.*;
 import nl.wur.fbr.om.core.set.quantities.energy.Energy;
 import nl.wur.fbr.om.core.set.quantities.energy.Power;
@@ -260,6 +261,12 @@ public class CoreQuantitySet extends QuantitySet {
      * different relative biological effects of different types of ionizing radiation.
      */
     public static QuantityClass EQUIVALENT_DOSE;
+
+    /**
+     * The catalytic activity of enzymes (measuring the enzymatic activity level in enzyme catalysis)
+     * and other catalysts.
+     */
+    public static QuantityClass CATALYTIC_ACTIVITY;
 
 
 
@@ -683,6 +690,19 @@ public class CoreQuantitySet extends QuantitySet {
         EQUIVALENT_DOSE = new DefaultQuantityClass(NAMESPACE+"EquivalentDose","equivalent dose","H",dimension,CoreUnitAndScaleSet.SIEVERT,uoss, EquivalentDose.class);
         quantityClasses.add(EQUIVALENT_DOSE);
         quantityClassesByID.put(EQUIVALENT_DOSE.getIdentifier(), EQUIVALENT_DOSE);
+
+
+        // CATALYSIS quantities
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -1);
+        dimension.setDimensionalExponent(SIBaseDimension.AMOUNT_OF_SUBSTANCE, 1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.KATAL);
+
+        CATALYTIC_ACTIVITY = new DefaultQuantityClass(NAMESPACE + "CatalyticActivity", "catalytic activity", "U", dimension,CoreUnitAndScaleSet.KATAL,uoss, CatalyticActivity.class);
+        quantityClasses.add(CATALYTIC_ACTIVITY);
+        quantityClassesByID.put(CATALYTIC_ACTIVITY.getIdentifier(), CATALYTIC_ACTIVITY);
     }
 
 
