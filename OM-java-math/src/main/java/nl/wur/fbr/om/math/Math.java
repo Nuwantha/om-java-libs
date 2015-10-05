@@ -1,5 +1,7 @@
 package nl.wur.fbr.om.math;
 
+import nl.wur.fbr.om.math.processors.MathException;
+import nl.wur.fbr.om.math.processors.MathProcessor;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 
