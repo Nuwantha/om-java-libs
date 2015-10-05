@@ -12,6 +12,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class ElectricalConductance extends AbstractQuantity{
+
+    /**
+     * Creates an Electrical Conductance quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public ElectricalConductance() {
+        super();
+    }
+
     /**
      * Creates an Electrical Conductance quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -22,6 +31,17 @@ public class ElectricalConductance extends AbstractQuantity{
      */
     public ElectricalConductance(Measure measure) throws QuantityCreationException {
         super(measure);
+    }
+
+    /**
+     * Creates an Electrical Conductance quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public ElectricalConductance(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**

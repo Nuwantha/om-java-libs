@@ -12,6 +12,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class ElectricalCapacitance extends AbstractQuantity{
+
+    /**
+     * Creates an electrical capacitance quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public ElectricalCapacitance() {
+        super();
+    }
+
     /**
      * Creates an electrical capacitance quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -22,6 +31,17 @@ public class ElectricalCapacitance extends AbstractQuantity{
      */
     public ElectricalCapacitance(Measure measure) throws QuantityCreationException {
         super(measure);
+    }
+
+    /**
+     * Creates an electrical capacitance quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public ElectricalCapacitance(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**

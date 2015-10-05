@@ -12,6 +12,17 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class SolidAngle extends AbstractQuantity {
+
+    /**
+     * Creates a Solid Angle quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     *
+     * @throws QuantityCreationException
+     */
+    public SolidAngle() throws QuantityCreationException {
+        super();
+    }
+
     /**
      * Creates a Solid Angle quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -22,6 +33,17 @@ public class SolidAngle extends AbstractQuantity {
      */
     public SolidAngle(Measure measure) throws QuantityCreationException {
         super(measure);
+    }
+
+    /**
+     * Creates a Solid Angle quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public SolidAngle(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**

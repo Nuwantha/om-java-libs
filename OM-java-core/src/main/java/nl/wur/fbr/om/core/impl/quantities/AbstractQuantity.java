@@ -42,6 +42,29 @@ public abstract class AbstractQuantity implements Quantity {
     /** The point (numerical value on a measurement scale) which is the value of the quantity. */
     private Point pointValue = null;
 
+    private boolean expectPointValue;
+
+    /**
+     * Creates an unnamed quantity without a specified {@link Measure} as value.
+     * When the value is set (see {@link #setValue(Object)}, the value is expected to be a
+     * {@link Measure}.
+     */
+    public AbstractQuantity() {
+        expectPointValue = false;
+    }
+
+    /**
+     * Creates an unnamed quantity without a specified {@link Point} as value.
+     * The <code>expectPointValue</code> parameter should be set to true when this
+     * quantity should only accept {@link Point points} on a measurement scale and not {@link Measure measures}.
+     *
+     * @param expectPointValue True when only {@link Point points} are acceptable for this quantity, or
+     *                         false when only {@link Measure measures} are acceptable.
+     */
+    public AbstractQuantity(boolean expectPointValue) {
+        this.expectPointValue = expectPointValue;
+    }
+
     /**
      * Creates an unnamed quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -51,6 +74,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the measure.
      */
     public AbstractQuantity(Measure measure) throws QuantityCreationException {
+        this.expectPointValue = false;
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.measureValue = measure;
         if(!measure.getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
@@ -69,6 +93,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the point.
      */
     public AbstractQuantity(Point point) throws QuantityCreationException {
+        this.expectPointValue = true;
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.pointValue = point;
         if(!point.getScale().getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
@@ -87,6 +112,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the measure.
      */
     public AbstractQuantity(String identifier,Measure measure) throws QuantityCreationException {
+        this.expectPointValue = false;
         this.measureValue = measure;
         this.identifier = identifier;
         if(!measure.getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())){
@@ -105,6 +131,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the point.
      */
     public AbstractQuantity(String identifier,Point point) throws QuantityCreationException {
+        this.expectPointValue = true;
         this.pointValue = point;
         this.identifier = identifier;
         if(!point.getScale().getUnit().getUnitDimension().equals(this.getQuantityClass().getDimension())) {
@@ -125,6 +152,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the measure.
      */
     public AbstractQuantity(String name,String symbol, Measure measure) throws QuantityCreationException {
+        this.expectPointValue = false;
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.measureValue = measure;
         this.addAlternativeName(name,null);
@@ -147,6 +175,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the point.
      */
     public AbstractQuantity(String name,String symbol, Point point) throws QuantityCreationException {
+        this.expectPointValue = true;
         this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
         this.pointValue = point;
         this.addAlternativeName(name,null);
@@ -156,6 +185,42 @@ public abstract class AbstractQuantity implements Quantity {
                     "because the dimension of the quantity did not match the dimension of" +
                     "the unit '" + point.getScale().getUnit() + "'");
         }
+    }
+
+    /**
+     * Creates an unnamed quantity without a measure as value, i.e. this is a variable quantity.
+     * When the value is set (see {@link #setValue(Object)}, the value is expected to be a
+     * {@link Measure}.
+     * An identifier will be automatically generated.
+     *
+     * @param name The name of the quantity.
+     * @param symbol The symbol used for the quantity.
+     */
+    public AbstractQuantity(String name,String symbol) {
+        this.expectPointValue = false;
+        this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
+        this.addAlternativeName(name,null);
+        this.addAlternativeSymbol(symbol);
+    }
+
+    /**
+     * Creates an unnamed quantity without point on a measurement scale as value, i.e. this is a variable quantity.
+     * When the value is set (see {@link #setValue(Object)}, the value is expected to be a
+     * {@link Point}.
+     * An identifier will be automatically generated.
+     *
+     * @param name The name of the quantity.
+     * @param symbol The symbol used for the quantity.
+     * @param expectPointValue True when only {@link Point points} are acceptable for this quantity, or
+     *                         false when only {@link Measure measures} are acceptable.
+     * @throws QuantityCreationException When the dimension of the quantity did not match the
+     * dimension of the unit of the point.
+     */
+    public AbstractQuantity(String name,String symbol, boolean expectPointValue) throws QuantityCreationException {
+        this.expectPointValue = expectPointValue;
+        this.identifier = this.getQuantityClass().getIdentifier()+"#"+UUID.randomUUID().toString();
+        this.addAlternativeName(name,null);
+        this.addAlternativeSymbol(symbol);
     }
 
     /**
@@ -169,6 +234,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the measure.
      */
     public AbstractQuantity(String identifier,String name,String symbol, Measure measure) throws QuantityCreationException {
+        this.expectPointValue = false;
         this.measureValue = measure;
         this.identifier = identifier;
         this.addAlternativeName(name,null);
@@ -191,6 +257,7 @@ public abstract class AbstractQuantity implements Quantity {
      * dimension of the unit of the point.
      */
     public AbstractQuantity(String identifier,String name,String symbol, Point point) throws QuantityCreationException {
+        this.expectPointValue = true;
         this.pointValue = point;
         this.identifier = identifier;
         this.addAlternativeName(name,null);
@@ -231,6 +298,25 @@ public abstract class AbstractQuantity implements Quantity {
     public Object getValue(){
         if(measureValue!=null) return measureValue;
         else return pointValue;
+    }
+
+    /**
+     * Sets the value (a {@link Measure} or a {@link Point} of the quantity.
+     * @param value The value of the quantity.
+     * @throws QuantityCreationException When the type of value is not consistent with the
+     * expected type (see {@link AbstractQuantity#AbstractQuantity(boolean)}.
+     */
+    public void setValue(Object value) throws QuantityCreationException{
+        if(value instanceof Point && expectPointValue){
+            pointValue = (Point)value;
+        }else if(value instanceof Measure && !expectPointValue){
+            measureValue = (Measure)value;
+        }else {
+            if(expectPointValue) throw new QuantityCreationException("The type of the value to which" +
+                    "the quantity '"+this+"' is set is not of type Point but of type: "+value.getClass());
+            else throw new QuantityCreationException("The type of the value to which" +
+                    "the quantity '"+this+"' is set is not of type Measure but of type: "+value.getClass());
+        }
     }
 
     /**

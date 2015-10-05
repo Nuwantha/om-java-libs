@@ -12,6 +12,14 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class ElectricalCharge extends AbstractQuantity {
+
+    /**
+     * Creates an electrical charge quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public ElectricalCharge() {
+        super();
+    }
     /**
      * Creates an Electrical Charge quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -22,6 +30,17 @@ public class ElectricalCharge extends AbstractQuantity {
      */
     public ElectricalCharge(Measure measure) throws QuantityCreationException {
         super(measure);
+    }
+
+    /**
+     * Creates an electrical charge quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public ElectricalCharge(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**

@@ -11,6 +11,15 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
  * @author Don Willems on 05/10/15.
  */
 public class CatalyticActivity extends AbstractQuantity{
+
+    /**
+     * Creates a Catalytic Activity quantity without a measure, i.e. this quantity is a variable.
+     * An identifier will be automatically generated.
+     */
+    public CatalyticActivity() {
+        super();
+    }
+
     /**
      * Creates a Catalytic Activity quantity with the specified measure as value.
      * An identifier will be automatically generated.
@@ -21,6 +30,17 @@ public class CatalyticActivity extends AbstractQuantity{
      */
     public CatalyticActivity(Measure measure) throws QuantityCreationException {
         super(measure);
+    }
+
+    /**
+     * Creates a Catalytic Activity quantity without a measure as value, i.e. this quantity is variable.
+     * An identifier will be automatically generated.
+     *
+     * @param name    The name of the quantity.
+     * @param symbol  The symbol used for the quantity.
+     */
+    public CatalyticActivity(String name, String symbol) {
+        super(name, symbol);
     }
 
     /**
