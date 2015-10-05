@@ -13,6 +13,7 @@ import nl.wur.fbr.om.core.set.quantities.force.Weight;
 import nl.wur.fbr.om.core.set.quantities.substance.AmountOfSubstance;
 import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Date;
+import nl.wur.fbr.om.core.set.quantities.time.Frequency;
 import nl.wur.fbr.om.core.set.quantities.time.Time;
 import nl.wur.fbr.om.model.QuantitySet;
 import nl.wur.fbr.om.model.dimensions.Dimension;
@@ -96,6 +97,11 @@ public class CoreQuantitySet extends QuantitySet {
      * A calendar date is a reference to a particular day represented within a calendar system.
      */
     public static QuantityClass DATE;
+
+    /**
+     * Frequency is a measure of the number of occurrences of a repeating event per unit time.
+     */
+    public static QuantityClass FREQUENCY;
 
     /**
      * The electrical current is a quantity that measures the flow of electric charge.
@@ -275,6 +281,16 @@ public class CoreQuantitySet extends QuantitySet {
         DATE = new DefaultQuantityClass(NAMESPACE+"Date","date","s",dimension,CoreUnitAndScaleSet.SECOND,uoss, Date.class);
         quantityClasses.add(DATE);
         quantityClassesByID.put(DATE.getIdentifier(), DATE);
+
+
+        dimension = new Dimension();
+        dimension.setDimensionalExponent(SIBaseDimension.TIME, -1);
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.HERTZ);
+
+        FREQUENCY = new DefaultQuantityClass(NAMESPACE+"Frequency","frequency","f",dimension,CoreUnitAndScaleSet.HERTZ,uoss, Frequency.class);
+        quantityClasses.add(FREQUENCY);
+        quantityClassesByID.put(DATE.getIdentifier(), FREQUENCY);
 
 
         // ELECTRICAL CURRENT quantities
