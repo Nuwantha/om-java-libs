@@ -5,6 +5,7 @@ import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.math.impl.MathProcessorImpl;
+import nl.wur.fbr.om.math.processors.MathException;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.units.Unit;
