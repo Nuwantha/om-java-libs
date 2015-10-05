@@ -7,6 +7,7 @@ import nl.wur.fbr.om.core.set.quantities.force.Force;
 import nl.wur.fbr.om.core.set.quantities.length.*;
 import nl.wur.fbr.om.core.set.quantities.mass.Mass;
 import nl.wur.fbr.om.core.set.quantities.force.Weight;
+import nl.wur.fbr.om.core.set.quantities.substance.AmountOfSubstance;
 import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Date;
 import nl.wur.fbr.om.core.set.quantities.time.Time;
@@ -95,6 +96,13 @@ public class CoreQuantitySet extends QuantitySet {
      * measurement scale.
      */
     public static QuantityClass TEMPERATURE;
+
+
+    /**
+     * Amount of substance is the number of elementary entities such as atoms, molecules, electrons, particles, etc.
+     * present in a phenomenon. It is a base quantity in the International System of Units.
+     */
+    public static QuantityClass AMOUNT_OF_SUBSTANCE;
 
 
     /**
@@ -238,6 +246,16 @@ public class CoreQuantitySet extends QuantitySet {
         WEIGHT = new DefaultQuantityClass(NAMESPACE+"Weight","weight","W",dimension,CoreUnitAndScaleSet.NEWTON,uoss, Weight.class);
         quantityClasses.add(WEIGHT);
         quantityClassesByID.put(WEIGHT.getIdentifier(), WEIGHT);
+
+
+        // AMOUNT OF SUBSTANCE quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.MOLE);
+
+        AMOUNT_OF_SUBSTANCE = new DefaultQuantityClass(NAMESPACE+"AmountOfSubstance","amount of substance","n",dimension,CoreUnitAndScaleSet.MOLE,uoss, AmountOfSubstance.class);
+        quantityClasses.add(AMOUNT_OF_SUBSTANCE);
+        quantityClassesByID.put(AMOUNT_OF_SUBSTANCE.getIdentifier(), AMOUNT_OF_SUBSTANCE);
     }
 
 
