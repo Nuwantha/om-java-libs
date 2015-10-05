@@ -1,22 +1,13 @@
 package nl.wur.fbr.om.math.equations;
 
 import nl.wur.fbr.om.model.dimensions.Dimension;
-import nl.wur.fbr.om.model.quantities.Quantity;
 
 /**
  * @author Don Willems on 05/10/15.
  */
-public class EqualsEquation extends Equation implements Function {
+public abstract class EqualsEquation extends Equation implements Function {
 
     public EqualsEquation(Expression left, Expression right) {
-        super(left, ConditionalExpression.EQUAL_TO, right);
-    }
-
-    public EqualsEquation(Quantity left, Expression right) {
-        super(left, ConditionalExpression.EQUAL_TO, right);
-    }
-
-    public EqualsEquation(Quantity left, Quantity right) {
         super(left, ConditionalExpression.EQUAL_TO, right);
     }
 

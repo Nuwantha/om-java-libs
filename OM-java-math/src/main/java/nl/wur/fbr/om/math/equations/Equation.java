@@ -6,7 +6,7 @@ import nl.wur.fbr.om.model.quantities.Quantity;
 /**
  * @author Don Willems on 05/10/15.
  */
-public class Equation {
+public abstract class Equation {
 
     private Expression left, right;
     private ConditionalExpression condition;
@@ -14,18 +14,6 @@ public class Equation {
     public Equation(Expression left, ConditionalExpression condition, Expression right){
         this.left = left;
         this.right = right;
-        this.condition = condition;
-    }
-
-    public Equation(Quantity left, ConditionalExpression condition, Expression right){
-        this.left = new Expression(left);
-        this.right = right;
-        this.condition = condition;
-    }
-
-    public Equation(Quantity left, ConditionalExpression condition, Quantity right){
-        this.left = new Expression(left);
-        this.right = new Expression(right);
         this.condition = condition;
     }
 

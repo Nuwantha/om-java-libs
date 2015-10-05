@@ -10,7 +10,7 @@ import nl.wur.fbr.om.math.Math;
 /**
  * @author Don Willems on 05/10/15.
  */
-public class Expression {
+public abstract class Expression {
 
     private Expression[] parameters;
     private Function function;
@@ -21,42 +21,6 @@ public class Expression {
     private Dimension dimensionOfResult;
 
     private boolean isUnitConsistent = true;
-
-    private Function addition = new Function() {
-        @Override
-        public Expression evaluate(Expression... parameters) {
-            if(parameters.length==2){
-                Expression newExpression = null;
-                Expression augend = parameters[0].evaluate();
-                Expression addend = parameters[1].evaluate();
-                if(!augend.hasFunction() && !addend.hasFunction()){
-                    if(augend.getMeasure()!=null && addend.getMeasure()!=null){
-                        newExpression = new Expression(Math.add(augend.getMeasure(), addend.getMeasure()));
-                    }else if(augend.getPoint()!=null && addend.getMeasure()!=null){
-                        newExpression = new Expression(Math.add(augend.getPoint(), addend.getMeasure()));
-                    }else{
-                        throw new MathException("Cannot add a "+addend.getQuantity()+" to "+augend.getQuantity()+".");
-                    }
-                } else newExpression =  new Expression(addition,augend,addend);
-                return newExpression;
-            }
-            throw new MathException("The number of parameters for the addition function is not equal to 2. (N="+parameters.length+")");
-        }
-
-        @Override
-        public Dimension getDimensionOfResult(Expression... parameters) {
-            if(parameters.length==2){
-                Dimension dimension = parameters[0].getDimensionOfResult();
-                if(parameters[1].getDimensionOfResult().equals(dimension)) return dimension;
-            }
-            return null;
-        }
-
-        @Override
-        public String toString(){
-            return "add";
-        }
-    };
 
     public Expression(double numericalValue){
         this.numericalValue = numericalValue;
@@ -133,20 +97,11 @@ public class Expression {
         return function;
     }
 
-    public Expression add(double numericalValue){
-        Expression result = new Expression(addition,this,new Expression(numericalValue));
-        return result;
-    }
+    public abstract Expression add(double numericalValue);
 
-    public Expression add(Quantity quantity){
-        Expression result = new Expression(addition,this,new Expression(quantity));
-        return result;
-    }
+    public abstract Expression add(Quantity quantity);
 
-    public Expression add(Expression expression){
-        Expression result = new Expression(addition,this,expression);
-        return result;
-    }
+    public abstract Expression add(Expression expression);
 
     public Dimension getDimensionOfResult(){
         return dimensionOfResult;

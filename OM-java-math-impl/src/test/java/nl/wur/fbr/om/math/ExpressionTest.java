@@ -14,6 +14,8 @@ import nl.wur.fbr.om.math.equations.ConditionalExpression;
 import nl.wur.fbr.om.math.equations.Equation;
 import nl.wur.fbr.om.math.equations.Expression;
 import nl.wur.fbr.om.math.impl.MathProcessorImpl;
+import nl.wur.fbr.om.math.impl.equations.EquationImpl;
+import nl.wur.fbr.om.math.impl.equations.ExpressionImpl;
 import nl.wur.fbr.om.model.QuantitySet;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,20 +33,20 @@ public class ExpressionTest {
         factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
         Math.setMathProcessor(new MathProcessorImpl(factory));
         Length length1 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
-        Expression expression = new Expression(length1);
+        Expression expression = new ExpressionImpl(length1);
         {
             Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
             Expression addition = expression.add(length2);
             {
                 Radius radius = (Radius) QuantitySet.createQuantity(CoreQuantitySet.RADIUS);
-                Equation equation = new Equation(radius, ConditionalExpression.EQUAL_TO, addition);
+                Equation equation = new EquationImpl(radius, ConditionalExpression.EQUAL_TO, addition);
                 System.out.println(equation.toString());
                 Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());
             }
             {
                 Time time = (Time) QuantitySet.createQuantity(CoreQuantitySet.TIME);
-                Equation equation = new Equation(time, ConditionalExpression.EQUAL_TO, addition);
+                Equation equation = new EquationImpl(time, ConditionalExpression.EQUAL_TO, addition);
                 System.out.println(equation.toString());
                 Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());
@@ -55,7 +57,7 @@ public class ExpressionTest {
             Expression addition = expression.add(temperature);
             {
                 Radius radius = (Radius) QuantitySet.createQuantity(CoreQuantitySet.RADIUS);
-                Equation equation = new Equation(radius, ConditionalExpression.EQUAL_TO, addition);
+                Equation equation = new EquationImpl(radius, ConditionalExpression.EQUAL_TO, addition);
                 System.out.println(equation.toString());
                 Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());
