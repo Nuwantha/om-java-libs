@@ -5,6 +5,7 @@ import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.electricalcurrent.ElectricalCurrent;
 import nl.wur.fbr.om.core.set.quantities.force.Force;
 import nl.wur.fbr.om.core.set.quantities.length.*;
+import nl.wur.fbr.om.core.set.quantities.luminosity.LuminousIntensity;
 import nl.wur.fbr.om.core.set.quantities.mass.Mass;
 import nl.wur.fbr.om.core.set.quantities.force.Weight;
 import nl.wur.fbr.om.core.set.quantities.substance.AmountOfSubstance;
@@ -103,6 +104,13 @@ public class CoreQuantitySet extends QuantitySet {
      * present in a phenomenon. It is a base quantity in the International System of Units.
      */
     public static QuantityClass AMOUNT_OF_SUBSTANCE;
+
+
+    /**
+     * Luminous intensity is the wavelength-weighted power emitted by a light source in a particular direction per
+     * unit solid angle. It is a base quantity in the International System of Units.
+     */
+    public static QuantityClass LUMINOUS_INTENSITY;
 
 
     /**
@@ -254,6 +262,16 @@ public class CoreQuantitySet extends QuantitySet {
         uoss.add(CoreUnitAndScaleSet.MOLE);
 
         AMOUNT_OF_SUBSTANCE = new DefaultQuantityClass(NAMESPACE+"AmountOfSubstance","amount of substance","n",dimension,CoreUnitAndScaleSet.MOLE,uoss, AmountOfSubstance.class);
+        quantityClasses.add(AMOUNT_OF_SUBSTANCE);
+        quantityClassesByID.put(AMOUNT_OF_SUBSTANCE.getIdentifier(), AMOUNT_OF_SUBSTANCE);
+
+
+        // LUMINOUS INTENSITY quantities
+
+        uoss = new HashSet<>();
+        uoss.add(CoreUnitAndScaleSet.CANDELA);
+
+        AMOUNT_OF_SUBSTANCE = new DefaultQuantityClass(NAMESPACE+"LuminousIntensity","luminous intensity","I",dimension,CoreUnitAndScaleSet.CANDELA,uoss, LuminousIntensity.class);
         quantityClasses.add(AMOUNT_OF_SUBSTANCE);
         quantityClassesByID.put(AMOUNT_OF_SUBSTANCE.getIdentifier(), AMOUNT_OF_SUBSTANCE);
     }
