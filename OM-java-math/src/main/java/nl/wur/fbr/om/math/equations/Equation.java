@@ -1,8 +1,6 @@
 package nl.wur.fbr.om.math.equations;
 
 
-import nl.wur.fbr.om.model.quantities.Quantity;
-
 /**
  * Instances of this class represent an equation, with a left expression, a condition and a right expression
  * of the equation. The left and right expression are compared with each other where the conditional expression
