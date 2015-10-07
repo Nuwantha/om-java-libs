@@ -29,6 +29,21 @@ public class Dimension extends HashMap {
     }
 
     /**
+     * Returns true when this dimension is empty, i.e. is dimensionless.
+     * This is true when the dimension does not contain dimensional exponents, or when
+     * all dimensional exponents are 0.
+     * @return True when the dimension is dimensionless, or false if not.
+     */
+    public boolean isDimensionless(){
+        Set<BaseDimension> bases = super.keySet();
+        if(bases.size()==0) return true;
+        for(BaseDimension baseDimension : bases){
+            if(this.getDimensionalExponent(baseDimension)!=0) return false;
+        }
+        return true;
+    }
+
+    /**
      * Returns the dimensional exponent for the specified base dimension.
      * @param baseDimension The base dimension.
      * @return The dimensional exponent.

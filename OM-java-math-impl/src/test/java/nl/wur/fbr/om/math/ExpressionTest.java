@@ -3,6 +3,7 @@ package nl.wur.fbr.om.math;
 import nl.wur.fbr.om.conversion.CoreInstanceFactory;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
+import nl.wur.fbr.om.core.set.quantities.angle.Angle;
 import nl.wur.fbr.om.core.set.quantities.length.Area;
 import nl.wur.fbr.om.core.set.quantities.length.Length;
 import nl.wur.fbr.om.core.set.quantities.length.Radius;
@@ -221,6 +222,37 @@ public class ExpressionTest {
                 Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());
             }
+        }
+    }
+
+    @Test
+    public void testExpressionSine() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Angle angle = (Angle) QuantitySet.createQuantity(CoreQuantitySet.ANGLE);
+            Expression expression = new ExpressionImpl(angle);
+            Expression sine = expression.sin();
+            System.out.println(sine.toString());
+            Assert.assertTrue("Test dimensional consistency of " + sine, sine.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression lsine = sine.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + lsine, lsine.isDimensionalConsistent());
+                Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Equation equation = new EquationImpl(length2, ConditionalExpression.EQUAL_TO, lsine);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression expression = new ExpressionImpl(length);
+            Expression sine = expression.sin();
+            System.out.println(sine.toString());
+            Assert.assertFalse("Test dimensional consistency of " + sine, sine.isDimensionalConsistent());
         }
     }
 }

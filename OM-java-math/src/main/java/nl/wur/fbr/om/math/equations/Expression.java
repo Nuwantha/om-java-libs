@@ -345,6 +345,15 @@ public abstract class Expression {
     public abstract Expression divide(Expression expression);
 
 
+    /**
+     * Calculates the sine of this expression.
+     * The result is a new expression with a sine function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the sine of this expression.
+     */
+    public abstract Expression sin();
+
 
     /**
      * Returns the dimension of the result of this expression.

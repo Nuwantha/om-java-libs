@@ -53,6 +53,18 @@ public class Sine implements Function {
     @Override
     public Dimension getDimensionOfResult(Expression... parameters) {
         if(parameters.length!=1) return null;
+        if(!parameters[0].getDimensionOfResult().isDimensionless()) return null;
         return new Dimension();
+    }
+
+    /**
+     * Returns a string representation of this function. This string is used in the string
+     * representation of any expression or equation that contains this function.
+     *
+     * @return The string representation.
+     */
+    @Override
+    public String toString(){
+        return "sin";
     }
 }

@@ -2,10 +2,7 @@ package nl.wur.fbr.om.math.impl.equations;
 
 import nl.wur.fbr.om.math.equations.Expression;
 import nl.wur.fbr.om.math.equations.Function;
-import nl.wur.fbr.om.math.impl.functions.Addition;
-import nl.wur.fbr.om.math.impl.functions.Division;
-import nl.wur.fbr.om.math.impl.functions.Multiplication;
-import nl.wur.fbr.om.math.impl.functions.Subtraction;
+import nl.wur.fbr.om.math.impl.functions.*;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.quantities.Quantity;
@@ -33,6 +30,7 @@ public class ExpressionImpl extends Expression {
     private Subtraction subtraction = new Subtraction();
     private Multiplication multiplication = new Multiplication();
     private Division division = new Division();
+    private Sine sine = new Sine();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -271,6 +269,19 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression divide(Expression expression) {
         Expression result = new ExpressionImpl(division,this,expression);
+        return result;
+    }
+
+    /**
+     * Calculates the sine of this expression.
+     * The result is a new expression with the {@link Sine} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the sine of this expression.
+     */
+    @Override
+    public Expression sin() {
+        Expression result = new ExpressionImpl(sine,this);
         return result;
     }
 }
