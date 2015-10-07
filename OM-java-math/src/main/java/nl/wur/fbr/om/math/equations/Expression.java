@@ -356,6 +356,16 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the cosine of this expression.
+     * The result is a new expression with a cosine function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the cosine of this expression.
+     */
+    public abstract Expression cos();
+
+
+    /**
      * Returns the dimension of the result of this expression.
      * @return The resulting dimension.
      */

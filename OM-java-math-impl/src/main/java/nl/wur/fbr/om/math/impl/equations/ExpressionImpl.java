@@ -31,6 +31,7 @@ public class ExpressionImpl extends Expression {
     private Multiplication multiplication = new Multiplication();
     private Division division = new Division();
     private Sine sine = new Sine();
+    private Cosine cosine = new Cosine();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -282,6 +283,19 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression sin() {
         Expression result = new ExpressionImpl(sine,this);
+        return result;
+    }
+
+    /**
+     * Calculates the cosine of this expression.
+     * The result is a new expression with a {@link Cosine} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the cosine of this expression.
+     */
+    @Override
+    public Expression cos() {
+        Expression result = new ExpressionImpl(cosine,this);
         return result;
     }
 }

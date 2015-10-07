@@ -255,4 +255,35 @@ public class ExpressionTest {
             Assert.assertFalse("Test dimensional consistency of " + sine, sine.isDimensionalConsistent());
         }
     }
+
+    @Test
+    public void testExpressionCosine() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Angle angle = (Angle) QuantitySet.createQuantity(CoreQuantitySet.ANGLE);
+            Expression expression = new ExpressionImpl(angle);
+            Expression cosine = expression.cos();
+            System.out.println(cosine.toString());
+            Assert.assertTrue("Test dimensional consistency of " + cosine, cosine.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression lcosine = cosine.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + lcosine, lcosine.isDimensionalConsistent());
+                Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Equation equation = new EquationImpl(length2, ConditionalExpression.EQUAL_TO, lcosine);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression expression = new ExpressionImpl(length);
+            Expression cosine = expression.cos();
+            System.out.println(cosine.toString());
+            Assert.assertFalse("Test dimensional consistency of " + cosine, cosine.isDimensionalConsistent());
+        }
+    }
 }
