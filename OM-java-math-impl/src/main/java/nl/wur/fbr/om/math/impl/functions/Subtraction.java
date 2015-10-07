@@ -36,6 +36,8 @@ public class Subtraction implements Function {
                     newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.subtract(minuend.getPoint(), subtrahend.getMeasure()));
                 }else if(minuend.getPoint()!=null && subtrahend.getPoint()!=null){
                     newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.difference(minuend.getPoint(), subtrahend.getPoint()));
+                }else if(minuend.hasNumericalValue() && subtrahend.hasNumericalValue()){
+                    newExpression = new ExpressionImpl(minuend.getNumericalValue()-subtrahend.getNumericalValue());
                 }else{
                     throw new MathException("Cannot subtract "+minuend.getQuantity()+" from "+subtrahend.getQuantity()+".");
                 }

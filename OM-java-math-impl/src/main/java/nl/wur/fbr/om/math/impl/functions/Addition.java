@@ -36,6 +36,8 @@ public class Addition implements Function {
                     newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.add(augend.getMeasure(), addend.getMeasure()));
                 }else if(augend.getPoint()!=null && addend.getMeasure()!=null){
                     newExpression = new ExpressionImpl(Math.add(augend.getPoint(), addend.getMeasure()));
+                }else if(augend.hasNumericalValue() && addend.hasNumericalValue()){
+                    newExpression = new ExpressionImpl(augend.getNumericalValue()+addend.getNumericalValue());
                 }else{
                     throw new MathException("Cannot add a "+addend.getQuantity()+" to "+augend.getQuantity()+".");
                 }

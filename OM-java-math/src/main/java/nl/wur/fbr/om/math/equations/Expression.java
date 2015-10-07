@@ -231,7 +231,7 @@ public abstract class Expression {
 
 
     /**
-     * Adds the specified numerical value to the expression.
+     * Adds the specified quantity to the expression.
      * The result is a new expression with an addition function with parameters this
      * expression and an expression containing the numerical value.
      *
@@ -263,7 +263,7 @@ public abstract class Expression {
     public abstract Expression subtract(double numericalValue);
 
     /**
-     * Subtracts the specified numerical value from the expression.
+     * Subtracts the specified quantity from the expression.
      * The result is a new expression with a subtraction function with parameters this
      * expression and an expression containing the numerical value.
      *
@@ -281,6 +281,37 @@ public abstract class Expression {
      * @return The expression containing the subtraction of the expression.
      */
     public abstract Expression subtract(Expression expression);
+
+
+    /**
+     * Multiplies the expression  with the specified numerical value.
+     * The result is a new expression with a multiplication function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param numericalValue The numerical value to be multiplied by.
+     * @return The expression containing the multiplication with the numerical value.
+     */
+    public abstract Expression multiply(double numericalValue);
+
+    /**
+     * Multiplies the expression with the specified quantity.
+     * The result is a new expression with a multiplication function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param quantity The quantity to be multiplied by.
+     * @return The expression containing the multiplication with the quantity.
+     */
+    public abstract Expression multiply(Quantity quantity);
+
+    /**
+     * Multiplies the expression with the specified expression.
+     * The result is a new expression with a multiplication function with parameters this
+     * expression and the specified (sub)expression.
+     *
+     * @param expression The subexpression to be multiplied by.
+     * @return The expression containing the multiplication with the expression.
+     */
+    public abstract Expression multiply(Expression expression);
 
     /**
      * Returns the dimension of the result of this expression.

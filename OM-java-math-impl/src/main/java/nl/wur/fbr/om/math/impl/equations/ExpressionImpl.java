@@ -3,6 +3,7 @@ package nl.wur.fbr.om.math.impl.equations;
 import nl.wur.fbr.om.math.equations.Expression;
 import nl.wur.fbr.om.math.equations.Function;
 import nl.wur.fbr.om.math.impl.functions.Addition;
+import nl.wur.fbr.om.math.impl.functions.Multiplication;
 import nl.wur.fbr.om.math.impl.functions.Subtraction;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
@@ -29,6 +30,7 @@ public class ExpressionImpl extends Expression {
 
     private Addition addition = new Addition();
     private Subtraction subtraction = new Subtraction();
+    private Multiplication multiplication = new Multiplication();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -183,6 +185,48 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression subtract(Expression expression) {
         Expression result = new ExpressionImpl(subtraction,this,expression);
+        return result;
+    }
+
+    /**
+     * Multiplies the expression  with the specified numerical value.
+     * The result is a new expression with the {@link Multiplication} function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param numericalValue The numerical value to be multiplied by.
+     * @return The expression containing the multiplication with the numerical value.
+     */
+    @Override
+    public Expression multiply(double numericalValue) {
+        Expression result = new ExpressionImpl(multiplication,this,new ExpressionImpl(numericalValue));
+        return result;
+    }
+
+    /**
+     * Multiplies the expression with the specified quantity.
+     * The result is a new expression with the {@link Multiplication} function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param quantity The quantity to be multiplied by.
+     * @return The expression containing the multiplication with the quantity.
+     */
+    @Override
+    public Expression multiply(Quantity quantity) {
+        Expression result = new ExpressionImpl(multiplication,this,new ExpressionImpl(quantity));
+        return result;
+    }
+
+    /**
+     * Multiplies the expression with the specified expression.
+     * The result is a new expression with the {@link Multiplication} function with parameters this
+     * expression and the specified (sub)expression.
+     *
+     * @param expression The subexpression to be multiplied by.
+     * @return The expression containing the multiplication with the expression.
+     */
+    @Override
+    public Expression multiply(Expression expression) {
+        Expression result = new ExpressionImpl(multiplication,this,expression);
         return result;
     }
 }
