@@ -313,6 +313,39 @@ public abstract class Expression {
      */
     public abstract Expression multiply(Expression expression);
 
+
+    /**
+     * Divides the expression by the specified numerical value.
+     * The result is a new expression with a division function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param numericalValue The numerical value to be divided by.
+     * @return The expression containing the division with the numerical value.
+     */
+    public abstract Expression divide(double numericalValue);
+
+    /**
+     * Divides the expression by the specified quantity.
+     * The result is a new expression with a division function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param quantity The quantity to be divided by.
+     * @return The expression containing the division with the quantity.
+     */
+    public abstract Expression divide(Quantity quantity);
+
+    /**
+     * Divides the expression by the specified expression.
+     * The result is a new expression with a division function with parameters this
+     * expression and the specified (sub)expression.
+     *
+     * @param expression The subexpression to be divided by.
+     * @return The expression containing the division with the expression.
+     */
+    public abstract Expression divide(Expression expression);
+
+
+
     /**
      * Returns the dimension of the result of this expression.
      * @return The resulting dimension.

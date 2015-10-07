@@ -3,6 +3,7 @@ package nl.wur.fbr.om.math.impl.equations;
 import nl.wur.fbr.om.math.equations.Expression;
 import nl.wur.fbr.om.math.equations.Function;
 import nl.wur.fbr.om.math.impl.functions.Addition;
+import nl.wur.fbr.om.math.impl.functions.Division;
 import nl.wur.fbr.om.math.impl.functions.Multiplication;
 import nl.wur.fbr.om.math.impl.functions.Subtraction;
 import nl.wur.fbr.om.model.measures.Measure;
@@ -31,6 +32,7 @@ public class ExpressionImpl extends Expression {
     private Addition addition = new Addition();
     private Subtraction subtraction = new Subtraction();
     private Multiplication multiplication = new Multiplication();
+    private Division division = new Division();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -227,6 +229,48 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression multiply(Expression expression) {
         Expression result = new ExpressionImpl(multiplication,this,expression);
+        return result;
+    }
+
+    /**
+     * Divides the expression by the specified numerical value.
+     * The result is a new expression with the {@link Division} function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param numericalValue The numerical value to be divided by.
+     * @return The expression containing the division with the numerical value.
+     */
+    @Override
+    public Expression divide(double numericalValue) {
+        Expression result = new ExpressionImpl(division,this,new ExpressionImpl(numericalValue));
+        return result;
+    }
+
+    /**
+     * Divides the expression by the specified quantity.
+     * The result is a new expression with the {@link Division} function with parameters this
+     * expression and an expression containing the numerical value.
+     *
+     * @param quantity The quantity to be divided by.
+     * @return The expression containing the division with the quantity.
+     */
+    @Override
+    public Expression divide(Quantity quantity) {
+        Expression result = new ExpressionImpl(division,this,new ExpressionImpl(quantity));
+        return result;
+    }
+
+    /**
+     * Divides the expression by the specified expression.
+     * The result is a new expression with the {@link Division} function with parameters this
+     * expression and the specified (sub)expression.
+     *
+     * @param expression The subexpression to be divided by.
+     * @return The expression containing the division with the expression.
+     */
+    @Override
+    public Expression divide(Expression expression) {
+        Expression result = new ExpressionImpl(division,this,expression);
         return result;
     }
 }
