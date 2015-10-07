@@ -7,14 +7,14 @@ import nl.wur.fbr.om.math.processors.MathException;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 
 /**
- * This is an implementation of the cosine function.
+ * This is an implementation of the tangent function.
  *
  * @author Don Willems on 07/10/15.
  */
-public class Cosine implements Function {
+public class Tangent implements Function {
 
     /**
-     * Tries to evaluate the function given the specified parameters, i.e. calculate the cosine of the parameter.
+     * Tries to evaluate the function given the specified parameters, i.e. calculate the tangent of the parameter.
      * The result of the evaluation is another expression which may contain a numerical value
      * or measure or point if all quantities in the parameter expressions have been filled in
      * (i.e. have a value). If not, this function tries to fill in as much as possible and returns
@@ -30,22 +30,22 @@ public class Cosine implements Function {
             Expression value = parameters[0].evaluate();
             if(!value.hasFunction()){
                 if(value.getMeasure()!=null){
-                    newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.cos(value.getMeasure()));
+                    newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.tan(value.getMeasure()));
                 }else if(value.hasNumericalValue()){
-                    newExpression = new ExpressionImpl(Math.cos(value.getNumericalValue()));
+                    newExpression = new ExpressionImpl(Math.tan(value.getNumericalValue()));
                 }else{
-                    throw new MathException("Cannot calculate the cosine of "+value.getQuantity()+".");
+                    throw new MathException("Cannot calculate the tangent of "+value.getQuantity()+".");
                 }
             } else newExpression =  new ExpressionImpl(this,value);
             return newExpression;
         }
-        throw new MathException("The number of parameters for the cosine function is not equal to 1. (N="+parameters.length+")");
+        throw new MathException("The number of parameters for the tangent function is not equal to 1. (N="+parameters.length+")");
     }
 
     /**
      * Returns the dimension of the resulting expression, or null if the function is not
      * dimensional consistent given the parameters. <br>
-     * The cosine always returns a dimensionless value.
+     * The tangent always returns a dimensionless value.
      *
      * @param parameters The input expressions.
      * @return The dimension of the result, or null if the function is not
@@ -66,6 +66,6 @@ public class Cosine implements Function {
      */
     @Override
     public String toString(){
-        return "cos";
+        return "tan";
     }
 }

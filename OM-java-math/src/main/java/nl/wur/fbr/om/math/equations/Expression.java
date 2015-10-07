@@ -366,6 +366,16 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the tangent of this expression.
+     * The result is a new expression with a tangent function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the tangent of this expression.
+     */
+    public abstract Expression tan();
+
+
+    /**
      * Returns the dimension of the result of this expression.
      * @return The resulting dimension.
      */

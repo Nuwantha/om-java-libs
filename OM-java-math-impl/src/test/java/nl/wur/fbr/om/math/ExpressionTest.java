@@ -286,4 +286,35 @@ public class ExpressionTest {
             Assert.assertFalse("Test dimensional consistency of " + cosine, cosine.isDimensionalConsistent());
         }
     }
+
+    @Test
+    public void testExpressionTangent() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Angle angle = (Angle) QuantitySet.createQuantity(CoreQuantitySet.ANGLE);
+            Expression expression = new ExpressionImpl(angle);
+            Expression tangent = expression.tan();
+            System.out.println(tangent.toString());
+            Assert.assertTrue("Test dimensional consistency of " + tangent, tangent.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression ltangent = tangent.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + ltangent, ltangent.isDimensionalConsistent());
+                Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Equation equation = new EquationImpl(length2, ConditionalExpression.EQUAL_TO, ltangent);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression expression = new ExpressionImpl(length);
+            Expression tangent = expression.tan();
+            System.out.println(tangent.toString());
+            Assert.assertFalse("Test dimensional consistency of " + tangent, tangent.isDimensionalConsistent());
+        }
+    }
 }
