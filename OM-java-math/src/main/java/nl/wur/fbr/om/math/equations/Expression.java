@@ -406,6 +406,36 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the exponent (Euler's number raised to the parameter) of this expression.
+     * The result is a new expression with an exponent function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the exponent of this expression.
+     */
+    public abstract Expression exp();
+
+
+    /**
+     * Calculates the natural logarithm of this expression.
+     * The result is a new expression with a natural logarithm function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the natural logarithm of this expression.
+     */
+    public abstract Expression log();
+
+
+    /**
+     * Calculates the logarithm with base 10 of this expression.
+     * The result is a new expression with a base 10 logarithm function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the base 10 logarithm of this expression.
+     */
+    public abstract Expression log10();
+
+
+    /**
      * Returns the dimension of the result of this expression.
      * @return The resulting dimension.
      */

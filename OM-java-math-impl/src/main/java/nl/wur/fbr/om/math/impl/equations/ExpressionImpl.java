@@ -36,6 +36,9 @@ public class ExpressionImpl extends Expression {
     private Arcsine arcsine = new Arcsine();
     private Arccosine arccosine = new Arccosine();
     private Arctangent arctangent = new Arctangent();
+    private Exponent exponent = new Exponent();
+    private NaturalLogarithm naturalLogarithm = new NaturalLogarithm();
+    private Base10Logarithm base10Logarithm = new Base10Logarithm();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -352,6 +355,45 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression atan() {
         Expression result = new ExpressionImpl(arctangent,this);
+        return result;
+    }
+
+    /**
+     * Calculates the exponent (Euler's number raised to the parameter) of this expression.
+     * The result is a new expression with the {@link Exponent} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the exponent of this expression.
+     */
+    @Override
+    public Expression exp() {
+        Expression result = new ExpressionImpl(exponent,this);
+        return result;
+    }
+
+    /**
+     * Calculates the natural logarithm of this expression.
+     * The result is a new expression with the {@link NaturalLogarithm} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the natural logarithm of this expression.
+     */
+    @Override
+    public Expression log() {
+        Expression result = new ExpressionImpl(naturalLogarithm,this);
+        return result;
+    }
+
+    /**
+     * Calculates the logarithm with base 10 of this expression.
+     * The result is a new expression with the {@link Base10Logarithm} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the base 10 logarithm of this expression.
+     */
+    @Override
+    public Expression log10() {
+        Expression result = new ExpressionImpl(base10Logarithm,this);
         return result;
     }
 }

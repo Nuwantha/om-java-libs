@@ -7,14 +7,16 @@ import nl.wur.fbr.om.math.processors.MathException;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 
 /**
- * This is an implementation of the arctangent function.
+ * This is an implementation of the natural logarithm function. The result of the natural logarithm function is
+ * the logarithm wiht Euler's number as base.
  *
  * @author Don Willems on 07/10/15.
  */
-public class Arctangent implements Function {
+public class NaturalLogarithm implements Function {
 
     /**
-     * Tries to evaluate the function given the specified parameters, i.e. calculate the arctangent of the parameter.
+     * Tries to evaluate the function given the specified parameters, i.e. calculate the natural logarithm of
+     * the parameter.
      * The result of the evaluation is another expression which may contain a numerical value
      * or measure or point if all quantities in the parameter expressions have been filled in
      * (i.e. have a value). If not, this function tries to fill in as much as possible and returns
@@ -30,22 +32,22 @@ public class Arctangent implements Function {
             Expression value = parameters[0].evaluate();
             if(!value.hasFunction()){
                 if(value.getMeasure()!=null){
-                    newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.atan(value.getMeasure()));
+                    newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.log(value.getMeasure()));
                 }else if(value.hasNumericalValue()){
-                    newExpression = new ExpressionImpl(Math.atan(value.getNumericalValue()));
+                    newExpression = new ExpressionImpl(Math.log(value.getNumericalValue()));
                 }else{
-                    throw new MathException("Cannot calculate the arctangent of "+value.getQuantity()+".");
+                    throw new MathException("Cannot calculate the natural logarithm of "+value.getQuantity()+".");
                 }
             } else newExpression =  new ExpressionImpl(this,value);
             return newExpression;
         }
-        throw new MathException("The number of parameters for the arctangent function is not equal to 1. (N="+parameters.length+")");
+        throw new MathException("The number of parameters for the natural logarithm function is not equal to 1. (N="+parameters.length+")");
     }
 
     /**
      * Returns the dimension of the resulting expression, or null if the function is not
      * dimensional consistent given the parameters. <br>
-     * The arctangent always returns a dimensionless value.
+     * The natural logarithm always returns a dimensionless value.
      *
      * @param parameters The input expressions.
      * @return The dimension of the result, or null if the function is not
@@ -66,6 +68,6 @@ public class Arctangent implements Function {
      */
     @Override
     public String toString(){
-        return "atan";
+        return "log";
     }
 }
