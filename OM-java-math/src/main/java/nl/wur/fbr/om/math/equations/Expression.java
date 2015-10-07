@@ -376,6 +376,36 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the arcsine of this expression.
+     * The result is a new expression with an arcsine function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the arcsine of this expression.
+     */
+    public abstract Expression asin();
+
+
+    /**
+     * Calculates the arccosine of this expression.
+     * The result is a new expression with an arccosine function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the arccosine of this expression.
+     */
+    public abstract Expression acos();
+
+
+    /**
+     * Calculates the arctangent of this expression.
+     * The result is a new expression with an arctangent function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the arctangent of this expression.
+     */
+    public abstract Expression atan();
+
+
+    /**
      * Returns the dimension of the result of this expression.
      * @return The resulting dimension.
      */

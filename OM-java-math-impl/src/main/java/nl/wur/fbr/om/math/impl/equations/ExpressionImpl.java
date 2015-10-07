@@ -33,6 +33,9 @@ public class ExpressionImpl extends Expression {
     private Sine sine = new Sine();
     private Cosine cosine = new Cosine();
     private Tangent tangent = new Tangent();
+    private Arcsine arcsine = new Arcsine();
+    private Arccosine arccosine = new Arccosine();
+    private Arctangent arctangent = new Arctangent();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -289,7 +292,7 @@ public class ExpressionImpl extends Expression {
 
     /**
      * Calculates the cosine of this expression.
-     * The result is a new expression with a {@link Cosine} function with as parameter this
+     * The result is a new expression with the {@link Cosine} function with as parameter this
      * expression.
      *
      * @return The expression containing the cosine of this expression.
@@ -302,7 +305,7 @@ public class ExpressionImpl extends Expression {
 
     /**
      * Calculates the tangent of this expression.
-     * The result is a new expression with a {@link Tangent} function with as parameter this
+     * The result is a new expression with the {@link Tangent} function with as parameter this
      * expression.
      *
      * @return The expression containing the tangent of this expression.
@@ -310,6 +313,45 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression tan() {
         Expression result = new ExpressionImpl(tangent,this);
+        return result;
+    }
+
+    /**
+     * Calculates the arcsine of this expression.
+     * The result is a new expression with the {@link Arcsine} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the arcsine of this expression.
+     */
+    @Override
+    public Expression asin() {
+        Expression result = new ExpressionImpl(arcsine,this);
+        return result;
+    }
+
+    /**
+     * Calculates the arccosine of this expression.
+     * The result is a new expression with the {@link Arccosine} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the arccosine of this expression.
+     */
+    @Override
+    public Expression acos() {
+        Expression result = new ExpressionImpl(arccosine,this);
+        return result;
+    }
+
+    /**
+     * Calculates the arctangent of this expression.
+     * The result is a new expression with the {@link Arctangent} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the arctangent of this expression.
+     */
+    @Override
+    public Expression atan() {
+        Expression result = new ExpressionImpl(arctangent,this);
         return result;
     }
 }
