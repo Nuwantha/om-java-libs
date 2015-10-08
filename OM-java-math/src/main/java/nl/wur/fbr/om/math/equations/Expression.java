@@ -435,6 +435,27 @@ public abstract class Expression {
     public abstract Expression log10();
 
 
+
+    /**
+     * Calculates the square root of this expression.
+     * The result is a new expression with a square root function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the square root of this expression.
+     */
+    public abstract Expression sqrt();
+
+    /**
+     * Calculates the cubic root of this expression.
+     * The result is a new expression with a cubic root function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the cubic root of this expression.
+     */
+    public abstract Expression cbrt();
+
+
+
     /**
      * Calculates the hyperbolic sine of this expression.
      * The result is a new expression with a hyperbolic sine function with as parameter this
@@ -463,6 +484,8 @@ public abstract class Expression {
      * @return The expression containing the hyperbolic tangent of this expression.
      */
     public abstract Expression tanh();
+
+
 
 
     /**

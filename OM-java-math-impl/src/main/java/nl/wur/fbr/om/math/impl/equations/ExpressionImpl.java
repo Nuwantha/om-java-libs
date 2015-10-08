@@ -39,6 +39,8 @@ public class ExpressionImpl extends Expression {
     private Exponent exponent = new Exponent();
     private NaturalLogarithm naturalLogarithm = new NaturalLogarithm();
     private Base10Logarithm base10Logarithm = new Base10Logarithm();
+    private SquareRoot squareRoot = new SquareRoot();
+    private CubicRoot cubicRoot = new CubicRoot();
     private HyperbolicSine hyperbolicSine = new HyperbolicSine();
     private HyperbolicCosine hyperbolicCosine = new HyperbolicCosine();
     private HyperbolicTangent hyperbolicTangent = new HyperbolicTangent();
@@ -397,6 +399,32 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression log10() {
         Expression result = new ExpressionImpl(base10Logarithm,this);
+        return result;
+    }
+
+    /**
+     * Calculates the square root of this expression.
+     * The result is a new expression with the {@link SquareRoot} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the square root of this expression.
+     */
+    @Override
+    public Expression sqrt() {
+        Expression result = new ExpressionImpl(squareRoot,this);
+        return result;
+    }
+
+    /**
+     * Calculates the cubic root of this expression.
+     * The result is a new expression with the {@link CubicRoot} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the cubic root of this expression.
+     */
+    @Override
+    public Expression cbrt() {
+        Expression result = new ExpressionImpl(cubicRoot,this);
         return result;
     }
 

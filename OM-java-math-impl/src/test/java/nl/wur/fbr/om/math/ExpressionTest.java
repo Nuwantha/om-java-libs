@@ -7,6 +7,7 @@ import nl.wur.fbr.om.core.set.quantities.angle.Angle;
 import nl.wur.fbr.om.core.set.quantities.length.Area;
 import nl.wur.fbr.om.core.set.quantities.length.Length;
 import nl.wur.fbr.om.core.set.quantities.length.Radius;
+import nl.wur.fbr.om.core.set.quantities.length.Volume;
 import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Time;
 import nl.wur.fbr.om.exceptions.QuantityCreationException;
@@ -594,6 +595,54 @@ public class ExpressionTest {
             Expression tangent = expression.tanh();
             System.out.println(tangent.toString());
             Assert.assertFalse("Test dimensional consistency of " + tangent, tangent.isDimensionalConsistent());
+        }
+    }
+
+    @Test
+    public void testExpressionSquareRoot() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+            Expression expression = new ExpressionImpl(area);
+            Expression squareroot = expression.sqrt();
+            System.out.println(squareroot.toString());
+            Assert.assertTrue("Test dimensional consistency of " + squareroot, squareroot.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression lsquareroot = squareroot.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + lsquareroot, lsquareroot.isDimensionalConsistent());
+                Area area2 = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+                Equation equation = new EquationImpl(area2, ConditionalExpression.EQUAL_TO, lsquareroot);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+    }
+
+    @Test
+    public void testExpressionCubicRoot() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Volume volume = (Volume) QuantitySet.createQuantity(CoreQuantitySet.VOLUME);
+            Expression expression = new ExpressionImpl(volume);
+            Expression cubicRoot = expression.cbrt();
+            System.out.println(cubicRoot.toString());
+            Assert.assertTrue("Test dimensional consistency of " + cubicRoot, cubicRoot.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression lcubicRoot = cubicRoot.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + lcubicRoot, lcubicRoot.isDimensionalConsistent());
+                Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+                Equation equation = new EquationImpl(area, ConditionalExpression.EQUAL_TO, lcubicRoot);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
         }
     }
 }
