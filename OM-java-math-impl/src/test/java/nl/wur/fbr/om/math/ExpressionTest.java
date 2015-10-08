@@ -19,6 +19,7 @@ import nl.wur.fbr.om.math.equations.Expression;
 import nl.wur.fbr.om.math.impl.MathProcessorImpl;
 import nl.wur.fbr.om.math.impl.equations.EquationImpl;
 import nl.wur.fbr.om.math.impl.equations.ExpressionImpl;
+import nl.wur.fbr.om.math.impl.functions.Arctangent;
 import nl.wur.fbr.om.model.QuantitySet;
 import nl.wur.fbr.om.model.measures.Measure;
 import org.junit.Assert;
@@ -639,6 +640,30 @@ public class ExpressionTest {
                 Assert.assertTrue("Test dimensional consistency of " + lcubicRoot, lcubicRoot.isDimensionalConsistent());
                 Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
                 Equation equation = new EquationImpl(area, ConditionalExpression.EQUAL_TO, lcubicRoot);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+    }
+
+    @Test
+    public void testExpressionAbsoluteValue() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+            Expression expression = new ExpressionImpl(area);
+            Expression absolute = expression.abs();
+            System.out.println(absolute.toString());
+            Assert.assertTrue("Test dimensional consistency of " + absolute, absolute.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression labs = absolute.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + labs, labs.isDimensionalConsistent());
+                Volume volume = (Volume) QuantitySet.createQuantity(CoreQuantitySet.VOLUME);
+                Equation equation = new EquationImpl(volume, ConditionalExpression.EQUAL_TO, labs);
                 System.out.println(equation.toString());
                 Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());

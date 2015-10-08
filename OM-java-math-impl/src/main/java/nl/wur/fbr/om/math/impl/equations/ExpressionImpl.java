@@ -44,6 +44,7 @@ public class ExpressionImpl extends Expression {
     private HyperbolicSine hyperbolicSine = new HyperbolicSine();
     private HyperbolicCosine hyperbolicCosine = new HyperbolicCosine();
     private HyperbolicTangent hyperbolicTangent = new HyperbolicTangent();
+    private AbsoluteValue absolute = new AbsoluteValue();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -425,6 +426,19 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression cbrt() {
         Expression result = new ExpressionImpl(cubicRoot,this);
+        return result;
+    }
+
+    /**
+     * Calculates the absolute value of this expression.
+     * The result is a new expression with the {@link AbsoluteValue} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the absolute value of this expression.
+     */
+    @Override
+    public Expression abs() {
+        Expression result = new ExpressionImpl(absolute,this);
         return result;
     }
 

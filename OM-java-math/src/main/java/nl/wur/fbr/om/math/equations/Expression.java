@@ -457,6 +457,17 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the absolute value of this expression.
+     * The result is a new expression with a absolute value function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the absolute value of this expression.
+     */
+    public abstract Expression abs();
+
+
+
+    /**
      * Calculates the hyperbolic sine of this expression.
      * The result is a new expression with a hyperbolic sine function with as parameter this
      * expression.
