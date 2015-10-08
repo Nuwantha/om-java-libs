@@ -436,6 +436,36 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the hyperbolic sine of this expression.
+     * The result is a new expression with a hyperbolic sine function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the hyperbolic sine of this expression.
+     */
+    public abstract Expression sinh();
+
+
+    /**
+     * Calculates the hyperbolic cosine of this expression.
+     * The result is a new expression with a hyperbolic cosine function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the hyperbolic cosine of this expression.
+     */
+    public abstract Expression cosh();
+
+
+    /**
+     * Calculates the hyperbolic tangent of this expression.
+     * The result is a new expression with a hyperbolic tangent function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the hyperbolic tangent of this expression.
+     */
+    public abstract Expression tanh();
+
+
+    /**
      * Returns the dimension of the result of this expression.
      * @return The resulting dimension.
      */

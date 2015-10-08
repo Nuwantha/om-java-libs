@@ -39,6 +39,9 @@ public class ExpressionImpl extends Expression {
     private Exponent exponent = new Exponent();
     private NaturalLogarithm naturalLogarithm = new NaturalLogarithm();
     private Base10Logarithm base10Logarithm = new Base10Logarithm();
+    private HyperbolicSine hyperbolicSine = new HyperbolicSine();
+    private HyperbolicCosine hyperbolicCosine = new HyperbolicCosine();
+    private HyperbolicTangent hyperbolicTangent = new HyperbolicTangent();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -394,6 +397,45 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression log10() {
         Expression result = new ExpressionImpl(base10Logarithm,this);
+        return result;
+    }
+
+    /**
+     * Calculates the hyperbolic sine of this expression.
+     * The result is a new expression with the {@link HyperbolicSine} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the hyperbolic sine of this expression.
+     */
+    @Override
+    public Expression sinh() {
+        Expression result = new ExpressionImpl(hyperbolicSine,this);
+        return result;
+    }
+
+    /**
+     * Calculates the hyperbolic cosine of this expression.
+     * The result is a new expression with the {@link HyperbolicCosine} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the hyperbolic cosine of this expression.
+     */
+    @Override
+    public Expression cosh() {
+        Expression result = new ExpressionImpl(hyperbolicCosine,this);
+        return result;
+    }
+
+    /**
+     * Calculates the hyperbolic tangent of this expression.
+     * The result is a new expression with the {@link HyperbolicTangent} function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the hyperbolic tangent of this expression.
+     */
+    @Override
+    public Expression tanh() {
+        Expression result = new ExpressionImpl(hyperbolicTangent,this);
         return result;
     }
 }
