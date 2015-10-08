@@ -457,6 +457,38 @@ public abstract class Expression {
 
 
     /**
+     * Calculates the value of this expression raised to the specified power.
+     * The result is a new expression with a power function with parameters this
+     * expression as the base and the specified numerical value as the exponent.
+     *
+     * @param numericalValue The numerical value that is used as the exponent in the power function.
+     * @return The expression containing the power function and the exponent parameter encapsulated in a subexpression.
+     */
+    public abstract Expression pow(double numericalValue);
+
+    /**
+     * Calculates the value of this expression raised to the specified power.
+     * The result is a new expression with a power function with parameters this
+     * expression as the base and the specified quantity as the exponent.
+     *
+     * @param quantity The quantity that is used as the exponent in the power function.
+     * @return The expression containing the power function and the exponent parameter encapsulated in a subexpression.
+     */
+    public abstract Expression pow(Quantity quantity);
+
+    /**
+     * Calculates the value of this expression raised to the specified power.
+     * The result is a new expression with a power function with parameters this
+     * expression as the base and the specified expression as the exponent.
+     *
+     * @param expression The subexpression that is used as the exponent in the power function.
+     * @return The expression containing the power function and the exponent parameter.
+     */
+    public abstract Expression pow(Expression expression);
+
+
+
+    /**
      * Calculates the absolute value of this expression.
      * The result is a new expression with a absolute value function with as parameter this
      * expression.

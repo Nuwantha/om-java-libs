@@ -19,7 +19,6 @@ import nl.wur.fbr.om.math.equations.Expression;
 import nl.wur.fbr.om.math.impl.MathProcessorImpl;
 import nl.wur.fbr.om.math.impl.equations.EquationImpl;
 import nl.wur.fbr.om.math.impl.equations.ExpressionImpl;
-import nl.wur.fbr.om.math.impl.functions.Arctangent;
 import nl.wur.fbr.om.model.QuantitySet;
 import nl.wur.fbr.om.model.measures.Measure;
 import org.junit.Assert;
@@ -668,6 +667,40 @@ public class ExpressionTest {
                 Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());
             }
+        }
+    }
+
+    @Test
+    public void testExpressionPower() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Length length1 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression expression = new ExpressionImpl(length1);
+            Expression power = expression.pow(2);
+            Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+            Equation equation = new EquationImpl(area, ConditionalExpression.EQUAL_TO, power);
+            System.out.println(equation.toString());
+            Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                    equation.getRightExpression(), equation.isDimensionalConsistent());
+        }
+
+        {
+            Length length1 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression expression = new ExpressionImpl(4);
+            Expression power = expression.pow(length1);
+            System.out.println(power.toString());
+            Assert.assertFalse("Test dimensional consistency of " + power + ".", power.isDimensionalConsistent());
+        }
+
+        {
+            Angle angle = (Angle) QuantitySet.createQuantity(CoreQuantitySet.ANGLE);
+            Expression expression = new ExpressionImpl(4);
+            Expression power = expression.pow(angle);
+            System.out.println(power.toString());
+            Assert.assertTrue("Test dimensional consistency of " + power + ".", power.isDimensionalConsistent());
+            Assert.assertTrue("Test dimensional consistency of " + power + ".", power.getDimensionOfResult().isDimensionless());
         }
     }
 }

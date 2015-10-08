@@ -45,6 +45,7 @@ public class ExpressionImpl extends Expression {
     private HyperbolicCosine hyperbolicCosine = new HyperbolicCosine();
     private HyperbolicTangent hyperbolicTangent = new HyperbolicTangent();
     private AbsoluteValue absolute = new AbsoluteValue();
+    private Power power = new Power();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -428,6 +429,50 @@ public class ExpressionImpl extends Expression {
         Expression result = new ExpressionImpl(cubicRoot,this);
         return result;
     }
+
+    /**
+     * Calculates the value of this expression raised to the specified power.
+     * The result is a new expression with the {@link Power} function with parameters this
+     * expression as the base and the specified numerical value as the exponent.
+     *
+     * @param numericalValue The numerical value that is used as the exponent in the power function.
+     * @return The expression containing the power function and the exponent parameter encapsulated in a subexpression.
+     */
+    @Override
+    public Expression pow(double numericalValue) {
+        Expression result = new ExpressionImpl(power,this,new ExpressionImpl(numericalValue));
+        return result;
+    }
+
+    /**
+     * Calculates the value of this expression raised to the specified power.
+     * The result is a new expression with a power function with parameters this
+     * expression as the base and the specified quantity as the exponent.
+     *
+     * @param quantity The quantity that is used as the exponent in the power function.
+     * @return The expression containing the power function and the exponent parameter encapsulated in a subexpression.
+     */
+    @Override
+    public Expression pow(Quantity quantity) {
+        Expression result = new ExpressionImpl(power,this, new ExpressionImpl(quantity));
+        return result;
+    }
+
+    /**
+     * Calculates the value of this expression raised to the specified power.
+     * The result is a new expression with a power function with parameters this
+     * expression as the base and the specified expression as the exponent.
+     *
+     * @param expression The subexpression that is used as the exponent in the power function.
+     * @return The expression containing the power function and the exponent parameter.
+     */
+    @Override
+    public Expression pow(Expression expression) {
+        Expression result = new ExpressionImpl(power,this,expression);
+        return result;
+    }
+
+
 
     /**
      * Calculates the absolute value of this expression.
