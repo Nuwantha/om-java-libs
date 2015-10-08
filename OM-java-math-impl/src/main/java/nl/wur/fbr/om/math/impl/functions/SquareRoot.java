@@ -56,7 +56,6 @@ public class SquareRoot implements Function {
     @Override
     public Dimension getDimensionOfResult(Expression... parameters) {
         if(parameters.length!=1) return null;
-        if(parameters[0].getDimensionOfResult().isDimensionless()) return null;
         Dimension pdim = parameters[0].getDimensionOfResult();
         Set<BaseDimension> bdims = pdim.getDimensions();
         Dimension dimension = new Dimension();
