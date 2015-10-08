@@ -356,7 +356,7 @@ public class Math {
 
     /**
      * Returns the angle from the conversion of rectangular coordinates (x,y) to polar coordinates (r,angle).
-     * Both coordinates should have the same dimension and be convertable into each other.
+     * Both coordinates should have the same dimension and be convertible into each other.
      *
      * @param x The ordinate coordinate.
      * @param y The abscissa coordinate.

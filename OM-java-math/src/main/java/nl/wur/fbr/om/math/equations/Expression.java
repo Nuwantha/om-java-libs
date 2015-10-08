@@ -405,6 +405,45 @@ public abstract class Expression {
     public abstract Expression atan();
 
 
+
+
+    /**
+     * Calculates the arctangent of this expression divided by the specified expression.
+     * I.e. the angle from the conversion of rectangular coordinates (x,y) to polar coordinates (r,angle),
+     * where the specified expression is the ordinate coordinate (x) and this expression is the
+     * abscissa coordinate (y).
+     * Both coordinates should have the same dimension and be convertible into each other.
+     *
+     * @param numericalValue The ordinate coordinate (x).
+     * @return The expression containing the arctangent of this expression.
+     */
+    public abstract Expression atan2(double numericalValue);
+
+    /**
+     * Calculates the arctangent of this expression divided by the specified expression.
+     * I.e. the angle from the conversion of rectangular coordinates (x,y) to polar coordinates (r,angle),
+     * where the specified expression is the ordinate coordinate (x) and this expression is the
+     * abscissa coordinate (y).
+     * Both coordinates should have the same dimension and be convertible into each other.
+     *
+     * @param quantity The ordinate coordinate (x).
+     * @return The expression containing the arctangent of this expression.
+     */
+    public abstract Expression atan2(Quantity quantity);
+
+    /**
+     * Calculates the arctangent of this expression divided by the specified expression.
+     * I.e. the angle from the conversion of rectangular coordinates (x,y) to polar coordinates (r,angle),
+     * where the specified expression is the ordinate coordinate (x) and this expression is the
+     * abscissa coordinate (y).
+     * Both coordinates should have the same dimension and be convertible into each other.
+     *
+     * @param expression The ordinate coordinate (x).
+     * @return The expression containing the arctangent of this expression.
+     */
+    public abstract Expression atan2(Expression expression);
+
+
     /**
      * Calculates the exponent (Euler's number raised to the parameter) of this expression.
      * The result is a new expression with an exponent function with as parameter this

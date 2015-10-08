@@ -38,8 +38,22 @@ public class Arctangent implements Function {
                 }
             } else newExpression =  new ExpressionImpl(this,value);
             return newExpression;
+        }else if(parameters.length==2){
+            Expression newExpression = null;
+            Expression y = parameters[0].evaluate();
+            Expression x = parameters[1].evaluate();
+            if(!y.hasFunction() && !x.hasFunction()){
+                if(y.getMeasure()!=null && x.getMeasure()!=null){
+                    newExpression = new ExpressionImpl(nl.wur.fbr.om.math.Math.atan2(y.getMeasure(),x.getMeasure()));
+                }else if(y.hasNumericalValue() && x.hasNumericalValue()){
+                    newExpression = new ExpressionImpl(Math.atan2(y.getNumericalValue(),x.getNumericalValue()));
+                }else{
+                    throw new MathException("Cannot calculate the arctangent of "+y.getQuantity()+" / "+x.getQuantity()+".");
+                }
+            } else newExpression =  new ExpressionImpl(this,y,x);
+            return newExpression;
         }
-        throw new MathException("The number of parameters for the arctangent function is not equal to 1. (N="+parameters.length+")");
+        throw new MathException("The number of parameters for the arctangent function is not equal to 1 or 2. (N="+parameters.length+")");
     }
 
     /**
@@ -53,9 +67,15 @@ public class Arctangent implements Function {
      */
     @Override
     public Dimension getDimensionOfResult(Expression... parameters) {
-        if(parameters.length!=1) return null;
-        if(!parameters[0].getDimensionOfResult().isDimensionless()) return null;
-        return new Dimension();
+        if(parameters.length==1) {
+            if(!parameters[0].getDimensionOfResult().isDimensionless()) return null;
+            return new Dimension();
+        }
+        if(parameters.length==2) {
+            if(!parameters[0].getDimensionOfResult().equals(parameters[1].getDimensionOfResult())) return null;
+            return new Dimension();
+        }
+        return null;
     }
 
     /**

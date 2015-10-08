@@ -703,4 +703,35 @@ public class ExpressionTest {
             Assert.assertTrue("Test dimensional consistency of " + power + ".", power.getDimensionOfResult().isDimensionless());
         }
     }
+
+    @Test
+    public void testExpressionArctangent2() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Length y = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+        Expression expression = new ExpressionImpl(y);
+        {
+            Length x = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression arctangent = expression.atan2(x);
+            System.out.println(arctangent.toString());
+            Assert.assertTrue("Test dimensional consistency of " + arctangent, arctangent.isDimensionalConsistent());
+            {
+                Length length = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Expression larctangent = arctangent.multiply(length);
+                Assert.assertTrue("Test dimensional consistency of " + larctangent, larctangent.isDimensionalConsistent());
+                Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Equation equation = new EquationImpl(length2, ConditionalExpression.EQUAL_TO, larctangent);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+            Expression arctangent = expression.atan2(area);
+            System.out.println(arctangent.toString());
+            Assert.assertFalse("Test dimensional consistency of " + arctangent, arctangent.isDimensionalConsistent());
+        }
+    }
 }
