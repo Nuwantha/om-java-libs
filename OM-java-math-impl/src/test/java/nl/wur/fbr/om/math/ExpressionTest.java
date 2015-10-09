@@ -734,4 +734,43 @@ public class ExpressionTest {
             Assert.assertFalse("Test dimensional consistency of " + arctangent, arctangent.isDimensionalConsistent());
         }
     }
+
+    @Test
+    public void testExpressionHypotenuse() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        CoreQuantitySet quantitySet = new CoreQuantitySet();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Length length1 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+        Expression expression = new ExpressionImpl(length1);
+        {
+            Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression hypotenuse = expression.hypot(length2);
+            {
+                Radius radius = (Radius) QuantitySet.createQuantity(CoreQuantitySet.RADIUS);
+                Equation equation = new EquationImpl(radius, ConditionalExpression.EQUAL_TO, hypotenuse);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+            {
+                Time time = (Time) QuantitySet.createQuantity(CoreQuantitySet.TIME);
+                Equation equation = new EquationImpl(time, ConditionalExpression.EQUAL_TO, hypotenuse);
+                System.out.println(equation.toString());
+                Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Temperature temperature = (Temperature) QuantitySet.createQuantity(CoreQuantitySet.TEMPERATURE);
+            Expression hypotenuse = expression.hypot(temperature);
+            {
+                Radius radius = (Radius) QuantitySet.createQuantity(CoreQuantitySet.RADIUS);
+                Equation equation = new EquationImpl(radius, ConditionalExpression.EQUAL_TO, hypotenuse);
+                System.out.println(equation.toString());
+                Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+    }
 }

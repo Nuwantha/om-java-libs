@@ -46,6 +46,7 @@ public class ExpressionImpl extends Expression {
     private HyperbolicTangent hyperbolicTangent = new HyperbolicTangent();
     private AbsoluteValue absolute = new AbsoluteValue();
     private Power power = new Power();
+    private Hypotenuse hypotenuse = new Hypotenuse();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -571,6 +572,54 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression tanh() {
         Expression result = new ExpressionImpl(hyperbolicTangent,this);
+        return result;
+    }
+
+    /**
+     * Calculates the hypotenuse of this expression and the specified numerical value.
+     * The result is the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle.
+     * The hypotenuse is the side opposite to the right angle. The length of the hypotenuse (h) can be calculated by
+     * using the Pythagorean theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>), where x is this expression and y is
+     * the specified numerical value.
+     *
+     * @param numericalValue The numerical value that is used as the second parameter in the calculation of the hypotenuse.
+     * @return The expression containing the hypotenuse function and the second parameter encapsulated in a subexpression.
+     */
+    @Override
+    public Expression hypot(double numericalValue) {
+        Expression result = new ExpressionImpl(hypotenuse,this,new ExpressionImpl(numericalValue));
+        return result;
+    }
+
+    /**
+     * Calculates the hypotenuse of this expression and the specified quantity.
+     * The result is the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle.
+     * The hypotenuse is the side opposite to the right angle. The length of the hypotenuse (h) can be calculated by
+     * using the Pythagorean theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>), where x is this expression and y is
+     * the specified quantity.
+     *
+     * @param quantity The quantity that is used as the second parameter in the calculation of the hypotenuse.
+     * @return The expression containing the hypotenuse function and the second parameter encapsulated in a subexpression.
+     */
+    @Override
+    public Expression hypot(Quantity quantity) {
+        Expression result = new ExpressionImpl(hypotenuse,this,new ExpressionImpl(quantity));
+        return result;
+    }
+
+    /**
+     * Calculates the hypotenuse of this expression and the specified expression.
+     * The result is the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle.
+     * The hypotenuse is the side opposite to the right angle. The length of the hypotenuse (h) can be calculated by
+     * using the Pythagorean theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>), where x is this expression and y is
+     * the specified expression.
+     *
+     * @param expression The expression that is used as the second parameter in the calculation of the hypotenuse.
+     * @return The expression containing the hypotenuse function and the second parameter encapsulated in a subexpression.
+     */
+    @Override
+    public Expression hypot(Expression expression) {
+        Expression result = new ExpressionImpl(hypotenuse,this,expression);
         return result;
     }
 }

@@ -569,6 +569,44 @@ public abstract class Expression {
 
 
 
+    /**
+     * Calculates the hypotenuse of this expression and the specified numerical value.
+     * The result is the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle.
+     * The hypotenuse is the side opposite to the right angle. The length of the hypotenuse (h) can be calculated by
+     * using the Pythagorean theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>), where x is this expression and y is
+     * the specified numerical value.
+     *
+     * @param numericalValue The numerical value that is used as the second parameter in the calculation of the hypotenuse.
+     * @return The expression containing the hypotenuse function and the second parameter encapsulated in a subexpression.
+     */
+    public abstract Expression hypot(double numericalValue);
+
+    /**
+     * Calculates the hypotenuse of this expression and the specified quantity.
+     * The result is the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle.
+     * The hypotenuse is the side opposite to the right angle. The length of the hypotenuse (h) can be calculated by
+     * using the Pythagorean theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>), where x is this expression and y is
+     * the specified quantity.
+     *
+     * @param quantity The quantity that is used as the second parameter in the calculation of the hypotenuse.
+     * @return The expression containing the hypotenuse function and the second parameter encapsulated in a subexpression.
+     */
+    public abstract Expression hypot(Quantity quantity);
+
+    /**
+     * Calculates the hypotenuse of this expression and the specified expression.
+     * The result is the length of the hypotenuse of a right-angled rectangle, i.e. the longest side of the rectangle.
+     * The hypotenuse is the side opposite to the right angle. The length of the hypotenuse (h) can be calculated by
+     * using the Pythagorean theorem h = sqrt(x<sup>2</sup>,y<sup>2</sup>), where x is this expression and y is
+     * the specified expression.
+     *
+     * @param expression The expression that is used as the second parameter in the calculation of the hypotenuse.
+     * @return The expression containing the hypotenuse function and the second parameter encapsulated in a subexpression.
+     */
+    public abstract Expression hypot(Expression expression);
+
+
+
 
     /**
      * Returns the dimension of the result of this expression.
