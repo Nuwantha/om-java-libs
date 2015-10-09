@@ -47,6 +47,9 @@ public class ExpressionImpl extends Expression {
     private AbsoluteValue absolute = new AbsoluteValue();
     private Power power = new Power();
     private Hypotenuse hypotenuse = new Hypotenuse();
+    private Magnitude magnitude = new Magnitude();
+    private DotProduct dotProduct = new DotProduct();
+    private CrossProduct crossProduct = new CrossProduct();
 
     /**
      * Creates a new expression with the specified numerical value.
@@ -620,6 +623,77 @@ public class ExpressionImpl extends Expression {
     @Override
     public Expression hypot(Expression expression) {
         Expression result = new ExpressionImpl(hypotenuse,this,expression);
+        return result;
+    }
+
+    /**
+     * Calculates the magnitude of the vector in the specified expression. If the expression does not contain a
+     * vector but contains a scalar value, the magnitude of the scalar value (which is equal to the scalar value) is
+     * returned.
+     * The result is a new expression with a magnitude function with as parameter this
+     * expression.
+     *
+     * @return The expression containing the magnitude function.
+     */
+    @Override
+    public Expression magnitude() {
+        Expression result = new ExpressionImpl(magnitude,this);
+        return result;
+    }
+
+    /**
+     * Calculates the dot product of the vector in the specified quantity with this expression.
+     * The result is a new expression with the {@link DotProduct} function with as parameter the specified measure and this
+     * expression.
+     *
+     * @param quantity The quantity used in calculating the dot product of this expression.
+     * @return The expression containing the dot product function.
+     */
+    @Override
+    public Expression dotProduct(Quantity quantity) {
+        Expression result = new ExpressionImpl(dotProduct,this,new ExpressionImpl(quantity));
+        return result;
+    }
+
+    /**
+     * Calculates the dot product of the vector in the specified expression with this expression.
+     * The result is a new expression with the {@link DotProduct} function with as parameters the specified expression and this
+     * expression.
+     *
+     * @param expression The expression used in calculating the dot product of this expression.
+     * @return The expression containing the dot product function.
+     */
+    @Override
+    public Expression dotProduct(Expression expression) {
+        Expression result = new ExpressionImpl(dotProduct,this,expression);
+        return result;
+    }
+
+    /**
+     * Calculates the cross product of the vector in the specified quantity with this expression.
+     * The result is a new expression with the {@link CrossProduct} function with as parameter the specified measure and this
+     * expression.
+     *
+     * @param quantity The quantity used in calculating the cross product of this expression.
+     * @return The expression containing the cross product function.
+     */
+    @Override
+    public Expression crossProduct(Quantity quantity) {
+        Expression result = new ExpressionImpl(crossProduct,this,new ExpressionImpl(quantity));
+        return result;
+    }
+
+    /**
+     * Calculates the cross product of the vector in the specified expression with this expression.
+     * The result is a new expression with the {@link CrossProduct} product function with as parameters the specified expression and this
+     * expression.
+     *
+     * @param expression The expression used in calculating the cross product of this expression.
+     * @return The expression containing the cross product function.
+     */
+    @Override
+    public Expression crossProduct(Expression expression) {
+        Expression result = new ExpressionImpl(crossProduct,this,expression);
         return result;
     }
 }

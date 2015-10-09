@@ -4,12 +4,10 @@ import nl.wur.fbr.om.conversion.CoreInstanceFactory;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
 import nl.wur.fbr.om.core.set.quantities.angle.Angle;
-import nl.wur.fbr.om.core.set.quantities.length.Area;
-import nl.wur.fbr.om.core.set.quantities.length.Length;
-import nl.wur.fbr.om.core.set.quantities.length.Radius;
-import nl.wur.fbr.om.core.set.quantities.length.Volume;
+import nl.wur.fbr.om.core.set.quantities.length.*;
 import nl.wur.fbr.om.core.set.quantities.temperature.Temperature;
 import nl.wur.fbr.om.core.set.quantities.time.Time;
+import nl.wur.fbr.om.core.set.quantities.velocity.Velocity;
 import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
 import nl.wur.fbr.om.factory.InstanceFactory;
@@ -771,6 +769,96 @@ public class ExpressionTest {
                 Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
                         equation.getRightExpression(), equation.isDimensionalConsistent());
             }
+        }
+    }
+
+    @Test
+    public void testExpressionMagnitude() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        {
+            Velocity velocity = (Velocity) QuantitySet.createQuantity(CoreQuantitySet.VELOCITY);
+            Expression expression = new ExpressionImpl(velocity);
+            Expression magnitude = expression.magnitude();
+            System.out.println(magnitude.toString());
+            Assert.assertTrue("Test dimensional consistency of " + magnitude, magnitude.isDimensionalConsistent());
+            {
+                Time time = (Time) QuantitySet.createQuantity(CoreQuantitySet.TIME);
+                Expression tv = expression.multiply(time);
+                Assert.assertTrue("Test dimensional consistency of " + tv, tv.isDimensionalConsistent());
+                Distance distance = (Distance) QuantitySet.createQuantity(CoreQuantitySet.DISTANCE);
+                Equation equation = new EquationImpl(distance, ConditionalExpression.EQUAL_TO, tv);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+    }
+
+    @Test
+    public void testExpressionDotProduct() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Length length1 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+        Expression expression = new ExpressionImpl(length1);
+        {
+            Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression dotProduct = expression.dotProduct(length2);
+            {
+                Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+                Equation equation = new EquationImpl(area, ConditionalExpression.EQUAL_TO, dotProduct);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+            {
+                Length length3 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Equation equation = new EquationImpl(length3, ConditionalExpression.EQUAL_TO, dotProduct);
+                System.out.println(equation.toString());
+                Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Temperature temperature = (Temperature) QuantitySet.createQuantity(CoreQuantitySet.TEMPERATURE);
+            Expression dotProduct = expression.dotProduct(temperature);
+            System.out.println(dotProduct.toString());
+            Assert.assertFalse("Test dimensional consistency of " + dotProduct + ".", dotProduct.isDimensionalConsistent());
+        }
+    }
+
+    @Test
+    public void testExpressionCrossProduct() throws UnitOrScaleCreationException, QuantityCreationException {
+        InstanceFactory factory = new CoreInstanceFactory();
+        factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        Math.setMathProcessor(new MathProcessorImpl(factory));
+        Length length1 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+        Expression expression = new ExpressionImpl(length1);
+        {
+            Length length2 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+            Expression crossProduct = expression.crossProduct(length2);
+            {
+                Area area = (Area) QuantitySet.createQuantity(CoreQuantitySet.AREA);
+                Equation equation = new EquationImpl(area, ConditionalExpression.EQUAL_TO, crossProduct);
+                System.out.println(equation.toString());
+                Assert.assertTrue("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+            {
+                Length length3 = (Length) QuantitySet.createQuantity(CoreQuantitySet.LENGTH);
+                Equation equation = new EquationImpl(length3, ConditionalExpression.EQUAL_TO, crossProduct);
+                System.out.println(equation.toString());
+                Assert.assertFalse("Test dimensional consistency between " + equation.getLeftExpression() + " and " +
+                        equation.getRightExpression(), equation.isDimensionalConsistent());
+            }
+        }
+        {
+            Temperature temperature = (Temperature) QuantitySet.createQuantity(CoreQuantitySet.TEMPERATURE);
+            Expression crossProduct = expression.crossProduct(temperature);
+            System.out.println(crossProduct.toString());
+            Assert.assertFalse("Test dimensional consistency of " + crossProduct + ".", crossProduct.isDimensionalConsistent());
         }
     }
 }

@@ -78,8 +78,12 @@ public class Dimension extends HashMap {
             Dimension map = (Dimension)object;
             Set<BaseDimension> dims = this.getDimensions();
             Set<BaseDimension> odims = map.getDimensions();
-            if (dims.size() != odims.size()) return false;
             for (BaseDimension dim : dims) {
+                double exp = this.getDimensionalExponent(dim);
+                double oexp = map.getDimensionalExponent(dim);
+                if (Math.abs(exp-oexp)>0.0000001) return false;
+            }
+            for (BaseDimension dim : odims) {
                 double exp = this.getDimensionalExponent(dim);
                 double oexp = map.getDimensionalExponent(dim);
                 if (Math.abs(exp-oexp)>0.0000001) return false;
