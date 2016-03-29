@@ -43,6 +43,7 @@ public abstract class AbstractQuantity implements Quantity {
     private Point pointValue = null;
 
     private boolean expectPointValue;
+    private List<Quantity> subscriptQuantities = new ArrayList<>();
 
     /**
      * Creates an unnamed quantity without a specified {@link Measure} as value.
@@ -265,6 +266,46 @@ public abstract class AbstractQuantity implements Quantity {
                     "because the dimension of the quantity did not match the dimension of" +
                     "the unit '" + point.getScale().getUnit() + "'");
         }
+    }
+
+    /**
+     * Returns true when the quantity is a variable (in an expression or equation), i.e. when the value has not been
+     * set.
+     *
+     * @return True when the quantity is a variable, false otherwise.
+     */
+    @Override
+    public boolean isVariable() {
+        return measureValue!=null || pointValue!=null;
+    }
+
+    /**
+     * Returns the subscript quantities of a quantity, which by themselves are also quantities. The subscript can be
+     * a variable quantity (where the value is not set) or quantities with values set. Subscripts that help identify
+     * the quantity are NOT quantities, e.g. $$M_E$$ for the mass of the Earth. These subscripts are normally written
+     * in roman type. Subscript QUANTITIES, on the other hand, can be seen as variables
+     * of the quantity function, e.g. $$m_r$$ the mass in the interior of star, between radii 0 and r. These variables
+     * are written in italic type.
+     *
+     * @return A list of subscript quantities.
+     */
+    @Override
+    public List<Quantity> subscriptQuantities() {
+        return subscriptQuantities;
+    }
+
+    /**
+     * Adds the specified quantity as a subscript quantity to this {@link Quantity}. The subscript can be
+     * a variable quantity (where the value is not set) or quantities with values set. Subscripts that help identify
+     * the quantity are NOT quantities, e.g. $$M_E$$ for the mass of the Earth. These subscripts are normally written
+     * in roman type. Subscript QUANTITIES, on the other hand, can be seen as variables
+     * of the quantity function, e.g. $$m_r$$ the mass in the interior of star, between radii 0 and r. These variables
+     * are written in italic type.
+     *
+     * @param quantity The quantity to be added as a subscript quantity.
+     */
+    public void addSubscriptQuantity(Quantity quantity){
+        subscriptQuantities.add(quantity);
     }
 
 
@@ -492,6 +533,14 @@ public abstract class AbstractQuantity implements Quantity {
         if(this.getSymbol()!=null) str+=  this.getSymbol();
         else if(this.getName()!=null) str+=  this.getName();
         else str+= "Quantity<"+this.getIdentifier()+">";
+        if(subscriptQuantities.size()>0){
+            str+="_{";
+            for(int i=0;i<subscriptQuantities.size();i++){
+                if(i>0) str+=", ";
+                str+=subscriptQuantities.get(i).toString();
+            }
+            str+="}";
+        }
         if(getValue()!=null) str+=" = "+getValue();
         return str;
     }

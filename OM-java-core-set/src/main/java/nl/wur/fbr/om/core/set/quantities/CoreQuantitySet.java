@@ -703,6 +703,7 @@ public class CoreQuantitySet extends QuantitySet {
         CATALYTIC_ACTIVITY = new DefaultQuantityClass(NAMESPACE + "CatalyticActivity", "catalytic activity", "U", dimension,CoreUnitAndScaleSet.KATAL,uoss, CatalyticActivity.class);
         quantityClasses.add(CATALYTIC_ACTIVITY);
         quantityClassesByID.put(CATALYTIC_ACTIVITY.getIdentifier(), CATALYTIC_ACTIVITY);
+
     }
 
 

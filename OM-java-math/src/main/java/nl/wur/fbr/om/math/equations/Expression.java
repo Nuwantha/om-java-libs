@@ -4,8 +4,11 @@ import nl.wur.fbr.om.math.processors.MathException;
 import nl.wur.fbr.om.model.dimensions.Dimension;
 import nl.wur.fbr.om.model.measures.Measure;
 import nl.wur.fbr.om.model.points.Point;
+import nl.wur.fbr.om.model.quantities.Index;
 import nl.wur.fbr.om.model.quantities.Quantity;
 import nl.wur.fbr.om.math.Math;
+
+import java.util.Set;
 
 /**
  * This class represents an expression, which is a finite mathematical combination of operators, variables, constants
@@ -137,6 +140,16 @@ public abstract class Expression {
     }
 
     /**
+     * Returns true when this expression contains a variable (i.e. when the value of a quantity or an index has not
+     * been set).
+     * @return True when the expression contains a variable.
+     */
+    public boolean isVariable(){
+        if(hasQuantity() && quantity.isVariable()) return  true;
+        return false;
+    }
+
+    /**
      * Returns true if this expression only contains a numerical value and no subexpressions.
      * @return True when the expression contains a numerical value, false otherwise.
      */
@@ -190,6 +203,24 @@ public abstract class Expression {
     public Point getPoint(){
         return point;
     }
+
+    /**
+     * Returns true when this expression contains an index value.
+     * @return True when this is an index.
+     */
+    public boolean hasIndexValue(){
+        return quantity!=null && quantity instanceof Index;
+    }
+
+    /**
+     * Returns the index value contained in this expression.
+     * @return The value of the index or -1 when the index has not been set.
+     */
+    public int getIndexValue(){
+        if(quantity!=null && quantity instanceof Index) return ((Index) quantity).getIndexValue();
+        return -1;
+    }
+
 
     /**
      * Returns true if this expression contains a function with subexpressions as parameters.
