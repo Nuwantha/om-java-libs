@@ -32,6 +32,7 @@
         <module>om-java-om-2.0-set</module>
         <module>om-java-math</module>
         <module>om-java-math-impl</module>
+        <module>om-java-om-set-creator</module>
     </modules>
 
 	<build>

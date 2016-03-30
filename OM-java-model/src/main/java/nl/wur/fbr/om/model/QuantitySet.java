@@ -28,6 +28,34 @@ public abstract class QuantitySet {
     public abstract QuantityClass getQuantityClass(String identifier);
 
     /**
+     * Creates a new variable quantity  of the type specified by the quantity class identifier
+     * by the specified quantity class identifier.
+     * @param quantityClass The quantity class.
+     * @return The quantity.
+     * @throws QuantityCreationException Thrown when the quantity could not be created, for instance when the quantity
+     * expects a point and not a measure.
+     */
+    public static Quantity createQuantity(QuantityClass quantityClass) throws QuantityCreationException {
+        Class jclass = quantityClass.getClassForQuantityClass();
+        try {
+            Quantity quantity = (Quantity)jclass.getConstructor().newInstance();
+            return quantity;
+        } catch (NoSuchMethodException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without" +
+                    "a measure or a point on a measurement scale.",e);
+        } catch (InvocationTargetException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure or a point on a measurement scale.",e);
+        } catch (InstantiationException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure  or a point on a measurement scale because the java class could not be instantiated.",e);
+        } catch (IllegalAccessException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure  or a point on a measurement scale because you don't have access to the quantity class.",e);
+        }
+    }
+
+    /**
      * Creates a new quantity with the specified measure and of the type specified by the quantity class identifier
      * by the specified quantity class identifier.
      * @param quantityClass The quantity class.
@@ -36,7 +64,7 @@ public abstract class QuantitySet {
      * @throws QuantityCreationException Thrown when the quantity could not be created, for instance when the quantity
      * expects a point and not a measure.
      */
-    public Quantity createQuantity(QuantityClass quantityClass,Measure measure) throws QuantityCreationException {
+    public static Quantity createQuantity(QuantityClass quantityClass,Measure measure) throws QuantityCreationException {
         Class jclass = quantityClass.getClassForQuantityClass();
         try {
             Quantity quantity = (Quantity)jclass.getConstructor(Measure.class).newInstance(measure);
@@ -65,7 +93,7 @@ public abstract class QuantitySet {
      * @throws QuantityCreationException Thrown when the quantity could not be created, for instance when the quantity
      * expects a measure and not a point.
      */
-    public Quantity createQuantity(QuantityClass quantityClass,Point point) throws QuantityCreationException {
+    public static Quantity createQuantity(QuantityClass quantityClass,Point point) throws QuantityCreationException {
         Class jclass = quantityClass.getClassForQuantityClass();
         try {
             Quantity quantity = (Quantity)jclass.getConstructor(Point.class).newInstance(point);
@@ -91,12 +119,42 @@ public abstract class QuantitySet {
      * @param name The name of the quantity to be created.
      * @param symbol The symbol used for the quantity to be created.
      * @param quantityClass The quantity class.
+     * @return The quantity.
+     * @throws QuantityCreationException Thrown when the quantity could not be created, for instance when the quantity
+     * expects a point and not a measure.
+     */
+    public static Quantity createQuantity(String name, String symbol, QuantityClass quantityClass) throws QuantityCreationException {
+        Class jclass = quantityClass.getClassForQuantityClass();
+        try {
+            Quantity quantity = (Quantity)jclass.getConstructor(String.class,String.class).newInstance(name,symbol);
+            return quantity;
+        } catch (NoSuchMethodException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure or point on a measurement scale.",e);
+        } catch (InvocationTargetException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure or point on a measurement scale.",e);
+        } catch (InstantiationException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure or point on a measurement scale because the java class could not be instantiated.",e);
+        } catch (IllegalAccessException e) {
+            throw new QuantityCreationException("Could not create quantity with class id '"+quantityClass.getIdentifier()+"' without a " +
+                    "measure or point on a measurement scale because you don't have access to the quantity class.",e);
+        }
+    }
+
+    /**
+     * Creates a new quantity with the specified measure and of the type specified by the quantity class identifier
+     * by the specified quantity class identifier. The name of the quantity and its symbol can also be specified.
+     * @param name The name of the quantity to be created.
+     * @param symbol The symbol used for the quantity to be created.
+     * @param quantityClass The quantity class.
      * @param measure The measure.
      * @return The quantity.
      * @throws QuantityCreationException Thrown when the quantity could not be created, for instance when the quantity
      * expects a point and not a measure.
      */
-    public Quantity createQuantity(String name, String symbol, QuantityClass quantityClass,Measure measure) throws QuantityCreationException {
+    public static Quantity createQuantity(String name, String symbol, QuantityClass quantityClass,Measure measure) throws QuantityCreationException {
         Class jclass = quantityClass.getClassForQuantityClass();
         try {
             Quantity quantity = (Quantity)jclass.getConstructor(String.class,String.class,Measure.class).newInstance(name,symbol,measure);
@@ -128,7 +186,7 @@ public abstract class QuantitySet {
      * @throws QuantityCreationException Thrown when the quantity could not be created, for instance when the quantity
      * expects a measure and not a point.
      */
-    public Quantity createQuantity(String name, String symbol, QuantityClass quantityClass,Point point) throws QuantityCreationException {
+    public static Quantity createQuantity(String name, String symbol, QuantityClass quantityClass,Point point) throws QuantityCreationException {
         Class jclass = quantityClass.getClassForQuantityClass();
         try {
             Quantity quantity = (Quantity)jclass.getConstructor(String.class,String.class,Point.class).newInstance(name,symbol,point);

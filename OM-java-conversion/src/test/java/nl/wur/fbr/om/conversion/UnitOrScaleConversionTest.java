@@ -2,6 +2,8 @@ package nl.wur.fbr.om.conversion;
 
 import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
 import nl.wur.fbr.om.core.factory.DefaultUnitAndScaleFactory;
+import nl.wur.fbr.om.core.impl.units.UnitDivisionImpl;
+import nl.wur.fbr.om.core.impl.units.UnitMultiplicationImpl;
 import nl.wur.fbr.om.core.set.CoreUnitAndScaleSet;
 import nl.wur.fbr.om.exceptions.ConversionException;
 import nl.wur.fbr.om.exceptions.UnitOrScaleCreationException;
@@ -22,6 +24,68 @@ import org.junit.Test;
  * @author Don Willems on 01/08/15.
  */
 public class UnitOrScaleConversionTest {
+
+    /**
+     * Test for unit multiplication and exponentiation equality.
+     */
+    /*
+    @Test
+    public void testUnitMultiplicationAndExponentiationConversion(){
+
+        InstanceFactory factory = new CoreInstanceFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            Assert.fail("Could not add unit and scale set to the factory. " + e);
+        }
+        try {
+            MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+            UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+            Unit metreMetre = new UnitMultiplicationImpl(CoreUnitAndScaleSet.METRE,CoreUnitAndScaleSet.METRE);
+            Unit squareMetre = CoreUnitAndScaleSet.SQUARE_METRE;
+            Measure m1 = measureFactory.createScalarMeasure(10,metreMetre);
+            Measure m2 = conversion.convertToUnit(m1, squareMetre);
+            Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
+            Assert.assertEquals("Test measure equals after conversion", 10, m2.getScalarValue(), 0.0000001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+    }
+     */
+
+    /**
+     * Test for custom complex unit equality.
+     */
+    /*
+    @Test
+    public void testUnitComplexUnitEquality(){
+
+        InstanceFactory factory = new CoreInstanceFactory();
+        try {
+            factory.addUnitAndScaleSet(CoreUnitAndScaleSet.class);
+        } catch (UnitOrScaleCreationException e) {
+            Assert.fail("Could not add unit and scale set to the factory. " + e);
+        }
+        try {
+            MeasureAndPointFactory measureFactory = new DefaultMeasureAndPointFactory();
+            UnitAndScaleConversionFactory conversion = new DefaultUnitConversionFactory(measureFactory);
+            Unit metreMetre = new UnitMultiplicationImpl(CoreUnitAndScaleSet.METRE,CoreUnitAndScaleSet.METRE);
+            Unit metreMetrePerSecond = new UnitDivisionImpl(metreMetre,CoreUnitAndScaleSet.SECOND);
+            Unit metreMetrePerSecondKilogram1 = new UnitMultiplicationImpl(metreMetrePerSecond,CoreUnitAndScaleSet.KILOGRAM);
+            Unit metrePerSecond = new UnitDivisionImpl(CoreUnitAndScaleSet.METRE,CoreUnitAndScaleSet.SECOND);
+            Unit metrePerSecondMetre = new UnitMultiplicationImpl(metrePerSecond,CoreUnitAndScaleSet.METRE);
+            Unit metreMetrePerSecondKilogram2 = new UnitMultiplicationImpl(CoreUnitAndScaleSet.KILOGRAM,metrePerSecondMetre);
+            Measure m1 = measureFactory.createScalarMeasure(10,metreMetrePerSecondKilogram1);
+            Measure m2 = conversion.convertToUnit(m1, metreMetrePerSecondKilogram2);
+            Assert.assertTrue("Test measure equals after conversion",conversion.equals(m1,m2,1e-12));
+            Assert.assertEquals("Test measure equals after conversion", 10, m2.getScalarValue(), 0.0000001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Exception thrown when converting a unit. " + e);
+        }
+    }
+    */
 
     /**
      * Test for singular unit conversions.

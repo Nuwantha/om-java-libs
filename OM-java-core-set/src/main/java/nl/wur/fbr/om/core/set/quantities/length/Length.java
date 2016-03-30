@@ -4,7 +4,10 @@ import nl.wur.fbr.om.core.impl.quantities.AbstractQuantity;
 import nl.wur.fbr.om.core.set.quantities.CoreQuantitySet;
 import nl.wur.fbr.om.exceptions.QuantityCreationException;
 import nl.wur.fbr.om.model.measures.Measure;
+import nl.wur.fbr.om.model.quantities.Quantity;
 import nl.wur.fbr.om.model.quantities.QuantityClass;
+
+import java.util.List;
 
 /**
  * Instances of this class represent a length quantity.
