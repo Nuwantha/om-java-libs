@@ -8,6 +8,7 @@ import nl.wur.fbr.om.model.quantities.QuantityClass;
 /**
  * Instances of this class represent a wave length quantity.
  * NB. If you want to define an electromagnetic wavelength (light) use {@link ElectromagneticWavelength}.
+ *
  * @author Don Willems on 02/10/15.
  */
 public class Wavelength extends Length {

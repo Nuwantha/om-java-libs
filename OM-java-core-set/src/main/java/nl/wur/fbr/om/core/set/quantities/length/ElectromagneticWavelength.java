@@ -15,7 +15,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Instances of this class represent an electromagnetic wavelength quantity.
+ * Instances of this class represent an electromagnetic wavelength quantity. 
+ *
  * @author Don Willems on 02/10/15.
  */
 public class ElectromagneticWavelength extends Wavelength {

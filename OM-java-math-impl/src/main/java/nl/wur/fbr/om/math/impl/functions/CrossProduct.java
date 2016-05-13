@@ -12,6 +12,7 @@ import java.util.Set;
 /**
  * This is an implementation of a function that determines the cross product of two vector parameters.
  *
+ *
  * @author Don Willems on 09/10/15.
  */
 public class CrossProduct implements Function {
