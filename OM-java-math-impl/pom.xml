@@ -14,7 +14,7 @@
     </properties>
 
     <groupId>nl.wur.fbr.om</groupId>
-    <artifactId>om-java-math-impl</artifactId>
+    <artifactId>OM-java-math-impl</artifactId>
     <version>0.5.1</version>
 	<packaging>jar</packaging>
 
@@ -24,19 +24,19 @@
     <dependencies>
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>om-java-math</artifactId>
+            <artifactId>OM-java-math</artifactId>
 			<version>0.5.1</version>
         </dependency>
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>om-java-conversion</artifactId>
+            <artifactId>OM-java-conversion</artifactId>
             <version>0.5.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>om-java-core-set</artifactId>
+            <artifactId>OM-java-core-set</artifactId>
             <version>0.5.1</version>
             <scope>test</scope>
         </dependency>
