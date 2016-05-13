@@ -22,17 +22,17 @@
     </properties>
 
     <modules>
-        <module>om-java-model</module>
-        <module>om-java-core</module>
-        <module>om-java-core-set</module>
-        <module>om-java-conversion</module>
-        <module>om-java-om-1.8</module>
-        <module>om-java-om-1.8-set</module>
-        <module>om-java-om-2.0</module>
-        <module>om-java-om-2.0-set</module>
-        <module>om-java-math</module>
-        <module>om-java-math-impl</module>
-        <module>om-java-om-set-creator</module>
+        <module>OM-java-model</module>
+        <module>OM-java-core</module>
+        <module>OM-java-core-set</module>
+        <module>OM-java-conversion</module>
+        <module>OM-java-om-1.8</module>
+        <module>OM-java-om-1.8-set</module>
+        <module>OM-java-om-2.0</module>
+        <module>OM-java-om-2.0-set</module>
+        <module>OM-java-math</module>
+        <module>OM-java-math-impl</module>
+        <module>OM-java-om-set-creator</module>
     </modules>
 
 	<build>
