@@ -14,7 +14,7 @@
     </properties>
 
     <groupId>nl.wur.fbr.om</groupId>
-    <artifactId>OM-java-math</artifactId>
+    <artifactId>om-java-math</artifactId>
     <version>0.6.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-model</artifactId>
+            <artifactId>om-java-model</artifactId>
 			<version>0.6.0-SNAPSHOT</version>
         </dependency>
 	</dependencies>

@@ -13,7 +13,7 @@
     </properties>
 
     <groupId>nl.wur.fbr.om</groupId>
-    <artifactId>OM-java-om-1.8-set</artifactId>
+    <artifactId>om-java-om-1.8-set</artifactId>
     <version>0.6.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -23,13 +23,13 @@
     <dependencies>
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-model</artifactId>
+            <artifactId>om-java-model</artifactId>
 			<version>0.6.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-core</artifactId>
+            <artifactId>om-java-core</artifactId>
 			<version>0.6.0-SNAPSHOT</version>
         </dependency>
 
@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-conversion</artifactId>
+            <artifactId>om-java-conversion</artifactId>
             <version>0.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
