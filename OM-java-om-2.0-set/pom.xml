@@ -5,7 +5,7 @@
     <parent>
 		<artifactId>om-java</artifactId>
 		<groupId>nl.wur.fbr.om</groupId>
-		<version>0.6.0</version>
+		<version>0.6.1</version>
     </parent>
 
     <properties>
@@ -14,7 +14,7 @@
 
     <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java-om-2.0-set</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
 	<packaging>jar</packaging>
 
 	<name>OM 2.0 set of units and measurement scales</name>
@@ -24,13 +24,13 @@
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-model</artifactId>
-			<version>0.6.0</version>
+			<version>0.6.1</version>
         </dependency>
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-core</artifactId>
-			<version>0.6.0</version>
+			<version>0.6.1</version>
         </dependency>
 
         <!-- rdf4j -->
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
             <artifactId>om-java-conversion</artifactId>
-            <version>0.6.0</version>
+            <version>0.6.1</version>
             <scope>test</scope>
         </dependency>
 
