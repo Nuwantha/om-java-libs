@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.math;
+package nl.wur.fbr.om.math.processors;
 
 import nl.wur.fbr.om.factory.InstanceFactory;
 import nl.wur.fbr.om.model.measures.Measure;
@@ -6,7 +6,7 @@ import nl.wur.fbr.om.model.points.Point;
 
 /**
  * Defines the methods that need to be implemented by a math processor to be able to operate on measures and
- * points on a measurement scale. Instances of math processors can be set in the {@link Math} static class, which
+ * points on a measurement scale. Instances of math processors can be set in the {@link nl.wur.fbr.om.math.Math} static class, which
  * provides the interface to the user.
  *
  * @author Don Willems on 11/08/15.

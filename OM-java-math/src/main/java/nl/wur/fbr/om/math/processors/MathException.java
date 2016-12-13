@@ -1,4 +1,4 @@
-package nl.wur.fbr.om.math;
+package nl.wur.fbr.om.math.processors;
 
 /**
  * This exception is thrown when the mathematical operation could not be completed, for instance because the

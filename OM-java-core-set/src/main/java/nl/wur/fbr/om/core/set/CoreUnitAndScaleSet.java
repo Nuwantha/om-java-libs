@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Don Willems on 29/07/15.
  */
-public class CoreSet extends UnitAndScaleSet {
+public class CoreUnitAndScaleSet extends UnitAndScaleSet {
 
     /** The namespace of the core unit set.*/
     public static String NAMESPACE;
@@ -109,7 +109,7 @@ public class CoreSet extends UnitAndScaleSet {
 
 
 
-    /** The identifier in the core unit set for the SI unit of electical current Ampere.*/
+    /** The identifier in the core unit set for the SI unit of electrical current Ampere.*/
     public static Unit AMPERE;
 
 
@@ -123,7 +123,9 @@ public class CoreSet extends UnitAndScaleSet {
     /** The identifier in the core unit set for the unit of temperature Fahrenheit.*/
     public static Unit FAHRENHEIT;
 
-    /** The identifier in the core unit set for the SI unit of ammount of substance Mole.*/
+
+
+    /** The identifier in the core unit set for the SI unit of amount of substance Mole.*/
     public static Unit MOLE;
 
 

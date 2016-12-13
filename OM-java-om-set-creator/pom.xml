@@ -5,7 +5,7 @@
     <parent>
 		<artifactId>om-java</artifactId>
 		<groupId>nl.wur.fbr.om</groupId>
-		<version>0.5.1</version>
+		<version>0.6.0</version>
     </parent>
 
     <properties>
@@ -13,8 +13,8 @@
     </properties>
 
     <groupId>nl.wur.fbr.om</groupId>
-    <artifactId>OM-java-om-set-creator</artifactId>
-    <version>0.5.1</version>
+    <artifactId>om-java-om-set-creator</artifactId>
+    <version>0.6.0</version>
 	<packaging>jar</packaging>
 
 	<name>Tool for creating the OM URI sets</name>
@@ -23,42 +23,33 @@
     <dependencies>
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-model</artifactId>
-			<version>0.5.1</version>
+            <artifactId>om-java-model</artifactId>
+			<version>0.6.0</version>
         </dependency>
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-core</artifactId>
-			<version>0.5.1</version>
+            <artifactId>om-java-core</artifactId>
+			<version>0.6.0</version>
         </dependency>
 
+        <!-- rdf4j -->
         <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-repository-sail</artifactId>
-            <version>${sesame.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-sail-memory</artifactId>
-            <version>${sesame.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-rdfxml</artifactId>
-            <version>${sesame.version}</version>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-runtime</artifactId>
+            <version>2.0.1</version>
         </dependency>
 
 
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-om-1.8</artifactId>
-            <version>0.5.1</version>
+            <artifactId>om-java-om-1.8</artifactId>
+            <version>0.6.0</version>
         </dependency>
         <dependency>
             <groupId>nl.wur.fbr.om</groupId>
-            <artifactId>OM-java-om-2.0</artifactId>
-            <version>0.5.1</version>
+            <artifactId>om-java-om-2.0</artifactId>
+            <version>0.6.0</version>
         </dependency>
 
 	</dependencies>
@@ -81,8 +72,8 @@
                                        <configuration>
                                             <mainClass>nl.wur.fbr.om.vocabularytool.OMVocabularyCreationTool</mainClass>
                                             <arguments>
-                                                 <argument>../OM-java-om-1.8-set/src/main/resources/om.owl</argument>
-                                                 <argument>../OM-java-om-1.8-set/src/main/java/nl/wur/fbr/om/om18/vocabulary/set/</argument>
+                                                 <argument>../om-java-om-1.8-set/src/main/resources/om.owl</argument>
+                                                 <argument>../om-java-om-1.8-set/src/main/java/nl/wur/fbr/om/om18/vocabulary/set/</argument>
                                             </arguments>
                                        </configuration>
                                   </execution>

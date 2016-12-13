@@ -5,7 +5,7 @@ import nl.wur.fbr.om.core.factory.DefaultMeasureAndPointFactory;
 import nl.wur.fbr.om.factory.MeasureAndPointFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleConversionFactory;
 import nl.wur.fbr.om.factory.UnitAndScaleFactory;
-import org.openrdf.repository.Repository;
+import org.eclipse.rdf4j.repository.Repository;
 
 /**
  * This factory class is a wrapper that contains the different factory classes that are used to create and convert
