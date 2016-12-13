@@ -10,7 +10,7 @@
 
     <groupId>nl.wur.fbr.om</groupId>
     <artifactId>om-java</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
 	<packaging>pom</packaging>
 
 	<name>A Java library for working with units and measures</name>
