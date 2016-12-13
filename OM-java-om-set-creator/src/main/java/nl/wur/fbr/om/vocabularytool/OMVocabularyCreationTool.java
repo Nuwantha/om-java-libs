@@ -7,16 +7,16 @@ import nl.wur.fbr.om.model.points.Point;
 import nl.wur.fbr.om.model.scales.Scale;
 import nl.wur.fbr.om.model.units.*;
 import org.apache.commons.lang3.Range;
-import org.openrdf.model.Literal;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.query.*;
-import org.openrdf.repository.Repository;
-import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.sail.SailRepository;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.sail.memory.MemoryStore;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.query.*;
+import org.eclipse.rdf4j.repository.Repository;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.repository.sail.SailRepository;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.sail.memory.MemoryStore;
 
 import java.io.*;
 import java.util.*;
@@ -32,7 +32,7 @@ public class OMVocabularyCreationTool {
 
     private static UnitAndScaleFactory factory;
     private static String omversion="1.8";
-    private static List<String> problemURIs = new ArrayList<>();
+    private static List<String> problemIRIs = new ArrayList<>();
 
 
     /**
@@ -79,7 +79,7 @@ public class OMVocabularyCreationTool {
         System.out.println("    target Java package: "+targetPackage);
         System.out.println("    output directory: "+outputDir);
 
-        problemURIs.clear();
+        problemIRIs.clear();
         omversion = version;
         File omfile = new File(inputOM);
         if(!omfile.exists()) {
@@ -114,11 +114,11 @@ public class OMVocabularyCreationTool {
         try {
             connection= repository.getConnection();
             ValueFactory factory = connection.getValueFactory();
-            URI fileContext = factory.createURI("http://www.wurvoc.org/contexts/om");
+            IRI fileContext = factory.createIRI("http://www.wurvoc.org/contexts/om");
             connection.add(in,"http://www.wurvoc.org/vocabularies/om-1.8/", RDFFormat.RDFXML,fileContext);
-            OMVocabularyCreationTool.createVocabularyClass("OM",targetPackage,(URI)null, outdir,connection);
-            List<URI> applicationAreas = OMVocabularyCreationTool.getApplicationAreas(connection);
-            for(URI apparea : applicationAreas){
+            OMVocabularyCreationTool.createVocabularyClass("OM",targetPackage,(IRI)null, outdir,connection);
+            List<IRI> applicationAreas = OMVocabularyCreationTool.getApplicationAreas(connection);
+            for(IRI apparea : applicationAreas){
                 OMVocabularyCreationTool.createVocabularyClass(getCamelCase(apparea.getLocalName()),targetPackage,apparea, outdir,connection);
             }
         } finally {
@@ -128,7 +128,7 @@ public class OMVocabularyCreationTool {
         }
     }
 
-    private static void createVocabularyClass(String className,String targetPackage, URI apparea, File outDir, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, IOException {
+    private static void createVocabularyClass(String className,String targetPackage, IRI apparea, File outDir, RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException, IOException {
         System.out.println("Creating class file: "+targetPackage+"."+className);
         Map<String,String> unitsAndScales = new HashMap<>();
         Map<String,String> comments = new HashMap<>();
@@ -176,9 +176,9 @@ public class OMVocabularyCreationTool {
         while(result.hasNext()){
             BindingSet bs = result.next();
             if(!bs.hasBinding("type") ||
-                    (!bs.getValue("type").equals(connection.getValueFactory().createURI("http://www.wurvoc.org/vocabularies/om-1.8/Unit_of_measure")) &&
-                     !bs.getValue("type").equals(connection.getValueFactory().createURI("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/Unit")))) {
-                URI unitOrScale = (URI) bs.getValue("unitOrScale");
+                    (!bs.getValue("type").equals(connection.getValueFactory().createIRI("http://www.wurvoc.org/vocabularies/om-1.8/Unit_of_measure")) &&
+                     !bs.getValue("type").equals(connection.getValueFactory().createIRI("http://www.ontology-of-units-of-measure.org/vocabularies/om-2/Unit")))) {
+                IRI unitOrScale = (IRI) bs.getValue("unitOrScale");
                 String ccn = OMVocabularyCreationTool.getCamelCase(unitOrScale.getLocalName());
                 String run = ccn;
                 int count = 0;
@@ -221,7 +221,7 @@ public class OMVocabularyCreationTool {
                         " * This class contains the identifiers for the units and scales defined for the\n" +
                         " * <code>om:"+apparea.getLocalName()+"</code> application area in the OM ontology.\n" +
                         " * The identifiers are all defined as <code>final static String</code> and contain the\n" +
-                        " * URIs of the concepts as strings.\n" +
+                        " * IRIs of the concepts as strings.\n" +
                         " * <br>NB. This code has been automatically generated.\n" +
                         " * @author OM Vocabulary Creation tool at "+(new Date())+".\n" +
                         " */\n";
@@ -229,7 +229,7 @@ public class OMVocabularyCreationTool {
                 contents += "/**\n" +
                         " * This class contains all identifiers for units and scales defined in the OM ontology.\n" +
                         " * The identifiers are all defined as <code>final static String</code> and contain the\n" +
-                        " * URIs of the concepts as strings.\n" +
+                        " * IRIs of the concepts as strings.\n" +
                         " * <br>NB. This code has been automatically generated.\n" +
                         " * @author OM Vocabulary Creation tool at "+(new Date())+".\n" +
                         " */\n";
@@ -267,12 +267,12 @@ public class OMVocabularyCreationTool {
 
                 // Add constructors
                 ValueFactory vf = connection.getValueFactory();
-                List<String> urisDone = new ArrayList<>();
+                List<String> IRIsDone = new ArrayList<>();
                 for (String varName : varNames) {
                     try {
-                        contents += OMVocabularyCreationTool.createConstructor(varName, unitsAndScales, unitsAndScales.get(varName), vf, urisDone);
+                        contents += OMVocabularyCreationTool.createConstructor(varName, unitsAndScales, unitsAndScales.get(varName), vf, IRIsDone);
                     } catch (UnitOrScaleCreationException e) {
-                        problemURIs.add(unitsAndScales.get(varName));
+                        problemIRIs.add(unitsAndScales.get(varName));
                         System.err.println("Could not create variable " + varName);
                         e.printStackTrace();
                         contents += "\t\t" + varName + " = null;\n";
@@ -364,22 +364,22 @@ public class OMVocabularyCreationTool {
     /**
      * Creates the Java code to construct the unit or scale specified.
      * @param varName The Java name of the unit or scale.
-     * @param varNames The Map of Java names (key) with URIs as string.
-     * @param uri The URI as string of the unit or scale.
+     * @param varNames The Map of Java names (key) with IRIs as string.
+     * @param IRI The IRI as string of the unit or scale.
      * @param vf The value factory.
-     * @param urisDone The set of already created units and scales.
+     * @param IRIsDone The set of already created units and scales.
      */
-    private static String createConstructor(String varName, Map<String,String> varNames, String uri, ValueFactory vf, List<String> urisDone) throws UnitOrScaleCreationException {
-        if(urisDone.contains(uri)) return "";
-        Object unitOrScale = factory.getUnitOrScale(uri);
+    private static String createConstructor(String varName, Map<String,String> varNames, String IRI, ValueFactory vf, List<String> IRIsDone) throws UnitOrScaleCreationException {
+        if(IRIsDone.contains(IRI)) return "";
+        Object unitOrScale = factory.getUnitOrScale(IRI);
         String contents = "";
         if(unitOrScale instanceof PrefixedUnit && unitOrScale instanceof BaseUnit){
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             PrefixedUnit prefixedUnit = (PrefixedUnit)unitOrScale;
             Unit bunit = prefixedUnit.getUnit();
-            String newVarName = OMVocabularyCreationTool.getVariableNameForURI(bunit.getIdentifier(),varNames);
-            if(!urisDone.contains(bunit.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
+            String newVarName = OMVocabularyCreationTool.getVariableNameForIRI(bunit.getIdentifier(),varNames);
+            if(!IRIsDone.contains(bunit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,IRIsDone);
             }
             String prefix = ""+prefixedUnit.getPrefix().getClass().getTypeName()+"."+prefixedUnit.getPrefix().toString();
             BaseUnit baseUnit = (BaseUnit)unitOrScale;
@@ -389,98 +389,98 @@ public class OMVocabularyCreationTool {
             }
             contents+= "\t\t"+varName+" = factory.createPrefixedBaseUnit(\""+prefixedUnit.getIdentifier()+"\",\""+prefixedUnit.getName()+"\",\""+prefixedUnit.getSymbol()+"\", "+dim+",(SingularUnit)"+newVarName+", "+prefix+");\n";
         }else if(unitOrScale instanceof SingularUnit && unitOrScale instanceof BaseUnit){
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             BaseUnit unit = (BaseUnit)unitOrScale;
             String dim = "null";
             if(unit.getDefinitionDimension()!=null) {
                 dim = ""+unit.getDefinitionDimension().getClass().getTypeName()+"."+unit.getDefinitionDimension().toString();
             }
-            contents += "\t\t"+varName+" = factory.createBaseUnit(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+dim+");\n";
+            contents += "\t\t"+varName+" = factory.createBaseUnit(\""+IRI+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+dim+");\n";
         }else if(unitOrScale instanceof SingularUnit){
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             SingularUnit unit = (SingularUnit)unitOrScale;
             if(varName.equals("Gram")){
-                contents += "\t\t"+varName+" = factory.createSingularUnit(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\" );\n";
+                contents += "\t\t"+varName+" = factory.createSingularUnit(\""+IRI+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\" );\n";
             }else{
                 Unit defunit = unit.getDefinitionUnit();
-                String defVarName = OMVocabularyCreationTool.getVariableNameForURI(defunit.getIdentifier(), varNames);
+                String defVarName = OMVocabularyCreationTool.getVariableNameForIRI(defunit.getIdentifier(), varNames);
                 double factor = unit.getDefinitionNumericalValue();
-                if(defunit!=null && !urisDone.contains(defunit.getIdentifier())){
-                    contents +=OMVocabularyCreationTool.createConstructor(defVarName,varNames,defunit.getIdentifier(),vf,urisDone);
+                if(defunit!=null && !IRIsDone.contains(defunit.getIdentifier())){
+                    contents +=OMVocabularyCreationTool.createConstructor(defVarName,varNames,defunit.getIdentifier(),vf,IRIsDone);
                 }
-                contents += "\t\t"+varName+" = factory.createSingularUnit(\""+uri+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+defVarName+", "+factor+" );\n";
+                contents += "\t\t"+varName+" = factory.createSingularUnit(\""+IRI+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\", \""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\", "+defVarName+", "+factor+" );\n";
             }
         }else if(unitOrScale instanceof PrefixedUnit){
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             PrefixedUnit unit = (PrefixedUnit)unitOrScale;
             Unit bunit = unit.getUnit();
-            String newVarName = OMVocabularyCreationTool.getVariableNameForURI(bunit.getIdentifier(),varNames);
-            if(!urisDone.contains(bunit.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
+            String newVarName = OMVocabularyCreationTool.getVariableNameForIRI(bunit.getIdentifier(),varNames);
+            if(!IRIsDone.contains(bunit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,IRIsDone);
             }
             String prefix = ""+unit.getPrefix().getClass().getTypeName()+"."+unit.getPrefix().toString();
             contents+= "\t\t"+varName+" = factory.createPrefixedUnit(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\",(SingularUnit)"+newVarName+", "+prefix+");\n";
         }else if(unitOrScale instanceof UnitMultiple){
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             UnitMultiple unit = (UnitMultiple)unitOrScale;
             double factor = unit.getFactor();
             Unit bunit = unit.getUnit();
-            String newVarName = OMVocabularyCreationTool.getVariableNameForURI(bunit.getIdentifier(),varNames);
-            if(!urisDone.contains(bunit.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,urisDone);
+            String newVarName = OMVocabularyCreationTool.getVariableNameForIRI(bunit.getIdentifier(),varNames);
+            if(!IRIsDone.contains(bunit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(newVarName,varNames,bunit.getIdentifier(),vf,IRIsDone);
             }
             contents+= "\t\t"+varName+" = factory.createUnitMultiple(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+newVarName+", "+factor+");\n";
         }else if(unitOrScale instanceof UnitMultiplication) {
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             UnitMultiplication unit = (UnitMultiplication)unitOrScale;
             Unit term1 = unit.getTerm1();
             Unit term2 = unit.getTerm2();
-            String term1Name = OMVocabularyCreationTool.getVariableNameForURI(term1.getIdentifier(), varNames);
-            if(!urisDone.contains(term1.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(term1Name,varNames,term1.getIdentifier(),vf,urisDone);
+            String term1Name = OMVocabularyCreationTool.getVariableNameForIRI(term1.getIdentifier(), varNames);
+            if(!IRIsDone.contains(term1.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(term1Name,varNames,term1.getIdentifier(),vf,IRIsDone);
             }
-            String term2Name = OMVocabularyCreationTool.getVariableNameForURI(term2.getIdentifier(), varNames);
-            if(!urisDone.contains(term2.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(term2Name,varNames,term2.getIdentifier(),vf,urisDone);
+            String term2Name = OMVocabularyCreationTool.getVariableNameForIRI(term2.getIdentifier(), varNames);
+            if(!IRIsDone.contains(term2.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(term2Name,varNames,term2.getIdentifier(),vf,IRIsDone);
             }
             contents+= "\t\t"+varName+" = factory.createUnitMultiplication(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+term1Name+", "+term2Name+");\n";
         }else if(unitOrScale instanceof UnitDivision) {
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             UnitDivision unit = (UnitDivision)unitOrScale;
             Unit numerator = unit.getNumerator();
             Unit denominator = unit.getDenominator();
-            String numeratorName = OMVocabularyCreationTool.getVariableNameForURI(numerator.getIdentifier(), varNames);
-            if(!urisDone.contains(numerator.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(numeratorName,varNames,numerator.getIdentifier(),vf,urisDone);
+            String numeratorName = OMVocabularyCreationTool.getVariableNameForIRI(numerator.getIdentifier(), varNames);
+            if(!IRIsDone.contains(numerator.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(numeratorName,varNames,numerator.getIdentifier(),vf,IRIsDone);
             }
-            String denominatorName = OMVocabularyCreationTool.getVariableNameForURI(denominator.getIdentifier(), varNames);
-            if(!urisDone.contains(denominator.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(denominatorName,varNames,denominator.getIdentifier(),vf,urisDone);
+            String denominatorName = OMVocabularyCreationTool.getVariableNameForIRI(denominator.getIdentifier(), varNames);
+            if(!IRIsDone.contains(denominator.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(denominatorName,varNames,denominator.getIdentifier(),vf,IRIsDone);
             }
             contents+= "\t\t"+varName+" = factory.createUnitDivision(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+numeratorName+", "+denominatorName+");\n";
         }else if(unitOrScale instanceof UnitExponentiation) {
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             UnitExponentiation unit = (UnitExponentiation)unitOrScale;
             Unit base = unit.getBase();
             double exponent = unit.getExponent();
-            String baseName = OMVocabularyCreationTool.getVariableNameForURI(base.getIdentifier(), varNames);
-            if(!urisDone.contains(base.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(baseName,varNames,base.getIdentifier(),vf,urisDone);
+            String baseName = OMVocabularyCreationTool.getVariableNameForIRI(base.getIdentifier(), varNames);
+            if(!IRIsDone.contains(base.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(baseName,varNames,base.getIdentifier(),vf,IRIsDone);
             }
             contents+= "\t\t"+varName+" = factory.createUnitExponentiation(\""+unit.getIdentifier()+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getName())+"\",\""+OMVocabularyCreationTool.escapeStringLiterals(unit.getSymbol())+"\","+baseName+", "+exponent+");\n";
         }else if(unitOrScale instanceof Scale) {
-            urisDone.add(uri);
+            IRIsDone.add(IRI);
             Scale scale = (Scale)unitOrScale;
             Unit unit = scale.getUnit();
-            String unitName = OMVocabularyCreationTool.getVariableNameForURI(unit.getIdentifier(), varNames);
-            if(!urisDone.contains(unit.getIdentifier())){
-                contents +=OMVocabularyCreationTool.createConstructor(unitName,varNames,unit.getIdentifier(),vf,urisDone);
+            String unitName = OMVocabularyCreationTool.getVariableNameForIRI(unit.getIdentifier(), varNames);
+            if(!IRIsDone.contains(unit.getIdentifier())){
+                contents +=OMVocabularyCreationTool.createConstructor(unitName,varNames,unit.getIdentifier(),vf,IRIsDone);
             }
             Scale defscale = scale.getDefinitionScale();
             if(defscale!=null){
-                String defscaleName = OMVocabularyCreationTool.getVariableNameForURI(defscale.getIdentifier(), varNames);
-                if(!urisDone.contains(defscale.getIdentifier())){
-                    contents +=OMVocabularyCreationTool.createConstructor(defscaleName,varNames,defscale.getIdentifier(),vf,urisDone);
+                String defscaleName = OMVocabularyCreationTool.getVariableNameForIRI(defscale.getIdentifier(), varNames);
+                if(!IRIsDone.contains(defscale.getIdentifier())){
+                    contents +=OMVocabularyCreationTool.createConstructor(defscaleName,varNames,defscale.getIdentifier(),vf,IRIsDone);
                 }
                 double offset = scale.getOffsetFromDefinitionScale();
                 double factor = scale.getFactorFromDefinitionScale();
@@ -528,17 +528,17 @@ public class OMVocabularyCreationTool {
     }
 
     /**
-     * Returns the name of the variable that defines the unit or scale with the specified URI.
-     * @param uri The URI of the unit or scale.
-     * @param varNames A map with variable names as key and uri as value.
+     * Returns the name of the variable that defines the unit or scale with the specified IRI.
+     * @param IRI The IRI of the unit or scale.
+     * @param varNames A map with variable names as key and IRI as value.
      * @return The name of the variable or null if not specified in the map.
      */
-    private static String getVariableNameForURI(String uri, Map<String,String> varNames){
+    private static String getVariableNameForIRI(String IRI, Map<String,String> varNames){
         String varName = null;
         Set<String> vns = varNames.keySet();
         for(String vn : vns){
             String vnuir = varNames.get(vn);
-            if(vnuir.equals(uri)) {
+            if(vnuir.equals(IRI)) {
                 varName = vn;
                 break;
             }
@@ -584,8 +584,8 @@ public class OMVocabularyCreationTool {
      * @param connection The connection to the triple store.
      * @return A list of application areas.
      */
-    private static List<URI> getApplicationAreas(RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
-        List<URI> appareas = new ArrayList<>();
+    private static List<IRI> getApplicationAreas(RepositoryConnection connection) throws MalformedQueryException, RepositoryException, QueryEvaluationException {
+        List<IRI> appareas = new ArrayList<>();
         String sparql = "";
         if(omversion.equals("1.8")) {
             sparql = "PREFIX om: <http://www.wurvoc.org/vocabularies/om-1.8/> \n" +
@@ -603,7 +603,7 @@ public class OMVocabularyCreationTool {
         TupleQueryResult result = connection.prepareTupleQuery(QueryLanguage.SPARQL,sparql).evaluate();
         while(result.hasNext()){
             BindingSet bs = result.next();
-            URI apparea = (URI) bs.getValue("applicationArea");
+            IRI apparea = (IRI) bs.getValue("applicationArea");
             if(!appareas.contains(apparea)) appareas.add(apparea);
         }
         return appareas;
@@ -634,9 +634,9 @@ public class OMVocabularyCreationTool {
             e.printStackTrace();
         }
 
-        if(problemURIs.size()>0) System.err.println("PROBLEMs WITH URIs: ");
-        for(String problemURI : problemURIs){
-            System.err.println(problemURI);
+        if(problemIRIs.size()>0) System.err.println("PROBLEMs WITH IRIs: ");
+        for(String problemIRI : problemIRIs){
+            System.err.println(problemIRI);
         }
     }
 }
